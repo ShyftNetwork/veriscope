@@ -1,0 +1,2 @@
+#!/bin/bash
+journalctl --vacuum-time="7 day"

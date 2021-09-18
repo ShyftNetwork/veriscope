@@ -1,0 +1,133 @@
+/*
+Buttons
+
+Your standard button suitable for clicking.
+
+Markup:
+<a href="#0" class="btn {{modifier_class}}">Link</a>
+<button class="btn  {{modifier_class}}">Button</button>
+
+.disabled - Disabled button style
+.btn--lg - Large CTA button style
+.btn--alt - Alternate button style
+.btn--alt.btn--lg - Large alternate CTA button style
+.btn--disabled - Disabled CTA button style
+.btn--disabled.btn--lg - Large disabled CTA button style
+.btn--plain - Plain button style
+
+Styleguide _Base.Buttons
+*/
+
+
+input[type=button], button, .btn {
+  @apply bg-peach inline-block font-headline text-white;
+  padding: 15px 42px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  appearance: none;
+  text-align: center;
+  //line-height: 1.3em;
+  text-decoration: none;
+  letter-spacing: .4px;
+  transition: box-shadow .2s ease-in-out;
+  border: 2px solid #D25F5F;
+  box-shadow: inset 0 0 0 2px config('colors.peach'), 0 2px 10px 0 rgba(0,0,0,0);
+  &:visited, &:active {
+    @apply text-white;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  @screen lg {
+    min-width: 25%;
+  }
+  &:hover,
+  &:focus {
+      @apply text-white;
+      animation: shadow-pulse 1s infinite;
+      animation-direction: alternate;
+      outline: none;
+      opacity: 1;
+  }
+}
+
+.btn {
+  @responsive {
+    &--sm {
+      padding: 5px 10px;
+      @apply text-xs;
+    }
+  }
+  &--md {
+    padding: 15px 42px;
+    @apply text-base;
+  }
+  &--lg {
+    padding: 30px 52px;
+  }
+  &--alt {
+  	border: 2px solid config('colors.charcoal');
+    @apply bg-white text-charcoal;
+    box-shadow: inset 0 0 0 2px config('colors.white'), 0 2px 10px 0 rgba(0,0,0,0);
+    &:hover,
+    &:focus {
+      @apply bg-white text-charcoal;
+      animation: shadow-pulse-alt 1s infinite;
+      animation-direction: alternate;
+    }
+    &:visited, &:active {
+      @apply text-charcoal;
+    }
+  }
+  &--plain {
+    @apply text-peach;
+    transition: color .2s ease-in-out;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    min-width: auto;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-position: under;
+    &:visited,
+    &:active {
+      @apply text-peach;
+    }
+    &:hover,
+    &:focus {
+        @apply text-charcoal;
+        box-shadow: none;
+        background: transparent;
+        animation: none;
+    }
+
+  }
+  [disabled], &--disabled {
+    @apply bg-gray;
+    pointer-events: none;
+    box-shadow: none;
+    border: 2px solid config('colors.gray');
+  }
+}
+
+@keyframes shadow-pulse {
+	0% {
+    box-shadow: inset 0 0 0 1px config('colors.white'), 0 2px 10px 0 rgba(0,0,0,0.15);
+	}
+
+	100% {
+    box-shadow: inset 0 0 0 2px config('colors.white'), 0 2px 10px 0 rgba(0,0,0,0.25);
+	}
+}
+
+@keyframes shadow-pulse-alt {
+	0% {
+    box-shadow: inset 0 0 0 1px config('colors.charcoal'), 0 2px 10px 0 rgba(0,0,0,0.15);
+	}
+
+	100% {
+    box-shadow: inset 0 0 0 2px config('colors.charcoal'), 0 2px 10px 0 rgba(0,0,0,0.25);
+	}
+}

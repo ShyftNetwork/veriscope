@@ -1,0 +1,274 @@
+/*
+Step Wizard
+
+Progress steps wizard
+
+Markup:
+<div class="step-wizard styleguide">
+  <div class="step-wizard__step">Personal Information</div>
+  <div class="step-wizard__step">Location Information</div>
+  <div class="step-wizard__step">Upload Your Photo ID</div>
+  <div class="step-wizard__step">Review Information</div>
+  <div class="step-wizard__step">Complete</div>
+</div>
+
+Styleguide Wizard
+*/
+
+/*
+Step Wizard Completed
+
+Complete progress steps wizard
+
+Markup:
+<div class="step-wizard styleguide">
+  <div class="step-wizard__step step-wizard__step--complete">Personal Information</div>
+  <div class="step-wizard__step step-wizard__step--complete">Location Information</div>
+  <div class="step-wizard__step">Upload Your Photo ID</div>
+  <div class="step-wizard__step">Review Information</div>
+  <div class="step-wizard__step">Complete</div>
+</div>
+
+Styleguide Wizard.Completed
+*/
+
+/*
+Tabs
+
+Tabbed navigation
+
+Markup:
+<div class="tabs styleguide">
+  <div class="tabs__step"><a href="">Personal Information</a></div>
+  <div class="tabs__step tabs__step--complete">Location Information</div>
+  <div class="tabs__step"><a href="">Upload Your Photo ID</a></div>
+  <div class="tabs__step"><a href="">Review Information</a></div>
+  <div class="tabs__step"><a href="">Complete</a></div>
+</div>
+
+Styleguide Tabs
+*/
+
+
+
+.step-wizard, .tabs {
+  @apply flex flex-wrap w-full text-center justify-center bg-white;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+  position: fixed;
+  top: 80px; // For sticky
+  z-index: 10;
+  &__step {
+    @apply relative;
+    white-space: nowrap;
+    display: none;
+    flex: 1;
+    padding: 1px 45px 2px 32px;
+    color: #373241;
+    font-family: "NeuzitGrotesk";
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.88px;
+    line-height: 28px;
+    text-align: center;
+    &:last-child {
+      padding-right: 32px;
+    }
+    &:last-child:before {
+        display: none;
+    }
+    &:after {
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      content: '';
+      display: block;
+      width: 0;
+      height: 3px;
+      transition: .5s width ease;
+    }
+    &--active,
+    &--complete:last-of-type {
+      display: block !important;
+    }
+    @screen md {
+      display: inline;
+      padding: 20px 20px 18px 0;
+
+      &--complete {
+        &:after {
+          @apply bg-green;
+          width: 100%;
+        }
+      }
+      &--rejected {
+        &:after {
+          @apply bg-red;
+          width: 100%;
+        }
+      }
+    }
+  }
+  &-progress {
+    @apply bg-green;
+    height: 3px;
+    top: 111px;
+    position: fixed;
+    z-index: 10;
+    transition: width .5s ease;
+  }
+}
+@screen md {
+  .step-wizard {
+    &__step {
+      &:before {
+        content: '';
+        // background-image: url(/images/chevron.svg);
+        width: 10px;
+        height: 17px;
+        display: block;
+        position: absolute;
+        right: 10px;
+        top: 26px;
+      }
+    }
+  }
+  .tabs {
+    @screen md {
+      &__step {
+        padding: 20px 10px 18px 10px;
+        &--complete {
+          &:after {
+            @apply bg-peach;
+          }
+        }
+      }
+    }
+  }
+}
+/*
+Steps
+
+Steps to display progress
+
+Markup:
+<div class="steps styleguide" aria-label="Verification">
+  <div class="steps__step steps__step--complete">
+    <span class="dot" aria-label="New"></span>
+  </div>
+  <div class="steps__step steps__step--complete">
+    <span class="dot" aria-label="Pending"></span>
+  </div>
+  <div class="steps__step">
+    <span class="dot" aria-label="Verification"></span>
+  </div>
+  <div class="steps__step">
+    <span class="dot" aria-label="Photo Verification"></span>
+  </div>
+  <div class="steps__step">
+    <span class="dot" aria-label="Re-Verify"></span>
+  </div>
+  <div class="steps__step">
+    <span class="dot" aria-label="Reviewing"></span>
+  </div>
+</div>
+
+Styleguide Wizard.Steps
+*/
+
+
+.steps {
+  @apply flex fixed z-10;
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #d1d1d1;
+  top: 80px;
+  width: 100%;
+  left: 0;
+  padding: 6px 20px 0;
+  &:before {
+    @apply font-bold text-xs absolute text-center;
+    content: attr(aria-label);
+    top: 10px;
+    left: 0;
+    width: 100%;
+  }
+}
+.steps__step {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 11px;
+  &:first-child {
+    flex: 0;
+    &:before {
+      display: none;
+    }
+  }
+  &:before {
+    @apply border-t-2 border-gray;
+    transition: all .7s ease;
+    border-style: dotted;
+    content: '';
+    flex: 1;
+  }
+  .dot {
+    @apply flex bg-white border-gray z-10;
+    transition: all .4s ease;
+    border-width: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #FAFAFA, inset 0 0 0 2px #50393C;
+  }
+  &--complete {
+    &:before {
+      @apply border-green;
+      border-style: solid !important;
+    }
+    .dot {
+      @apply bg-green;
+      box-shadow: 0 0 0 5px #FAFAFA, inset 0 0 0 2px #0abb6f;
+    }
+  }
+}
+@screen md {
+  .steps__step {
+    &:before {
+      border-style: dashed;
+    }
+    .dot {
+      box-shadow: 0 0 0 10px #FAFAFA, inset 0 0 0 2px #50393C;
+    }
+    &--complete {
+      .dot {
+        box-shadow: 0 0 0 10px #FAFAFA, inset 0 0 0 2px #0abb6f;
+      }
+    }
+  }
+}
+@screen lg {
+  .steps {
+    padding-left: 60px;
+    padding-right: 60px;
+    &:before {
+      display: none;
+    }
+  }
+  .steps__step {
+    .dot {
+      &:before {
+        @apply font-bold text-xs;
+        content: attr(aria-label);
+        min-width: 170px;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: auto;
+        display: block;
+        position: relative;
+        transform: translate3d(calc(-50% + 6px),-30px, 0);
+        text-align: center;
+      }
+    }
+  }
+}

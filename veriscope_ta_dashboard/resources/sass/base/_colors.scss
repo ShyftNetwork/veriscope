@@ -1,0 +1,99 @@
+/*
+Colors
+
+A list of brand colors used throughout the website that match marketing material
+
+Markup:
+<div class="lg:flex lg:flex-wrap -m-2">
+  <div class="lg:w-1/5 h-48 m-2 bg-gradient p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>Gradient</strong>
+      <p>
+      • Used for BGs<br>
+      • For accents (brand)
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-charcoal p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#373241 - Charcoal </strong>
+      <p>
+      • Used for BGs<br>
+      • For text on light BGs
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-white p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#FFFFFF - White </strong>
+      <p>
+      • Used for BGs<br>
+      • For text on dark BGs
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-peach p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#D25F5F - Peach </strong>
+      <p>
+      • Used for Primary CTA<br>
+      • inline links
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-plum p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#672C5E - Plum </strong>
+      <p>
+      • Used for card BGs
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-ash p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#F2F2F2 - Ash</strong>
+      <p>
+      • Used for BGs
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-gray p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#D1D1D1 - Gray </strong>
+      <p>
+      • Used for disabled states
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-slate p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#a7a7a7 - Slate</strong>
+      <p>
+      • Used for disabled states on ash
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-red p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#F90E28 - Red </strong>
+      <p>
+      • Used for errors
+      </p>
+    </div>
+  </div>
+  <div class="lg:w-1/5 h-48 m-2 bg-green p-2 pb-32 color-white shadow-lg relative">
+    <div class="pin-b absolute bg-white w-full pin-l pin-r p-2 text-xs">
+      <strong>#0ABB6F - Green</strong>
+      <p>
+      • Used for success states
+      </p>
+    </div>
+  </div>
+</div>
+
+Styleguide _Base.Colors
+*/
+
+.bg-gradient {
+  background: linear-gradient(133.94deg, #321c5b 0%, #a93f58 50.14%, #f28356 100%);
+}

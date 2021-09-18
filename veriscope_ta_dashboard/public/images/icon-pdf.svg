@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="83px" viewBox="0 0 64 83" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>PDF</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 74.5588235 55.8829412 74.5588235 55.8829412 0 0 0"></polygon>
+        <filter x="-12.5%" y="-6.7%" width="125.1%" height="118.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="PDF" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(4.000000, 2.000000)">
+            <g id="Stroke-1">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <path d="M15.832,31.7129 L15.832,39.0099 L17.128,39.0099 C18.28,39.0099 19.385,38.5049 19.385,36.6089 L19.385,34.1609 C19.385,32.1449 18.257,31.7129 17.128,31.7129 L15.832,31.7129 Z M13,45.9219 L13,28.9999 L17.44,28.9999 C20.2,28.9999 22.144,30.8239 22.144,34.1369 L22.144,36.6329 C22.144,39.9449 20.2,41.6969 17.44,41.6969 L15.832,41.6969 L15.832,45.9219 L13,45.9219 Z" id="Fill-1" fill="#373241"></path>
+            <path d="M28.8398,31.7129 L27.3758,31.7129 L27.3758,43.2339 L28.8398,43.2339 C30.0648,43.2339 31.0718,42.7299 31.0718,40.2809 L31.0718,34.3769 C31.0718,32.6959 30.4248,31.7129 28.8398,31.7129 M33.8568,34.2089 L33.8568,40.7139 C33.8568,44.1219 31.9368,45.9219 29.1768,45.9219 L24.5688,45.9219 L24.5688,28.9999 L29.1768,28.9999 C31.9368,28.9999 33.8568,30.7759 33.8568,34.2089" id="Fill-3" fill="#373241"></path>
+            <polygon id="Fill-5" fill="#373241" points="43.8643 31.7364 39.1123 31.7364 39.1123 36.1534 42.5923 36.1534 42.5923 38.6254 39.1123 38.6254 39.1123 45.8974 36.3033 45.8974 36.3033 29.0004 43.8643 29.0004"></polygon>
+        </g>
+        <g id="Group-8" transform="translate(40.000000, 31.000000)"></g>
+    </g>
+</svg>

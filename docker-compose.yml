@@ -1,0 +1,23 @@
+# For more information: https://laravel.com/docs/sail
+version: '3'
+services:
+    laravel.test:
+        image: veriscope/1.0
+        privileged: true
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${APP_PORT:-443}:443'
+            - '6001:6001'
+        volumes:
+            - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+            - '.:/opt/veriscope'
+        networks:
+            - veriscope
+
+
+networks:
+    veriscope:
+        driver: bridge

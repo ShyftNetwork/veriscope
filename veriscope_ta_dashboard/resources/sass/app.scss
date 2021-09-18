@@ -1,0 +1,86 @@
+/**
+ * This injects Tailwind's base styles, which is a combination of
+ * Normalize.css and some additional base styles.
+ *
+ * You can see the styles here:
+ * https://github.com/tailwindcss/tailwindcss/blob/master/css/preflight.css
+ *
+ * If using `postcss-import`, you should import this line from it's own file:
+ *
+ * @import "./tailwind-preflight.css";
+ *
+ * See: https://github.com/tailwindcss/tailwindcss/issues/53#issuecomment-341413622
+ */
+
+@tailwind preflight;
+
+
+/**
+ * Here you would add any of your custom component classes; stuff that you'd
+ * want loaded *before* the utilities so that the utilities could still
+ * override them.
+ *
+ * Example:
+ *
+ * .btn { ... }
+ * .form-input { ... }
+ *
+ * Or if using a preprocessor or `postcss-import`:
+ *
+ * @import "components/buttons";
+ * @import "components/forms";
+ */
+
+// helper for stuff in the styleguide
+ .styleguide {
+   position: relative!important;
+   top: 0!important;
+   bottom: 0!important;
+   left: 0!important;
+   right: 0!important;
+ }
+// Base
+@import "base/colors";
+@import "base/buttons";
+@import "base/fonts";
+@import "base/inputs";
+@import "base/radial";
+@import "base/checkbox";
+@import "base/selects";
+@import "base/tables";
+@import "base/pagination";
+// the footer seems to be the same on all Shyft sites. put it here for now
+@import "base/footer";
+
+// Main Shyft Styles
+@import '~dropzone/dist/basic';
+@import '~vue-tel-input/dist/vue-tel-input.css';
+@import '~vue-good-table/dist/vue-good-table.css';
+@import 'shared/global';
+@import 'shared/js-animations';
+@import 'shared/navigation';
+@import 'shared/wizard';
+@import 'shared/notifications';
+@import 'shared/cards';
+@import 'shared/transitions';
+@import 'shared/overrides';
+@import 'shared/dashboard';
+@import 'shared/dropzone';
+@import 'shared/tooltip';
+@import 'shared/modal';
+@import 'shared/lottie';
+@import 'shared/token-supply';
+@import 'shared/legal';
+
+/**
+ * This injects all of Tailwind's utility classes, generated based on your
+ * config file.
+ *
+ * If using `postcss-import`, you should import this line from it's own file:
+ *
+ * @import "./tailwind-utilities.css";
+ *
+ * See: https://github.com/tailwindcss/tailwindcss/issues/53#issuecomment-341413622
+ */
+
+@tailwind utilities;

@@ -1,0 +1,27 @@
+/**
+For JS enabled browsers, while the DOM is still loading,
+apply these styles to each card
+**/
+$timing: .3s;
+$yTravel: 70px;
+.js {
+    .dashboard {
+        .content > .container > div > div {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            transition: transform $timing ease, opacity $timing ease;
+            @for $i from 1 through 6 {
+                &:nth-child(#{$i}) {
+                    transition-delay: 45ms * $i;
+                }
+            }
+        }
+
+        &.preload {
+            .content > .container > div > div {
+                opacity: 0;
+                transform: translate3d(0, $yTravel, 0);
+            }
+        }
+    }
+}

@@ -1,0 +1,3881 @@
+{
+  "contractName": "ITrustChannelManager",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAdministratorAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        }
+      ],
+      "name": "isTrustChannelAdministrator",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "result",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_index",
+          "type": "uint64"
+        }
+      ],
+      "name": "getTrustChannelAdministratorForTrustChannelByIndex",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "result",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustAnchorIndex",
+          "type": "uint32"
+        }
+      ],
+      "name": "getTrustChannelLowestSubmapNumberForTrustAnchorIndex",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "result",
+          "type": "uint24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustAnchorIndex",
+          "type": "uint32"
+        }
+      ],
+      "name": "getTrustChannelHighestSubmapNumberForTrustAnchorIndex",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "result",
+          "type": "uint24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustAnchorIndex",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint24",
+          "name": "submapNumber",
+          "type": "uint24"
+        }
+      ],
+      "name": "getTrustChannelIndexBitFieldAtSubmapNumberForTrustAnchorIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "result",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleIndex",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bool",
+          "name": "_active",
+          "type": "bool"
+        }
+      ],
+      "name": "setTrustChannelRuleActive",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "result",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleIndex",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleStorageSubindex",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_newValue",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setTrustChannelRulesStorage",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "result",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleIndex",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleStorageSubindex",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTrustChannelRulesStorage",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "result",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustChannelIndex",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleIndex",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_ruleStorageSubindex",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTrustChannelRulesStorage",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "result",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustChannelIndex",
+          "type": "uint32"
+        }
+      ],
+      "name": "getActiveChannelRulesBitField",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "result",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "foundChannelRulesBitField",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_trustChannelKeccak",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getTrustChannelIndexFromTrustChannelKeccak",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "result",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_trustChannelIndex",
+          "type": "uint32"
+        }
+      ],
+      "name": "getTrustChannelKeccakFromTrustChannelIndex",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "result",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getNumberOfTrustAnchorsForTrustChannel",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "result",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_arrayIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTrustAnchorForTrustChannelByArrayIndex",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "result",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trustChannelAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getAllTrustAnchorsForTrustChannel",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "result",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustChannelIndex\",\"type\":\"uint32\"}],\"name\":\"getActiveChannelRulesBitField\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"result\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"foundChannelRulesBitField\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"}],\"name\":\"getAllTrustAnchorsForTrustChannel\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"result\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"}],\"name\":\"getNumberOfTrustAnchorsForTrustChannel\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"result\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_arrayIndex\",\"type\":\"uint256\"}],\"name\":\"getTrustAnchorForTrustChannelByArrayIndex\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"result\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"_index\",\"type\":\"uint64\"}],\"name\":\"getTrustChannelAdministratorForTrustChannelByIndex\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"result\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustAnchorIndex\",\"type\":\"uint32\"}],\"name\":\"getTrustChannelHighestSubmapNumberForTrustAnchorIndex\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"result\",\"type\":\"uint24\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustAnchorIndex\",\"type\":\"uint32\"},{\"internalType\":\"uint24\",\"name\":\"submapNumber\",\"type\":\"uint24\"}],\"name\":\"getTrustChannelIndexBitFieldAtSubmapNumberForTrustAnchorIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"result\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_trustChannelKeccak\",\"type\":\"bytes32\"}],\"name\":\"getTrustChannelIndexFromTrustChannelKeccak\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"result\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustChannelIndex\",\"type\":\"uint32\"}],\"name\":\"getTrustChannelKeccakFromTrustChannelIndex\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"result\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustAnchorIndex\",\"type\":\"uint32\"}],\"name\":\"getTrustChannelLowestSubmapNumberForTrustAnchorIndex\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"result\",\"type\":\"uint24\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_trustChannelIndex\",\"type\":\"uint32\"},{\"internalType\":\"uint8\",\"name\":\"_ruleIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"_ruleStorageSubindex\",\"type\":\"uint8\"}],\"name\":\"getTrustChannelRulesStorage\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"result\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_ruleIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"_ruleStorageSubindex\",\"type\":\"uint8\"}],\"name\":\"getTrustChannelRulesStorage\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"result\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAdministratorAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"}],\"name\":\"isTrustChannelAdministrator\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_ruleIndex\",\"type\":\"uint8\"},{\"internalType\":\"bool\",\"name\":\"_active\",\"type\":\"bool\"}],\"name\":\"setTrustChannelRuleActive\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"result\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_trustChannelAddress\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_ruleIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"_ruleStorageSubindex\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"_newValue\",\"type\":\"bytes32\"}],\"name\":\"setTrustChannelRulesStorage\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"result\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelManager.sol\":\"ITrustChannelManager\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/opt/shyft-ta-node/contracts/Interfaces/ITrustAnchorAttestation.sol\":{\"keccak256\":\"0x6da2322f7f6bc0f39638d167c6f7a7507abe19274d264ae85a2e9db547f846a0\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://e9a2558b927a03637c55c1333168f817309d7b4b30557a90d35688747fa4d191\",\"dweb:/ipfs/QmamYkdkur3LUGGPveJxNFdG6DZ3CSyfg2nyyxzaWZScGf\"]},\"/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelManager.sol\":{\"keccak256\":\"0x154d0b2fee98ebf2b0f7930d07e23681d924253d1356c5cbbb0e2fd90cef84aa\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://086755742c7ba7bd8b1c497233b2f872b5ae201d3f1215abb87fd41490bb1921\",\"dweb:/ipfs/QmT3oL3nLrqASm54jfQm7McF1ND8KtHp6evchvhmKFjfyC\"]},\"/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol\":{\"keccak256\":\"0xf1c935edd003a85321dc10df2e25a9dee098ed343b2182350c39d77190c8d41e\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://599c56a0f1d040cc5fca7c2a1f02a89019646a0d3c4ee48a6bb49bd13e01c2f8\",\"dweb:/ipfs/QmbiAeo5GUi7KJpsDgUZASbXMPUPvHyLXYJ4RevPQQE1Fh\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\nimport \"../Interfaces/ITrustAnchorAttestation.sol\";\nimport \"../Interfaces/ITrustChannelRules.sol\";\n\ninterface ITrustChannelManager is ITrustAnchorAttestation, ITrustChannelRules {\n    function isTrustChannelAdministrator(address _trustChannelAdministratorAddress, address _trustChannelAddress) external view returns (bool result);\n    function getTrustChannelAdministratorForTrustChannelByIndex(address _trustChannelAddress, uint64 _index) external view returns (address result);\n\n    function getTrustChannelLowestSubmapNumberForTrustAnchorIndex(uint32 _trustAnchorIndex) external view returns (uint24 result);\n    function getTrustChannelHighestSubmapNumberForTrustAnchorIndex(uint32 _trustAnchorIndex) external view returns (uint24 result);\n    function getTrustChannelIndexBitFieldAtSubmapNumberForTrustAnchorIndex(uint32 _trustAnchorIndex, uint24 submapNumber) external view returns (uint256 result);\n\n    function setTrustChannelRuleActive(address _trustChannelAddress, uint8 _ruleIndex, bool _active) external returns (uint8 result);\n    function setTrustChannelRulesStorage(address _trustChannelAddress, uint8 _ruleIndex, uint8 _ruleStorageSubindex, bytes32 _newValue) external returns (uint8 result);\n    function getTrustChannelRulesStorage(address _trustChannelAddress, uint8 _ruleIndex, uint8 _ruleStorageSubindex) external view returns (bytes32 result);\n    function getTrustChannelRulesStorage(uint32 _trustChannelIndex, uint8 _ruleIndex, uint8 _ruleStorageSubindex) external view returns (bytes32 result);\n\n    function getActiveChannelRulesBitField(uint32 _trustChannelIndex) external view returns (uint8 result, uint256 foundChannelRulesBitField);\n\n    function getTrustChannelIndexFromTrustChannelKeccak(bytes32 _trustChannelKeccak) external view returns (uint32 result);\n    function getTrustChannelKeccakFromTrustChannelIndex(uint32 _trustChannelIndex) external view returns (bytes32 result);\n\n    function getNumberOfTrustAnchorsForTrustChannel(address _trustChannelAddress) external view returns (uint256 result);\n    function getTrustAnchorForTrustChannelByArrayIndex(address _trustChannelAddress, uint256 _arrayIndex) external view returns (address result);\n    function getAllTrustAnchorsForTrustChannel(address _trustChannelAddress) external view returns (address[] memory result);\n}\n",
+  "sourcePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelManager.sol",
+  "ast": {
+    "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelManager.sol",
+    "exportedSymbols": {
+      "ITrustChannelManager": [
+        4139
+      ]
+    },
+    "id": 4140,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3998,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:30"
+      },
+      {
+        "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustAnchorAttestation.sol",
+        "file": "../Interfaces/ITrustAnchorAttestation.sol",
+        "id": 3999,
+        "nodeType": "ImportDirective",
+        "scope": 4140,
+        "sourceUnit": 3514,
+        "src": "62:51:30",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol",
+        "file": "../Interfaces/ITrustChannelRules.sol",
+        "id": 4000,
+        "nodeType": "ImportDirective",
+        "scope": 4140,
+        "sourceUnit": 4185,
+        "src": "114:46:30",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 4001,
+              "name": "ITrustAnchorAttestation",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3513,
+              "src": "196:23:30",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ITrustAnchorAttestation_$3513",
+                "typeString": "contract ITrustAnchorAttestation"
+              }
+            },
+            "id": 4002,
+            "nodeType": "InheritanceSpecifier",
+            "src": "196:23:30"
+          },
+          {
+            "baseName": {
+              "id": 4003,
+              "name": "ITrustChannelRules",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 4184,
+              "src": "221:18:30",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ITrustChannelRules_$4184",
+                "typeString": "contract ITrustChannelRules"
+              }
+            },
+            "id": 4004,
+            "nodeType": "InheritanceSpecifier",
+            "src": "221:18:30"
+          }
+        ],
+        "contractDependencies": [
+          3513,
+          4184
+        ],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 4139,
+        "linearizedBaseContracts": [
+          4139,
+          4184,
+          3513
+        ],
+        "name": "ITrustChannelManager",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "cda1838e",
+            "id": 4013,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isTrustChannelAdministrator",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4009,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4006,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAdministratorAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4013,
+                  "src": "283:41:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4005,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "283:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4008,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4013,
+                  "src": "326:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4007,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "326:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "282:73:30"
+            },
+            "returnParameters": {
+              "id": 4012,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4011,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4013,
+                  "src": "379:11:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4010,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "379:4:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "378:13:30"
+            },
+            "scope": 4139,
+            "src": "246:146:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "7a610cd6",
+            "id": 4022,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelAdministratorForTrustChannelByIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4018,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4015,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4022,
+                  "src": "457:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4014,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "457:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4017,
+                  "mutability": "mutable",
+                  "name": "_index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4022,
+                  "src": "487:13:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint64",
+                    "typeString": "uint64"
+                  },
+                  "typeName": {
+                    "id": 4016,
+                    "name": "uint64",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "487:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint64",
+                      "typeString": "uint64"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "456:45:30"
+            },
+            "returnParameters": {
+              "id": 4021,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4020,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4022,
+                  "src": "525:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4019,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "525:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "524:16:30"
+            },
+            "scope": 4139,
+            "src": "397:144:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "35544bcd",
+            "id": 4029,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelLowestSubmapNumberForTrustAnchorIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4025,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4024,
+                  "mutability": "mutable",
+                  "name": "_trustAnchorIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4029,
+                  "src": "609:24:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4023,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "609:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "608:26:30"
+            },
+            "returnParameters": {
+              "id": 4028,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4027,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4029,
+                  "src": "658:13:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 4026,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "658:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "657:15:30"
+            },
+            "scope": 4139,
+            "src": "547:126:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "d086c0ae",
+            "id": 4036,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelHighestSubmapNumberForTrustAnchorIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4032,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4031,
+                  "mutability": "mutable",
+                  "name": "_trustAnchorIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4036,
+                  "src": "741:24:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4030,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "741:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "740:26:30"
+            },
+            "returnParameters": {
+              "id": 4035,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4034,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4036,
+                  "src": "790:13:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 4033,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "790:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "789:15:30"
+            },
+            "scope": 4139,
+            "src": "678:127:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "dbdd9772",
+            "id": 4045,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelIndexBitFieldAtSubmapNumberForTrustAnchorIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4041,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4038,
+                  "mutability": "mutable",
+                  "name": "_trustAnchorIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4045,
+                  "src": "881:24:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4037,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "881:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4040,
+                  "mutability": "mutable",
+                  "name": "submapNumber",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4045,
+                  "src": "907:19:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 4039,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "907:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "880:47:30"
+            },
+            "returnParameters": {
+              "id": 4044,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4043,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4045,
+                  "src": "951:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4042,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "951:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "950:16:30"
+            },
+            "scope": 4139,
+            "src": "810:157:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "af88c3e3",
+            "id": 4056,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTrustChannelRuleActive",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4052,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4047,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4056,
+                  "src": "1008:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4046,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1008:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4049,
+                  "mutability": "mutable",
+                  "name": "_ruleIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4056,
+                  "src": "1038:16:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4048,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1038:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4051,
+                  "mutability": "mutable",
+                  "name": "_active",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4056,
+                  "src": "1056:12:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4050,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1056:4:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1007:62:30"
+            },
+            "returnParameters": {
+              "id": 4055,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4054,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4056,
+                  "src": "1088:12:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4053,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1088:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1087:14:30"
+            },
+            "scope": 4139,
+            "src": "973:129:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8fdc0532",
+            "id": 4069,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTrustChannelRulesStorage",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4065,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4058,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4069,
+                  "src": "1144:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4057,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1144:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4060,
+                  "mutability": "mutable",
+                  "name": "_ruleIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4069,
+                  "src": "1174:16:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4059,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1174:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4062,
+                  "mutability": "mutable",
+                  "name": "_ruleStorageSubindex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4069,
+                  "src": "1192:26:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4061,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1192:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4064,
+                  "mutability": "mutable",
+                  "name": "_newValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4069,
+                  "src": "1220:17:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4063,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1220:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1143:95:30"
+            },
+            "returnParameters": {
+              "id": 4068,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4067,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4069,
+                  "src": "1257:12:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4066,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1257:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1256:14:30"
+            },
+            "scope": 4139,
+            "src": "1107:164:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "ae7cc8be",
+            "id": 4080,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelRulesStorage",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4076,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4071,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4080,
+                  "src": "1313:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4070,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1313:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4073,
+                  "mutability": "mutable",
+                  "name": "_ruleIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4080,
+                  "src": "1343:16:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4072,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1343:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4075,
+                  "mutability": "mutable",
+                  "name": "_ruleStorageSubindex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4080,
+                  "src": "1361:26:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4074,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1361:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1312:76:30"
+            },
+            "returnParameters": {
+              "id": 4079,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4078,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4080,
+                  "src": "1412:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4077,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1412:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1411:16:30"
+            },
+            "scope": 4139,
+            "src": "1276:152:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8f01b393",
+            "id": 4091,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelRulesStorage",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4087,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4082,
+                  "mutability": "mutable",
+                  "name": "_trustChannelIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4091,
+                  "src": "1470:25:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4081,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1470:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4084,
+                  "mutability": "mutable",
+                  "name": "_ruleIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4091,
+                  "src": "1497:16:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4083,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1497:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4086,
+                  "mutability": "mutable",
+                  "name": "_ruleStorageSubindex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4091,
+                  "src": "1515:26:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4085,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1515:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1469:73:30"
+            },
+            "returnParameters": {
+              "id": 4090,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4089,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4091,
+                  "src": "1566:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4088,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1566:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1565:16:30"
+            },
+            "scope": 4139,
+            "src": "1433:149:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "f8a8f84a",
+            "id": 4100,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getActiveChannelRulesBitField",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4094,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4093,
+                  "mutability": "mutable",
+                  "name": "_trustChannelIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4100,
+                  "src": "1627:25:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4092,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1627:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1626:27:30"
+            },
+            "returnParameters": {
+              "id": 4099,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4096,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4100,
+                  "src": "1677:12:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4095,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1677:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4098,
+                  "mutability": "mutable",
+                  "name": "foundChannelRulesBitField",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4100,
+                  "src": "1691:33:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4097,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1691:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1676:49:30"
+            },
+            "scope": 4139,
+            "src": "1588:138:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "785a5a0c",
+            "id": 4107,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelIndexFromTrustChannelKeccak",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4103,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4102,
+                  "mutability": "mutable",
+                  "name": "_trustChannelKeccak",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4107,
+                  "src": "1784:27:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4101,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1784:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1783:29:30"
+            },
+            "returnParameters": {
+              "id": 4106,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4105,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4107,
+                  "src": "1836:13:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4104,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1836:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1835:15:30"
+            },
+            "scope": 4139,
+            "src": "1732:119:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "0636242d",
+            "id": 4114,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustChannelKeccakFromTrustChannelIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4110,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4109,
+                  "mutability": "mutable",
+                  "name": "_trustChannelIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4114,
+                  "src": "1908:25:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 4108,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1908:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1907:27:30"
+            },
+            "returnParameters": {
+              "id": 4113,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4112,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4114,
+                  "src": "1958:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4111,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1958:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1957:16:30"
+            },
+            "scope": 4139,
+            "src": "1856:118:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "c4d4b1e9",
+            "id": 4121,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getNumberOfTrustAnchorsForTrustChannel",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4117,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4116,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4121,
+                  "src": "2028:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4115,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2028:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2027:30:30"
+            },
+            "returnParameters": {
+              "id": 4120,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4119,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4121,
+                  "src": "2081:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4118,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2081:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2080:16:30"
+            },
+            "scope": 4139,
+            "src": "1980:117:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "2eb91ae8",
+            "id": 4130,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTrustAnchorForTrustChannelByArrayIndex",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4126,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4123,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4130,
+                  "src": "2153:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4122,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2153:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4125,
+                  "mutability": "mutable",
+                  "name": "_arrayIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4130,
+                  "src": "2183:19:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4124,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2183:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2152:51:30"
+            },
+            "returnParameters": {
+              "id": 4129,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4128,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4130,
+                  "src": "2227:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4127,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2227:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2226:16:30"
+            },
+            "scope": 4139,
+            "src": "2102:141:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "bfeabd58",
+            "id": 4138,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getAllTrustAnchorsForTrustChannel",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4133,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4132,
+                  "mutability": "mutable",
+                  "name": "_trustChannelAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4138,
+                  "src": "2291:28:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4131,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2291:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2290:30:30"
+            },
+            "returnParameters": {
+              "id": 4137,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4136,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4138,
+                  "src": "2344:23:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 4134,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "2344:7:30",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 4135,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2344:9:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2343:25:30"
+            },
+            "scope": 4139,
+            "src": "2248:121:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4140,
+        "src": "162:2209:30"
+      }
+    ],
+    "src": "0:2372:30"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelManager.sol",
+      "exportedSymbols": {
+        "ITrustChannelManager": [
+          4139
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 3998,
+        "name": "PragmaDirective",
+        "src": "0:23:30"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 3514,
+          "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustAnchorAttestation.sol",
+          "file": "../Interfaces/ITrustAnchorAttestation.sol",
+          "scope": 4140,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 3999,
+        "name": "ImportDirective",
+        "src": "62:51:30"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 4185,
+          "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol",
+          "file": "../Interfaces/ITrustChannelRules.sol",
+          "scope": 4140,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 4000,
+        "name": "ImportDirective",
+        "src": "114:46:30"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [
+            3513,
+            4184
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4139,
+            4184,
+            3513
+          ],
+          "name": "ITrustChannelManager",
+          "scope": 4140
+        },
+        "children": [
+          {
+            "attributes": {},
+            "children": [
+              {
+                "attributes": {
+                  "name": "ITrustAnchorAttestation",
+                  "referencedDeclaration": 3513,
+                  "type": "contract ITrustAnchorAttestation"
+                },
+                "id": 4001,
+                "name": "UserDefinedTypeName",
+                "src": "196:23:30"
+              }
+            ],
+            "id": 4002,
+            "name": "InheritanceSpecifier",
+            "src": "196:23:30"
+          },
+          {
+            "attributes": {},
+            "children": [
+              {
+                "attributes": {
+                  "name": "ITrustChannelRules",
+                  "referencedDeclaration": 4184,
+                  "type": "contract ITrustChannelRules"
+                },
+                "id": 4003,
+                "name": "UserDefinedTypeName",
+                "src": "221:18:30"
+              }
+            ],
+            "id": 4004,
+            "name": "InheritanceSpecifier",
+            "src": "221:18:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "cda1838e",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "isTrustChannelAdministrator",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAdministratorAddress",
+                      "scope": 4013,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4005,
+                        "name": "ElementaryTypeName",
+                        "src": "283:7:30"
+                      }
+                    ],
+                    "id": 4006,
+                    "name": "VariableDeclaration",
+                    "src": "283:41:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4013,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4007,
+                        "name": "ElementaryTypeName",
+                        "src": "326:7:30"
+                      }
+                    ],
+                    "id": 4008,
+                    "name": "VariableDeclaration",
+                    "src": "326:28:30"
+                  }
+                ],
+                "id": 4009,
+                "name": "ParameterList",
+                "src": "282:73:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4013,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4010,
+                        "name": "ElementaryTypeName",
+                        "src": "379:4:30"
+                      }
+                    ],
+                    "id": 4011,
+                    "name": "VariableDeclaration",
+                    "src": "379:11:30"
+                  }
+                ],
+                "id": 4012,
+                "name": "ParameterList",
+                "src": "378:13:30"
+              }
+            ],
+            "id": 4013,
+            "name": "FunctionDefinition",
+            "src": "246:146:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "7a610cd6",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelAdministratorForTrustChannelByIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4022,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4014,
+                        "name": "ElementaryTypeName",
+                        "src": "457:7:30"
+                      }
+                    ],
+                    "id": 4015,
+                    "name": "VariableDeclaration",
+                    "src": "457:28:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_index",
+                      "scope": 4022,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint64",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint64",
+                          "type": "uint64"
+                        },
+                        "id": 4016,
+                        "name": "ElementaryTypeName",
+                        "src": "487:6:30"
+                      }
+                    ],
+                    "id": 4017,
+                    "name": "VariableDeclaration",
+                    "src": "487:13:30"
+                  }
+                ],
+                "id": 4018,
+                "name": "ParameterList",
+                "src": "456:45:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4022,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4019,
+                        "name": "ElementaryTypeName",
+                        "src": "525:7:30"
+                      }
+                    ],
+                    "id": 4020,
+                    "name": "VariableDeclaration",
+                    "src": "525:14:30"
+                  }
+                ],
+                "id": 4021,
+                "name": "ParameterList",
+                "src": "524:16:30"
+              }
+            ],
+            "id": 4022,
+            "name": "FunctionDefinition",
+            "src": "397:144:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "35544bcd",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelLowestSubmapNumberForTrustAnchorIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustAnchorIndex",
+                      "scope": 4029,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4023,
+                        "name": "ElementaryTypeName",
+                        "src": "609:6:30"
+                      }
+                    ],
+                    "id": 4024,
+                    "name": "VariableDeclaration",
+                    "src": "609:24:30"
+                  }
+                ],
+                "id": 4025,
+                "name": "ParameterList",
+                "src": "608:26:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4029,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint24",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint24",
+                          "type": "uint24"
+                        },
+                        "id": 4026,
+                        "name": "ElementaryTypeName",
+                        "src": "658:6:30"
+                      }
+                    ],
+                    "id": 4027,
+                    "name": "VariableDeclaration",
+                    "src": "658:13:30"
+                  }
+                ],
+                "id": 4028,
+                "name": "ParameterList",
+                "src": "657:15:30"
+              }
+            ],
+            "id": 4029,
+            "name": "FunctionDefinition",
+            "src": "547:126:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "d086c0ae",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelHighestSubmapNumberForTrustAnchorIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustAnchorIndex",
+                      "scope": 4036,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4030,
+                        "name": "ElementaryTypeName",
+                        "src": "741:6:30"
+                      }
+                    ],
+                    "id": 4031,
+                    "name": "VariableDeclaration",
+                    "src": "741:24:30"
+                  }
+                ],
+                "id": 4032,
+                "name": "ParameterList",
+                "src": "740:26:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4036,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint24",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint24",
+                          "type": "uint24"
+                        },
+                        "id": 4033,
+                        "name": "ElementaryTypeName",
+                        "src": "790:6:30"
+                      }
+                    ],
+                    "id": 4034,
+                    "name": "VariableDeclaration",
+                    "src": "790:13:30"
+                  }
+                ],
+                "id": 4035,
+                "name": "ParameterList",
+                "src": "789:15:30"
+              }
+            ],
+            "id": 4036,
+            "name": "FunctionDefinition",
+            "src": "678:127:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "dbdd9772",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelIndexBitFieldAtSubmapNumberForTrustAnchorIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustAnchorIndex",
+                      "scope": 4045,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4037,
+                        "name": "ElementaryTypeName",
+                        "src": "881:6:30"
+                      }
+                    ],
+                    "id": 4038,
+                    "name": "VariableDeclaration",
+                    "src": "881:24:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "submapNumber",
+                      "scope": 4045,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint24",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint24",
+                          "type": "uint24"
+                        },
+                        "id": 4039,
+                        "name": "ElementaryTypeName",
+                        "src": "907:6:30"
+                      }
+                    ],
+                    "id": 4040,
+                    "name": "VariableDeclaration",
+                    "src": "907:19:30"
+                  }
+                ],
+                "id": 4041,
+                "name": "ParameterList",
+                "src": "880:47:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4045,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4042,
+                        "name": "ElementaryTypeName",
+                        "src": "951:7:30"
+                      }
+                    ],
+                    "id": 4043,
+                    "name": "VariableDeclaration",
+                    "src": "951:14:30"
+                  }
+                ],
+                "id": 4044,
+                "name": "ParameterList",
+                "src": "950:16:30"
+              }
+            ],
+            "id": 4045,
+            "name": "FunctionDefinition",
+            "src": "810:157:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "af88c3e3",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setTrustChannelRuleActive",
+              "scope": 4139,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4056,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4046,
+                        "name": "ElementaryTypeName",
+                        "src": "1008:7:30"
+                      }
+                    ],
+                    "id": 4047,
+                    "name": "VariableDeclaration",
+                    "src": "1008:28:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleIndex",
+                      "scope": 4056,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4048,
+                        "name": "ElementaryTypeName",
+                        "src": "1038:5:30"
+                      }
+                    ],
+                    "id": 4049,
+                    "name": "VariableDeclaration",
+                    "src": "1038:16:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_active",
+                      "scope": 4056,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4050,
+                        "name": "ElementaryTypeName",
+                        "src": "1056:4:30"
+                      }
+                    ],
+                    "id": 4051,
+                    "name": "VariableDeclaration",
+                    "src": "1056:12:30"
+                  }
+                ],
+                "id": 4052,
+                "name": "ParameterList",
+                "src": "1007:62:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4056,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4053,
+                        "name": "ElementaryTypeName",
+                        "src": "1088:5:30"
+                      }
+                    ],
+                    "id": 4054,
+                    "name": "VariableDeclaration",
+                    "src": "1088:12:30"
+                  }
+                ],
+                "id": 4055,
+                "name": "ParameterList",
+                "src": "1087:14:30"
+              }
+            ],
+            "id": 4056,
+            "name": "FunctionDefinition",
+            "src": "973:129:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "8fdc0532",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setTrustChannelRulesStorage",
+              "scope": 4139,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4069,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4057,
+                        "name": "ElementaryTypeName",
+                        "src": "1144:7:30"
+                      }
+                    ],
+                    "id": 4058,
+                    "name": "VariableDeclaration",
+                    "src": "1144:28:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleIndex",
+                      "scope": 4069,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4059,
+                        "name": "ElementaryTypeName",
+                        "src": "1174:5:30"
+                      }
+                    ],
+                    "id": 4060,
+                    "name": "VariableDeclaration",
+                    "src": "1174:16:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleStorageSubindex",
+                      "scope": 4069,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4061,
+                        "name": "ElementaryTypeName",
+                        "src": "1192:5:30"
+                      }
+                    ],
+                    "id": 4062,
+                    "name": "VariableDeclaration",
+                    "src": "1192:26:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_newValue",
+                      "scope": 4069,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4063,
+                        "name": "ElementaryTypeName",
+                        "src": "1220:7:30"
+                      }
+                    ],
+                    "id": 4064,
+                    "name": "VariableDeclaration",
+                    "src": "1220:17:30"
+                  }
+                ],
+                "id": 4065,
+                "name": "ParameterList",
+                "src": "1143:95:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4069,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4066,
+                        "name": "ElementaryTypeName",
+                        "src": "1257:5:30"
+                      }
+                    ],
+                    "id": 4067,
+                    "name": "VariableDeclaration",
+                    "src": "1257:12:30"
+                  }
+                ],
+                "id": 4068,
+                "name": "ParameterList",
+                "src": "1256:14:30"
+              }
+            ],
+            "id": 4069,
+            "name": "FunctionDefinition",
+            "src": "1107:164:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "ae7cc8be",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelRulesStorage",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4080,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4070,
+                        "name": "ElementaryTypeName",
+                        "src": "1313:7:30"
+                      }
+                    ],
+                    "id": 4071,
+                    "name": "VariableDeclaration",
+                    "src": "1313:28:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleIndex",
+                      "scope": 4080,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4072,
+                        "name": "ElementaryTypeName",
+                        "src": "1343:5:30"
+                      }
+                    ],
+                    "id": 4073,
+                    "name": "VariableDeclaration",
+                    "src": "1343:16:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleStorageSubindex",
+                      "scope": 4080,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4074,
+                        "name": "ElementaryTypeName",
+                        "src": "1361:5:30"
+                      }
+                    ],
+                    "id": 4075,
+                    "name": "VariableDeclaration",
+                    "src": "1361:26:30"
+                  }
+                ],
+                "id": 4076,
+                "name": "ParameterList",
+                "src": "1312:76:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4080,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4077,
+                        "name": "ElementaryTypeName",
+                        "src": "1412:7:30"
+                      }
+                    ],
+                    "id": 4078,
+                    "name": "VariableDeclaration",
+                    "src": "1412:14:30"
+                  }
+                ],
+                "id": 4079,
+                "name": "ParameterList",
+                "src": "1411:16:30"
+              }
+            ],
+            "id": 4080,
+            "name": "FunctionDefinition",
+            "src": "1276:152:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "8f01b393",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelRulesStorage",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelIndex",
+                      "scope": 4091,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4081,
+                        "name": "ElementaryTypeName",
+                        "src": "1470:6:30"
+                      }
+                    ],
+                    "id": 4082,
+                    "name": "VariableDeclaration",
+                    "src": "1470:25:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleIndex",
+                      "scope": 4091,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4083,
+                        "name": "ElementaryTypeName",
+                        "src": "1497:5:30"
+                      }
+                    ],
+                    "id": 4084,
+                    "name": "VariableDeclaration",
+                    "src": "1497:16:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_ruleStorageSubindex",
+                      "scope": 4091,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4085,
+                        "name": "ElementaryTypeName",
+                        "src": "1515:5:30"
+                      }
+                    ],
+                    "id": 4086,
+                    "name": "VariableDeclaration",
+                    "src": "1515:26:30"
+                  }
+                ],
+                "id": 4087,
+                "name": "ParameterList",
+                "src": "1469:73:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4091,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4088,
+                        "name": "ElementaryTypeName",
+                        "src": "1566:7:30"
+                      }
+                    ],
+                    "id": 4089,
+                    "name": "VariableDeclaration",
+                    "src": "1566:14:30"
+                  }
+                ],
+                "id": 4090,
+                "name": "ParameterList",
+                "src": "1565:16:30"
+              }
+            ],
+            "id": 4091,
+            "name": "FunctionDefinition",
+            "src": "1433:149:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "f8a8f84a",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getActiveChannelRulesBitField",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelIndex",
+                      "scope": 4100,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4092,
+                        "name": "ElementaryTypeName",
+                        "src": "1627:6:30"
+                      }
+                    ],
+                    "id": 4093,
+                    "name": "VariableDeclaration",
+                    "src": "1627:25:30"
+                  }
+                ],
+                "id": 4094,
+                "name": "ParameterList",
+                "src": "1626:27:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4100,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4095,
+                        "name": "ElementaryTypeName",
+                        "src": "1677:5:30"
+                      }
+                    ],
+                    "id": 4096,
+                    "name": "VariableDeclaration",
+                    "src": "1677:12:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "foundChannelRulesBitField",
+                      "scope": 4100,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4097,
+                        "name": "ElementaryTypeName",
+                        "src": "1691:7:30"
+                      }
+                    ],
+                    "id": 4098,
+                    "name": "VariableDeclaration",
+                    "src": "1691:33:30"
+                  }
+                ],
+                "id": 4099,
+                "name": "ParameterList",
+                "src": "1676:49:30"
+              }
+            ],
+            "id": 4100,
+            "name": "FunctionDefinition",
+            "src": "1588:138:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "785a5a0c",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelIndexFromTrustChannelKeccak",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelKeccak",
+                      "scope": 4107,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4101,
+                        "name": "ElementaryTypeName",
+                        "src": "1784:7:30"
+                      }
+                    ],
+                    "id": 4102,
+                    "name": "VariableDeclaration",
+                    "src": "1784:27:30"
+                  }
+                ],
+                "id": 4103,
+                "name": "ParameterList",
+                "src": "1783:29:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4107,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4104,
+                        "name": "ElementaryTypeName",
+                        "src": "1836:6:30"
+                      }
+                    ],
+                    "id": 4105,
+                    "name": "VariableDeclaration",
+                    "src": "1836:13:30"
+                  }
+                ],
+                "id": 4106,
+                "name": "ParameterList",
+                "src": "1835:15:30"
+              }
+            ],
+            "id": 4107,
+            "name": "FunctionDefinition",
+            "src": "1732:119:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "0636242d",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustChannelKeccakFromTrustChannelIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelIndex",
+                      "scope": 4114,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint32",
+                          "type": "uint32"
+                        },
+                        "id": 4108,
+                        "name": "ElementaryTypeName",
+                        "src": "1908:6:30"
+                      }
+                    ],
+                    "id": 4109,
+                    "name": "VariableDeclaration",
+                    "src": "1908:25:30"
+                  }
+                ],
+                "id": 4110,
+                "name": "ParameterList",
+                "src": "1907:27:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4114,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4111,
+                        "name": "ElementaryTypeName",
+                        "src": "1958:7:30"
+                      }
+                    ],
+                    "id": 4112,
+                    "name": "VariableDeclaration",
+                    "src": "1958:14:30"
+                  }
+                ],
+                "id": 4113,
+                "name": "ParameterList",
+                "src": "1957:16:30"
+              }
+            ],
+            "id": 4114,
+            "name": "FunctionDefinition",
+            "src": "1856:118:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "c4d4b1e9",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getNumberOfTrustAnchorsForTrustChannel",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4121,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4115,
+                        "name": "ElementaryTypeName",
+                        "src": "2028:7:30"
+                      }
+                    ],
+                    "id": 4116,
+                    "name": "VariableDeclaration",
+                    "src": "2028:28:30"
+                  }
+                ],
+                "id": 4117,
+                "name": "ParameterList",
+                "src": "2027:30:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4121,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4118,
+                        "name": "ElementaryTypeName",
+                        "src": "2081:7:30"
+                      }
+                    ],
+                    "id": 4119,
+                    "name": "VariableDeclaration",
+                    "src": "2081:14:30"
+                  }
+                ],
+                "id": 4120,
+                "name": "ParameterList",
+                "src": "2080:16:30"
+              }
+            ],
+            "id": 4121,
+            "name": "FunctionDefinition",
+            "src": "1980:117:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "2eb91ae8",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getTrustAnchorForTrustChannelByArrayIndex",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4130,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4122,
+                        "name": "ElementaryTypeName",
+                        "src": "2153:7:30"
+                      }
+                    ],
+                    "id": 4123,
+                    "name": "VariableDeclaration",
+                    "src": "2153:28:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_arrayIndex",
+                      "scope": 4130,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4124,
+                        "name": "ElementaryTypeName",
+                        "src": "2183:7:30"
+                      }
+                    ],
+                    "id": 4125,
+                    "name": "VariableDeclaration",
+                    "src": "2183:19:30"
+                  }
+                ],
+                "id": 4126,
+                "name": "ParameterList",
+                "src": "2152:51:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4130,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4127,
+                        "name": "ElementaryTypeName",
+                        "src": "2227:7:30"
+                      }
+                    ],
+                    "id": 4128,
+                    "name": "VariableDeclaration",
+                    "src": "2227:14:30"
+                  }
+                ],
+                "id": 4129,
+                "name": "ParameterList",
+                "src": "2226:16:30"
+              }
+            ],
+            "id": 4130,
+            "name": "FunctionDefinition",
+            "src": "2102:141:30"
+          },
+          {
+            "attributes": {
+              "functionSelector": "bfeabd58",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getAllTrustAnchorsForTrustChannel",
+              "scope": 4139,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_trustChannelAddress",
+                      "scope": 4138,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4131,
+                        "name": "ElementaryTypeName",
+                        "src": "2291:7:30"
+                      }
+                    ],
+                    "id": 4132,
+                    "name": "VariableDeclaration",
+                    "src": "2291:28:30"
+                  }
+                ],
+                "id": 4133,
+                "name": "ParameterList",
+                "src": "2290:30:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4138,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "address[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "address[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "stateMutability": "nonpayable",
+                              "type": "address"
+                            },
+                            "id": 4134,
+                            "name": "ElementaryTypeName",
+                            "src": "2344:7:30"
+                          }
+                        ],
+                        "id": 4135,
+                        "name": "ArrayTypeName",
+                        "src": "2344:9:30"
+                      }
+                    ],
+                    "id": 4136,
+                    "name": "VariableDeclaration",
+                    "src": "2344:23:30"
+                  }
+                ],
+                "id": 4137,
+                "name": "ParameterList",
+                "src": "2343:25:30"
+              }
+            ],
+            "id": 4138,
+            "name": "FunctionDefinition",
+            "src": "2248:121:30"
+          }
+        ],
+        "id": 4139,
+        "name": "ContractDefinition",
+        "src": "162:2209:30"
+      }
+    ],
+    "id": 4140,
+    "name": "SourceUnit",
+    "src": "0:2372:30"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-09-16T18:31:15.284Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

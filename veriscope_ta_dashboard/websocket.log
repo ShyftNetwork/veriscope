@@ -1,0 +1,446 @@
+Starting the WebSocket server on port 6001...
+Starting the WebSocket server on port 6001...
+Starting the WebSocket server on port 6001...
+New connection opened for app key websocketkey.
+Connection id 800545246.201573750 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"800545246.201573750\",\"activity_timeout\":30}"}
+New connection opened for app key websocketkey.
+Connection id 622461997.78534700 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"622461997.78534700\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 800545246.201573750 received message: {"event":"pusher:ping","data":{}}.
+Connection id 800545246.201573750 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 622461997.78534700 received message: {"event":"pusher:ping","data":{}}.
+Connection id 622461997.78534700 sending message {"event":"pusher:pong"}
+Connection id 622461997.78534700 closed.
+Connection id 800545246.201573750 closed.
+New connection opened for app key websocketkey.
+Connection id 964947013.469570871 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"964947013.469570871\",\"activity_timeout\":30}"}
+Connection id 964947013.469570871 closed.
+New connection opened for app key websocketkey.
+Connection id 307099723.935639160 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"307099723.935639160\",\"activity_timeout\":30}"}
+Connection id 307099723.935639160 closed.
+New connection opened for app key websocketkey.
+Connection id 915511196.185465620 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"915511196.185465620\",\"activity_timeout\":30}"}
+Connection id 915511196.185465620 closed.
+New connection opened for app key websocketkey.
+Connection id 429308053.320581218 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"429308053.320581218\",\"activity_timeout\":30}"}
+Connection id 429308053.320581218 closed.
+New connection opened for app key websocketkey.
+Connection id 554884344.901810418 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"554884344.901810418\",\"activity_timeout\":30}"}
+Connection id 554884344.901810418 closed.
+New connection opened for app key websocketkey.
+Connection id 30691502.925523657 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"30691502.925523657\",\"activity_timeout\":30}"}
+Connection id 30691502.925523657 closed.
+New connection opened for app key websocketkey.
+Connection id 33434679.786602940 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"33434679.786602940\",\"activity_timeout\":30}"}
+Connection id 33434679.786602940 closed.
+New connection opened for app key websocketkey.
+Connection id 787494113.911056668 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"787494113.911056668\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 787494113.911056668 received message: {"event":"pusher:ping","data":{}}.
+Connection id 787494113.911056668 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 787494113.911056668 received message: {"event":"pusher:ping","data":{}}.
+Connection id 787494113.911056668 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 787494113.911056668 received message: {"event":"pusher:ping","data":{}}.
+Connection id 787494113.911056668 sending message {"event":"pusher:pong"}
+Connection id 787494113.911056668 closed.
+New connection opened for app key websocketkey.
+Connection id 136935750.562643660 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"136935750.562643660\",\"activity_timeout\":30}"}
+Connection id 136935750.562643660 closed.
+New connection opened for app key websocketkey.
+Connection id 617788880.468050751 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"617788880.468050751\",\"activity_timeout\":30}"}
+New connection opened for app key websocketkey.
+Connection id 781815535.441540442 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"781815535.441540442\",\"activity_timeout\":30}"}
+Connection id 781815535.441540442 closed.
+pcm_dashboard: connection id 617788880.468050751 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617788880.468050751 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 617788880.468050751 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617788880.468050751 sending message {"event":"pusher:pong"}
+New connection opened for app key websocketkey.
+Connection id 920213093.257906013 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"920213093.257906013\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 617788880.468050751 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617788880.468050751 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 920213093.257906013 received message: {"event":"pusher:ping","data":{}}.
+Connection id 920213093.257906013 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 617788880.468050751 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617788880.468050751 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 920213093.257906013 received message: {"event":"pusher:ping","data":{}}.
+Connection id 920213093.257906013 sending message {"event":"pusher:pong"}
+Connection id 617788880.468050751 closed.
+New connection opened for app key websocketkey.
+Connection id 404020890.984949065 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"404020890.984949065\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 920213093.257906013 received message: {"event":"pusher:ping","data":{}}.
+Connection id 920213093.257906013 sending message {"event":"pusher:pong"}
+Connection id 920213093.257906013 closed.
+pcm_dashboard: connection id 404020890.984949065 received message: {"event":"pusher:ping","data":{}}.
+Connection id 404020890.984949065 sending message {"event":"pusher:pong"}
+Connection id 404020890.984949065 closed.
+New connection opened for app key websocketkey.
+Connection id 348063007.91635777 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"348063007.91635777\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:be9d4926d920d3dbf5af6ecf7a8193290ddd0de4f400df2390f831d4e458a168","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 348063007.91635777 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:c7e4f910b850d84baeeff1e94e306580084c5111eea079219fa4b9ed6aac301e","channel":"private-user.1"}}.
+Connection id 348063007.91635777 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:ping","data":{}}.
+Connection id 348063007.91635777 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:ping","data":{}}.
+Connection id 348063007.91635777 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:ping","data":{}}.
+Connection id 348063007.91635777 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:ping","data":{}}.
+Connection id 348063007.91635777 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 348063007.91635777 received message: {"event":"pusher:ping","data":{}}.
+Connection id 348063007.91635777 sending message {"event":"pusher:pong"}
+Connection id 348063007.91635777 closed.
+New connection opened for app key websocketkey.
+Connection id 746551751.739265327 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"746551751.739265327\",\"activity_timeout\":30}"}
+Starting the WebSocket server on port 6001...
+New connection opened for app key websocketkey.
+Connection id 954339563.773414606 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"954339563.773414606\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:56b017dd0d5a9c6dafb66553e2699202d0229a31a56979af82ad89302f193bf2","channel":"private-user.1"}}.
+Connection id 954339563.773414606 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:8e01877479a359558a24d3ca8b8d422eef6455008aca0577f913b18232db13e7","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 954339563.773414606 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 954339563.773414606 received message: {"event":"pusher:ping","data":{}}.
+Connection id 954339563.773414606 sending message {"event":"pusher:pong"}
+Connection id 954339563.773414606 closed.
+New connection opened for app key websocketkey.
+Connection id 166954827.195515298 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"166954827.195515298\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:3ec33abca6f1097f1fe17ab376472f0fa01fdb935290542528fab79c4e7a5871","channel":"private-user.1"}}.
+Connection id 166954827.195515298 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:f1fddb7bdd974c64eb86a2fb5218bbea518fe535e699be678a9a817de47f5d13","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 166954827.195515298 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 166954827.195515298 received message: {"event":"pusher:ping","data":{}}.
+Connection id 166954827.195515298 sending message {"event":"pusher:pong"}
+Connection id 166954827.195515298 closed.
+New connection opened for app key websocketkey.
+Connection id 278305900.628680063 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"278305900.628680063\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:49ba933fa9d9225ac8f9a735c7b6a788fac89586236401f48182422424002556","channel":"private-user.1"}}.
+Connection id 278305900.628680063 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:ef4c150865707c8b877b781c6d4647e1658f92444160539644bdbdad84faabfb","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 278305900.628680063 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 278305900.628680063 received message: {"event":"pusher:ping","data":{}}.
+Connection id 278305900.628680063 sending message {"event":"pusher:pong"}
+Connection id 278305900.628680063 closed.
+New connection opened for app key websocketkey.
+Connection id 915181938.135903845 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"915181938.135903845\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:f1ec3366bfe5589a23d226a9d720a73e4f9e9e301b19678d99616657dbf76168","channel":"private-user.1"}}.
+Connection id 915181938.135903845 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:c24e128fdf397814142c23e836a9594d006a705f3770623f727895e1501b5b64","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 915181938.135903845 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 915181938.135903845 received message: {"event":"pusher:ping","data":{}}.
+Connection id 915181938.135903845 sending message {"event":"pusher:pong"}
+Connection id 915181938.135903845 closed.
+New connection opened for app key websocketkey.
+Connection id 698392669.34904554 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"698392669.34904554\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 698392669.34904554 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:0894d8de1fd371fffe778e3eb52fc9989b0381f94d7248e9c56355653e389dd6","channel":"private-user.1"}}.
+Connection id 698392669.34904554 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 698392669.34904554 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:5d86b18aee6cc281b0f4c116b32c3192b39b812c0f6be03c7a6aa9282b5f615a","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 698392669.34904554 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+Connection id 698392669.34904554 closed.
+New connection opened for app key websocketkey.
+Connection id 612489402.530896594 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"612489402.530896594\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 612489402.530896594 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:344154ff78fbeaf0c6fbe11a4e408c69deb3a8acc76de4a4756e6e1b018891b7","channel":"private-user.1"}}.
+Connection id 612489402.530896594 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 612489402.530896594 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:aead4e03d783a8993c239b8f63736044bf8b2131edb1691f2af122b51d0d9747","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 612489402.530896594 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 612489402.530896594 received message: {"event":"pusher:ping","data":{}}.
+Connection id 612489402.530896594 sending message {"event":"pusher:pong"}
+Connection id 612489402.530896594 closed.
+New connection opened for app key websocketkey.
+Connection id 508004033.678720903 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"508004033.678720903\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:6c390900f2b4fd4eace62af7661e991e5b3ab094e162bc67ee89ad3f43c50415","channel":"private-user.1"}}.
+Connection id 508004033.678720903 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:b1d6825c6a50236d134ea19fa40cd1b0a43c47e3f30cc3f6fb11a0d0d5c6786b","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 508004033.678720903 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 508004033.678720903 received message: {"event":"pusher:ping","data":{}}.
+Connection id 508004033.678720903 sending message {"event":"pusher:pong"}
+Connection id 508004033.678720903 closed.
+New connection opened for app key websocketkey.
+Connection id 991930350.572070620 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"991930350.572070620\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 991930350.572070620 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:e67ab754174c09dc4ef4cce6a550de05632a0666acfbff7a3e367b0d8a26e990","channel":"private-user.1"}}.
+Connection id 991930350.572070620 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 991930350.572070620 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:8ffbd6560d0221e30718aada2a47f97a241b8e7df18d2695e7cfdfd67f13158a","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 991930350.572070620 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 991930350.572070620 received message: {"event":"pusher:ping","data":{}}.
+Connection id 991930350.572070620 sending message {"event":"pusher:pong"}
+Connection id 991930350.572070620 closed.
+New connection opened for app key websocketkey.
+Connection id 661778163.677543885 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"661778163.677543885\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 661778163.677543885 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:82fba135ba1ef93aa6951013e69744f7652243d7abb876e565d3d48f1a188fb8","channel":"private-user.1"}}.
+Connection id 661778163.677543885 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 661778163.677543885 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:5d36afc26841f87632b99a2897ab27efadb3c11a52be654a3552218ba3593349","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 661778163.677543885 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+Connection id 661778163.677543885 closed.
+New connection opened for app key websocketkey.
+Connection id 690928824.110024843 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"690928824.110024843\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 690928824.110024843 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:14d535e28d81ee2e3f8b8663f005f37db96fc3c6a90e93ebcb87821ddc654f52","channel":"private-user.1"}}.
+Connection id 690928824.110024843 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 690928824.110024843 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:ec3a86853166d29c4e71a84ac466a1d6e0f98c184d9267d5555d86f961ecd434","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 690928824.110024843 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 690928824.110024843 received message: {"event":"pusher:ping","data":{}}.
+Connection id 690928824.110024843 sending message {"event":"pusher:pong"}
+Connection id 690928824.110024843 closed.
+New connection opened for app key websocketkey.
+Connection id 415691281.315847011 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"415691281.315847011\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 415691281.315847011 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:fb1c6c2ec7210e8447d9e3ea7d4234c040a959600606e5c7c3fec2ab7799d52d","channel":"private-user.1"}}.
+Connection id 415691281.315847011 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 415691281.315847011 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:0dbdfde4c2bbb9efee2ad61f930f522432c2c996ad07d8bd463d88aa0d3ac9d3","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 415691281.315847011 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"create-new-user-account\",\"data\":{\"id\":1,\"ta_prefname\":\"Node A\",\"ta_password\":null,\"ta_jurisdiction\":0,\"user_id\":1,\"created_at\":\"2021-08-16T20:39:14.000000Z\",\"updated_at\":\"2021-08-16T20:40:29.000000Z\",\"account_address\":\"0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5\",\"private_key\":\"1e700bb7336fb7cf5b2324d873166359bfe13eed5072e10832d13944840bf419\",\"public_key\":null,\"signature_hash\":null,\"signature\":null}}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"ta-onboard\",\"data\":\"TA has been onboarded to the network\"}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"ta-verify\",\"data\":\"TA has been verified on the network\"}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"ta-request-tokens\",\"data\":{\"transactionHash\":\"0x9f352b421fb6bc49ea2ed2b4920f443772fcb2ac07ec6e38e218f1a6e7675194\",\"transactionIndex\":0,\"blockHash\":\"0xb5504e576854d57688608599e84c7183a38bf04a6e6fcce5410d171a63aa81f3\",\"blockNumber\":778,\"from\":\"0xd25e0e54771db0b846a4f6dd3323fcfcf68d295b\",\"to\":\"0x41dead8e323eec29adfd88272a8f5c7f1f8e53a5\",\"gasUsed\":21000,\"cumulativeGasUsed\":21000,\"contractAddress\":null,\"logs\":[],\"status\":true,\"logsBloom\":\"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\"}}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"ta-is-verified\",\"data\":true}}"}
+Connection id 415691281.315847011 sending message {"channel":"private-user.1","event":"App\\Events\\ContractsInstantiate","data":"{\"data\":{\"user_id\":\"1\",\"message\":\"ta-get-balance\",\"data\":\"29998260088000000000\"}}"}
+Connection id 415691281.315847011 closed.
+New connection opened for app key websocketkey.
+Connection id 358099548.523720837 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"358099548.523720837\",\"activity_timeout\":30}"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:aaa8c72d99811bed5c94a0d20827f7b40baaf8cca587ae4cb6ee73cefd5a915a","channel":"private-user.1"}}.
+Connection id 358099548.523720837 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-user.1"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:subscribe","data":{"auth":"websocketkey:ae9688eafd8cc16bc2c7c34f4ca456e1c4fe4baef05c45d1272441e2c94e2654","channel_data":"{\"user_id\":1,\"user_info\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}}","channel":"presence-contracts"}}.
+Connection id 358099548.523720837 sending message {"event":"pusher_internal:subscription_succeeded","channel":"presence-contracts","data":"{\"presence\":{\"ids\":[1],\"hash\":{\"1\":{\"id\":1,\"first_name\":\"Nicolas\",\"last_name\":\"Morin\",\"email\":\"nicolas@paycase.com\",\"access\":false,\"created_at\":\"2021-08-16T18:38:15.000000Z\",\"updated_at\":\"2021-08-16T20:01:03.000000Z\",\"middle_name\":null,\"gender\":\"none\",\"country_code\":null,\"telephone\":null,\"occupation\":null,\"address\":null,\"suite\":null,\"country\":null,\"state\":null,\"city\":null,\"zip\":null,\"last_state\":\"approved\",\"reputation\":0,\"dob\":null,\"status\":\"active\",\"tranche_id\":1,\"marketing_subscribe\":true,\"legal_agree\":true,\"lockup_agree\":false}},\"count\":1}}"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+pcm_dashboard: connection id 358099548.523720837 received message: {"event":"pusher:ping","data":{}}.
+Connection id 358099548.523720837 sending message {"event":"pusher:pong"}
+Connection id 358099548.523720837 closed.
+Starting the WebSocket server on port 6001...
+Starting the WebSocket server on port 6001...
+Starting the WebSocket server on port 6001...
+Starting the WebSocket server on port 6001...
+New connection opened for app key websocketkey.
+Connection id 576886286.528315122 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"576886286.528315122\",\"activity_timeout\":30}"}
+shyft_ta_dashboard: connection id 576886286.528315122 received message: {"event":"pusher:ping","data":{}}.
+Connection id 576886286.528315122 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 576886286.528315122 received message: {"event":"pusher:ping","data":{}}.
+Connection id 576886286.528315122 sending message {"event":"pusher:pong"}
+Connection id 576886286.528315122 closed.
+New connection opened for app key websocketkey.
+Connection id 755589480.679100220 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"755589480.679100220\",\"activity_timeout\":30}"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 755589480.679100220 received message: {"event":"pusher:ping","data":{}}.
+Connection id 755589480.679100220 sending message {"event":"pusher:pong"}
+Connection id 755589480.679100220 closed.
+New connection opened for app key websocketkey.
+Connection id 455071441.480115354 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"455071441.480115354\",\"activity_timeout\":30}"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 455071441.480115354 received message: {"event":"pusher:ping","data":{}}.
+Connection id 455071441.480115354 sending message {"event":"pusher:pong"}
+Connection id 455071441.480115354 closed.
+New connection opened for app key websocketkey.
+Connection id 106414130.845917735 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"106414130.845917735\",\"activity_timeout\":30}"}
+shyft_ta_dashboard: connection id 106414130.845917735 received message: {"event":"pusher:ping","data":{}}.
+Connection id 106414130.845917735 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 106414130.845917735 received message: {"event":"pusher:ping","data":{}}.
+Connection id 106414130.845917735 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 106414130.845917735 received message: {"event":"pusher:ping","data":{}}.
+Connection id 106414130.845917735 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 106414130.845917735 received message: {"event":"pusher:ping","data":{}}.
+Connection id 106414130.845917735 sending message {"event":"pusher:pong"}
+shyft_ta_dashboard: connection id 106414130.845917735 received message: {"event":"pusher:ping","data":{}}.
+Connection id 106414130.845917735 sending message {"event":"pusher:pong"}
+Connection id 106414130.845917735 closed.

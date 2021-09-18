@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="23px" viewBox="0 0 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>SystemLog-Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="SystemLog-Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Group-2" transform="translate(1.000000, 1.000000)" stroke="#FFFFFF">
+            <path d="M3.44972698,4.40365714 L6.92071111,4.40365714" id="Stroke-1"></path>
+            <path d="M9.1640127,17.7298032 L12.6349968,17.7298032" id="Stroke-2"></path>
+            <path d="M5.98940952,8.44434286 L12.6349968,8.44434286" id="Stroke-3"></path>
+            <path d="M5.98940952,11.2379937 L12.6349968,11.2379937" id="Stroke-4"></path>
+            <path d="M5.98940952,14.0316444 L12.6349968,14.0316444" id="Stroke-5"></path>
+            <path d="M3.44972698,8.44434286 L3.94972698,8.44434286" id="Stroke-6"></path>
+            <path d="M3.44972698,11.2379937 L3.94972698,11.2379937" id="Stroke-7"></path>
+            <path d="M3.44972698,14.0316444 L3.94972698,14.0316444" id="Stroke-8"></path>
+            <polygon id="Stroke-9" points="0 21.4603175 16.0845714 21.4603175 16.0845714 0 0 0"></polygon>
+            <polyline id="Stroke-11" points="16.0846476 1.37737143 19.8306794 1.37737143 19.8306794 20.0828952 16.0846476 20.0828952"></polyline>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,15 @@
+#globe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+@media (min-width: 992px) {
+  #globe {
+    top: 0;
+    right: -300px;
+    opacity: 1;
+    z-index: 10;
+  }
+}

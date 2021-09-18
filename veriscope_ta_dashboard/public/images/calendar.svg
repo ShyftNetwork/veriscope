@@ -1,0 +1,13 @@
+<svg width="20px" height="19px" viewBox="0 0 20 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Calendar" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g transform="translate(1.000000, 1.000000)" stroke="#404040" stroke-width="2">
+            <path d="M1.5,5.5 L16.5,5.5" id="Line-Copy-2"></path>
+            <path d="M1.5,1.5 L16.5,1.5" id="Line"></path>
+            <path d="M1.5,15.5 L16.5,15.5" id="Line-Copy"></path>
+            <path d="M1.5,1.5 L1.5,15.5" id="Line-4"></path>
+            <path d="M5,0 L5,2.5" id="Line-4"></path>
+            <path d="M13,0 L13,2.5" id="Line-4-Copy-2"></path>
+            <path d="M16.5,1.5 L16.5,15.5" id="Line-4-Copy"></path>
+        </g>
+    </g>
+</svg>

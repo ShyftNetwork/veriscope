@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="67px" height="38px" viewBox="0 0 67 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>7ED27D8A-70CA-41A6-A110-188EDCD3E5AD</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Portal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Marketplace-v2" transform="translate(-1319.000000, -1097.000000)">
+            <g id="creds-rd-5" transform="translate(1319.000000, 1097.000000)">
+                <g>
+                    <g id="Group-10" transform="translate(18.000000, 0.000000)">
+                        <g id="Group-9">
+                            <path d="M0,13 L0,6 L32,6 L32,13 C32,16.3137085 24.836556,19 16,19 C7.163444,19 0,16.3137085 0,13 Z" id="Combined-Shape" fill="#AB77A4"></path>
+                            <ellipse id="Oval-3" fill="#C7AAD1" cx="16" cy="6" rx="16" ry="6"></ellipse>
+                        </g>
+                    </g>
+                    <g id="Group-11" transform="translate(0.000000, 19.000000)">
+                        <g id="Group-9">
+                            <path d="M0,13 L0,6 L32,6 L32,13 C32,16.3137085 24.836556,19 16,19 C7.163444,19 0,16.3137085 0,13 Z" id="Combined-Shape" fill="#AB77A4"></path>
+                            <ellipse id="Oval-3" fill="#C7AAD1" cx="16" cy="6" rx="16" ry="6"></ellipse>
+                        </g>
+                    </g>
+                    <g id="Group-12" transform="translate(35.000000, 19.000000)">
+                        <g id="Group-9">
+                            <path d="M0,13 L0,6 L32,6 L32,13 C32,16.3137085 24.836556,19 16,19 C7.163444,19 0,16.3137085 0,13 Z" id="Combined-Shape" fill="#AB77A4"></path>
+                            <ellipse id="Oval-3" fill="#C7AAD1" cx="16" cy="6" rx="16" ry="6"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

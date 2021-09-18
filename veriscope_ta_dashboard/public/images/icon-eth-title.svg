@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="130px" height="150px" viewBox="0 0 130 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>1F7D6FF6-E66E-4BF6-8D06-848A27E360F3</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Portal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Marketplace-v2" transform="translate(-860.000000, -1360.000000)">
+            <g id="Group-14" transform="translate(200.000000, 1250.000000)">
+                <g id="ETH-Tile" transform="translate(660.000000, 110.000000)">
+                    <rect id="Rectangle-3-Copy" fill="#373241" x="0" y="0" width="130" height="150"></rect>
+                    <g id="ethereum-icon" transform="translate(41.000000, 18.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <g id="Group">
+                            <polygon id="Shape" opacity="0.75" points="23.0145863 0 22.5118885 1.70863309 22.5118885 51.2892086 23.0145863 51.7910072 46.0293345 38.1870504"></polygon>
+                            <polygon id="Shape" opacity="0.5" points="23.0147482 0 0 38.1870504 23.0147482 51.7911871 23.0147482 27.726259"></polygon>
+                            <polygon id="Shape" opacity="0.75" points="23.0145863 56.1486691 22.7313129 56.4939928 22.7313129 74.1556835 23.0145863 74.9832014 46.0430036 42.5515468"></polygon>
+                            <polygon id="Shape" opacity="0.5" points="23.0147482 74.9829496 23.0147482 56.1484173 0 42.551295"></polygon>
+                            <polygon id="Shape" points="23.0145863 51.7909532 46.0289748 38.1871763 23.0145863 27.7263849"></polygon>
+                            <polygon id="Shape" points="0.000161870504 38.1871942 23.0145504 51.7909712 23.0145504 27.7264029"></polygon>
+                        </g>
+                    </g>
+                    <path d="M55.0175781,129 L47.6171875,129 L47.6171875,116.150391 L55.0175781,116.150391 L55.0175781,118.382812 L50.3417969,118.382812 L50.3417969,121.204102 L54.6923828,121.204102 L54.6923828,123.436523 L50.3417969,123.436523 L50.3417969,126.75 L55.0175781,126.75 L55.0175781,129 Z M63.9409874,129 L61.2163781,129 L61.2163781,118.417969 L57.7271202,118.417969 L57.7271202,116.150391 L67.4302452,116.150391 L67.4302452,118.417969 L63.9409874,118.417969 L63.9409874,129 Z M81.2227952,129 L78.5069749,129 L78.5069749,123.454102 L73.4181077,123.454102 L73.4181077,129 L70.6934983,129 L70.6934983,116.150391 L73.4181077,116.150391 L73.4181077,121.186523 L78.5069749,121.186523 L78.5069749,116.150391 L81.2227952,116.150391 L81.2227952,129 Z" id="ETH" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

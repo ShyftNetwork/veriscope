@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>linkedin-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Full-Site" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop---Home" transform="translate(-1621.000000, -5741.000000)" fill-rule="nonzero" fill="#C35951">
+            <g id="--Footer-links" transform="translate(160.000000, 5738.000000)">
+                <g id="linkedin-icon" transform="translate(1461.000000, 3.000000)">
+                    <path d="M3.8973913,1.95652174 C3.8973913,3.03730435 3.02869565,3.91304348 1.95652174,3.91304348 C0.884347826,3.91304348 0.0156521739,3.03730435 0.0156521739,1.95652174 C0.0156521739,0.876521739 0.884347826,0 1.95652174,0 C3.02869565,0 3.8973913,0.876521739 3.8973913,1.95652174 Z M3.91304348,5.47826087 L0,5.47826087 L0,18 L3.91304348,18 L3.91304348,5.47826087 Z M10.1598261,5.47826087 L6.27182609,5.47826087 L6.27182609,18 L10.1606087,18 L10.1606087,11.4268696 C10.1606087,7.77208696 14.8789565,7.47313043 14.8789565,11.4268696 L14.8789565,18 L18.7826087,18 L18.7826087,10.0713913 C18.7826087,3.90443478 11.8001739,4.12904348 10.1598261,7.16478261 L10.1598261,5.47826087 Z" id="linkedin"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

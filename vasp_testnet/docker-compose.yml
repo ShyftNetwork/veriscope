@@ -1,0 +1,21 @@
+version: "3.5"
+services:
+    vasp_testnet:
+        image: nethermind/nethermind:1.9.53
+        container_name: vasp_relay_node
+        command: --config config
+        volumes:
+            - ./genesis:/config/genesis
+            - ./node_1/config.cfg:/nethermind/configs/config.cfg
+            - ./node_1/static-nodes.json:/nethermind/Data/static-nodes.json
+            - ./node_1/db/aura:/nethermind/nethermind_db/aura
+            - ./node_1/keystore:/nethermind/keystore
+        ports:
+            - 8545:8545
+            - 30303:30303/tcp
+            - 30303:30303/udp
+            - 30304:30304/tcp
+            - 30304:30304/udp
+        restart: unless-stopped
+
+

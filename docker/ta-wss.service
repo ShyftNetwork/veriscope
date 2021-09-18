@@ -1,0 +1,15 @@
+[Unit]
+Description=Trust Anchor Dashboard Websockets
+After=network.target
+
+[Service]
+User=shyft
+WorkingDirectory=/opt/veriscope_ta_dashboard/
+ExecStart=/usr/bin/php artisan websockets:serve
+Restart=on-failure
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=default.target
+
+

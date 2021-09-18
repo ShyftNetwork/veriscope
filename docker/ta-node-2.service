@@ -1,0 +1,14 @@
+[Unit]
+Description=Trust Anchor Node Template Helper 
+After=network.target
+
+[Service]
+User=shyft
+WorkingDirectory=/opt/veriscope_ta_node/
+ExecStart=/usr/bin/node shyft-template-helper.js
+Restart=on-failure
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=default.target
+

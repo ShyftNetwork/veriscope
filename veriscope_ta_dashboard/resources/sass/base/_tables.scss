@@ -1,0 +1,195 @@
+
+table {
+  @apply w-full text-sm text-center;
+}
+
+th {
+  @apply p-2 text-white bg-charcoal;
+  border-bottom:1px solid config('colors.charcoal');
+  border-right: 1px solid config('colors.charcoal');
+  text-align:left;
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+
+tr {
+  //border-top: 1px solid config('colors.charcoal');
+  border: 1px solid config('colors.charcoal');
+}
+
+
+
+tr:first-child {
+  //border-top:none;
+}
+
+tr:last-child {
+  //border-bottom:none;
+}
+
+.table--striped {
+  tr:hover td {
+    @apply bg-gray;
+  }
+  td {
+     @apply bg-white;
+  }
+  tr:nth-child(odd) td {
+    @apply bg-white;
+  }
+
+  tr:nth-child(even) td {
+    @apply bg-ash;
+  }
+
+  tr:nth-child(odd):hover td,tr:nth-child(even):hover td {
+    @apply bg-gray;
+  }
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+
+td {
+  @apply py-1;
+  padding-top: .625rem;
+  padding-bottom: .625rem;
+  text-align:left;
+  vertical-align:middle;
+  border-right: 1px solid config('colors.charcoal');
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+.table--condensed {
+  @apply text-xs text-darkgray;
+  strong {
+    @apply text-sm text-charcoal;
+  }
+  td, tr {
+    @apply border-none;
+  }
+  tr {
+    border-top: 1px solid config('colors.gray');
+    &:first-child {
+      @screen md {
+        border-top: none;
+      }
+    }
+  }
+}
+
+.table--backoffice {
+  tr {
+    @apply border-0;
+    &.danger, &.danger:nth-child(odd) {
+      td {
+        @apply bg-peach text-white;
+        a {
+          @apply text-white;
+        }
+        a.btn {
+          @apply text-charcoal;
+        }
+      }
+    }
+  }
+  thead {
+
+    th {
+      @apply bg-white text-charcoal p-2 border-gray;
+      @screen md {
+        @apply p-4;
+      }
+    }
+  }
+  td {
+     @apply p-2 border-gray border-b;
+     @screen md {
+       @apply p-4 bg-ash;
+     }
+  }
+  @screen md {
+    tr:nth-child(odd) td {
+      background-color: #f0f0f0;
+    }
+  }
+  @screen smonly {
+    @apply block;
+    thead {
+      display: none;
+      tr {
+        @apply p-0;
+        display: none;
+      }
+    }
+    thead, tbody, tr, td {
+      @apply block border-0;
+    }
+    tr {
+      @apply my-4 border border-hairline;
+      background-color: #f0f0f0;
+    }
+    td {
+      @apply p-2 border-t border-hairline;
+      &:first-child {
+        @apply border-0;
+      }
+    }
+  }
+}
+
+/*
+Tables
+
+Data tables
+
+Markup:
+<table class="table--backoffice">
+  <thead>
+    <tr>
+      <th class="text-left">Month</th>
+      <th class="text-left">Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-left">January</td>
+      <td class="text-left">$ 50,000.00</td>
+    </tr>
+    <tr>
+      <td class="text-left">February</td>
+      <td class="text-left">$ 10,000.00</td>
+    </tr>
+    <tr>
+      <td class="text-left">March</td>
+      <td class="text-left">$ 85,000.00</td>
+    </tr>
+    <tr>
+      <td class="text-left">April</td>
+      <td class="text-left">$ 56,000.00</td>
+    </tr>
+    <tr>
+      <td class="text-left">May</td>
+      <td class="text-left">$ 98,000.00</td>
+    </tr>
+  </tbody>
+</table>
+
+Styleguide _Tables
+*/

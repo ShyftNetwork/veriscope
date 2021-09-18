@@ -1,0 +1,100 @@
+/*
+General
+
+General notification
+
+Markup:
+<div class="notification styleguide">
+  <p><img src="/images/notifications/general.svg"> This is a general information notification</p>
+</div>
+
+Styleguide Notifications.General
+*/
+
+.has-wizard .notification--open {
+  margin-top: 30px;
+  @screen md {
+    margin-top: 0;
+    top: 146px;
+  }
+}
+
+.notification {
+  @apply text-center text-white bg-charcoal text-base tracking-big pl-4 pr-12 w-full;
+  transition: top .3s ease-in-out;
+  padding-top: 20px;
+  padding-bottom: 18px;
+
+  &--open-with-wizard {
+    margin-top: 30px;
+  }
+  @screen md {
+    @apply absolute block;
+    top: -100px;
+    &--open {
+      top: 80px;
+    }
+    &--open-with-wizard {
+      top: 146px;
+      margin-top: 0;
+    }
+  }
+  p {
+    margin: 0;
+  }
+  img {
+    position: relative;
+    top: 2px;
+    margin-right: 8px;
+  }
+  &--error {
+    @apply bg-charcoal text-white;
+  }
+  &--success {
+    @apply bg-green text-white;
+  }
+  a {
+    @apply text-white;
+    text-decoration-color: #FFF;
+  }
+  a:hover {
+    @apply text-white;
+  }
+  &__close {
+    @apply hidden cursor-pointer;
+    right: 1.4em;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    @screen md {
+      @apply absolute block;
+    }
+  }
+
+}
+
+/*
+Error
+
+Error notification
+
+Markup:
+<div class="notification notification--error styleguide">
+  <p><img src="/images/notifications/error.svg"> You were not successfully identified for your Shyft ID — Please contact our support team to resolve the issue. </p>
+</div>
+
+Styleguide Notifications.Error
+*/
+
+/*
+Success
+
+Success notification
+
+Markup:
+<div class="notification notification--success styleguide">
+  <p><img src="/images/notifications/success.svg"> You have been successfully identified for your Shyft ID</p>
+</div>
+
+Styleguide Notifications.Success
+*/

@@ -1,0 +1,399 @@
+/**
+Vue Select
+A Vue lib used to customize the look of Select Menus for forms.
+https://github.com/sagalbot/vue-select
+*/
+.v-select .dropdown-toggle {
+    border-radius: 0 !important;
+    background-color: #FFF !important;
+    border: none !important;
+    align-items: center;
+    padding: 0 !important;
+    border: 1px solid #d1d1d1 !important;
+
+}
+.v-select input[type=search],
+.v-select input[type=search]:focus,
+.v-select .selected-tag {
+    padding: .6rem 1rem .7rem !important;
+    height: auto !important;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+}
+.v-select .selected-tag {
+    overflow: hidden;
+    width: calc(100% - 40px);
+}
+.v-select .dropdown-toggle .clear {
+    display: none !important;
+}
+.v-select input[type=search] {
+    width: 100% !important;
+    margin: 0 !important;
+    //border: 1px solid #d1d1d1 !important;
+}
+.v-select input[type=search]:focus {
+    outline: none !important;
+    margin: 0 !important;
+    //border-color: #D25F5F !important;
+}
+.v-select .selected-tag {
+    position: absolute !important;
+    border: 1px solid transparent !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    top: 3px;
+    font-family: 'NeuzitGrotesk', 'Helvetica Neue', sans-serif !important;
+    white-space: nowrap;
+}
+.v-select .open-indicator {
+    right: 1rem !important;
+    height: 8px !important;
+    width: auto !important;
+    top: 42% !important;
+    bottom: auto !important;
+    pointer-events: inherit !important;
+}
+.v-select .open-indicator:before {
+    border-color: none !important;
+    border-width: inherit !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 6px solid transparent !important;
+    border-right: 6px solid transparent !important;
+    border-top: 8px solid #373241 !important;
+    transform: rotate(0) !important;
+}
+.v-select.open .open-indicator:before {
+    transform: rotate(180deg) !important;
+    top: 43% !important;
+}
+.v-select label span {
+    float: right;
+    font-weight: 100;
+}
+.v-select .fade-enter-active,
+.v-select .fade-leave-active,
+.v-select a {
+    transition: none !important;
+}
+.v-select.open ul.dropdown-menu {
+    @apply pt-0 pb-0;
+}
+.v-select.open ul.dropdown-menu li a {
+    @apply pt-3 pb-3;
+}
+.v-select.open ul.dropdown-menu li:hover a,
+.v-select.open ul.dropdown-menu li.highlight a {
+    @apply bg-peach;
+}
+/**
+Vue Tel Input
+A Vue lib used to provide international phone formatting for forms.
+https://github.com/EducationLink/vue-tel-input
+*/
+.vue-tel-input {
+    border-radius: 0 !important;
+    border: 0 !important;
+    &:focus-within {
+        box-shadow: none !important;
+    }
+    .dropdown {
+        border-top: 1px solid #d1d1d1;
+        border-left: 1px solid #d1d1d1;
+        border-bottom: 1px solid #d1d1d1;
+        padding: 7px 22px 7px 16px !important;
+        background-color: #FFF;
+        &.open {
+            .dropdown-arrow {
+                color: transparent !important;
+                &:before {
+                    transform: rotate(180deg) !important;
+                }
+            }
+        }
+    }
+    .dropdown-item {
+        @apply pt-3 pb-3;
+    }
+    .dropdown-item:hover {
+        @apply bg-peach;
+        @apply text-white;
+    }
+    .dropdown-arrow {
+        color: #FFF !important;
+        transform: scaleY(1) !important;
+    }
+    .dropdown-arrow:before {
+        transition: all .15s cubic-bezier(1,-.115,.975,.855);
+        transition-timing-function: cubic-bezier(1,-.115,.975,.855);
+        border-color: none !important;
+        border-width: inherit !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+        border-top: 8px solid #373241 !important;
+        transform: rotate(0) !important;
+        content: '';
+        position: absolute;
+        top: 8px;
+    }
+    .flag {
+        margin: 0 12px 0 0;
+    }
+    ul {
+        z-index: 1;
+        top: 44px;
+    }
+}
+/**
+Vuejs Datepicker
+A Datepicker component for forms.
+https://github.com/charliekassel/vuejs-datepicker
+*/
+.form-control--date-picker {
+    .vdp-datepicker {
+        z-index: 1;
+        input {
+            background-color: transparent;
+        }
+    }
+    svg.datepicker-calendar-icon {
+        position: absolute;
+        right: 16px;
+        top: 13px;
+        z-index: 0;
+    }
+    .vdp-datepicker__calendar {
+        width: 100%;
+        @screen sm {
+            max-width: 300px;
+        }
+    }
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+        @apply bg-peach;
+        @apply text-white;
+    }
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+        border: 1px solid transparent;
+    }
+    .vdp-datepicker__calendar .cell.selected,
+    .vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover {
+        @apply bg-peach;
+        @apply text-white;
+    }
+    .vdp-datepicker__calendar header .prev:hover {
+        &:after {
+            border-right-color: #FFF;
+        }
+    }
+    .vdp-datepicker__calendar header .next:hover {
+        &:after {
+            border-left-color: #FFF;
+        }
+    }
+}
+/**
+Vue Good Table
+A component used to enhance tabular data with search, sorting and filters.
+https://github.com/xaksis/vue-good-table
+*/
+.vgt-wrap__footer,
+.vgt-wrap__footer .footer__row-count__label,
+.vgt-wrap__footer .footer__navigation__page-btn,
+.vgt-wrap__footer .footer__navigation__info,
+.vgt-wrap__footer .footer__navigation__page-info {
+    @apply text-white;
+}
+.vgt-wrap__footer {
+    @apply border-none py-6;
+    padding-left: 17px;
+    padding-right: 17px;
+    background: #373241;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+.vgt-pull-left {
+    flex: 1;
+}
+.vgt-wrap__footer .footer__row-count__select {
+    @apply bg-white;
+}
+.vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.left:after,
+.vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.left:after {
+    border-right-color: #FFF;
+    top: 52%;
+    margin-left: -5px;
+}
+.vgt-wrap__footer .footer__navigation__page-btn.disabled .chevron.right:after,
+.vgt-wrap__footer .footer__navigation__page-btn.disabled:hover .chevron.right:after {
+    border-left-color: #FFF;
+    top: 52%;
+    margin-right: -5px;
+}
+table.vgt-table {
+    background-color: transparent;
+}
+.vgt-table.bordered th {
+    border: none;
+}
+.vgt-table th {
+    @apply p-4;
+}
+.vgt-table.bordered td {
+    @apply px-4 py-6;
+}
+.vgt-table tr:first-child {
+    border-color: transparent;
+}
+.vgt-table.bordered tr td:first-child {
+    border-left-color: transparent;
+}
+.vgt-table.bordered tr td:last-child {
+    border-right-color: transparent;
+}
+table.vgt-table td {
+    @apply text-charcoal;
+}
+table.vgt-table tbody {
+    vertical-align: top;
+}
+.vgt-wrap__footer .footer__navigation__info,
+.vgt-wrap__footer .footer__navigation__page-info {
+    margin: 0 28px;
+}
+.vgt-wrap__footer .footer__navigation__page-btn .chevron.right::after {
+    border-left-color: #FFF;
+}
+.vgt-wrap__footer .footer__navigation__page-btn .chevron.left::after {
+    border-right-color: #FFF;
+}
+.vgt-table.bordered {
+    border: none;
+    thead th {
+      @apply bg-white text-sm;
+      background-image: none;
+    }
+    td {
+       @apply p-2 border-gray border-b;
+       @screen md {
+         @apply p-4 bg-ash;
+       }
+    }
+    @screen md {
+      tr:nth-child(odd) td {
+        background-color: #f0f0f0;
+      }
+    }
+    tbody tr {
+      &.danger, &.danger:nth-child(odd) {
+        td {
+          background-color: #EED6D9;
+          a.btn {
+            @apply text-charcoal;
+          }
+        }
+      }
+    }
+    thead th.sorting-desc:after {
+      border-top-color: config('colors.peach');
+    }
+    thead th.sorting-asc:after {
+      border-bottom-color: config('colors.peach');
+    }
+}
+.vgt-wrap__footer .footer__navigation__page-btn {
+    .chevron.right::after {
+        border-left-color: config('colors.peach');
+    }
+    .chevron.left::after {
+        border-right-color: config('colors.peach');
+    }
+}
+.vgt-table th.sorting:hover {
+    span {
+        @apply text-charcoal;
+    }
+    &:after {
+        display: inline-block;
+        border-bottom-color: config('colors.peach');
+    }
+}
+.vgt-loading {
+.vgt-loading__content {
+    @apply bg-peach text-white font-bold;
+}
+}
+.vgt-global-search__input .input__icon .magnifying-glass {
+    border-color: config('colors.peach');
+}
+.vgt-global-search__input .input__icon .magnifying-glass:before {
+    background: config('colors.peach');
+    right: -7px;
+    bottom: -4px;
+    width: 10px;
+    height: 3px;
+}
+.vgt-global-search__input .input__icon {
+    top: 2px;
+    left: 2px;
+}
+.vgt-table thead th.sorting span {
+    @apply text-peach underline;
+}
+.vgt-table thead th.sorting-desc span,.vgt-table thead th.sorting-asc span {
+    @apply text-charcoal no-underline;
+}
+/**
+A Search Input modifier
+*/
+.form-control--search {
+    position: relative;
+    input {
+        padding-right: 36px;
+    }
+    .icon-search {
+        position: absolute;
+        right: 10px;
+        top: 39px;
+    }
+}
+/**
+Used to hide specified elements until the entire
+window load event has occured
+*/
+.preload-hidden {
+    visibility: visible;
+    .preload & {
+        visibility: hidden;
+    }
+}
+/**
+Used for blocking pointer events when displaying form
+information that is non editable
+*/
+.noedit {
+    pointer-events: none;
+    .form-control {
+        opacity: .5;
+    }
+}
+/**
+Used on the homepage for animated waves
+*/
+#svgObj {
+    width: 100%;
+    display: block;
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+}
+.wave {
+    stroke: none;
+    fill: rgba(255,255,255,.01);
+}
+.input-clipboard {
+    @apply border p-2 mt-2 w-full;
+}

@@ -1,0 +1,21 @@
+.footer {
+  @apply bg-white text-sm;
+  font-weight: bold;
+  padding: 0 20px;
+  &__social {
+    ul {
+      max-width: 200px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      min-width: 31%;
+      a {
+        display: inline-block;
+        padding: 5px 5px 5px 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

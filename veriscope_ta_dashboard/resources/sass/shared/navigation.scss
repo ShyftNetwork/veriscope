@@ -1,0 +1,383 @@
+/*
+Main Navigation (closed)
+
+Main navigation on all pages.
+
+Markup:
+<div class="main-navigation styleguide">
+  <div class="main-navigation__top">
+    <a href="/" class="shyft-logo"><img src="/images/veriscope-logo.svg" width="93" height="45" alt="Shyft Logo" /></a>
+    <div class="hamburger">
+      <div class="hamburger__line line-1"></div>
+      <div class="hamburger__line line-2"></div>
+      <div class="hamburger__line line-3"></div>
+    </div>
+  </div>
+</div>
+
+Styleguide Navigation.Closed
+*/
+
+.main-navigation {
+  @apply relative fixed w-full z-20 pin-t;
+  .shyft-logo, .shyft-logo-white {
+    display: inline-block;
+    position: relative;
+    margin: 15px 25px 6px 25px;
+    @screen md {
+      margin: 24px 25px 0 25px;
+    }
+  }
+  &__top {
+    @apply relative z-30 bg-white shadow;
+    height: 80px;
+    border-bottom: 1px solid config('colors.gray');
+  }
+  &__logo {
+    width: 143px;
+    height: 76px;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+}
+
+.links__login {
+  display: none;
+}
+
+
+.layout--welcome {
+  .min-h-screen-nav {
+    height: calc(100vh - 180px);
+    min-height: 500px;
+    @apply
+        flex items-center;
+  }
+  padding-top: 0px;
+  .main-navigation {
+    transition: background-color .3s ease-in-out;
+    &__top {
+       @apply bg-transparent border-none shadow-none;
+       border-bottom: solid 1px rgba(#ffffff,0.2);
+    }
+    .main-subnavigation {
+      @apply hidden;
+    }
+    &--scrolled {
+      @apply bg-white;
+      .links__login {
+        @apply text-charcoal;
+        a {
+          @apply text-peach;
+          @apply border-peach;
+          &:hover {
+            @apply text-charcoal;
+          }
+        }
+      }
+      .links__request {
+        @apply bg-peach;
+        a {
+          @apply text-white;
+        }
+      }
+      .main-navigation__top {
+         border-bottom: solid 1px rgba(#000000,0.2);
+         @apply shadow;
+      }
+    }
+  }
+  .top-right {
+    @apply w-full relative text-center;
+    top: 0;
+    right: 0;
+    @screen md {
+      height: 80px;
+      @apply w-auto absolute flex items-center;
+    }
+  }
+
+  .shyft-logo-white {
+    @apply inline-block;
+  }
+  .links__login {
+    @apply inline-block text-white px-12 absolute text-base font-semibold;
+    top: -77px;
+    right: -15px;
+    padding-top: 1.25rem;
+    @screen md {
+        padding-top: 0;
+      top: -70px;
+      right: -15px;
+    }
+    a {
+      @apply text-white border-b border-white;
+      text-decoration: none;
+    }
+    @screen md {
+      @apply relative;
+      top: auto;
+      right: auto;
+    }
+  }
+  .links__request {
+    @apply block bg-white;
+    a {
+      @apply text-peach px-12 no-underline text-base py-4;
+      line-height: 3rem;
+
+    }
+    @screen md {
+      @apply  flex h-full items-center;
+      a {
+          line-height: 1;
+      }
+    }
+  }
+}
+
+.layout--halves {
+  padding-top: 0px;
+  .main-navigation {
+    @apply absolute pin-t pin-l pin-r w-full;
+    &__top {
+       @apply bg-transparent border-none shadow-none;
+    }
+    .main-subnavigation {
+      @apply hidden;
+    }
+  }
+  .notification {
+    display: none;
+  }
+  .shyft-logo-white {
+    @apply inline-block;
+  }
+  .shyft-logo {
+    @apply hidden;
+  }
+  .links__login, .links__request {
+    a {
+      @apply text-white;
+      text-decoration-color: config('colors.white');
+      @screen md {
+        @apply text-peach;
+        text-decoration-color: config('colors.peach');
+        &:hover {
+          @apply text-charcoal;
+        }
+      }
+    }
+  }
+
+  .links__login {
+    @apply block;
+    @screen md {
+      height: 80px;
+    }
+  }
+  .links__request {
+    @apply hidden;
+  }
+  &--request {
+    .links__login {
+      @apply hidden;
+    }
+    .links__request {
+      @apply block;
+    }
+  }
+}
+
+.auth-welcome {
+  @apply w-full relative text-center hidden;
+  top: 22px;
+  right: 115px;
+  @screen md {
+    @apply w-auto absolute block flex  flex items-center;
+  }
+}
+
+.hamburger {
+  @apply block absolute pin-r pin-t cursor-pointer;
+  //padding: 31px 27px;
+  border-left: 1px solid config('colors.gray');
+  transition: background-color .3s ease-in-out;
+  width: 80px;
+  height: 80px;
+  &:hover {
+    @apply bg-plum;
+    .hamburger__line {
+      @apply bg-white;
+    }
+  }
+  &__line {
+    transition: all .3s ease-in-out;
+    width: 100%;
+    //margin: 5px 0;
+    height: 3px;
+    width: 27px;
+    left: 27px;
+    opacity: 1;
+    transform-origin: 2.5px;
+    @apply bg-plum;
+  }
+  .line-1 {
+    position: absolute;
+    top: 32px;
+  }
+  .line-2 {
+    position: absolute;
+    top: 40px;
+  }
+  .line-3 {
+    position: absolute;
+    top: 48px;
+  }
+}
+
+/*
+Main Navigation (open)
+
+Main navigation on all pages.
+
+Markup:
+<div class="main-navigation main-navigation--open styleguide pb-24">
+  <a href="/" class="shyft-logo"><img src="/images/veriscope-logo.svg" width="93" height="45" alt="Shyft Logo" /></a>
+  <div class="hamburger">
+    <div class="hamburger__line line-1"></div>
+    <div class="hamburger__line line-2"></div>
+    <div class="hamburger__line line-3"></div>
+  </div>
+  <ul class="main-subnavigation">
+    <li><img src="/images/nav-icons/dashboard.svg" width="20" height="20"> <a href="#">Dashboard</a></li>
+    <li><img src="/images/nav-icons/shyft-id.svg" width="20" height="20"> <a href="#">My Shyft ID</a></li>
+    <li><img src="/images/nav-icons/wallet.svg" width="20" height="20"> <a href="#">My Wallet</a></li>
+    <li><img src="/images/nav-icons/faq.svg" width="20" height="20"> <a href="#">FAQs</a></li>
+    <li><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="#">Account Settings</a></li>
+    <li><img src="/images/nav-icons/sign-out.svg" width="20" height="20"> <a href="#">Sign Out</a></li>
+  </ul>
+</div>
+
+Styleguide Navigation.Open
+*/
+
+.main-navigation--open {
+  //@apply overflow-hidden;
+  .hamburger {
+    @apply bg-plum;
+    &__line {
+      @apply bg-white;
+    }
+    .line-1 {
+      transform: rotate(45deg);
+      margin-left: 3px;
+    }
+
+    .line-2 {
+      opacity: 0;
+    }
+
+    .line-3 {
+      transform: rotate(-45deg);
+      margin-left: 3px;
+    }
+  }
+  .main-navigation {
+    &__top {
+      @apply shadow-none;
+    }
+  }
+  .main-subnavigation {
+    @apply block shadow;
+    opacity: 1;
+    right: 0px;
+    pointer-events: all;
+    @screen md {
+      top: 80px;
+    }
+  }
+}
+
+.main-subnavigation {
+  @apply bg-plum list-reset w-full absolute z-20 h-screen;
+  right: -100vh;
+  transition: all .4s ease-in-out;
+  opacity: 0;
+  clear: both;
+  pointer-events: none;
+  @screen md {
+    @apply h-auto text-center ;
+    top: -100vh;
+    right: auto;
+  }
+  li {
+    @apply block py-3;
+    margin: 6px 34px;
+    img {
+      position: relative;
+      top: 4px;
+      margin-right: 5px;
+    }
+    @screen md {
+      @apply inline-block;
+    }
+  }
+  a {
+    @apply text-white no-underline relative;
+    &:hover {
+      &:after {
+        width: 100%;
+        height: 1px;
+        left: 0;
+        content: '';
+        @apply block bg-white absolute;
+        bottom: -.05em;
+      }
+    }
+  }
+}
+
+.top-right {
+    position: absolute;
+    right: 25px;
+    top: 28px;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links {
+  @apply no-underline font-bold text-sm;
+  > a {
+      color: #636b6f;
+      padding: 0 25px;
+      font-weight: 600;
+      letter-spacing: .1rem;
+  }
+}
+
+body.dashboard #sub-dashboard,
+body.users #sub-users,
+body.logs #sub-logs,
+body.constants #sub-constants,
+body.shyft-id #sub-shyft-id,
+body.faqs #sub-faqs,
+body.settings #sub-settings,
+body.marketplace #sub-marketplace {
+  @apply mx-0 px-8;
+  background-color: #52234B;
+  @screen md {
+    @apply bg-transparent;
+    a:after {
+      width: 100%;
+      height: 1px;
+      left: 0;
+      content: '';
+      @apply block bg-white absolute;
+      bottom: -.05em;
+    }
+  }
+}

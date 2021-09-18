@@ -1,0 +1,357 @@
+{
+  "contractName": "DMTrustAnchor",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/opt/shyft-ta-node/contracts/DataModels/DMTrustAnchor.sol\":\"DMTrustAnchor\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/opt/shyft-ta-node/contracts/DataModels/DMTrustAnchor.sol\":{\"keccak256\":\"0xd4182a05cc3ae9c0edbc4043dd3fab79362553c0a77592a411f4d526faa9381c\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://1bba67b755e9c62ef3d0977ae612864ef35f76ad9c0a901215b1e6634c818200\",\"dweb:/ipfs/QmYmbDLCMwwLTtJYuxqsYQmMStxy6fnnKuKAeJS7iGZf5F\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\nabstract contract DMTrustAnchor {\n    //constant to define the addressable space for extended mode jurisdictions.\n    uint16 extendedJurisdiction = 2 ** 15;\n\n    bool extendedModeJurisdiction = false;\n}\n",
+  "sourcePath": "/opt/shyft-ta-node/contracts/DataModels/DMTrustAnchor.sol",
+  "ast": {
+    "absolutePath": "/opt/shyft-ta-node/contracts/DataModels/DMTrustAnchor.sol",
+    "exportedSymbols": {
+      "DMTrustAnchor": [
+        1376
+      ]
+    },
+    "id": 1377,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1367,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:5"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 1376,
+        "linearizedBaseContracts": [
+          1376
+        ],
+        "name": "DMTrustAnchor",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 1372,
+            "mutability": "mutable",
+            "name": "extendedJurisdiction",
+            "nodeType": "VariableDeclaration",
+            "scope": 1376,
+            "src": "181:37:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint16",
+              "typeString": "uint16"
+            },
+            "typeName": {
+              "id": 1368,
+              "name": "uint16",
+              "nodeType": "ElementaryTypeName",
+              "src": "181:6:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint16",
+                "typeString": "uint16"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_rational_32768_by_1",
+                "typeString": "int_const 32768"
+              },
+              "id": 1371,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "hexValue": "32",
+                "id": 1369,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "211:1:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_2_by_1",
+                  "typeString": "int_const 2"
+                },
+                "value": "2"
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "**",
+              "rightExpression": {
+                "hexValue": "3135",
+                "id": 1370,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "216:2:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_15_by_1",
+                  "typeString": "int_const 15"
+                },
+                "value": "15"
+              },
+              "src": "211:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_32768_by_1",
+                "typeString": "int_const 32768"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1375,
+            "mutability": "mutable",
+            "name": "extendedModeJurisdiction",
+            "nodeType": "VariableDeclaration",
+            "scope": 1376,
+            "src": "225:37:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 1373,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "225:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": {
+              "hexValue": "66616c7365",
+              "id": 1374,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "bool",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "257:5:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "value": "false"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 1377,
+        "src": "63:202:5"
+      }
+    ],
+    "src": "0:266:5"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/opt/shyft-ta-node/contracts/DataModels/DMTrustAnchor.sol",
+      "exportedSymbols": {
+        "DMTrustAnchor": [
+          1376
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 1367,
+        "name": "PragmaDirective",
+        "src": "0:23:5"
+      },
+      {
+        "attributes": {
+          "abstract": true,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            1376
+          ],
+          "name": "DMTrustAnchor",
+          "scope": 1377
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "mutability": "mutable",
+              "name": "extendedJurisdiction",
+              "scope": 1376,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint16",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint16",
+                  "type": "uint16"
+                },
+                "id": 1368,
+                "name": "ElementaryTypeName",
+                "src": "181:6:5"
+              },
+              {
+                "attributes": {
+                  "commonType": {
+                    "typeIdentifier": "t_rational_32768_by_1",
+                    "typeString": "int_const 32768"
+                  },
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "**",
+                  "type": "int_const 32768"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "hexvalue": "32",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 2",
+                      "value": "2"
+                    },
+                    "id": 1369,
+                    "name": "Literal",
+                    "src": "211:1:5"
+                  },
+                  {
+                    "attributes": {
+                      "hexvalue": "3135",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 15",
+                      "value": "15"
+                    },
+                    "id": 1370,
+                    "name": "Literal",
+                    "src": "216:2:5"
+                  }
+                ],
+                "id": 1371,
+                "name": "BinaryOperation",
+                "src": "211:7:5"
+              }
+            ],
+            "id": 1372,
+            "name": "VariableDeclaration",
+            "src": "181:37:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "mutability": "mutable",
+              "name": "extendedModeJurisdiction",
+              "scope": 1376,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "bool",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "bool",
+                  "type": "bool"
+                },
+                "id": 1373,
+                "name": "ElementaryTypeName",
+                "src": "225:4:5"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "66616c7365",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "bool",
+                  "type": "bool",
+                  "value": "false"
+                },
+                "id": 1374,
+                "name": "Literal",
+                "src": "257:5:5"
+              }
+            ],
+            "id": 1375,
+            "name": "VariableDeclaration",
+            "src": "225:37:5"
+          }
+        ],
+        "id": 1376,
+        "name": "ContractDefinition",
+        "src": "63:202:5"
+      }
+    ],
+    "id": 1377,
+    "name": "SourceUnit",
+    "src": "0:266:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-09-16T18:31:15.232Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

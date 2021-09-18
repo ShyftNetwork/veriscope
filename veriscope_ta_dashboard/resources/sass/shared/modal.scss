@@ -1,0 +1,92 @@
+/*
+Modal
+
+Modal element used for overlayed messaging.
+
+Markup:
+<div class="modal styleguide">
+  <div class="modal__frame">
+    <span class="modal__close"></span>
+    <img src="https://via.placeholder.com/620x236" class="modal__img">
+    <div class="modal__content">
+        <p class="modal__title"><strong>Shyft Network — Purchase Agreement</strong></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum accumsan nisl rhoncus dapibus. Suspendisse quis elit eu massa sagittis dignissim. Sed a urna a sem placerat luctus. Mauris non diam sem. Donec condimentum neque nec augue elementum tincidunt. In lectus urna, convallis eu convallis eget, molestie quis est. Sed a augue turpis. Suspendisse feugiat pharetra porta. Aenean imperdiet vitae risus a accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.</p>
+    </div>
+    <a href="#0" class="modal__cta btn">I agree</a>
+  </div>
+</div>
+
+Styleguide Modal
+*/
+
+
+.modal {
+    display: flex;
+    @apply items-center justify-center;
+    background-color: rgba(68,56,63,.8);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    &__frame {
+        @apply m-2 bg-white;
+        display: flex;
+        flex-flow: column nowrap;
+        max-height: 97%;
+        position: relative;
+        box-shadow: 0 2px 20px 0 rgba(0,0,0,0.75);
+        width: 100%;
+    }
+    &__close {
+        @apply text-peach;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding-top: 12px;
+        text-align: center;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        display: block;
+        transition: color .3s ease;
+        &:hover {
+            @apply text-charcoal;
+        }
+    }
+    &__img {
+        display: none;
+    }
+    &__title {
+        @apply mb-1;
+    }
+    &__content {
+        @apply pt-16 pb-8 px-4;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    @media(min-height: 600px) {
+        &__img {
+            display: flex;
+        }
+    }
+    @screen md {
+        &__frame {
+            @apply m-16;
+            max-width: 620px;
+        }
+        &__content {
+            @apply py-6 px-8;
+        }
+        &__close {
+            @apply text-white;
+            text-align: right;
+            padding-top: 0;
+            right: -50px;
+        }
+        &__cta {
+            @apply btn--lg;
+        }
+    }
+}

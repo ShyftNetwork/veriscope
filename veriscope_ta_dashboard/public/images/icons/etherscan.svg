@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 53.766 89.833">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #bdc5d1;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #c0deff;
+      }
+
+      .cls-3 {
+        fill: #3498db;
+      }
+    </style>
+  </defs>
+  <g id="ethereum-1" transform="translate(1.377 3.597)">
+    <path id="Path_3" data-name="Path 3" class="cls-1" d="M125.723,0l-.557,1.894V56.841l.557.556L151.229,42.32Z" transform="translate(-100.217)"/>
+    <path id="Path_4" data-name="Path 4" class="cls-1" d="M25.506,0,0,42.321,25.506,57.4Z"/>
+    <path id="Path_5" data-name="Path 5" class="cls-1" d="M126.7,251.656l-.314.383v19.574l.314.917,25.521-35.942Z" transform="translate(-101.194 -189.429)"/>
+    <path id="Path_6" data-name="Path 6" class="cls-1" d="M25.506,272.527V251.654L0,236.585Z" transform="translate(0 -189.428)"/>
+    <path id="Path_7" data-name="Path 7" class="cls-2" d="M127.961,180.829l25.506-15.076L127.961,154.16Z" transform="translate(-102.455 -123.431)"/>
+    <path id="Path_8" data-name="Path 8" class="cls-3" d="M0,165.751l25.506,15.077v-26.67Z" transform="translate(0 -123.43)"/>
+  </g>
+</svg>
