@@ -310,6 +310,8 @@ function install_or_update_laravel {
 
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
 
+  touch ./storage/logs/laravel.log
+  
   chown -R $SERVICE_USER .
 	chgrp -R www-data ./storage
   chmod -R 0770 ./storage
