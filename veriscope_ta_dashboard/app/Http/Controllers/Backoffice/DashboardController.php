@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\{SmartContractAttestation, KycTemplate, TrustAnchorExtraDataUnique};
+use App\{SmartContractAttestation, KycTemplate, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -28,11 +28,12 @@ class DashboardController extends Controller
     public function index()
     {      
 
+        $verified_trust_anchors = VerifiedTrustAnchor::all();
         $trust_anchors = TrustAnchorExtraDataUnique::all()->groupBy('trust_anchor_address');
         $attestations = SmartContractAttestation::all();
         $kyc_templates = KycTemplate::all();
 
 
-        return view('backoffice.dashboard', compact('trust_anchors', 'attestations', 'kyc_templates'));
+        return view('backoffice.dashboard', compact('verified_trust_anchors', 'trust_anchors', 'attestations', 'kyc_templates'));
     }
 }

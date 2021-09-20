@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
-use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, };
+use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 
@@ -124,6 +124,27 @@ class WebhookController extends Controller
                 } else {
                     Log::error('WebhookController EVT_setAttestation ta-get-attestation-components: ' . $res->getStatusCode());
                 }
+            }
+
+            broadcast(new ShyftSmartContractEvent($data));
+        }
+
+        if ($data['message'] === 'tam-event') {
+            $event = new SmartContractEvent();
+            $event->event_type = 'tam-event';
+            $event->payload = json_encode($data);
+            $_data = $data['data'];
+            $event->transaction_hash = $_data['transactionHash'];
+            $event->event = $_data['event'];
+            $event->save();
+
+            $data_local = $data['data'];
+            if($data_local['event'] === 'EVT_verifyTrustAnchor') {
+                $returnValues = $data_local['returnValues'];
+                $account_address = $returnValues['trustAnchorAddress'];
+                
+                $ta = VerifiedTrustAnchor::firstOrCreate(['account_address' => $account_address]);
+                $ta->save();
             }
 
             broadcast(new ShyftSmartContractEvent($data));

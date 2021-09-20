@@ -190,20 +190,14 @@ function getVerifiedTrustAnchors() {
 
         for (const event of events) {
           console.log(event);
-          // event['type'] = convertComponentsFromHex(event['returnValues']['_publicData_0']);
-          // event['document'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
-          // event['document_decrypt'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
 
-          // event['memo'] = convertComponentsFromHex(event['returnValues']['_availabilityAddressEncrypted']);
+          var obj = { message: "tam-event", data: event };
+          sendWebhookMessage(obj);
 
-          // var obj = { message: "tas-event", data: event };
-          // console.log(obj);
-          // sendWebhookMessage(obj);
         }
 
 
     })
-
 
     console.log('getVerifiedTrustAnchors result');
     console.log();
