@@ -25,6 +25,8 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
 
+        Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
+        
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
 

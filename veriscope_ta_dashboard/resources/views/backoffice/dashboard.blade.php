@@ -7,11 +7,34 @@ dashboard
   <div class="container py-12">
     <div class="md:flex md:flex-wrap">
 
+      <!-- verified trust anchors -->
+      <div class="md:w-1/2 lg:w-1/4 p-4">
+        <div class="card">
+          <div class="card__header">
+            {{ __('Verified Trust Anchors') }}
+            <a href="#0" class="tooltipTrigger" v-tooltip="{ content: 'Verified Trust Anchors', trigger: 'click hover focus'}"><img src="/images/icon-info.svg" alt="Info"></a>
+          </div>
+
+          <div class="card__body text-center">
+            <div>
+              <h1 class="mb-2">{{ $verified_trust_anchors->count() }}</h1>
+              <p>
+                <strong>{{ Str::plural('Verified Trust Anchor', $verified_trust_anchors->count()) }}</strong><br>
+              </p>
+            </div>
+          </div>
+
+          <div class="card__footer">
+            <a href="{{ route('verifiedtrustanchors') }}">{{ __('Verified Trust Anchor') }}</a>
+          </div>
+        </div>
+      </div>
+      <!-- end verified trust anchors -->
       <!-- discovery layer -->
       <div class="md:w-1/2 lg:w-1/4 p-4">
         <div class="card">
           <div class="card__header">
-            {{ __('Trust Anchors') }}
+            {{ __('Discovery Layer') }}
             <a href="#0" class="tooltipTrigger" v-tooltip="{ content: 'View Discovery Layer', trigger: 'click hover focus'}"><img src="/images/icon-info.svg" alt="Info"></a>
           </div>
 
@@ -19,7 +42,7 @@ dashboard
             <div>
               <h1 class="mb-2">{{ $trust_anchors->count() }}</h1>
               <p>
-                <strong>{{ Str::plural('Trust Anchor', $trust_anchors->count()) }}</strong><br>
+                <strong>{{ Str::plural('Discovery Layer', $trust_anchors->count()) }}</strong><br>
               </p>
             </div>
           </div>
