@@ -2,15 +2,16 @@
   "name": "veriscope",
   "version": "1.0.0",
   "dependencies": {
-    "web3": "^1.2.6",
-    "ethers": "^5.0.30",
-    "pako": "^1.0.10",
-    "axios": "^0.19.1",
-    "web3-eth-abi": "^1.2.6",
-    "express": "^4.17.1",
+    "axios": "^0.21.4",
+    "bitcoinjs-lib": "^5.1.10",
+    "crypto-js": "^4.1.1",
     "dotenv": "^8.2.0",
-    "eth-crypto": "^1.5.2",
+    "eth-crypto": "^2.0.0",
     "eth-ecies": "^1.0.3",
-    "bitcoinjs-lib": "^5.1.10"
+    "ethers": "^5.0.30",
+    "express": "^4.17.1",
+    "pako": "^1.0.10",
+    "web3": "^1.2.6",
+    "web3-eth-abi": "^1.2.6",
   }
 }

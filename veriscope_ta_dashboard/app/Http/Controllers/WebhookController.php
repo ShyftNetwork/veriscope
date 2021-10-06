@@ -18,7 +18,7 @@ class WebhookController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('check.signature');
         $this->helper_url = env('HTTP_API_URL');
     }
 

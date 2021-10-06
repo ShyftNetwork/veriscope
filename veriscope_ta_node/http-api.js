@@ -14,6 +14,7 @@ const testNetHttpUrl = process.env.HTTP;
 const testNetWsUrl = process.env.WS;
 const webhookUrl = process.env.WEBHOOK;
 const httpPort = process.env.HTTP_API_PORT;
+const privateKey = process.env.WEBHOOK_CLIENT_SECRET;
 
 let provider = new ethers.providers.JsonRpcProvider(process.env.HTTP);
 let trustAnchorWallet = new ethers.Wallet(process.env.TRUST_ANCHOR_PK, provider);
@@ -225,8 +226,12 @@ function createEthereumAccount() {
 //WEBHOOK
 
 function sendWebhookMessage(obj) {
-  
-  axios.post(webhookUrl, {
+    
+    const instance = axios.create();
+
+    instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
+
+    instance.post(webhookUrl, {
       obj:obj
     })
     .then((res) => {
@@ -235,6 +240,7 @@ function sendWebhookMessage(obj) {
     .catch((error) => {
       console.error(error)
     });
+
 }
 
 //APIS

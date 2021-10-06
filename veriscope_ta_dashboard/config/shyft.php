@@ -14,5 +14,6 @@ return [
     'onboarding' => env('SHYFT_ONBOARDING', true), // can a user sign up in this experience
     'url' => env('SHYFT_ONBOARDING_URL', 'http://localhost'),
     'cryptoSecurityHash' => env('APP_CRYPTO_SECURITY_HASH', ''),
+    'webhook_client_secret' => env('WEBHOOK_CLIENT_SECRET','')
 
 ];

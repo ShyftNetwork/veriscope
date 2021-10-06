@@ -26,6 +26,7 @@ fi
 SERVICE_USER=$(logname)
 CERTFILE=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/fullchain.pem
 CERTKEY=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/privkey.pem
+SHARED_SECRET=
 
 NETHERMIND_DEST=/opt/nm/
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
@@ -50,6 +51,8 @@ function create_sealer_pk {
 	sed -i "s#TRUST_ANCHOR_ACCOUNT=.*#TRUST_ANCHOR_ACCOUNT=$SEALERACCT#g" $ENVDEST
 	sed -i "s#TRUST_ANCHOR_PK=.*#TRUST_ANCHOR_PK=$SEALERPK#g" $ENVDEST
 	sed -i "s#TRUST_ANCHOR_PREFNAME=.*#TRUST_ANCHOR_PREFNAME=\"$VERISCOPE_COMMON_NAME\"#g" $ENVDEST
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
 	popd >/dev/null
 
 }
@@ -58,7 +61,7 @@ function create_postgres_trustanchor_db {
 	if su postgres -c "psql -t -c '\du'" | cut -d \| -f 1 | grep -qw trustanchor; then
 		 echo "Postgres user trustanchor already exists."
 	else
-		PGPASS=$(pwgen -B 10 1)
+		PGPASS=$(pwgen -B 20 1)
 		PGDATABASE=trustanchor
 		PGUSER=trustanchor
 
@@ -85,11 +88,13 @@ function refresh_dependencies() {
 
 	apt -y upgrade
 
-	apt-get -qq -y -o Acquire::https::AllowRedirect=false install curl vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-pgsql php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
+	apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-pgsql php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
 	pg_ctlcluster 12 main start
 	if ! command -v wscat; then
 		npm install -g wscat
 	fi
+
+	SHARED_SECRET=$(pwgen -B 10 1)
 
 	# force upgrade composer by reinstalling
 	# from https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
@@ -310,6 +315,7 @@ function install_or_update_laravel {
 	ENVDEST=.env
 	sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
 	sed -i "s#SHYFT_ONBOARDING_URL=.*#SHYFT_ONBOARDING_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
 	echo "Setting up node.js elements of PHP application..."
 	su $SERVICE_USER -c "npm install"
@@ -379,6 +385,23 @@ function create_admin() {
   su $SERVICE_USER -c "php artisan createuser:admin"
 }
 
+function regenerate_webhook_secret() {
+
+  echo "Generating new shared secret..."
+
+
+  SHARED_SECRET=$(pwgen -B 20 1)
+
+  ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
+  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
+  ENVDEST=/opt/veriscope/veriscope_ta_node/.env
+  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
+  echo "Shared secret saved"
+}
+
+
 function menu() {
 	echo
 	echo
@@ -391,6 +414,7 @@ function menu() {
 7) Install/update PHP web service
 8) Update static node list for nethermind
 9) Create admin user
+10) Regenerate webhook secret
 i) install everything
 p) show daemon status
 r) reboot
@@ -407,8 +431,9 @@ Choose what to do: "
 		6) install_or_update_nodejs ; menu ;;
 		7) install_or_update_laravel ; menu ;;
 		8) refresh_static_nodes ; menu ;;
-    9) create_admin; menu ;;
-    "i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+		9) create_admin; menu ;;
+		10) regenerate_webhook_secret; menu ;;
+		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;
