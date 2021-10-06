@@ -364,6 +364,12 @@ function install_or_update_laravel {
 	systemctl restart ta
 }
 
+function restart_all_services() {
+	echo "Restarting all services..."
+	systemctl restart nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql
+	echo "All services restarted"
+}
+
 
 function refresh_static_nodes() {
 	echo "Refreshing static nodes from ethstats..."
@@ -427,6 +433,7 @@ function menu() {
 10) Regenerate webhook secret
 i) install everything
 p) show daemon status
+w) restart all services
 r) reboot
 q) quit
 Choose what to do: "
@@ -445,6 +452,7 @@ Choose what to do: "
     	10) regenerate_webhook_secret; menu ;;
     	"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
     	"p") daemon_status ; menu ;;
+		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;
 	esac
