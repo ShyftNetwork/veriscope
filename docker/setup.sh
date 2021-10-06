@@ -26,6 +26,8 @@ fi
 SERVICE_USER=serviceuser
 CERTFILE=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/fullchain.pem
 CERTKEY=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/privkey.pem
+SHARED_SECRET=
+
 
 NETHERMIND_DEST=/opt/nm
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
@@ -50,6 +52,9 @@ function create_sealer_pk {
 	sed -i "s#TRUST_ANCHOR_ACCOUNT=.*#TRUST_ANCHOR_ACCOUNT=$SEALERACCT#g" $ENVDEST
 	sed -i "s#TRUST_ANCHOR_PK=.*#TRUST_ANCHOR_PK=$SEALERPK#g" $ENVDEST
 	sed -i "s#TRUST_ANCHOR_PREFNAME=.*#TRUST_ANCHOR_PREFNAME=\"$VERISCOPE_COMMON_NAME\"#g" $ENVDEST
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
+
 	popd >/dev/null
 
 }
@@ -92,6 +97,8 @@ function refresh_dependencies() {
 	if ! command -v wscat; then
 		npm install -g wscat
 	fi
+
+	SHARED_SECRET=$(pwgen -B 20 1)
 
 	# force upgrade composer by reinstalling
 	# from https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
@@ -311,7 +318,7 @@ function install_or_update_laravel {
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
 
   touch ./storage/logs/laravel.log
-  
+
   chown -R $SERVICE_USER .
 	chgrp -R www-data ./storage
   chmod -R 0770 ./storage
@@ -319,6 +326,7 @@ function install_or_update_laravel {
 	ENVDEST=.env
 	sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
 	sed -i "s#SHYFT_ONBOARDING_URL=.*#SHYFT_ONBOARDING_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
 	echo "Setting up node.js and deploying...."
 	su $SERVICE_USER -c "npm install"
@@ -387,6 +395,23 @@ function create_admin() {
   su $SERVICE_USER -c "php artisan createuser:admin"
 }
 
+function regenerate_webhook_secret() {
+
+  echo "Generating new shared secret..."
+
+  SHARED_SECRET=$(pwgen -B 20 1)
+
+  ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
+  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
+  ENVDEST=/opt/veriscope/veriscope_ta_node/.env
+  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+
+  echo "Shared secret saved"
+
+}
+
+
 function menu() {
 	echo
 	echo
@@ -399,6 +424,7 @@ function menu() {
 7) Install/update PHP web service
 8) Update static node list for nethermind
 9) Create admin user
+10) Regenerate webhook secret
 i) install everything
 p) show daemon status
 r) reboot
@@ -415,9 +441,10 @@ Choose what to do: "
 		6) install_or_update_nodejs ; menu ;;
 		7) install_or_update_laravel ; menu ;;
 		8) refresh_static_nodes ; menu ;;
-    9) create_admin; menu ;;
-    "i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
-		"p") daemon_status ; menu ;;
+		9) create_admin; menu ;;
+    	10) regenerate_webhook_secret; menu ;;
+    	"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+    	"p") daemon_status ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;
 	esac

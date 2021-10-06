@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'group' => \HttpOz\Roles\Middleware\VerifyGroup::class,
         'maintenance' => \App\Http\Middleware\CheckForMaintenanceMode::class,
         'shyft.revoked' => \App\Http\Middleware\RedirectIfAccessRevoked::class,
-        'force.dashboard' => \App\Http\Middleware\RedirectAuthToDashboard::class
+        'force.dashboard' => \App\Http\Middleware\RedirectAuthToDashboard::class,
+        'check.signature' => \App\Http\Middleware\CheckSignature::class
     ];
 }

@@ -5,8 +5,9 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const shyftWebhookUrl = process.env.WEBHOOK;
+const webhookUrl = process.env.WEBHOOK;
 const testNetHttpUrl = process.env.HTTP;
+const privateKey = process.env.WEBHOOK_CLIENT_SECRET;
 
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
 
@@ -26,8 +27,12 @@ function convertComponentsFromHex(hex) {
 }
 
 function sendWebhookMessage(obj) {
-  
-  axios.post(shyftWebhookUrl, {
+
+  const instance = axios.create();
+
+  instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
+
+  instance.post(webhookUrl, {
     obj:obj
   })
   .then((res) => {
