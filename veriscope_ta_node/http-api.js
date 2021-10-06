@@ -1016,5 +1016,20 @@ function taGetAttestationComponents(attestation_hash) {
         logger.info(data);
     });
 
+    TrustAnchorManager.on("EVT_verifyTrustAnchor", async (trustAnchorAddress, event) => {
+        logger.info("event EVT_verifyTrustAnchor");
+        data = {};
+        data['transactionHash'] = event.transactionHash;
+        data['event'] = "EVT_verifyTrustAnchor";
+        data['returnValues'] = {};
+
+        data['returnValues']['trustAnchorAddress'] = trustAnchorAddress;
+
+
+        var obj = { message: "tam-event", data: data };
+        sendWebhookMessage(obj);
+
+        logger.info(data);
+    });
 
 })();
