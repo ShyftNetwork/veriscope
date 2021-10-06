@@ -109,6 +109,7 @@ $ sudo scripts/setup-vasp.sh
 9) Create admin user
 i) install everything
 p) show daemon status
+w) restart all services
 r) reboot
 q) quit
 Choose what to do: 
@@ -256,6 +257,7 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 9) Create admin user
 i) install everything
 p) show daemon status
+w) restart all services
 r) reboot
 q) quit
 ```
@@ -281,6 +283,9 @@ getTrustAnchorKeyValuePairCreated result
 
 $ node -e 'require("./blockchain-data").getTrustAnchorDataRetrievalParametersCreated()'
 getTrustAnchorKeyValuePairUpdated result
+
+$ node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
+getVerifiedTrustAnchors result
 ```
 
 At this stage you should see your node in the relay set:
