@@ -8,6 +8,8 @@ const axios = require('axios');
 const EthCrypto = require('eth-crypto');
 const dotenv = require('dotenv');
 const bitcoinjs_lib = require('bitcoinjs-lib');
+const winston = require('winston');
+
 dotenv.config();
 
 const testNetHttpUrl = process.env.HTTP;
@@ -39,13 +41,40 @@ let TrustAnchorExtraData_Unique = attachedContract(process.env.TRUST_ANCHOR_EXTR
 let TrustAnchorExtraData_Generic = attachedContract(process.env.TRUST_ANCHOR_EXTRA_DATA_GENERIC_CONTRACT_ADDRESS, 'TrustAnchorExtraData_Generic.json');
 
 
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'http-api' },
+  transports: [
+    //
+    // - Write all logs with level `error` and below to `error.log`
+    // - Write all logs with level `info` and below to `combined.log`
+    //
+    new winston.transports.File({ filename: 'logs/http-api.error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/http-api.combined.log' }),
+  ],
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+
+logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+}));
+
+
+
+
+
 function decodeDocument(_documentEncoded) {
 
     const hex = Uint8Array.from(Buffer.from(_documentEncoded, 'hex'));
     try {
 
         let inflated = pako.inflate(hex);
-    
+
         let inflatedToHex = Buffer.from(inflated).toString('hex');
 
         let unzippedEncodedDocumentsMatrix = "0x" + inflatedToHex;
@@ -64,10 +93,10 @@ function decodeDocument(_documentEncoded) {
         return decodedDocumentsMatrix;
 
     } catch (err) {
-        console.log(err);
+        logger.info(err);
         return null;
     }
-    
+
 }
 
 function decodeDocumentMatrixInPlace(_dataTemplate) {
@@ -226,21 +255,23 @@ function createEthereumAccount() {
 //WEBHOOK
 
 function sendWebhookMessage(obj) {
-    
-    const instance = axios.create();
 
-    instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
+  const instance = axios.create();
 
-    instance.post(webhookUrl, {
-      obj:obj
-    })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.error(error)
-    });
+  instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
 
+  instance.post(webhookUrl, {
+    obj:obj
+  })
+  .then((res) => {
+    logger.info('sendWebsocket success');
+    logger.info(`statusCode: ${res.statusCode}`)
+    logger.info(res)
+  })
+  .catch((error) => {
+    logger.info('sendWebsocket error');
+    logger.error(error)
+  });
 }
 
 //APIS
@@ -250,7 +281,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.listen(httpPort, () => {
-    console.log('listening on '+httpPort);
+    logger.info('listening on '+httpPort);
 });
 
 
@@ -266,10 +297,10 @@ app.get('/create-new-user-account', (req, res) => {
     var account = {prefname:TRUST_ANCHOR_PREFNAME, address:TRUST_ANCHOR_ACCOUNT, private_key:TRUST_ANCHOR_PK};
     var data = {account: account};
     var obj = { user_id: user_id, message: "create-new-user-account", data: data };
-      
-    console.log(obj);
+
+    logger.info(obj);
     sendWebhookMessage(obj);
-  
+
     res.sendStatus(201);
 
 });
@@ -289,8 +320,8 @@ function getIsTrustAnchorVerified(user_id, account) {
 
     result = await TrustAnchorManager.isTrustAnchorVerified(account);
 
-    console.log('isTrustAnchorVerified result');
-    console.log(result);
+    logger.info('isTrustAnchorVerified result');
+    logger.info(result);
 
     var obj = { user_id: user_id, message: "ta-is-verified", data: result };
     sendWebhookMessage(obj);
@@ -312,8 +343,8 @@ function taGetBalance(user_id, account) {
   (async () => {
 
     result = await web3.eth.getBalance(account);
-    console.log('getBalance result');
-    console.log(result);
+    logger.info('getBalance result');
+    logger.info(result);
 
     var obj = { user_id: user_id, message: "ta-get-balance", data: result };
     sendWebhookMessage(obj);
@@ -355,17 +386,17 @@ function taRegisterJurisdiction(user_id, account_address, jurisdiction) {
 
     try {
       result = await TrustAnchorManager.setupTrustAnchorJurisdiction(jurisdiction);
-      console.log('setupTrustAnchorJurisdiction result');
-      console.log(result);
+      logger.info('setupTrustAnchorJurisdiction result');
+      logger.info(result);
 
       var value = result['value'].toNumber();
-      console.log(value);
+      logger.info(value);
       var obj = { user_id: user_id, message: "ta-register-jurisdiction", data: value };
       var myJSON = JSON.stringify(obj);
       sendWebhookMessage(obj);
     } catch(error) {
-      console.log("caught error");
-      console.log(error.message);
+      logger.info("caught error");
+      logger.info(error.message);
       var list = {message: error.message};
       var obj = { user_id: user_id, message: "ta-register-jurisdiction-error", data: list };
       sendWebhookMessage(obj);
@@ -382,15 +413,15 @@ function taGetTrustAnchorJurisdiction(user_id, account_address) {
 
       result = await TrustAnchorManager.getTrustAnchorJurisdiction("0xC2D6667E2Dd137b3f000254DDF4aA709e3Cf79ff");
       // result = await TrustAnchorManager.isTrustAnchorVerified("0xC2D6667E2Dd137b3f000254DDF4aA709e3Cf79ff");
-      console.log('getTrustAnchorJurisdiction result');
-      console.log(result);
+      logger.info('getTrustAnchorJurisdiction result');
+      logger.info(result);
 
       var value = result['value'].toNumber();
-      console.log(value);
+      logger.info(value);
       var obj = { user_id: user_id, message: "ta-get-jurisdiction", data: value };
       var myJSON = JSON.stringify(obj);
       // sendWebhookMessage(obj);
-   
+
 
   })();
 
@@ -420,10 +451,10 @@ function taSetUniqueAddress(user_id, account) {
   (async () => {
 
     result = await TrustAnchorManager.setUniqueTrustAnchorExtraDataAddress(process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS)
-    console.log('setUniqueTrustAnchorExtraDataAddress result');
-    console.log(result);
+    logger.info('setUniqueTrustAnchorExtraDataAddress result');
+    logger.info(result);
     var value = result['value'].toNumber();
-    console.log(value);
+    logger.info(value);
     var obj = { user_id: user_id, message: "ta-set-unique-address", data: value };
     sendWebhookMessage(obj);
 
@@ -446,7 +477,7 @@ response:
 
 app.get('/ta-get-unique-address/:account', (req, res) => {
 
-    var account = req.params.account; 
+    var account = req.params.account;
     trustAnchorGetUniqueAddress(account);
     res.sendStatus(201);
 });
@@ -456,8 +487,8 @@ function trustAnchorGetUniqueAddress(account) {
   (async () => {
 
     result = await TrustAnchorManager.getUniqueTrustAnchorExtraDataAddress(account);
-    console.log('getUniqueTrustAnchorExtraDataAddress result');
-    console.log(result);
+    logger.info('getUniqueTrustAnchorExtraDataAddress result');
+    logger.info(result);
 
     var obj = {request: 'ta-get-unique-address', result: result};
     sendWebhookMessage(obj);
@@ -480,10 +511,10 @@ function taSetKeyValuePair(user_id, account, key_name, key_value) {
   (async () => {
 
     result = await TrustAnchorExtraData_Unique.setTrustAnchorKeyValuePair(key_name, key_value);
-    console.log('setTrustAnchorKeyValuePair result');
-    console.log(result);
+    logger.info('setTrustAnchorKeyValuePair result');
+    logger.info(result);
     var value = result['value'].toNumber();
-    console.log(value);
+    logger.info(value);
     var obj = { user_id: user_id, message: "ta-set-key-value-pair", data: value };
     sendWebhookMessage(obj);
 
@@ -494,7 +525,7 @@ function taSetKeyValuePair(user_id, account, key_name, key_value) {
 /*
 ta get number of key value pairs
 request: GET
-params: 
+params:
 :account: 0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6
 response:
 {
@@ -508,7 +539,7 @@ response:
 
 app.get('/ta-get-number-of-key-value-pairs/:account', (req, res) => {
 
-    var account = req.params.account; 
+    var account = req.params.account;
 
     trustAnchorGetNumberOfKeyValuePairs(account);
     res.sendStatus(201);
@@ -519,8 +550,8 @@ function trustAnchorGetNumberOfKeyValuePairs(account) {
 
 
     result = await TrustAnchorExtraData_Unique.getTrustAnchorNumberOfKeyValuePairs(account);
-    console.log('getTrustAnchorNumberOfKeyValuePairs result');
-    console.log(result);
+    logger.info('getTrustAnchorNumberOfKeyValuePairs result');
+    logger.info(result);
 
     var obj = {request: 'ta-get-number-of-key-value-pairs', result: result};
     sendWebhookMessage(obj);
@@ -531,7 +562,7 @@ function trustAnchorGetNumberOfKeyValuePairs(account) {
 /*
 ta get key value pair name by index
 request: GET
-params: 
+params:
 :account: 0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6
 :index: 0
 response:
@@ -546,8 +577,8 @@ response:
 
 app.get('/ta-get-key-value-pair-name-by-index/:account/:index', (req, res) => {
 
-    var account = req.params.account; 
-    var index = req.params.index; 
+    var account = req.params.account;
+    var index = req.params.index;
     trustAnchorGetKeyValuePairNameByIndex(account, index);
     res.sendStatus(201);
 });
@@ -556,8 +587,8 @@ function trustAnchorGetKeyValuePairNameByIndex(account, index) {
   (async () => {
 
     result = await TrustAnchorExtraData_Unique.getTrustAnchorKeyValuePairNameByIndex(account, index);
-    console.log('getTrustAnchorKeyValuePairNameByIndex result');
-    console.log(result);
+    logger.info('getTrustAnchorKeyValuePairNameByIndex result');
+    logger.info(result);
 
     var obj = {request: 'ta-get-key-value-pair-name-by-index', result: result};
     sendWebhookMessage(obj);
@@ -568,7 +599,7 @@ function trustAnchorGetKeyValuePairNameByIndex(account, index) {
 /*
 ta get key pair value
 request: GET
-params: 
+params:
 :account: 0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6
 :key: ENTITY
 response:
@@ -583,8 +614,8 @@ response:
 
 app.get('/ta-get-key-pair-value/:account/:key', (req, res) => {
 
-    var account = req.params.account; 
-    var key = req.params.key; 
+    var account = req.params.account;
+    var key = req.params.key;
     trustAnchorGetKeyPairValue(account, key);
     res.sendStatus(201);
 });
@@ -593,8 +624,8 @@ function trustAnchorGetKeyPairValue(account, key) {
   (async () => {
 
     result = await TrustAnchorExtraData_Unique.getTrustAnchorKeyValuePairValue(account, key);
-    console.log('getTrustAnchorKeyValuePairNameByIndex result');
-    console.log(result);
+    logger.info('getTrustAnchorKeyValuePairNameByIndex result');
+    logger.info(result);
 
     var obj = {request: 'ta-get-key-pair-value', result: result};
     sendWebhookMessage(obj);
@@ -610,9 +641,9 @@ app.get('/ta-create-user', (req, res) => {
     var prefname = req.param('prefname');
     var user_id = req.param('user_id');
     var ta_user_id = req.param('ta_user_id');
-    
+
     var result = web3.eth.accounts.create();
-    console.log(result);
+    logger.info(result);
 
     var address = result['address'];
     var privateKey = result['privateKey'];
@@ -621,8 +652,8 @@ app.get('/ta-create-user', (req, res) => {
     var ethereumAccount = createEthereumAccount();
     var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount};
     var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
-    console.log('ta-create-user');
-    console.log(obj);
+    logger.info('ta-create-user');
+    logger.info(obj);
 
     sendWebhookMessage(obj);
 
@@ -665,16 +696,16 @@ app.get('/ta-set-attestation', (req, res) => {
     if (expiry_time.length == 0) {
       expiry_time = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * (365 + 1));// (in the future a year and a day)
     }
-    
+
     var public_data = convertToByte32(req.param('public_data'));
 
     var documents_matrix_encrypted = packDocumentsMatrixEncrypted(req.param('documents_matrix_encrypted'));
-    console.log('documents_matrix_encrypted');
+    logger.info('documents_matrix_encrypted');
     documents_matrix_encrypted = convertToByte32(documents_matrix_encrypted);
 
     var availability_address_encrypted = req.param('availability_address_encrypted').padStart(32, ' ');
     availability_address_encrypted = convertToByte32(availability_address_encrypted);
-    
+
     var ta_address = req.param('ta_address');
     var is_managed = true;
 
@@ -683,12 +714,12 @@ app.get('/ta-set-attestation', (req, res) => {
 });
 
 function taSetAttestation(attestation_type, user_id, user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed, ta_address) {
-     
+
     (async () => {
 
       result = await TrustAnchorStorage.setAttestation(user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed);
-      console.log('setAttestation result');
-      console.log(result);
+      logger.info('setAttestation result');
+      logger.info(result);
 
       result['documents_matrix_encrypted'] = convertFromByte32(documents_matrix_encrypted);
       result['public_data'] = convertFromByte32(public_data);
@@ -697,7 +728,7 @@ function taSetAttestation(attestation_type, user_id, user_address, jurisdiction,
       result['user_address'] = user_address;
       result['ta_address'] = ta_address;
       result['value'] = result['value'].toNumber();
-      console.log(result);
+      logger.info(result);
       var obj = { user_id: user_id, message: "ta-set-attestation", data: result};
       sendWebhookMessage(obj);
 
@@ -718,8 +749,8 @@ function taGetAttestationKeccakArrayForIdentifiedAddress(user_id, account) {
   (async () => {
 
     result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-    console.log('getAttestationKeccakArrayForIdentifiedAddress result');
-    console.log(result);
+    logger.info('getAttestationKeccakArrayForIdentifiedAddress result');
+    logger.info(result);
     var list = [];
     for(var i = 0; i < result.length; i++) {
       var dict = {hash: result[i]};
@@ -746,12 +777,12 @@ function taGetAttestationComponentsInKeccakArray(user_id, account, index) {
   (async () => {
 
     result = await TrustAnchorStorage.getAttestationComponentsInKeccakArray(account, index);
-    console.log('getGraphConstructableAttestationInKeccakArray result');
-    
+    logger.info('getGraphConstructableAttestationInKeccakArray result');
+
     var list = [];
 
     var documentsMatrixEncrypted = convertComponentsFromHex(result['documentsMatrixEncrypted']);
-    
+
     documentsMatrixEncrypted = unpackDocumentsMatrixEncrypted(documentsMatrixEncrypted);
     var dict = {};
     dict['document_encode'] = documentsMatrixEncrypted;
@@ -767,7 +798,7 @@ function taGetAttestationComponentsInKeccakArray(user_id, account, index) {
     dict['memo'] = convertComponentsFromHex(result['availabilityAddressEncrypted']);
     dict['user_address'] = account;
 
-    console.log(dict);
+    logger.info(dict);
     list.push(dict);
     var obj = { user_id: user_id, message: "ta-get-attestation-components-in-array", data: list };
     sendWebhookMessage(obj);
@@ -792,9 +823,9 @@ response:
 // eg: /ta-get-attestation-array-for-ta-account/0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6
 
 app.get('/ta-get-attestation-array-for-ta-account/:account', (req, res) => {
-    
-    var account = req.params.account; 
- 
+
+    var account = req.params.account;
+
     trustAnchorGetAttestationArrayForTrustAnchorAccount(account);
     res.sendStatus(201);
 });
@@ -804,8 +835,8 @@ function trustAnchorGetAttestationArrayForTrustAnchorAccount(account) {
     (async () => {
 
     result = await TrustAnchorStorage.getAttestationKeccakArrayForTrustAnchor(account);
-        console.log('getAttestationKeccakArrayForTrustAnchor result');
-        console.log(result);
+        logger.info('getAttestationKeccakArrayForTrustAnchor result');
+        logger.info(result);
 
     var obj = {request: 'ta-get-attestation-array-for-ta-account', result: result};
     sendWebhookMessage(obj);
@@ -828,9 +859,9 @@ response:
 // eg: /ta-get-attestation-array-for-user-account/0x4a94595a6622E4FA69945FE6eaD4407e54532d7d
 
 app.get('/ta-get-attestation-array-for-user-account/:account', (req, res) => {
-    
-    var account = req.params.account; 
- 
+
+    var account = req.params.account;
+
     trustAnchorGetAttestationArrayForUserAccount(account);
     res.sendStatus(201);
 });
@@ -840,9 +871,9 @@ function trustAnchorGetAttestationArrayForUserAccount(account) {
     (async () => {
 
     result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-        console.log('getAttestationKeccakArrayForIdentifiedAddress result');
-        console.log(result);
-    
+        logger.info('getAttestationKeccakArrayForIdentifiedAddress result');
+        logger.info(result);
+
     var obj = {request: 'ta-get-attestation-array-for-user-account', result: result};
     sendWebhookMessage(obj);
 
@@ -866,22 +897,22 @@ response:
 // eg: ta-get-attestation-components?attestation_hash=0x31b24ad5f701548700a29427260c85232679530132e13e4110ee0ada9d8f25f3
 
 app.get('/ta-get-attestation-components', (req, res) => {
-    console.log('/ta-get-attestation-components');
+    logger.info('/ta-get-attestation-components');
 
 
     var attestation_hash = req.param('attestation_hash');
-    console.log('attestation_hash');
-    console.log(attestation_hash);
+    logger.info('attestation_hash');
+    logger.info(attestation_hash);
     taGetAttestationComponents(attestation_hash);
     res.sendStatus(201);
 });
 
 function taGetAttestationComponents(attestation_hash) {
   (async () => {
-    
+
     result = await TrustAnchorStorage.getAttestationComponents(attestation_hash);
-    console.log('getAttestationComponents result');
-    console.log(result);
+    logger.info('getAttestationComponents result');
+    logger.info(result);
 
     var documentsMatrixEncrypted = convertComponentsFromHex(result['documentsMatrixEncrypted']);
     documentsMatrixEncrypted = unpackDocumentsMatrixEncrypted(documentsMatrixEncrypted);
@@ -904,11 +935,11 @@ function taGetAttestationComponents(attestation_hash) {
 (async function() {
 
     provider.on("block", (blockNumber) => {
-        console.log("block# " + blockNumber);
+        logger.info("block# " + blockNumber);
     });
 
     TrustAnchorStorage.on("EVT_setAttestation", async (attestationKeccak, msg_sender, _identifiedAddress, _jurisdiction, _effectiveTime, _expiryTime, _publicData_0, _documentsMatrixEncrypted_0, _availabilityAddressEncrypted, _isManaged, _publicDataLength, _documentsMatrixEncryptedLength, event) => {
-        console.log("event EVT_setAttestation");
+        logger.info("event EVT_setAttestation");
         data = {};
         data['transactionHash'] = event.transactionHash;
         data['event'] = "EVT_setAttestation";
@@ -939,11 +970,11 @@ function taGetAttestationComponents(attestation_hash) {
         };
         sendWebhookMessage(obj);
 
-        console.log(data);
+        logger.info(data);
     });
 
     TrustAnchorExtraData_Generic.on("EVT_setDataRetrievalParametersCreated", async (_trustAnchorAddress, _endpointName, _ipv4Address, event) => {
-        console.log("event EVT_setDataRetrievalParametersCreated");
+        logger.info("event EVT_setDataRetrievalParametersCreated");
         data = {};
         data['transactionHash'] = event.transactionHash;
         data['event'] = "EVT_setDataRetrievalParametersCreated";
@@ -961,11 +992,11 @@ function taGetAttestationComponents(attestation_hash) {
         };
         sendWebhookMessage(obj);
 
-        console.log(data);
+        logger.info(data);
     });
 
     TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairCreated", async (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
-        console.log("event EVT_setDataRetrievalParametersCreated");
+        logger.info("event EVT_setDataRetrievalParametersCreated");
         data = {};
         data['transactionHash'] = event.transactionHash;
         data['event'] = "EVT_setTrustAnchorKeyValuePairCreated";
@@ -982,7 +1013,7 @@ function taGetAttestationComponents(attestation_hash) {
         };
         sendWebhookMessage(obj);
 
-        console.log(data);
+        logger.info(data);
     });
 
 

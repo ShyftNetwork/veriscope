@@ -1,8 +1,9 @@
 
 const Web3 = require('web3');
 const axios = require('axios');
-
 const dotenv = require('dotenv');
+const winston = require('winston');
+
 dotenv.config();
 
 const webhookUrl = process.env.WEBHOOK;
@@ -10,6 +11,32 @@ const testNetHttpUrl = process.env.HTTP;
 const privateKey = process.env.WEBHOOK_CLIENT_SECRET;
 
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'blockchain-data' },
+  transports: [
+    //
+    // - Write all logs with level `error` and below to `error.log`
+    // - Write all logs with level `info` and below to `combined.log`
+    //
+    new winston.transports.File({ filename: 'logs/blockchain-data.error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/blockchain-data.combined.log' }),
+  ],
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+
+logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+}));
+
+
+
 
 function convertToByte32(string) {
   var temp = web3.utils.asciiToHex(string);
@@ -36,13 +63,13 @@ function sendWebhookMessage(obj) {
     obj:obj
   })
   .then((res) => {
-    console.log('sendWebsocket success');
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(res)
+    logger.info('sendWebsocket success');
+    logger.info(`statusCode: ${res.statusCode}`)
+    logger.info(res)
   })
   .catch((error) => {
-    console.log('sendWebsocket error');
-    console.error(error)
+    logger.info('sendWebsocket error');
+    logger.error(error)
   });
 }
 
@@ -75,7 +102,7 @@ function getAllAttestations() {
           event['memo'] = convertComponentsFromHex(event['returnValues']['_availabilityAddressEncrypted']);
 
           var obj = { message: "tas-event", data: event };
-          console.log(obj);
+          logger.info(obj);
           sendWebhookMessage(obj);
         }
 
@@ -83,8 +110,8 @@ function getAllAttestations() {
     })
 
 
-    console.log('getAllAttestations result');
-    console.log();
+    logger.info('getAllAttestations result');
+    logger.info();
 
     })();
 }
@@ -112,7 +139,7 @@ function getTrustAnchorKeyValuePairCreated() {
     }, function(error, events){
 
         for (const event of events) {
-          console.log(event);
+          logger.info(event);
 
           var obj = { message: "taedu-event", data: event };
           sendWebhookMessage(obj);
@@ -123,8 +150,8 @@ function getTrustAnchorKeyValuePairCreated() {
     })
 
 
-    console.log('getTrustAnchorKeyValuePairCreated result');
-    console.log();
+    logger.info('getTrustAnchorKeyValuePairCreated result');
+    logger.info();
 
     })();
 }
@@ -154,7 +181,7 @@ function getTrustAnchorDataRetrievalParametersCreated() {
     }, function(error, events){
 
         for (const event of events) {
-          console.log(event);
+          logger.info(event);
           var ip_address = event['returnValues']['_ipv4Address'].join('.');
           event['ipv4_address'] = ip_address;
 
@@ -167,8 +194,8 @@ function getTrustAnchorDataRetrievalParametersCreated() {
     })
 
 
-    console.log('getTrustAnchorKeyValuePairUpdated result');
-    console.log();
+    logger.info('getTrustAnchorKeyValuePairUpdated result');
+    logger.info();
 
     })();
 }
@@ -194,7 +221,7 @@ function getVerifiedTrustAnchors() {
     }, function(error, events){
 
         for (const event of events) {
-          console.log(event);
+          logger.info(event);
 
           var obj = { message: "tam-event", data: event };
           sendWebhookMessage(obj);
@@ -204,10 +231,8 @@ function getVerifiedTrustAnchors() {
 
     })
 
-    console.log('getVerifiedTrustAnchors result');
-    console.log();
+    logger.info('getVerifiedTrustAnchors result');
+    logger.info();
 
     })();
 }
-
-
