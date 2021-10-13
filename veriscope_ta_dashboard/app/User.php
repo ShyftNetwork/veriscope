@@ -72,6 +72,14 @@ class User extends Authenticatable implements HasRoleContract
     }
 
     /**
+     * @return password security model
+     */
+    public function passwordSecurity()
+    {
+        return $this->hasOne('App\PasswordSecurity');
+    }
+    
+    /**
      * Reputation percentage
      * used on the dashboard and maybe other places?
      */

@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'maintenance' => \App\Http\Middleware\CheckForMaintenanceMode::class,
         'shyft.revoked' => \App\Http\Middleware\RedirectIfAccessRevoked::class,
         'force.dashboard' => \App\Http\Middleware\RedirectAuthToDashboard::class,
-        'check.signature' => \App\Http\Middleware\CheckSignature::class
+        'check.signature' => \App\Http\Middleware\CheckSignature::class,
+        '2fa' => \App\Http\Middleware\Google2FAMiddleware::class,
     ];
 }

@@ -28,6 +28,21 @@ settings
         <div class="text-right">
           <a href="{{ route('password.manage') }}"><span class="hidden md:inline">Update My Password</span><span class="inline md:hidden">Edit</span></a>
         </div>
+        <div class="w-full bg-gray my-8 h-hairline"></div>
+        <div class="flex-grow">
+          <strong>2-Factor Authentication</strong><br>
+          @if(!(Auth::user()->passwordSecurity()->exists() && Auth::user()->passwordSecurity->google2fa_enable==1))
+            Authentication is currently disabled.
+          @endif
+        </div>
+        <div class="text-right">
+          @if(Auth::user()->passwordSecurity()->exists() && Auth::user()->passwordSecurity->google2fa_enable==1)
+            <a href="/2fa">Authentication Settings</a>
+          @else
+            <a href="/2fa">Enable Authentication</a>
+          @endif
+        </div>
+
       </div>
     </div>
   </div>
