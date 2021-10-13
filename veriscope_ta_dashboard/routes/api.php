@@ -26,7 +26,7 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
 
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
-        
+
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
 
@@ -41,14 +41,14 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
         Route::get('get-ta-account-attestations','BlockexplorerController@get_ta_account_attestations');
         Route::get('get-user-account-attestations','BlockexplorerController@get_user_account_attestations');
         // Logging
-        Route::resource('user_states', 'UserStatesController', ['only' => ['index']]);
+        //Route::resource('user_states', 'UserStatesController', ['only' => ['index']]);
         Route::resource('countries',   'LocationController', ['only' => ['index', 'show']]);
 
         // User
         // Route::get('user',             'UserController@index')->middleware('can:index,App\User');
-        Route::get('user',             'UserController@index');
-        Route::resource('user',        'UserController', ['only' => ['update', 'show']]);
-        Route::put('user/{id}/verify', 'UserController@verify');
+        //Route::get('user',             'UserController@index');
+        //Route::resource('user',        'UserController', ['only' => ['update', 'show']]);
+        //Route::put('user/{id}/verify', 'UserController@verify');
 
         Route::get('wallet-types',             'TrustAnchorController@wallet_types');
         Route::get('wallet-addresses/{id}',             'TrustAnchorController@wallet_addresses');

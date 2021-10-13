@@ -21,7 +21,7 @@ Route::post('webhook','WebhookController@webhook_request');
 
 Route::get('webhook-post-ta-data','WebhookController@webhook_post_ta_data');
 
-Route::post('kyc-template','KycTemplateController@kyc_template_request');
+Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
 
 Route::get('errors/suspended', function () { return view('errors.suspended'); })->name('suspended');
 Route::get('errors/terminated', function () { return view('errors.terminated'); })->name('terminated');
@@ -32,6 +32,16 @@ Route::get('errors/503', function () { return view('errors/503'); });
 
 // TODO: should be a post and logout button should be a form submit.
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+// Two factor authentication routes
+Route::get('/2fa','PasswordSecurityController@show2faForm');
+Route::post('/generate2faSecret','PasswordSecurityController@generate2faSecret')->name('generate2faSecret');
+Route::post('/2fa','PasswordSecurityController@enable2fa')->name('enable2fa');
+Route::post('/disable2fa','PasswordSecurityController@disable2fa')->name('disable2fa');
+Route::post('/2faVerify', function () {
+    return redirect(URL()->previous());
+})->name('2faVerify')->middleware('2fa');
+
 
 // set password routes after initial access has been granted
 Route::get('auth/password/set/{token}', 'Auth\OnboardController@passwordSet');
@@ -51,7 +61,7 @@ if(config('shyft.onboarding')) {
 
   Route::group(['middleware' => 'maintenance'], function() {
 
-    Route::group(['middleware' => ['shyft.revoked', 'auth']], function() {
+    Route::group(['middleware' => ['shyft.revoked', 'auth','2fa']], function() {
 
         Route::group(['prefix' => 'auth'], function(){
             Route::get('welcome', function () { return view('auth.welcome'); })->name('welcome');
@@ -104,12 +114,12 @@ if(Config::get('backoffice.enabled')) {
       });
     };
 
-    Route::group(['prefix' => 'backoffice', 'middleware' => ['shyft.revoked', 'group:admin'], 'namespace' => 'Backoffice'], function() {
+    Route::group(['prefix' => 'backoffice', 'middleware' => ['shyft.revoked', 'group:admin','2fa'], 'namespace' => 'Backoffice'], function() {
         Route::get('/', '\App\Http\Controllers\Backoffice\DashboardController@index')->name('backoffice.dashboard');
-       
+
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
 
-        Route::post('kyc-template','KycTemplateController@kyc_template_request');
+        Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
         Route::get('kyctemplates/{id}/details',       'KycTemplatesController@kyc_template_details');
 
         Route::get('constants', 'ConstantsController@index')->name('constants.index')->middleware('can:edit,App\Constant');
