@@ -107,6 +107,7 @@ $ sudo scripts/setup-vasp.sh
 7) Install/update PHP web service
 8) Update static node list for nethermind
 9) Create admin user
+10) Regenerate webhook secret
 i) install everything
 p) show daemon status
 w) restart all services
@@ -196,6 +197,11 @@ nethermind to use it.
 
 The Web Application requires an admin user to manage the Trust Anchor account.  Use this option to create an account so you can sign into the application.
 
+## 10. Regenerate webhook secret
+
+The Web Application receives data from the node scripts over a webhook url.  This url is secured using a shared key.  This step creates or refreshes the share key in each .env file.
+
+
 # Ongoing updates
 
 Fetching the veriscope repository and re-running the installation
@@ -255,6 +261,7 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 7) Install/update PHP web service
 8) Update static node list for nethermind
 9) Create admin user
+10) Regenerate webhook secret
 i) install everything
 p) show daemon status
 w) restart all services
