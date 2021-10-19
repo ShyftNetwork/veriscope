@@ -300,8 +300,10 @@ function install_or_update_nodejs {
 		systemctl daemon-reload
 	fi
 
-	systemctl restart ta-node-1
-	systemctl restart ta-node-2
+	# this also does a restart of ta-node-1 ta-node2
+	regenerate_webhook_secret;
+	#systemctl restart ta-node-1
+	#systemctl restart ta-node-2
 }
 
 function install_or_update_laravel {
@@ -309,13 +311,14 @@ function install_or_update_laravel {
 
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
 	chown -R $SERVICE_USER .
-	chgrp -R www-data ./storage
+	chgrp -R www-data ./
 	chmod -R 0770 ./storage
+	chmod -R g+s ./
 
 	ENVDEST=.env
 	sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
 	sed -i "s#SHYFT_ONBOARDING_URL=.*#SHYFT_ONBOARDING_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
-	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+	regenerate_webhook_secret;
 
 	echo "Setting up node.js elements of PHP application..."
 	su $SERVICE_USER -c "npm install"
@@ -394,8 +397,6 @@ function create_admin() {
 function regenerate_webhook_secret() {
 
   echo "Generating new shared secret..."
-
-
   SHARED_SECRET=$(pwgen -B 20 1)
 
   ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
@@ -403,10 +404,14 @@ function regenerate_webhook_secret() {
 
   ENVDEST=/opt/veriscope/veriscope_ta_node/.env
   sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+  systemctl restart ta
+
+  systemctl restart ta-node-1
+  systemctl restart ta-node-2
+  systemctl restart ta
 
   echo "Shared secret saved"
 }
-
 
 function menu() {
 	echo
