@@ -300,10 +300,9 @@ function install_or_update_nodejs {
 		systemctl daemon-reload
 	fi
 
-	# this also does a restart of ta-node-1 ta-node2
+	# this also does a restart of ta-node-1 ta-node-2
 	regenerate_webhook_secret;
-	#systemctl restart ta-node-1
-	#systemctl restart ta-node-2
+	
 }
 
 function install_or_update_laravel {
