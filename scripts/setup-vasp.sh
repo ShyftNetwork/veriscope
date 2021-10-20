@@ -294,6 +294,11 @@ function install_or_update_nodejs {
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-node-1.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-node-2.service
 		systemctl daemon-reload
+		systemctl enable ta-node-1
+		systemctl enable ta-node-2
+		systemctl restart ta-node-1
+		systemctl restart ta-node-2
+
 	fi
 
 	# this also does a restart of ta-node-1 ta-node-2
@@ -337,6 +342,8 @@ function install_or_update_laravel {
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-schedule.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-wss.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta.service
+		sed '/^\[Service\]/a\UMask=0002' /lib/systemd/system/php8.0-fpm.service
+
 		systemctl daemon-reload
 	fi
 

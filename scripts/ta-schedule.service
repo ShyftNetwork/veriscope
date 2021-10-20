@@ -4,7 +4,8 @@ After=network.target
 
 [Service]
 User=shyft
-Umask=0002
+Group=www-data
+UMask=0002
 WorkingDirectory=/opt/veriscope/veriscope_ta_dashboard/
 ExecStart=/usr/bin/php artisan schedule:work
 Restart=on-failure
