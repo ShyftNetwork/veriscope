@@ -41,6 +41,8 @@ echo "+ Service user will be $SERVICE_USER"
 # this function sets some globals to have a new ethereum PK, ACCT
 function create_sealer_pk {
 	pushd >/dev/null /opt/veriscope/veriscope_ta_node
+		
+	su $SERVICE_USER -c "npm install web3"
 	local OUTPUT=$(node -e 'require("./create-account").trustAnchorCreateAccount()')
 	SEALERACCT=$(echo $OUTPUT | jq -r '.address')
 	SEALERPK=$(echo $OUTPUT | jq -r '.privateKey');
@@ -110,17 +112,7 @@ function refresh_dependencies() {
 	php composer-setup.php --install-dir="/usr/local/bin/" --filename=composer --2
 	rm composer-setup.php
 
-	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-	echo 'npm install'
-	su $SERVICE_USER -c "npm install"
-	echo 'composer install'
-	su $SERVICE_USER -c "composer install"
-	popd >/dev/null
 
-	pushd >/dev/null /opt/veriscope/veriscope_ta_node
-	echo 'npm install'
-	su $SERVICE_USER -c "npm install"
-	popd >/dev/null
 
 	cp scripts/ntpdate /etc/cron.daily/
 	cp scripts/journald /etc/cron.daily/
@@ -291,6 +283,8 @@ function install_or_update_nodejs {
 	echo "Updating node.js application & restarting"
 	chown -R $SERVICE_USER /opt/veriscope/veriscope_ta_node
 
+	pushd >/dev/null /opt/veriscope/veriscope_ta_node
+	su $SERVICE_USER -c "npm install"
 	if ! test -s "/etc/systemd/system/ta-node-1.service"; then
 		echo "Activating and restarting node.js services: ta-node-1 ta-node-2"
 		cp scripts/ta-node-1.service /etc/systemd/system/
@@ -303,6 +297,7 @@ function install_or_update_nodejs {
 	# this also does a restart of ta-node-1 ta-node-2
 	regenerate_webhook_secret;
 	
+	popd >/dev/null
 }
 
 function install_or_update_laravel {
@@ -327,11 +322,7 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "composer install"
 	su $SERVICE_USER -c "php artisan migrate"
 	su $SERVICE_USER -c "php artisan db:seed"
-	if grep -q '^APP_KEY=$' $ENVDEST; then
-		su $SERVICE_USER -c "php artisan key:generate"
-	else
-		echo "App key already set"
-	fi
+	su $SERVICE_USER -c "php artisan key:generate"
 
 	popd >/dev/null
 
@@ -374,7 +365,7 @@ function refresh_static_nodes() {
 	echo
 	echo "Cycling nethermind to obtain enode..."
 	systemctl restart nethermind
-	sleep 20
+	sleep 25
 	MATCH=`journalctl -u nethermind -n 200 | grep This.node | tail -1`
 	[[ $MATCH =~ (enode://.+) ]]
 	ENODE=${BASH_REMATCH[1]}
@@ -403,7 +394,6 @@ function regenerate_webhook_secret() {
 
   ENVDEST=/opt/veriscope/veriscope_ta_node/.env
   sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
-  systemctl restart ta
 
   systemctl restart ta-node-1
   systemctl restart ta-node-2
