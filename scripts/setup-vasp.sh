@@ -42,7 +42,7 @@ echo "+ Service user will be $SERVICE_USER"
 function create_sealer_pk {
 	pushd >/dev/null /opt/veriscope/veriscope_ta_node
 		
-	su $SERVICE_USER -c "npm install web3"
+	su $SERVICE_USER -c "npm install web3 dotenv"
 	local OUTPUT=$(node -e 'require("./create-account").trustAnchorCreateAccount()')
 	SEALERACCT=$(echo $OUTPUT | jq -r '.address')
 	SEALERPK=$(echo $OUTPUT | jq -r '.privateKey');
@@ -285,6 +285,8 @@ function install_or_update_nodejs {
 
 	pushd >/dev/null /opt/veriscope/veriscope_ta_node
 	su $SERVICE_USER -c "npm install"
+	popd >/dev/null
+
 	if ! test -s "/etc/systemd/system/ta-node-1.service"; then
 		echo "Activating and restarting node.js services: ta-node-1 ta-node-2"
 		cp scripts/ta-node-1.service /etc/systemd/system/
@@ -297,7 +299,6 @@ function install_or_update_nodejs {
 	# this also does a restart of ta-node-1 ta-node-2
 	regenerate_webhook_secret;
 	
-	popd >/dev/null
 }
 
 function install_or_update_laravel {
