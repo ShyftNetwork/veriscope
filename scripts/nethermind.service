@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 User=shft
+Umask=0002
 WorkingDirectory=/opt/nm/
 ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg 
 Restart=on-failure

@@ -306,9 +306,6 @@ function install_or_update_laravel {
 
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
 	chown -R $SERVICE_USER .
-	chgrp -R www-data ./
-	chmod -R 0770 ./storage
-	chmod -R g+s ./
 
 	ENVDEST=.env
 	sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
@@ -325,6 +322,10 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "php artisan db:seed"
 	su $SERVICE_USER -c "php artisan key:generate"
 
+	chgrp -R www-data ./
+	chmod -R 0770 ./storage
+	chmod -R g+s ./
+
 	popd >/dev/null
 
 	if ! test -s "/etc/systemd/system/ta.service"; then
@@ -333,7 +334,7 @@ function install_or_update_laravel {
 		cp scripts/ta-wss.service /etc/systemd/system/
 		cp scripts/ta.service /etc/systemd/system/
 
-	 sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-schedule.service
+		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-schedule.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-wss.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta.service
 		systemctl daemon-reload

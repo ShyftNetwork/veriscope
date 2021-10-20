@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 User=shyft
+Umask=0002
 WorkingDirectory=/opt/veriscope/veriscope_ta_node/
 ExecStart=/usr/bin/node shyft-template-helper.js
 Restart=on-failure

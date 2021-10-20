@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 User=shyft
+Umask=0002
 WorkingDirectory=/opt/veriscope/veriscope_ta_dashboard/
 ExecStart=/usr/bin/php artisan websockets:serve
 Restart=on-failure
