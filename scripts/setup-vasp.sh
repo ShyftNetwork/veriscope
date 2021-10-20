@@ -342,7 +342,7 @@ function install_or_update_laravel {
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-schedule.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-wss.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta.service
-		sed '/^\[Service\]/a\UMask=0002' /lib/systemd/system/php8.0-fpm.service
+		sed -i '/^\[Service\]/a\UMask=0002' /lib/systemd/system/php8.0-fpm.service
 
 		systemctl daemon-reload
 	fi
