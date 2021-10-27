@@ -4,23 +4,27 @@ Welcome to the Veriscope Installation Guide
 Veriscope (VS) ships with a number of services (all open sourced) that in tandem enable VASPs to:
 Create Trust Anchor accounts (TAs)
 Create test User accounts (VASP users)
-Register a TA account in the Discovery Layer
+Register a TA account in the Veriscope Discovery Layer
 Set Wallet Attestations
 Become discovered by other peers on the network
 Share PII between two peers as they are related to an originating crypto transaction from VASP A to VASP B.
 
+By the end of this guide, you should have completed all of the above. 
+
 In order to accomplish the above, VS utilizes a number of self managed services:
-Shyft Relay Node - a Nethermind POA client that synchronizes with the Shyft Mainnet.  VS communicates with the Relay Node over a local RPC connection (HTTP and Websocket)
+Shyft Relay Node - a Nethermind POA client that synchronizes with the Shyft Mainnet.  VS communicates with the Relay Node 
+over a local RPC connection (HTTP and Websocket)
 Web Application  - a laravel and vuejs framework for managing TA accounts, sharing KYC data over the peer network
-Node JS application scripts that interface the Web Application with either the Relay Node or various web3 libraries for cryptography functions
+Node JS application scripts that interface the Web Application with either the Relay Node or various web3 libraries for 
+cryptography functions.
 
 This repository comes with a complete installer that sets up a
 running installation, complete with Postgres database, nginx serving
 SSL connections with a reverse-proxy to backend services running
 Node.js and PHP Artisan.
 
-To use the all-in-one setup script, you first need a machine which
-can be reached from the internet on ports 80 and 443, with a DNS
+To use the all-in-one setup script, you **first need a machine which
+can be reached from the internet on ports 80 and 443**, with a DNS
 name that points to it.  The script is tested on Ubuntu 20.10.
 Minimum 2 GB of RAM.
 
@@ -28,6 +32,7 @@ If necessary, create a new Unix account to act as the service user.
 Ensure the service user is in appropriate groups. The setup recipe
 assumes the user who invokes 'sudo' is the service user.
 
+## Setup
 Please begin the installation by cloning this repository.
 
 ```shell
@@ -78,7 +83,7 @@ Setup su to your user
 ```shell
 $ sudo su - forge
 ```
-If you haven’t already navigate to opt/veriscope/
+Then navigate to opt/veriscope/
 ```shell
 $ ​​cd /opt/veriscope
 ```
@@ -120,7 +125,7 @@ This script deploys an all-in-one installation that is intended to
 be a template for integration into your own environments' database
 servers, load balancers, and SSL key management.
 
-## 1. Refresh dependencies
+### 1. Refresh dependencies
 
 Updates all packages on the operating system, and installs software
 dependencies for all subsequent components - examples include
@@ -131,7 +136,7 @@ This step also installs unconfigured PostgreSQL and Nginx servers
 and two cron jobs for housekeeping: automatic clock synchronication
 with internet time servers, and purging old logs.
 
-## 2. Install/update nethermind
+### 2. Install/update nethermind
 
 Nethermind is the Etherum implementation used on Shyft. This is
 installed to `/opt/nm/` with its config file in `/opt/nm/config.cfg`,
@@ -141,7 +146,7 @@ This step will create a random sealer account, and provide its
 private key and public address.  These should be kept someplace
 safe for permanent systems.
 
-## 3. Set up new postgres user
+### 3. Set up new postgres user
 
 The Trust Anchor web service relies on PostgreSQL to store attestations.
 This will create a new Postgres user, displaying its password and
@@ -149,13 +154,13 @@ storing it where the web services can find it. It will also create
 a database called `trustanchor`. The database schema will be created
 when the PHP webservice is installed.
 
-## 4. Obtain/renew SSL certificate
+### 4. Obtain/renew SSL certificate
 
 This obtains a SSL certificate from Let's Encrypt for the domain
 name that you configured in `/opt/veriscope/.env`, and deploys it
 in a place where Nginx can find it.
 
-## 5. Install/update NGINX
+### 5. Install/update NGINX
 
 This creates a config file for the web services in
 `/etc/nginx/sites-enabled/ta-dashboard.conf`, enables nginx to start
@@ -165,14 +170,14 @@ The deployed configuration is set to serve the web services over
 port 443, by reverse-proxying connections to backend node.js and
 PHP servers.
 
-## 6.  Install/update node.js web service
+### 6.  Install/update node.js web service
 
 The node webservice is several components - operating in systemd
 units called `ta-node-1` and `ta-node-2`.  This step installed
 node.js dependencies into `/opt/veriscope/node_modules`, then
 installs activatges and starts the systemd units.
 
-## 7. Install/update PHP web service
+### 7. Install/update PHP web service
 
 The PHP webservice is several components - operating in systemd
 units called `ta-schedule`, `ta-wss` and `ta`.    These carry out
@@ -181,7 +186,7 @@ server.  This step installs installs some PHP dependencies via
 composer, builds the schema and seed data in the Postgres Database,
 then installs, enables and starts those systemd units,
 
-## 8. Update static node list for nethermind
+### 8. Update static node list for nethermind
 
 Nethermind relies upon a list of static nodes to find servers to
 exchange blockchain information with. The nethermind config sets
@@ -193,16 +198,16 @@ https://stats.shyft.network/ .  This command replaces your enode
 list with one obtained from the ethstats server, then restarts
 nethermind to use it.
 
-## 9. Create admin user
+### 9. Create admin user
 
 The Web Application requires an admin user to manage the Trust Anchor account.  Use this option to create an account so you can sign into the application.
 
-## 10. Regenerate webhook secret
+### 10. Regenerate webhook secret
 
 The Web Application receives data from the node scripts over a webhook url.  This url is secured using a shared key.  This step creates or refreshes the share key in each .env file.
 
 
-# Ongoing updates
+### Ongoing updates
 
 Fetching the veriscope repository and re-running the installation
 steps will not damage any part of your installation. If you have
@@ -225,20 +230,20 @@ $ sudo systemctl restart ta ta-wss ta-schedule ta-node-1 ta-node-2
 ```
 
 
-# Veriscope Docker Setup
+## Veriscope Docker Setup
 The docker setup requires public hostname must not be a bare IP address.
 
-## Step 1 - Docker install
+### Step 1 - Docker install
 
 [Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
 
-## Step 2 - Docker Compose
+### Step 2 - Docker Compose
 
 https://docs.docker.com/compose/install/
 
 
-## Step 3 - Docker Compose UP
+### Step 3 - Docker Compose UP
 ```sh
 sudo docker-compose up -d
 ```
@@ -277,9 +282,9 @@ Choose what to do: [Press i to install]
 Choose what to do: [Press 9 to create admin user and enter the required information]
 ```
 
-# Post-setup steps
+## Post-setup steps
 
-## Load Blockchain Data
+### Load Blockchain Data
 LOAD ALL ATTESTATIONS, Discovery Layer data
 ```shell
 $ node -e 'require("./blockchain-data").getAllAttestations()'
@@ -295,24 +300,24 @@ $ node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
 getVerifiedTrustAnchors result
 ```
 
-At this stage you should see your node in the relay set:
-[fedstats.veriscope.network/](https://fedstats.veriscope.network/)
+```shell
+**Check if things work as expected by:
+* Proceeding to [fedstats.veriscope.network/](https://fedstats.veriscope.network/)
+and see if your node is in the list and wait for the node to fully synchronize
+* In your terminal, Use Option p to confirm you have the following services running:
+  - nethermind.service - Nethermind Ethereum Daemon
+  - ta.service - Trust Anchor Dashboard
+  - ta-wss.service - Trust Anchor Dashboard Websockets
+  - ta-schedule.service - Trust Anchor Dashboard Schedule
+  - ta-node-1.service - Trust Anchor Node API
+  - ta-node-2.service - Trust Anchor Node Template Helper
+  - nginx.service - A high performance web server and a reverse proxy server
+  - postgresql.service - PostgreSQL RDBMS
 
-Before you continue, ensure your node has fully synchronized the blockchain.
+Press q to quit the Options list. **
+```
 
-Use Option p to confirm you have the following services running:
-- nethermind.service - Nethermind Ethereum Daemon
-- ta.service - Trust Anchor Dashboard
-- ta-wss.service - Trust Anchor Dashboard Websockets
-- ta-schedule.service - Trust Anchor Dashboard Schedule
-- ta-node-1.service - Trust Anchor Node API
-- ta-node-2.service - Trust Anchor Node Template Helper
-- nginx.service - A high performance web server and a reverse proxy server
-- postgresql.service - PostgreSQL RDBMS
-
-Press q to quit the Options list.
-
-# Overview of the Web Application
+# Get comfortable with the Web Application
 
 Login in to the application with the account you created in Option 9 above by navigating to the domain set in your root .env
 For example:
@@ -355,11 +360,15 @@ Note, if you need to create a new TA account, simply replace TRUST_ANCHOR_PK and
 
 ![Alt text](images/1-load-ta-account.png "Load TA Account")
 
+
 At this stage you can query if your account has been verified and has a balance.
 
 ![Alt text](images/2-verified-account.png "Verified Account")
 
-Please request to have your account on boarded and verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.
+```shell
+**ACTION: If your account is not verified, please request to have your account on boarded and 
+verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.**
+```
 
 Once your account has been verified, you can confirm as shown here:
 
@@ -386,7 +395,7 @@ E.g. [https://vs-node-1.veriscope.network](https://vs-node-1.veriscope.network)
 
 ![Alt text](images/6-API_URL.png "API URL")
 
-**Manage Users
+## Manage Users
 
 In this section you can create a number of users to test the transfer of KYC between your account and another on the peer network.
 
@@ -411,7 +420,8 @@ To simulate a crypto withdrawal from your exchange you can set a WALLET Attestat
 
 ![Alt text](images/11-wallet-attestation.png "Wallet Attestation")
 
-If there is a peer on the network with a deposit address on their exchange, they will pass the KYC Template directly to your peer and as a result your peer will respond with your user KYC data.
+If there is a peer on the network with a deposit address on their exchange, they will pass the KYC Template directly to your peer and as a result your 
+peer will respond with your user KYC data.
 Completed KYC Templates can be found in the backoffice/kyctemplates view.
 
 ![Alt text](images/12-kyc-templates.png "KYC Templates")
@@ -426,7 +436,10 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 
 ![Alt text](images/14-dashboard.png "Dashboard")
 
-
-
+# Conduct a transaction with another VASP
+```Shell
+**To do this, please reach out to your Veriscope Account Manager to coordinate a 
+live transaction with another VASP on Veriscope**
+```
 
 
