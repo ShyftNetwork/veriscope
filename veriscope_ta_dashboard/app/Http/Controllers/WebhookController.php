@@ -283,6 +283,26 @@ class WebhookController extends Controller
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'ETH')->first()->id;
             $cwa->save();
 
+            $zcashAccount = $data['data']['zcashAccount'];
+            $cwa = new CryptoWalletAddress();
+            $cwa->address = $zcashAccount['address'];
+            $cwa->public_key = $zcashAccount['public_key'];
+            $cwa->private_key = $zcashAccount['private_key'];
+            $cwa->trust_anchor_user_id = $tau->id;
+            $cwa->trust_anchor_id = $tau->trust_anchor_id;
+            $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'ZEC')->first()->id;
+            $cwa->save();
+
+            $moneroAccount = $data['data']['moneroAccount'];
+            $cwa = new CryptoWalletAddress();
+            $cwa->address = $moneroAccount['address'];
+            $cwa->public_key = $moneroAccount['public_key'];
+            $cwa->private_key = $moneroAccount['private_key'];
+            $cwa->trust_anchor_user_id = $tau->id;
+            $cwa->trust_anchor_id = $tau->trust_anchor_id;
+            $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'XMR')->first()->id;
+            $cwa->save();
+            
             $data['data']['account'] = $tau->account_address;
             broadcast(new ContractsInstantiate($data));
         }
