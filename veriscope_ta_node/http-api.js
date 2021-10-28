@@ -8,6 +8,8 @@ const axios = require('axios');
 const EthCrypto = require('eth-crypto');
 const dotenv = require('dotenv');
 const bitcoinjs_lib = require('bitcoinjs-lib');
+const bitgo_utxo_lib = require('bitgo-utxo-lib');
+const monerojs = require("monero-javascript");
 const winston = require('winston');
 
 dotenv.config();
@@ -250,6 +252,30 @@ function createEthereumAccount() {
     );
 
     return {"address":address, "public_key": publicKey, "private_key": privateKey};
+}
+
+function createZcashAccount() {
+
+    let ecPair1 = bitgo_utxo_lib.ECPair.makeRandom({ network: bitgo_utxo_lib.networks.zcash });
+    var publicKey = ecPair1.getPublicKeyBuffer().toString('hex');
+    var privateKey = ecPair1.toWIF();
+    var address = ecPair1.getAddress();
+
+    return {"address":address, "public_key": publicKey, "private_key": privateKey};
+}
+
+async function createMoneroAccount() {
+
+    let wallet = await monerojs.createWalletKeys({
+       networkType: "mainnet"
+    });
+
+    var address = await wallet.getAddress(0, 0);
+    var publicKey = await wallet.getPublicViewKey();
+    var privateKey = await wallet.getPrivateViewKey();
+
+    return {"address":address, "public_key": publicKey, "private_key": privateKey};
+
 }
 
 //WEBHOOK
@@ -650,13 +676,17 @@ app.get('/ta-create-user', (req, res) => {
     var account = {address:address, private_key:privateKey};
     var bitcoinAccount = createBitcoinAccount();
     var ethereumAccount = createEthereumAccount();
-    var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount};
-    var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
-    logger.info('ta-create-user');
-    logger.info(obj);
+    var zcashAccount = createZcashAccount();
+    (async () => {
+      var moneroAccount = await createMoneroAccount();
+    
+      var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
+      var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
+      logger.info('ta-create-user');
+      logger.info(obj);
 
-    sendWebhookMessage(obj);
-
+      sendWebhookMessage(obj);
+    })();
     res.sendStatus(201);
 });
 

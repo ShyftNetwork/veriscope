@@ -16,5 +16,7 @@ class CryptoWalletTypesTableSeeder extends Seeder
     {
         DB::table('crypto_wallet_types')->insert(['wallet_type' => 'BTC']);
         DB::table('crypto_wallet_types')->insert(['wallet_type' => 'ETH']);
+        DB::table('crypto_wallet_types')->insert(['wallet_type' => 'ZEC']);
+        DB::table('crypto_wallet_types')->insert(['wallet_type' => 'XMR']);
     }
 }
