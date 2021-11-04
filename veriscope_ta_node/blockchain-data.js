@@ -157,6 +157,46 @@ function getTrustAnchorKeyValuePairCreated() {
 }
 
 /*
+EVT_setTrustAnchorKeyValuePairUpdated
+*/
+// node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairUpdated()'
+module.exports.getTrustAnchorKeyValuePairUpdated = function () {
+    getTrustAnchorKeyValuePairUpdated();
+};
+
+function getTrustAnchorKeyValuePairUpdated() {
+    (async () => {
+
+    let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorExtraData_Unique.json');
+
+    let contracts = JSON.parse(source);
+
+    var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS);
+
+
+    myContract.getPastEvents('EVT_setTrustAnchorKeyValuePairUpdated', {
+       fromBlock: 0,
+       toBlock: "latest",
+    }, function(error, events){
+
+        for (const event of events) {
+          logger.info(event);
+
+          var obj = { message: "taedu-event", data: event };
+          sendWebhookMessage(obj);
+
+        }
+
+
+    })
+
+
+    logger.info('getTrustAnchorKeyValuePairUpdated result');
+    logger.info();
+
+    })();
+}
+/*
 EVT_setDataRetrievalParametersCreated
 */
 

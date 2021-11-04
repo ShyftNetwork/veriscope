@@ -288,16 +288,15 @@ Choose what to do: [Press 9 to create admin user and enter the required informat
 LOAD ALL ATTESTATIONS, Discovery Layer data
 ```shell
 $ node -e 'require("./blockchain-data").getAllAttestations()'
-getAllAttestations result
 
 $ node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairCreated()'
-getTrustAnchorKeyValuePairCreated result
+
+$ node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairUpdated()'
 
 $ node -e 'require("./blockchain-data").getTrustAnchorDataRetrievalParametersCreated()'
-getTrustAnchorKeyValuePairUpdated result
 
 $ node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
-getVerifiedTrustAnchors result
+
 ```
 
 ```shell

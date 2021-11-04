@@ -1046,6 +1046,27 @@ function taGetAttestationComponents(attestation_hash) {
         logger.info(data);
     });
 
+    TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairUpdated", async (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
+        logger.info("event EVT_setTrustAnchorKeyValuePairUpdated");
+        data = {};
+        data['transactionHash'] = event.transactionHash;
+        data['event'] = "EVT_setTrustAnchorKeyValuePairUpdated";
+        data['returnValues'] = {};
+
+        data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+        data['returnValues']['_keyValuePairName'] = _keyValuePairName;
+        data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
+
+
+        var obj = {
+            message: "taedu-event",
+            data: data
+        };
+        sendWebhookMessage(obj);
+
+        logger.info(data);
+    });
+
     TrustAnchorManager.on("EVT_verifyTrustAnchor", async (trustAnchorAddress, event) => {
         logger.info("event EVT_verifyTrustAnchor");
         data = {};
