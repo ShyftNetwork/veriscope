@@ -25,8 +25,13 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
 
-        Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
 
+        Route::post('ivms101-validate/complete','IVMS101Controller@index')->middleware('jsonschema.validate:complete');
+        Route::post('ivms101-validate/beneficiary','IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
+        Route::post('ivms101-validate/originator','IVMS101Controller@index')->middleware('jsonschema.validate:originator');
+
+
+        Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
 
