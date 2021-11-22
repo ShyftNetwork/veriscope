@@ -1,0 +1,560 @@
+{
+    "$id": "file://originator-ivms101-v1.json",
+    "type": "object",
+    "$pragma": {"cast": "object"},
+  	"properties": {
+  		"originator": {
+  			"$ref": "#/definitions/Originator"
+  		},
+  		"beneficiary": {
+  			"$ref": "#/definitions/Beneficiary"
+  		},
+  		"originatingVASP": {
+  			"$ref": "#/definitions/OriginatingVASP"
+  		},
+  		"beneficiaryVASP": {
+  			"$ref": "#/definitions/BeneficiaryVASP"
+  		},
+  		"transferPath": {
+  			"$ref": "#/definitions/TransferPath"
+  		},
+  		"payloadMetadata": {
+  			"$ref": "#/definitions/PayloadMetadata"
+  		}
+  	},
+  	"required": [
+  		"originator",
+  		"originatingVASP"
+  	],
+  	"definitions": {
+  		"LocalNaturalPersonNameId": {
+  			"title": "LocalNaturalPersonNameId",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"primaryIdentifier": {
+  					"type": "string",
+  					"pattern": "^.{1,100}$"
+  				},
+  				"secondaryIdentifier": {
+  					"type": "string",
+            "pattern": "^.{1,100}$"
+  				},
+  				"nameIdentifierType": {
+  					"title": "NaturalPersonNameTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"ALIA",
+  						"BIRT",
+  						"MAID",
+  						"LEGL",
+  						"MISC"
+  					]
+  				}
+  			}
+  		},
+  		"LocalLegalPersonNameId": {
+  			"title": "LocalLegalPersonNameId",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"legalPersonName": {
+  					"type": "string",
+            "pattern": "^.{1,100}$"
+  				},
+  				"legalPersonNameIdentifierType": {
+  					"title": "LegalPersonNameTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"LEGL",
+  						"SHRT",
+  						"TRAD"
+  					]
+  				}
+  			}
+  		},
+  		"Address": {
+  			"title": "Address",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"addressType": {
+  					"title": "AddressTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"HOME",
+  						"BIZZ",
+  						"GEOG"
+  					]
+  				},
+  				"department": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,50}$"
+  				},
+  				"subDepartment": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,70}$"
+  				},
+  				"streetName": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,70}$"
+  				},
+  				"buildingNumber": {
+  					"type": "string"
+  				},
+  				"buildingName": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,16}$"
+  				},
+  				"floor": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,70}$"
+  				},
+  				"postBox": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,16}$"
+  				},
+  				"room": {
+  					"type": "string"
+  				},
+  				"postCode": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,16}$"
+  				},
+  				"townName": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,35}$"
+  				},
+  				"townLocationName": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,35}$"
+  				},
+  				"districtName": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,35}$"
+  				},
+  				"countrySubDivision": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,35}$"
+  				},
+  				"addressLine": {
+  					"type": "array",
+  					"items": {
+  						"type": "string",
+              "pattern": "^[a-zA-Z0-9' ]{1,70}$"
+  					}
+  				},
+  				"country": {
+  					"type": "string",
+  					"pattern": "^[A-Z]{2}$"
+  				}
+  			}
+  		},
+  		"NationalIdentification": {
+  			"title": "NationalIdentification",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"nationalIdentifier": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,35}$"
+  				},
+  				"nationalIdentifierType": {
+  					"title": "NationalIdentifierTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"ARNU",
+  						"CCPT",
+  						"RAID",
+  						"DRLC",
+  						"FIIN",
+  						"TXID",
+  						"SOCS",
+  						"IDCD",
+  						"LEIX",
+  						"MISC"
+  					]
+  				},
+  				"countryOfIssue": {
+  					"type": "string",
+  					"pattern": "^[A-Z]{2}$"
+  				},
+  				"registrationAuthority": {
+  					"type": "string",
+  					"pattern": "^RA([0-9]{6})$"
+  				}
+  			}
+  		},
+  		"Person": {
+  			"title": "Person",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"naturalPerson": {
+  					"$ref": "#/definitions/NaturalPerson"
+  				},
+  				"legalPerson": {
+  					"$ref": "#/definitions/LegalPerson"
+  				}
+  			}
+  		},
+  		"NaturalPerson": {
+  			"title": "NaturalPerson",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"name": {
+  					"$ref": "#/definitions/NaturalPersonName"
+  				},
+  				"geographicAddress": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/Address"
+  					}
+  				},
+  				"nationalIdentification": {
+  					"$ref": "#/definitions/NationalIdentification"
+  				},
+  				"customerIdentification": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,50}$"
+  				},
+  				"dateAndPlaceOfBirth": {
+  					"$ref": "#/definitions/DateAndPlaceOfBirth"
+  				},
+  				"countryOfResidence": {
+  					"type": "string",
+  					"pattern": "^[A-Z]{2}$"
+  				}
+  			}
+  		},
+  		"NaturalPersonName": {
+  			"title": "NaturalPersonName",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"nameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/NaturalPersonNameId"
+  					}
+  				},
+  				"localNameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/LocalNaturalPersonNameId"
+  					}
+  				},
+  				"phoneticNameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/LocalNaturalPersonNameId"
+  					}
+  				}
+  			}
+  		},
+  		"NaturalPersonNameId": {
+  			"title": "NaturalPersonNameId",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"primaryIdentifier": {
+  					"type": "string"
+  				},
+  				"secondaryIdentifier": {
+  					"type": "string"
+  				},
+  				"nameIdentifierType": {
+  					"title": "NaturalPersonNameTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"ALIA",
+  						"BIRT",
+  						"MAID",
+  						"LEGL",
+  						"MISC"
+  					]
+  				}
+  			}
+  		},
+  		"DateAndPlaceOfBirth": {
+  			"title": "DateAndPlaceOfBirth",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"dateOfBirth": {
+  					"type": "string",
+  					"pattern": "^([0-9]{4})-([0-9]{2})-([0-9]{2})$"
+  				},
+  				"placeOfBirth": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,70}$"
+  				}
+  			}
+  		},
+  		"LegalPerson": {
+  			"title": "LegalPerson",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"name": {
+  					"$ref": "#/definitions/LegalPersonName"
+  				},
+  				"geographicAddress": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/Address"
+  					}
+  				},
+  				"customerNumber": {
+  					"type": "string",
+            "pattern": "^[a-zA-Z0-9' ]{1,50}$"
+  				},
+  				"nationalIdentification": {
+  					"$ref": "#/definitions/NationalIdentification"
+  				},
+  				"countryOfRegistration": {
+  					"type": "string",
+  					"pattern": "^[A-Z]{2}$"
+  				}
+  			},
+  			"required": [
+  				"name",
+  				"geographicAddress",
+  				"nationalIdentification",
+  				"countryOfRegistration"
+  			]
+  		},
+  		"LegalPersonName": {
+  			"title": "LegalPersonName",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"nameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/LegalPersonNameId"
+  					}
+  				},
+  				"localNameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/LocalLegalPersonNameId"
+  					}
+  				},
+  				"phoneticNameIdentifier": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/LocalLegalPersonNameId"
+  					}
+  				}
+  			},
+  			"required": [
+  				"nameIdentifier"
+  			]
+  		},
+  		"LegalPersonNameId": {
+  			"title": "LegalPersonNameId",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"legalPersonName": {
+  					"type": "string",
+  					"pattern": "^[a-zA-Z0-9' ]{1,100}$"
+  				},
+  				"legalPersonNameIdentifierType": {
+  					"title": "LegalPersonNameTypeCode",
+  					"type": "string",
+  					"enum": [
+  						"LEGL",
+  						"SHRT",
+  						"TRAD"
+  					]
+  				}
+  			}
+  		},
+  		"IntermediaryVASP": {
+  			"title": "IntermediaryVASP",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"intermediaryVASP": {
+  					"$ref": "#/definitions/Person"
+  				},
+  				"sequence": {
+  					"type": "integer",
+  					"minimum": 0,
+  					"maximum": 9007199254740991
+  				}
+  			}
+  		},
+  		"Originator": {
+  			"title": "Originator",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"originatorPersons": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/Person"
+  					}
+  				},
+  				"accountNumber": {
+  					"type": "array",
+  					"items": {
+  						"type": "string",
+  						"pattern": "^[a-zA-Z0-9' ]{1,100}$"
+  					}
+  				}
+  			},
+  			"required": [
+  				"originatorPersons",
+  				"accountNumber"
+  			]
+  		},
+  		"Beneficiary": {
+  			"title": "Beneficiary",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"beneficiaryPersons": {
+  					"type": "array",
+  					"items": {
+  						"$ref": "#/definitions/Person"
+  					}
+  				},
+  				"accountNumber": {
+  					"type": "array",
+  					"items": {
+  						"type": "string",
+              "pattern": "^[a-zA-Z0-9' ]{1,100}$"
+  					}
+  				}
+  			},
+  			"required": [
+  				"beneficiaryPersons",
+  				"accountNumber"
+  			]
+  		},
+  		"OriginatingVASP": {
+  			"title": "OriginatingVASP",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"originatingVASP": {
+  					"$ref": "#/definitions/Person"
+  				}
+  			}
+  		},
+  		"BeneficiaryVASP": {
+  			"title": "BeneficiaryVASP",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"beneficiaryVASP": {
+  					"$ref": "#/definitions/Person"
+  				}
+  			}
+  		},
+  		"TransferPath": {
+  			"title": "TransferPath",
+  			"type": "array",
+  			"items": {
+  				"$ref": "#/definitions/IntermediaryVASP"
+  			}
+  		},
+  		"PayloadMetadata": {
+  			"title": "PayloadMetadata",
+  			"type": "object",
+        "$pragma": {"cast": "object"},
+  			"properties": {
+  				"transliterationMethod": {
+  					"type": "array",
+  					"items": {
+  						"title": "TransliterationMethodCode",
+  						"type": "string",
+  						"enum": [
+  							"ARAB",
+  							"ARAN",
+  							"ARMN",
+  							"CYRL",
+  							"DEVA",
+  							"GEOR",
+  							"GREK",
+  							"HANI",
+  							"HEBR",
+  							"KANA",
+  							"KORE",
+  							"THAI",
+  							"OTHR"
+  						]
+  					}
+  				}
+  			}
+  		},
+  		"NaturalPersonNameTypeCode": {
+  			"title": "NaturalPersonNameTypeCode",
+  			"type": "string",
+  			"enum": [
+  				"ALIA",
+  				"BIRT",
+  				"MAID",
+  				"LEGL",
+  				"MISC"
+  			]
+  		},
+  		"LegalPersonNameTypeCode": {
+  			"title": "LegalPersonNameTypeCode",
+  			"type": "string",
+  			"enum": [
+  				"LEGL",
+  				"SHRT",
+  				"TRAD"
+  			]
+  		},
+  		"AddressTypeCode": {
+  			"title": "AddressTypeCode",
+  			"type": "string",
+  			"enum": [
+  				"HOME",
+  				"BIZZ",
+  				"GEOG"
+  			]
+  		},
+  		"NationalIdentifierTypeCode": {
+  			"title": "NationalIdentifierTypeCode",
+  			"type": "string",
+  			"enum": [
+  				"ARNU",
+  				"CCPT",
+  				"RAID",
+  				"DRLC",
+  				"FIIN",
+  				"TXID",
+  				"SOCS",
+  				"IDCD",
+  				"LEIX",
+  				"MISC"
+  			]
+  		},
+  		"TransliterationMethodCode": {
+  			"title": "TransliterationMethodCode",
+  			"type": "string",
+  			"enum": [
+  				"ARAB",
+  				"ARAN",
+  				"ARMN",
+  				"CYRL",
+  				"DEVA",
+  				"GEOR",
+  				"GREK",
+  				"HANI",
+  				"HEBR",
+  				"KANA",
+  				"KORE",
+  				"THAI",
+  				"OTHR"
+  			]
+  		}
+  	}
+}

@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         'force.dashboard' => \App\Http\Middleware\RedirectAuthToDashboard::class,
         'check.signature' => \App\Http\Middleware\CheckSignature::class,
         '2fa' => \App\Http\Middleware\Google2FAMiddleware::class,
+        'jsonschema.validate' => \App\Http\Middleware\JSONSchema::class,
     ];
 }
