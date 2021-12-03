@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const EthCrypto = require('eth-crypto');
-const ecies = require("eth-ecies");
 const EthUtil = require('ethereumjs-util');
+const devp2p = require("@ethereumjs/devp2p");
+const secp256k1 = require("secp256k1");
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -35,110 +36,101 @@ function getEthAddressFromPublicKey(_publicKey) {
 }
 
 function encryptData(publicKey, data) {
-    let userPublicKey = new Buffer(publicKey, 'hex');
+    let userPublicKey = new Buffer("04" + publicKey, "hex");
     let bufferData = new Buffer(data);
 
-    let encryptedData = ecies.encrypt(userPublicKey, bufferData);
+    let ecies = new devp2p.ECIES(null, devp2p.pk2id(userPublicKey), devp2p.pk2id(userPublicKey));
+    let encryptedData = ecies._encryptMessage(bufferData);
 
-    return encryptedData.toString('base64')
+    return encryptedData.toString("base64");
 }
 
 function decryptData(privateKey, data) {
 
-	console.log('decryptData');
+    console.log("decryptData");
 
-    let userPrivateKey = new Buffer(privateKey, 'hex');
-    let bufferEncryptedData = new Buffer(data, 'base64');
+    let userPrivateKey = new Buffer(privateKey, "hex");
+    let bufferEncryptedData = new Buffer(data, "base64");
 
-    let decryptedData = ecies.decrypt(userPrivateKey, bufferEncryptedData);
-    
-    return decryptedData.toString('utf8');
+    const userPublicKey = Buffer.from(secp256k1.publicKeyCreate(userPrivateKey, false));
+    let ecies = new devp2p.ECIES(userPrivateKey, devp2p.pk2id(userPublicKey));
+    let decryptedData = ecies._decryptMessage(bufferEncryptedData);
+
+    return decryptedData.toString("utf8");
 }
 
 function TASign(messageJSON, privateKey) {
 
-	  var messageBuffer = new Buffer(JSON.stringify(messageJSON));
+    var messageBuffer = new Buffer(JSON.stringify(messageJSON));
     var hash = EthUtil.hashPersonalMessage(messageBuffer);
-    
-    var ecprivkey = Buffer.from(privateKey,'hex');
+
+    var ecprivkey = Buffer.from(privateKey, 'hex');
 
     var result = EthUtil.ecsign(hash, ecprivkey, 1);
     var template = {};
 
-   	template['SignatureHash'] = bufferToHex(hash);
-   	template['Signature'] = {r: bufferToHex(result['r']),s: bufferToHex(result['s']),v: bufferToHex(result['v'])};
+    template['SignatureHash'] = bufferToHex(hash);
+    template['Signature'] = { r: bufferToHex(result['r']), s: bufferToHex(result['s']), v: bufferToHex(result['v']) };
 
     return template;
 
 }
 
 function TARecover(template, type) {
-  var returnMessage = {};
-  var message;
-  var signature;
-  console.log(type);
-  if(type === 'BeneficiaryTA') {
-    message = template['BeneficiaryTASignatureHash'];
-    signature = template['BeneficiaryTASignature'];
-  }
-  else if(type === 'BeneficiaryUser') {
-    message = template['BeneficiaryUserSignatureHash'];
-    signature = template['BeneficiaryUserSignature'];
-  }
-  else if(type === 'SenderTA') {
-    message = template['SenderTASignatureHash'];
-    signature = template['SenderTASignature'];
-  }
-  else if(type === 'SenderUser') {
-    message = template['SenderUserSignatureHash'];
-    signature = template['SenderUserSignature'];
-  }
-  else if(type === 'Crypto') {
-    message = template['CryptoSignatureHash'];
-    signature = template['CryptoSignature'];
-  }
-  
-  var v = Buffer.from(signature['v'].substr(2),'hex');
-  var r = Buffer.from(signature['r'].substr(2),'hex');
-  var s = Buffer.from(signature['s'].substr(2),'hex');
-  
-  var messageHash = Buffer.from(message.substr(2),'hex');
-    result = EthUtil.ecrecover(messageHash, v, r, s, 1);
+    var returnMessage = {};
+    var message;
+    var signature;
+    console.log(type);
+    if (type === 'BeneficiaryTA') {
+        message = template['BeneficiaryTASignatureHash'];
+        signature = template['BeneficiaryTASignature'];
+    } else if (type === 'BeneficiaryUser') {
+        message = template['BeneficiaryUserSignatureHash'];
+        signature = template['BeneficiaryUserSignature'];
+    } else if (type === 'SenderTA') {
+        message = template['SenderTASignatureHash'];
+        signature = template['SenderTASignature'];
+    } else if (type === 'SenderUser') {
+        message = template['SenderUserSignatureHash'];
+        signature = template['SenderUserSignature'];
+    } else if (type === 'Crypto') {
+        message = template['CryptoSignatureHash'];
+        signature = template['CryptoSignature'];
+    }
+
+    var v = Buffer.from(signature['v'].substr(2), 'hex');
+    var r = Buffer.from(signature['r'].substr(2), 'hex');
+    var s = Buffer.from(signature['s'].substr(2), 'hex');
+
+    var messageHash = Buffer.from(message.substr(2), 'hex');
+    var result = EthUtil.ecrecover(messageHash, v, r, s, 1);
 
     var pubkeyString = bufferToHex(result).substr(2);
 
     // compare public key from signature with public key in message
     if (pubkeyString === template['BeneficiaryTAPublicKey']) {
-      returnMessage['beneficiaryTAPublicKey'] = 'found match';
-    }
-    else if (pubkeyString === template['BeneficiaryUserPublicKey']) {
-      returnMessage['beneficiaryUserPublicKey'] = 'found match';
-    }
-    else if (pubkeyString === template['SenderTAPublicKey']) {
-      returnMessage['senderTAPublicKey'] = 'found match';
-    }
-    else if (pubkeyString === template['SenderUserPublicKey']) {
-      returnMessage['senderUserPublicKey'] = 'found match';
-    }
-    else {
-      returnMessage['publicKey'] = 'no match for type: '+type;
+        returnMessage['beneficiaryTAPublicKey'] = 'found match';
+    } else if (pubkeyString === template['BeneficiaryUserPublicKey']) {
+        returnMessage['beneficiaryUserPublicKey'] = 'found match';
+    } else if (pubkeyString === template['SenderTAPublicKey']) {
+        returnMessage['senderTAPublicKey'] = 'found match';
+    } else if (pubkeyString === template['SenderUserPublicKey']) {
+        returnMessage['senderUserPublicKey'] = 'found match';
+    } else {
+        returnMessage['publicKey'] = 'no match for type: ' + type;
     }
 
     var address = getEthAddressFromPublicKey(pubkeyString);
     if (address === template['BeneficiaryTAAddress']) {
-      returnMessage['beneficiaryTAAddress'] = 'found match';
-    }
-    else if (address === template['BeneficiaryUserAddress']) {
-      returnMessage['beneficiaryUserAddress'] = 'found match';
-    }
-    else if (address === template['SenderTAAddress']) {
-      returnMessage['senderTAAddress'] = 'found match';
-    }
-    else if (address === template['SenderUserAddress']) {
-      returnMessage['senderUserAddress'] = 'found match';
-    }
-    else {
-      returnMessage['address'] = 'no match for type: '+type;
+        returnMessage['beneficiaryTAAddress'] = 'found match';
+    } else if (address === template['BeneficiaryUserAddress']) {
+        returnMessage['beneficiaryUserAddress'] = 'found match';
+    } else if (address === template['SenderTAAddress']) {
+        returnMessage['senderTAAddress'] = 'found match';
+    } else if (address === template['SenderUserAddress']) {
+        returnMessage['senderUserAddress'] = 'found match';
+    } else {
+        returnMessage['address'] = 'no match for type: ' + type;
     }
     return returnMessage;
 }
@@ -148,55 +140,54 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 // start the express web server listening on 8091
 app.listen(process.env.TEMPLATE_HELPER_PORT, () => {
-  console.log('listening on '+process.env.TEMPLATE_HELPER_PORT);
+    console.log('listening on ' + process.env.TEMPLATE_HELPER_PORT);
 });
 
 app.post('/TASign', (req, res) => {
-  console.log('TASign');
-  
-  var messageJSON = req.param('messageJSON');
-  var privateKey = req.param('privateKey');
-  console.log(messageJSON);
-  console.log(privateKey);
-  var result = TASign(messageJSON, privateKey);
-  res.json(result);
+    console.log('TASign');
+
+    var messageJSON = req.param('messageJSON');
+    var privateKey = req.param('privateKey');
+    console.log(messageJSON);
+    console.log(privateKey);
+    var result = TASign(messageJSON, privateKey);
+    res.json(result);
 });
 
 app.post('/TARecover', (req, res) => {
-  console.log('TARecover');
-  var kycTemplate = JSON.parse(req.param('kycTemplate'));
-  var type = req.param('type');
+    console.log('TARecover');
+    var kycTemplate = JSON.parse(req.param('kycTemplate'));
+    var type = req.param('type');
 
-  var result = TARecover(kycTemplate, type);
-  res.json(result);
+    var result = TARecover(kycTemplate, type);
+    res.json(result);
 });
 
 app.post('/EncryptData', (req, res) => {
-  console.log('EncryptData');
-  var publicKey = req.param('publicKey');
-  var kycJSON = req.param('kycJSON');
-  var kycData = JSON.stringify(kycJSON);
-  var kycEncrypt = encryptData(publicKey, kycData);
-  console.log(kycEncrypt);
-  res.json({kycEncrypt: kycEncrypt});
+    console.log('EncryptData');
+    var publicKey = req.param('publicKey');
+    var kycJSON = req.param('kycJSON');
+    var kycData = JSON.stringify(kycJSON);
+    var kycEncrypt = encryptData(publicKey, kycData);
+    console.log(kycEncrypt);
+    res.json({ kycEncrypt: kycEncrypt });
 });
 
 app.post('/DecryptData', (req, res) => {
 
-  console.log('DecryptData');
-  var privateKey = req.param('privateKey');
-  var kycData = req.param('kycData');
+    console.log('DecryptData');
+    var privateKey = req.param('privateKey');
+    var kycData = req.param('kycData');
 
-  var kycDecrypt = decryptData(privateKey.substr(2), kycData);
-  console.log(kycDecrypt);
-  res.json({kycDecrypt: JSON.parse(kycDecrypt)});
+    var kycDecrypt = decryptData(privateKey.substr(2), kycData);
+    console.log(kycDecrypt);
+    res.json({ kycDecrypt: JSON.parse(kycDecrypt) });
 });
 
 app.post('/GetEthPublicKey', (req, res) => {
-  console.log('GetEthPublicKey');
-  var privateKey = req.param('privateKey');
-  var publicKey = getEthPublicKey(privateKey);
-  res.json({publicKey: publicKey});
-  
-});
+    console.log('GetEthPublicKey');
+    var privateKey = req.param('privateKey');
+    var publicKey = getEthPublicKey(privateKey);
+    res.json({ publicKey: publicKey });
 
+});
