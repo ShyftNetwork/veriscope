@@ -25,10 +25,9 @@
             }
           ],
           "nationalIdentification": {
-            "nationalIdentifier": "864 118 996",
+            "nationalIdentifier": "024181096",
             "nationalIdentifierType": "RAID",
-            "countryOfIssue": "US",
-            "registrationAuthority": "RA000628"
+            "registrationAuthority": "RA000589"
           },
           "customerIdentification": "0xA3a8C1C840A8C2049472065b2664E01E0e8A8b67",
           "dateAndPlaceOfBirth": {
@@ -66,7 +65,7 @@
         }
       ],
       "nationalIdentification": {
-        "nationalIdentifier": "506700T7Z685VUOZL877",
+        "nationalIdentifier": "335800HXPOIUDJ9T5R34",
         "nationalIdentifierType": "LEIX"
       },
       "customerIdentification": "0xE844664fAb49B9115F1f43eefaB09F2d1D1852e4"

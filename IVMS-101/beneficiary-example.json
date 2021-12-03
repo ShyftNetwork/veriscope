@@ -25,8 +25,7 @@
           ],
           "nationalIdentification": {
             "nationalIdentifier": "024181096",
-            "nationalIdentifierType": "LEIX",
-            "countryOfIssue": "CA",
+            "nationalIdentifierType": "RAID",
             "registrationAuthority": "RA000589"
           },
           "customerIdentification": "0x3E9181d09E56AdEF3bbc8BAb664Ce6B268Bf6e62",
@@ -61,7 +60,7 @@
         }
       ],
       "nationalIdentification": {
-        "nationalIdentifier": "206700T7Z685VUOZL877",
+        "nationalIdentifier": "335800HXPOIUDJ9T5R34",
         "nationalIdentifierType": "LEIX"
       },
       "customerIdentification": "0x4c4033629f9A93B69E4f00Da405a70BbC313f626"
