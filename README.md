@@ -282,6 +282,83 @@ Choose what to do: [Press i to install]
 Choose what to do: [Press 9 to create admin user and enter the required information]
 ```
 
+## Installation Confirmation/Troubleshooting
+
+### 1 - Has your TA account been set in the .env (veriscope_ta_node/.env)?
+
+TA Accounts are managed by the http-api.js script and loads it from the .env.  Ensure you have the private key set (TRUST_ANCHOR_PK) and the account (TRUST_ANCHOR_ACCOUNT).  If you plan to manage multiple accounts for testing purposes, you can swap out these accounts in the .env and restart the ta-node-1 service like so:
+
+```
+$sudo systemctl restart ta-node-1
+
+```
+Below is an example of a completed account setup in the .env:
+```
+#DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
+TRUST_ANCHOR_PK=ae21....ce00
+TRUST_ANCHOR_PREFNAME="vs-....-1"
+TRUST_ANCHOR_ACCOUNT=0xB158....b39 
+WEBHOOK_CLIENT_SECRET=tho....uain
+```
+**NOTE:** params have been truncated "...."
+
+### 2 - Is TA account loaded in webapp same as in veriscope_ta_node/.env
+When running Step 2 of the installation guide above (nethermind), your TA account in the .env will be overwritten.  By refreshing the Load TA Account in the webapp, your TA account in the veriscope_ta_node/.env will be loaded in the webapp.
+
+### 3 - Is Nethermind running? Is your nethermind node in the fedstats? Has it completed the sync?
+In order to receive blockchain events or post transactions, your nethermind client must be running.
+You can confirm this by 
+1. viewing https://fedstats.veriscope.network/ to see if your node is up and synchronized.
+2. running the following command in the console:
+```
+$ sudo systemctl status nethermind
+● nethermind.service - Nethermind Ethereum Daemon
+     Loaded: loaded (/etc/systemd/system/nethermind.service; disabled; vendor p>
+     Active: active (running) since Thu 2021-11-25 21:25:19 UTC; 1 weeks 0 days>
+   Main PID: 1419555 (Nethermind.Runn)
+      Tasks: 72 (limit: 4631)
+     Memory: 1.2G
+     CGroup: /system.slice/nethermind.service
+             └─1419555 /opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
+
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_blockNumber          >
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_chainId              >
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_getLogs              >
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: ------------------------->
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: TOTAL                    >
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: ------------------------->
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]:  
+Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:50.0323|>
+Dec 03 19:59:54 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+Dec 03 19:59:54 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+Dec 03 19:59:58 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:58.0401|>
+Dec 03 19:59:58 vs-node-1 Nethermind.Runner[1419555]: 2021-
+```
+The service should show Active.
+
+To confirm the webapp, http-api and nethermind (fully synched) are all connected, you should be able to fetch account balance in the webapp.
+
+### 4 - Logging
+Both the webapp and nodejs logs to files in the following directories:
+
+webapp -> /opt/veriscope/veriscope_ta_dashboard/storage/logs
+
+nodejs -> /opt/veriscope/veriscope_ta_node/logs
+
+### 5 - 503 when loading blockchain data
+If loading any of the blockchain data like so (see below section):
+```
+$ node -e 'require("./blockchain-data").getAllAttestations()'
+```
+you may notice 503 errors in the logs.
+503 is returned when the WEBHOOK_CLIENT_SECRET in both .env files may not be set.
+If you need to recreate the secret you can run this step from the guide:
+```
+10) Regenerate webhook secret
+```
+This will overwrite WEBHOOK_CLIENT_SECRET in both .env files for veriscope_ta_dashboard and veriscope_ta_node.
+
+
 ## Post-setup steps
 
 ### Load Blockchain Data
