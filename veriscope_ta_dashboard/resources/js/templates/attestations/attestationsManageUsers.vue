@@ -2,7 +2,7 @@
     <div class="container p-6 py-24 md:py-48 xl:pr-72">
         <page-intro
             title="Manage Users"
-            intro="Onboard your platform users, set attestations on their KYC information or Wallet accounts."
+            intro="Onboard your platform users and set attestations to their crypto withdrawal requests."
         ></page-intro>
         <!-- 01. Create a new user Shyft account -->
 
@@ -32,106 +32,6 @@
             </div>
             <br/>
             <div class="flex flex-wrap items-center">
-                <h2>01. Create a new user Shyft account</h2>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Choose the TA to onboard this new user</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_ta_account"
-                        label="TA Account"
-                        placeholder="Choose the TA Account"
-                        name="attestation_ta_account"
-                        :options=taAccountsData
-                        label-to-show="ta_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_ta_account')"
-                        required
-                    ></select-input>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Enter the full name for this new user</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <simple-input
-                        v-model.trim="user_prefname"
-                        label="New User Full Name"
-                        placeholder="Full Name"
-                        name="user_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('user_prefname')"
-                        required
-                        disabled
-                    ></simple-input>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Select Date of Birth</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <date-picker
-                        v-model="dob"
-                        label="Date of birth"
-                        name="dob"
-                        typeable
-                        v-validate="'required'"
-                        :error="errors.first('dob') || isDobValid"
-                        @input="dobErrorHandler"
-                        required
-                    ></date-picker>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Select Gender</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="gender"
-                        label="Gender"
-                        placeholder="Select gender"
-                        name="gender"
-                        :options="genderData"
-                        v-validate="'required'"
-                        :error="errors.first('gender')"
-                        required
-                    ></select-input>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_jurisdiction"
-                        label="Jurisdiction"
-                        placeholder="Choose The Jurisdiction"
-                        name="attestation_jurisdiction"
-                        :options=taCountryData
-                        label-to-show="name"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_jurisdiction')"
-                        required
-                    ></select-input>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3 my-8">
-                    <simple-button class="min-w-full"
-                        :on-click=taCreateUser
-                        >
-
-                        Create New User
-                    </simple-button>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center" :style="{ display:show_ta_create_user_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">User Account Address: {{ ta_create_user_result }}</strong></p>
-            </div>
-            <div class="flex flex-wrap items-center">
                 <h2>01. Generate Random User</h2>
             </div>
             <div class="flex flex-wrap items-center">
@@ -158,7 +58,7 @@
                         :on-click=taCreateRandomUsers
                         >
 
-                        Create Random Users
+                        Create Random User
                     </simple-button>
                 </div>
             </div>
@@ -167,11 +67,11 @@
             </div>
             <br/>
         </div>
-        <!-- 02. Set Wallet Attestation for this Shyft User account -->
+        <!-- 02. Set Wallet Attestation for your User -->
         <br/>
         <div class="my-4 lg">
             <div class="flex flex-wrap items-center">
-                <h2>02. Set Wallet Attestation for this Shyft User account</h2>
+                <h2>02. Set Wallet Attestation for your User</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <p>Choose the TA for this action</p>
@@ -375,9 +275,23 @@
             this.ta_get_user_columns =  [
                     {label: 'User Full Name', field: 'prefname'},
                     {label: 'User Shyft Account', field: 'account_address'},
-                    {label: 'User DOB', field: 'dob'},
-                    {label: 'User Gender', field: 'gender'},
-                    {label: 'User Jurisdiction', field: 'jurisdiction'},
+                    {label: 'Primary Identifier', field: 'primary_identifier'},
+                    {label: 'Secondary Identifier', field: 'secondary_identifier'},
+                    {label: 'Name Identifier Type', field: 'name_identifier_type'},
+                    {label: 'Address Type', field: 'address_type'},
+                    {label: 'Street Name', field: 'street_name'},
+                    {label: 'Building Number', field: 'building_number'},
+                    {label: 'Postcode', field: 'postcode'},
+                    {label: 'Town Name', field: 'town_name'},
+                    {label: 'Country Sub Division', field: 'country_sub_division'},
+                    {label: 'Country', field: 'country'},
+                    {label: 'National Identifier', field: 'national_identifier'},
+                    {label: 'National Identifier Type', field: 'national_identifier_type'},
+                    {label: 'Country of Issue', field: 'country_of_issue'},
+                    {label: 'Registration Authority', field: 'registration_authority'},
+                    {label: 'Date of Birth', field: 'date_of_birth'},
+                    {label: 'Place of Birth', field: 'place_of_birth'},
+                    {label: 'Country of Residence', field: 'country_of_residence'},
 
                 ];
             this.ta_get_user_rows = [];

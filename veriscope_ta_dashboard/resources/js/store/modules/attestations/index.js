@@ -6,7 +6,7 @@ import { getters } from './getters';
 export default {
     state: {
         attestationsSocketId: null,
-    	form: {
+        form: {
             ta_prefname: '',
             ta_password: '',
             ta_jurisdiction: '',
@@ -38,6 +38,17 @@ export default {
             ta_unique_account: '',
             ta_key_name: '',
             ta_key_value: '',
+            ivms_legal_person_name: '',
+            ivms_legal_person_name_identifier_type: '',
+            ivms_address_type: '',
+            ivms_street_name: '',
+            ivms_building_number: '',
+            ivms_building_name: '',
+            ivms_postcode: '',
+            ivms_town_name: '',
+            ivms_country_sub_division: '',
+            ivms_country: '',
+  
         },
         genderData: [
             {label: 'Male', value: 'male'},
@@ -52,7 +63,7 @@ export default {
         completedRoutes: [],
         currentRoute: '',
 
-		ta_user_accounts: [],
+        ta_user_accounts: [],
         ta_temp_user: '',
         taSetAttestationTypeOptions: [{id:0, type:"KYC"},
                                     {id:1, type:"WALLET"},
@@ -122,7 +133,6 @@ export default {
         showTaSetWalletAttestationHash: 'none',
         showTaSetWalletAttestationError: 'none',
         taSetKeyValuePairData: '',
-
 
     },
     getters: {

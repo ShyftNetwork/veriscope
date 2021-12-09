@@ -7,6 +7,9 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS,
     CREATE_TA_ACCOUNT_FAIL,
     //KEEP
+    TA_SAVE_IVMS_SUCCESS,
+    TA_SAVE_IVMS_FAIL,
+    //KEEP
     TA_IS_VERIFIED_SUCCESS,
     TA_IS_VERIFIED_FAIL,
     //KEEP
@@ -34,9 +37,6 @@ import {
 
     TA_SET_ATTESTATION_SUCCESS,
     TA_SET_ATTESTATION_FAIL,
-
-
-
 
     TA_GET_UNIQUE_ADDRESS_SUCCESS,
     TA_GET_UNIQUE_ADDRESS_FAIL,
@@ -136,6 +136,18 @@ export const mutations = {
     },
     [TA_REGISTER_JURISDICTION_FAIL] (state, { message='', errors=[] } = {}) {
         console.log('mutations TA_REGISTER_JURISDICTION_FAIL');
+        console.log(state);
+    },
+
+    [TA_SAVE_IVMS_SUCCESS] (state, payload=[]) {
+        console.log('mutations TA_SAVE_IVMS_SUCCESS');
+        console.log(state);
+        console.log(payload);
+
+    },
+
+    [TA_SAVE_IVMS_FAIL] (state, { message='', errors=[] } = {}) {
+        console.log('mutations TA_SAVE_IVMS_FAIL');
         console.log(state);
     },
 

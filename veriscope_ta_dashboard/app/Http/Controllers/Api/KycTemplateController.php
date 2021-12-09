@@ -114,17 +114,17 @@ class KycTemplateController extends Controller
                     ['field' => 'Crypto Public Key', 'data'  => $result['crypto_public_key']],
                     ['field' => 'Crypto Signature Hash', 'data'  => $result['crypto_signature_hash']],
                     ['field' => 'Crypto Signature', 'data'  => $result['crypto_signature']],
-                    ['field' => 'Sender TA Address', 'data'  => $result['sender_ta_address']],
-                    ['field' => 'Sender TA Public Key', 'data' => $result['sender_ta_public_key']],
-                    ['field' => 'Sender User Address', 'data'  => $result['sender_user_address']],
-                    ['field' => 'Sender User Public Key', 'data'  => $result['sender_user_public_key']],
-                    ['field' => 'Sender TA Signature Hash', 'data'  => $result['sender_ta_signature_hash']],
-                    ['field' => 'Sender TA Signature', 'data'  => $result['sender_ta_signature']],
-                    ['field' => 'Sender TA Signature', 'data'  => $result['sender_ta_signature']],
+                    ['field' => 'Originator TA Address', 'data'  => $result['sender_ta_address']],
+                    ['field' => 'Originator TA Public Key', 'data' => $result['sender_ta_public_key']],
+                    ['field' => 'Originator User Address', 'data'  => $result['sender_user_address']],
+                    ['field' => 'Originator User Public Key', 'data'  => $result['sender_user_public_key']],
+                    ['field' => 'Originator TA Signature Hash', 'data'  => $result['sender_ta_signature_hash']],
+                    ['field' => 'Originator TA Signature', 'data'  => $result['sender_ta_signature']],
+                    ['field' => 'Originator TA Signature', 'data'  => $result['sender_ta_signature']],
                     ['field' => 'Beneficiary KYC', 'data'  => $result['beneficiary_kyc']],
-                    ['field' => 'Sender KYC', 'data'  => $result['sender_kyc']],
+                    ['field' => 'Originator KYC', 'data'  => $result['sender_kyc']],
                     ['field' => 'Beneficiary KYC Decrypt', 'data'  => $result['beneficiary_kyc_decrypt']],
-                    ['field' => 'Sender KYC Decrypt', 'data'  => $result['sender_kyc_decrypt']]
+                    ['field' => 'Originator KYC Decrypt', 'data'  => $result['sender_kyc_decrypt']]
                   ];
 
 

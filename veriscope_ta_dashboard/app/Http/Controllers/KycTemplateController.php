@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\{KycTemplate,KycTemplateState,KycAttestation,SmartContractAttestation, TrustAnchor, TrustAnchorUser, CryptoWalletAddress, TrustAnchorExtraDataUnique};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class KycTemplateController extends Controller
 {
@@ -17,13 +18,69 @@ class KycTemplateController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
-
-        // Log::debug('KycTemplateController saveEncryptedKYCData kt');
-        // Log::debug(print_r($kt, true));
 
         $this->helper_url = env('SHYFT_TEMPLATE_HELPER_URL');
         $this->messageJSON = "VERISCOPE";
+    }
+
+    public function ivmsSchema($ta_id, $tau_id, $type) {
+
+        Log::debug('KycTemplateController ivmsSchema '.$tau_id." ".$type);
+        $contents = Storage::disk('local')->get('ivms101-template.json');
+        $ivms_template = json_decode($contents, true);
+
+        $tau = TrustAnchorUser::where('id', $tau_id)->firstOrFail();
+        $ta = TrustAnchor::where('id', $ta_id)->firstOrFail();
+
+        if ($type == 'ORIGINATOR') {
+            $key = 'originator';
+            $vasp_key = 'originating';
+
+        }
+        else {
+            $key = 'beneficiary';
+            $vasp_key = 'beneficiary';
+        }
+
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['name']['nameIdentifier'][0]['primaryIdentifier'] = $tau->primary_identifier;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['name']['nameIdentifier'][0]['secondaryIdentifier'] = $tau->secondary_identifier;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['name']['nameIdentifier'][0]['nameIdentifierType'] = $tau->name_identifier_type;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['addressType'] = $tau->address_type;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['streetName'] = $tau->street_name;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['buildingNumber'] = $tau->building_number;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['buildingName'] = $tau->building_name;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['postcode'] = $tau->postcode;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['townName'] = $tau->town_name;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['countrySubDivision'] = $tau->country_sub_division;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['geographicAddress'][0]['country'] = $tau->country;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['nationalIdentification']['nationalIdentifier'] = $tau->national_identifier;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['nationalIdentification']['nationalIdentifierType'] = $tau->national_identifier_type;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['nationalIdentification']['countryOfIssue'] = $tau->country_of_issue;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['nationalIdentification']['registrationAuthority'] = $tau->registration_authority;
+
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['customerIdentification'] = $tau->account_address;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['dateAndPlaceOfBirth']['dateOfBirth'] = $tau->date_of_birth;
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['dateAndPlaceOfBirth']['placeOfBirth'] = $tau->place_of_birth;
+
+        $ivms_template[$key][$key.'Persons'][0]['naturalPerson']['countryOfResidence'] = $tau->country_of_residence;
+
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['name']['nameIdentifier'][0]['legalPersonName'] = $ta->legal_person_name;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['name']['nameIdentifier'][0]['legalPersonNameIdentifierType'] = $ta->legal_person_name_identifier_type;
+
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['addressType'] = $ta->address_type;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['streetName'] = $ta->street_name;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['buildingNumber'] = $ta->building_number;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['buildingName'] = $ta->building_name;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['postcode'] = $ta->postcode;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['townName'] = $ta->town_name;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['countrySubDivision'] = $ta->country_sub_division;
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['geographicAddress'][0]['country'] = $ta->country;
+
+        $ivms_template[$vasp_key.'VASP']['legalPerson']['customerIdentification'] = $ta->account_address;
+
+
+        Log::debug(json_encode($ivms_template));
+        return $ivms_template;
     }
 
     public function isTASenderOrBeneficiary($kycTemplate) {
@@ -35,7 +92,7 @@ class KycTemplateController extends Controller
             return 'BENEFICIARY';
         }
         else if($ta->account_address == json_decode($kycTemplate)->SenderTAAddress) {
-            return 'SENDER';
+            return 'ORIGINATOR';
         }
         return 'NONE';
     }
@@ -127,11 +184,11 @@ class KycTemplateController extends Controller
         if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'BENEFICIARY') {
             $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->SenderTAAddress)->where('key_value_pair_name', 'API_URL')->firstOrFail();
         }
-        else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'SENDER') {
+        else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'ORIGINATOR') {
             $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->BeneficiaryTAAddress)->where('key_value_pair_name', 'API_URL')->firstOrFail();
         }
 
-        $url = $taedu->key_value_pair_value.'kyc-template';
+        $url = $taedu->key_value_pair_value;
 
         $client = new Client();
         $res = $client->request('POST', $url, [
@@ -278,7 +335,6 @@ class KycTemplateController extends Controller
         } else {
           Log::error('KycTemplateController addUserSignature: ' . print_r($res, true));
         }
-        // }
 
         if ($tau->account_address == $kycTemplate->beneficiary_user_address) {
             $kycTemplate->beneficiary_user_signature_hash = $tau->signature_hash;
@@ -344,11 +400,11 @@ class KycTemplateController extends Controller
         $kt->sender_user_address = $sca->user_account;
 
         $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();
-            $url = $taedu->key_value_pair_value.'kyc-template';
+            $url = $taedu->key_value_pair_value;
         $kt->beneficiary_ta_url = $url;
 
         $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->sender_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();
-            $url = $taedu->key_value_pair_value.'kyc-template';
+            $url = $taedu->key_value_pair_value;
         $kt->sender_ta_url = $url;
 
         $kt->save();
@@ -376,18 +432,18 @@ class KycTemplateController extends Controller
         if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'BENEFICIARY') {
 
             $tau = TrustAnchorUser::where('account_address', json_decode($kycTemplateJSON)->BeneficiaryUserAddress)->firstOrFail();
-            $user_kyc = json_encode(array("fullname"=>$tau->prefname,
-                                    "dob"=>$tau->dob,
-                                    "jurisdiction"=>$tau->jurisdiction));
+
+            $user_kyc = json_encode($this->ivmsSchema($tau->trust_anchor_id, $tau->id, "BENEFICIARY"));
             $public_key = json_decode($kycTemplateJSON)->SenderUserPublicKey;
             $kt->beneficiary_kyc_decrypt = $user_kyc;
             $kt->save();
         }
-        else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'SENDER') {
+        else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'ORIGINATOR') {
+            
             $tau = TrustAnchorUser::where('account_address', json_decode($kycTemplateJSON)->SenderUserAddress)->firstOrFail();
-            $user_kyc = json_encode(array("fullname"=>$tau->prefname,
-                                    "dob"=>$tau->dob,
-                                    "jurisdiction"=>$tau->jurisdiction));
+
+            $user_kyc = json_encode($this->ivmsSchema($tau->trust_anchor_id, $tau->id, "ORIGINATOR"));
+
             $public_key = json_decode($kycTemplateJSON)->BeneficiaryUserPublicKey;
             $kt->sender_kyc_decrypt = $user_kyc;
             $kt->save();
@@ -414,7 +470,7 @@ class KycTemplateController extends Controller
                 $kt->beneficiary_kyc = $kycEncrypt;
                 $this->updateKycTemplateForState($kt, 'BENEFICIARY_KYC');
             }
-            else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'SENDER'){
+            else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'ORIGINATOR'){
                 $kt->sender_kyc = $kycEncrypt;
                 $this->updateKycTemplateForState($kt, 'SENDER_KYC');
             }
@@ -435,7 +491,7 @@ class KycTemplateController extends Controller
             $kyc_data = json_decode($kycTemplate)->SenderKYC;
             $is_sender_kyc = true;
         }
-        else if ($this->isTASenderOrBeneficiary($kycTemplate) == 'SENDER' && json_decode($kycTemplate)->BeneficiaryKYC) {
+        else if ($this->isTASenderOrBeneficiary($kycTemplate) == 'ORIGINATOR' && json_decode($kycTemplate)->BeneficiaryKYC) {
             $tau = TrustAnchorUser::where('account_address', json_decode($kycTemplate)->SenderUserAddress)->firstOrFail();
             $kyc_data = json_decode($kycTemplate)->BeneficiaryKYC;
         }

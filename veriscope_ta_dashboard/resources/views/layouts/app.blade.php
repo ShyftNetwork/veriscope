@@ -64,16 +64,7 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/globe.css" rel="stylesheet">
 
-  <!-- Google Tag Manager -->
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172688188-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-172688188-1');
-</script>
 
   <!-- End Google Tag Manager -->
 
@@ -162,11 +153,6 @@
 </head>
 <body class="preload @yield('body-styles')">
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N97XWCX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
     @if(Request::getPathInfo() == '/')
     @include('partials.navigation-welcome')
     @else
@@ -174,8 +160,6 @@
     @endif
 
     @yield('content')
-
-    @include('partials.scripts')
 
     @yield('endscripts')
 </body>

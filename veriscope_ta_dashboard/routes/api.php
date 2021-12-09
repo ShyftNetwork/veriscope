@@ -66,6 +66,7 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
         Route::get('trustanchor-user-attestations','TrustAnchorController@trust_anchor_user_attestations');
 
         Route::post('contracts/trust-anchor/{id}/create-ta-account', 'ContractsController@create_ta_account');
+        Route::post('contracts/trust-anchor/{id}/ta-save-ivms', 'ContractsController@ta_save_ivms');
         Route::post('contracts/trust-anchor/{id}/ta-is-verified', 'ContractsController@ta_is_verified');
         Route::post('contracts/trust-anchor/{id}/ta-reload-account', 'ContractsController@ta_reload_account');
         Route::post('contracts/trust-anchor/{id}/ta-set-jurisdiction', 'ContractsController@ta_set_jurisdiction');
