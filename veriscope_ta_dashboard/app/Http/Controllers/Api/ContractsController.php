@@ -19,8 +19,6 @@ class ContractsController extends Controller
       public function __construct()
       {
           // $this->middleware('auth');
-          
-          // kyc-template.js (helper) runs on 8091
 
           $this->helper_url = env('HTTP_API_URL');
       }
@@ -48,6 +46,50 @@ class ContractsController extends Controller
           } else {
               Log::error('ContractsController create_ta_account: ' . $res->getStatusCode());
           }
+
+          return response()->json([]);
+      }
+
+      public function ta_save_ivms(Request $request, $id)
+      {
+          Log::debug('ContractsController ta_save_ivms');
+
+          $input = $request->all();
+
+          Log::debug(print_r($input, true));
+
+          $user = User::find($id);
+          $ta = TrustAnchor::first();
+
+          if ($input['legal_person_name'])
+            $ta->legal_person_name = $input['legal_person_name'];
+          if ($input['legal_person_name_identifier_type'])
+            $ta->legal_person_name_identifier_type = $input['legal_person_name_identifier_type'];
+          if ($input['address_type'])
+            $ta->address_type = $input['address_type'];
+
+          if ($input['street_name'])
+            $ta->street_name = $input['street_name'];
+
+          if ($input['building_number'])
+            $ta->building_number = $input['building_number'];
+
+          if ($input['building_name'])
+            $ta->building_name = $input['building_name'];
+
+          if ($input['postcode'])
+            $ta->postcode = $input['postcode'];
+
+          if ($input['town_name'])
+            $ta->town_name = $input['town_name'];
+
+          if ($input['country_sub_division'])
+            $ta->country_sub_division = $input['country_sub_division'];
+
+          if ($input['country'])
+            $ta->country = $input['country'];
+
+          $ta->save();
 
           return response()->json([]);
       }
@@ -200,48 +242,98 @@ class ContractsController extends Controller
 
           $path = '../app/SqlDumps/fake_users.csv';
           $handle = fopen($path, "r");
-          $first_names = array();
-          $last_names = array();
+          $primaryIdentifiers = array();
+          $secondaryIdentifiers = array();
+          $nameIdentifierTypes = array();
+          $addressTypes = array();
+          $streetNames = array();
+          $buildingNumbers = array();
+          $postcodes = array();
+          $townNames = array();
+          $countrySubDivisions = array();
+          $countrys = array();
+          $nationalIdentifiers = array();
+          $nationalIdentifierTypes = array();
+          $countryOfIssues = array();
+          $registrationAuthoritys = array();
+          $dateOfBirths = array();
+          $placeOfBirths = array();
+          $countryOfResidences = array();
+
           while ($csvLine = fgetcsv($handle, 1000, ",")) {
-            $first_name = $csvLine[0];
-            array_push($first_names, $first_name);
-            $last_name =  $csvLine[1]; 
-            array_push($last_names, $last_name);    
+            $primaryIdentifier = $csvLine[0];
+            array_push($primaryIdentifiers, $primaryIdentifier);
+            $secondaryIdentifier = $csvLine[1];
+            array_push($secondaryIdentifiers, $secondaryIdentifier);
+            $nameIdentifierType = $csvLine[2];
+            array_push($nameIdentifierTypes, $nameIdentifierType);
+            $addressType = $csvLine[3];
+            array_push($addressTypes, $addressType);
+            $streetName = $csvLine[4];
+            array_push($streetNames, $streetName);
+            $buildingNumber = $csvLine[5];
+            array_push($buildingNumbers, $buildingNumber);
+            $postcode = $csvLine[6];
+            array_push($postcodes, $postcode);
+            $townName = $csvLine[7];
+            array_push($townNames, $townName);
+            $countrySubDivision = $csvLine[8];
+            array_push($countrySubDivisions, $countrySubDivision);
+            $country = $csvLine[9];
+            array_push($countrys, $country);
+            $nationalIdentifier = $csvLine[10];
+            array_push($nationalIdentifiers, $nationalIdentifier);
+            $nationalIdentifierType = $csvLine[11];
+            array_push($nationalIdentifierTypes, $nationalIdentifierType);
+            $countryOfIssue = $csvLine[12];
+            array_push($countryOfIssues, $countryOfIssue);
+            $registrationAuthority = $csvLine[13];
+            array_push($registrationAuthoritys, $registrationAuthority);
+            $dateOfBirth = $csvLine[14];
+            array_push($dateOfBirths, $dateOfBirth);
+            $placeOfBirth = $csvLine[15];
+            array_push($placeOfBirths, $placeOfBirth);
+            $countryOfResidence = $csvLine[16];
+            array_push($countryOfResidences, $countryOfResidence);
+              
           }
 
-          $length = count($first_names);
+          $length = count($primaryIdentifiers);
           
 
-          $f_index = rand(0, $length);
-          $l_index = rand(0, $length);
-          $full_name = $first_names[$f_index]. ' ' .$last_names[$l_index];
+          $index = rand(0, $length);
+       
+          $full_name = $primaryIdentifiers[$index]. ' ' .$secondaryIdentifiers[$index];
           Log::debug(print_r($full_name, true));
 
           $input['trust_anchor_id'] = $ta->id;
           $input['prefname'] = $full_name;
-          $input['dob'] = date("Y-m-d H:i:s",rand(336778823, 652311623));
-          $input['gender'] = (rand(0,1) == 1) ? 'male' : 'female';
-          $input['jurisdiction'] = rand(1,247);
-          $input['password'] = $full_name;
+          $input['primary_identifier'] = $primaryIdentifiers[$index];
+          $input['secondary_identifier'] = $secondaryIdentifiers[$index];
+          $input['name_identifier_type'] = $nameIdentifierTypes[$index];
+          $input['address_type'] = $addressTypes[$index];
+          $input['street_name'] = $streetNames[$index];
+          $input['building_number'] = $buildingNumbers[$index];
+          $input['postcode'] = $postcodes[$index];
+          $input['town_name'] = $townNames[$index];
+          $input['country_sub_division'] = $countrySubDivisions[$index];
+          $input['country'] = $countrys[$index];
+          $input['national_identifier'] = $nationalIdentifiers[$index];
+          $input['national_identifier_type'] = $nationalIdentifierTypes[$index];
+          $input['country_of_issue'] = $countryOfIssues[$index];
+          $input['registration_authority'] = $registrationAuthoritys[$index];
+          $input['date_of_birth'] = $dateOfBirths[$index];
+          $input['place_of_birth'] = $placeOfBirths[$index];
+          $input['country_of_residence'] = $countryOfResidences[$index];
+
           $tau = new TrustAnchorUser($input);
           $tau->save();
 
           $ta_user_id = $tau->id;
           $ta->trustAnchorUser()->save($tau);
 
-          #associate unused crypto address to this user
-          // $btc_address = CryptoWalletAddress::where('crypto_wallet_type_id', 1)->where('trust_anchor_user_id', null)->orderBy('id')->first();
-          // $btc_address->trust_anchor_user_id = $tau->id;
-          // $btc_address->trust_anchor_id = $ta->id;
-          // $btc_address->save();
-
-          // $eth_address = CryptoWalletAddress::where('crypto_wallet_type_id', 2)->where('trust_anchor_user_id', null)->orderBy('id')->first();
-          // $eth_address->trust_anchor_user_id = $tau->id;
-          // $eth_address->trust_anchor_id = $ta->id;
-          // $eth_address->save();
-
           $prefname = $input['prefname'];
-          $password = $input['password'];
+          $password = $input['prefname'];
 
           Log::debug(print_r($input, true));
           $url = $this->helper_url.'/ta-create-user?user_id='.$id.'&ta_user_id='.$ta_user_id.'&prefname='.$prefname.'&password='.$password;
@@ -542,7 +634,6 @@ class ContractsController extends Controller
             $users = TrustAnchorUser::where('trust_anchor_id', $trust_anchor->id)->get();
             foreach($users as $user) {
               $user->ta_prefname = $trust_anchor->ta_prefname;
-              $user->jurisdiction = Country::where('id', $user->jurisdiction)->first()->name;
               array_push($list, $user);
             }
           }

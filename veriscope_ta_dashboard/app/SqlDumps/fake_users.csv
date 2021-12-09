@@ -1,500 +1,101 @@
-Stella,Hardy
-Alfredo,Grant
-Rex,Williamson
-Lionel,Norris
-Tracy,Burns
-Frederick,Warner
-Irvin,Knight
-Luz,Phillips
-Dorothy,Hicks
-Amelia,Banks
-Charlene,Massey
-Phyllis,Erickson
-Marian,Cain
-Jesus,Lopez
-Leigh,Arnold
-Mary,Ryan
-Frankie,Christensen
-Helen,Matthews
-Mandy,Berry
-Josephine,Evans
-Julie,Wagner
-Mathew,Baldwin
-Olivia,Beck
-Gayle,Mason
-Christy,Murray
-Paul,Aguilar
-Lester,Pierce
-Sheri,Doyle
-Deanna,Barnett
-Clay,Norton
-Simon,Gibbs
-Jaime,Floyd
-Juanita,Ferguson
-Carol,Sullivan
-Bill,Carson
-Greg,Paul
-Douglas,Edwards
-Eula,Douglas
-Lena,Fleming
-Edward,Holmes
-Darren,Cole
-Clark,Cooper
-Carole,Hammond
-Ethel,Foster
-Tricia,Brady
-Phil,Mcdonald
-Mack,Barton
-Frances,Townsend
-Marlene,Schmidt
-Kari,Sanchez
-Kayla,Allison
-Patti,Gray
-Janis,Howard
-Bryan,Glover
-Ken,Quinn
-Cristina,Stokes
-Krystal,Lawrence
-Erick,Green
-James,Conner
-Orlando,Maxwell
-Vanessa,Weaver
-Lynda,Gardner
-Angelica,Henry
-Archie,Ball
-Francisco,Jensen
-Dixie,Wood
-Norman,Francis
-Kelly,Willis
-Colleen,Day
-Lynne,Coleman
-Scott,Bell
-Maryann,Fitzgerald
-Leslie,Owen
-Rolando,Dixon
-Oliver,Patterson
-Alan,Daniels
-Patsy,Nash
-Jaime,Jackson
-Grace,Hansen
-Bert,Holt
-Brandy,Austin
-Yolanda,Perry
-Alexandra,Craig
-Gene,Schultz
-Ricardo,Waters
-Daisy,Sims
-Leonard,Brock
-Bradley,Terry
-Jesse,Weber
-Sheldon,Collins
-Jane,Gonzales
-Ryan,Robinson
-Vernon,Baker
-Lillian,Mccormick
-Rochelle,Yates
-Eloise,Wong
-Steven,Walters
-Rudolph,Bishop
-Allison,Clayton
-Cathy,Bass
-Florence,Wise
-Abel,Massey
-Adam,Parker
-Jermaine,Chavez
-Dwayne,Gomez
-Karla,Wolfe
-Jan,Hill
-Delbert,Mcdaniel
-Franklin,Walker
-Jody,Vega
-Miriam,Ward
-Nelson,Robinson
-Clarence,Baldwin
-Vernon,Shelton
-Earnest,Craig
-Sean,Freeman
-Arlene,Cook
-Julia,Wood
-William,Baker
-Scott,Davis
-Gwendolyn,Cole
-Homer,Johnston
-Maureen,Park
-Danny,Singleton
-Eileen,Sandoval
-Jenna,Hubbard
-Leo,Schneider
-Fred,Williams
-Victoria,Henry
-Whitney,King
-Jason,Parsons
-Claude,Steele
-Erica,Burke
-Marian,Mcdonald
-Kelly,Boyd
-Lillian,Frank
-Barbara,Garrett
-Muriel,Logan
-Alfonso,Crawford
-Philip,Barton
-Esther,Perez
-Freddie,Mccoy
-Maggie,Hale
-Stanley,Roy
-Edgar,Jones
-Neil,Perkins
-Alvin,Lewis
-Kristin,Bell
-Lionel,Foster
-Theresa,Moreno
-Tom,Blair
-Ruben,Malone
-Hugh,Quinn
-Sherry,Nash
-Sherri,Lamb
-Warren,Benson
-Kay,Barber
-Jamie,Vaughn
-Jessie,Moran
-Reginald,Woods
-Rosemarie,Osborne
-Colleen,Guzman
-Moses,Simpson
-Seth,Tyler
-Ed,Howard
-Dallas,Long
-Kathleen,Rice
-Edward,Murphy
-Juan,Kennedy
-John,Bryant
-Lloyd,Holloway
-Loren,Conner
-Antoinette,Garcia
-Orville,Hoffman
-Traci,Douglas
-Teresa,Jimenez
-Felix,Stevens
-Irene,Graves
-Linda,Watson
-Evelyn,Welch
-Brandy,Evans
-Bob,Carroll
-Wanda,Mathis
-Kristi,Owen
-Sarah,Norman
-Cathy,Hanson
-Alejandro,Guerrero
-Raquel,Wallace
-Marlene,Love
-Kate,Fields
-Joan,Rowe
-Lucy,Brooks
-Lee,Greer
-Lisa,Jacobs
-Wilson,Mason
-Terrance,Maldonado
-Norma,Mack
-Guillermo,Carpenter
-Trevor,Mendez
-Brett,Goodwin
-Barbara,Beck
-Ella,Henderson
-Tommy,Steele
-Shelia,Dunn
-Rudolph,Sparks
-Belinda,Johnston
-Fred,Garza
-Holly,French
-Stewart,Moss
-Eddie,George
-Christopher,Taylor
-Carroll,Curry
-Beth,Bradley
-Tony,Scott
-Leigh,Cole
-Olivia,Grant
-Cesar,Rose
-Chelsea,Vega
-Lana,Carr
-Gregg,Rhodes
-Margaret,Duncan
-Jody,Clarke
-Javier,Horton
-Salvador,Casey
-Stella,Waters
-Jake,Hogan
-Natalie,Curtis
-Kelli,Figueroa
-Tamara,Diaz
-Vivian,Phelps
-Doyle,Stewart
-Muriel,Reynolds
-Elsie,Reyes
-Matthew,Fisher
-Douglas,Parker
-Amy,Perry
-Rosemary,Griffin
-Allan,Tucker
-Katherine,Hayes
-Myron,Clark
-Brett,Mclaughlin
-Eleanor,Mccarthy
-June,Oliver
-Rufus,Cummings
-Andrew,Brooks
-Emmett,Herrera
-Joe,Stokes
-Norma,Gutierrez
-Sara,Garner
-Nathaniel,Hoffman
-Derrick,Bailey
-Garry,Cortez
-Chad,Powers
-Jodi,Thornton
-Cedric,Allen
-Janice,Lane
-Jim,Henry
-Simon,Higgins
-Jacqueline,Walker
-Nathan,Nguyen
-Marshall,Goodman
-Spencer,Reid
-Tommie,Hunter
-Amanda,Meyer
-Margarita,Singleton
-Kevin,Logan
-Timothy,Paul
-Marcia,Keller
-Lynette,Abbott
-Jessie,Warren
-Marion,Ross
-Josephine,Rice
-Willie,Nunez
-Bennie,Ward
-Harvey,Blair
-Melinda,Powell
-Roland,Robbins
-Laverne,Baldwin
-Alton,Ortega
-Terrence,Fox
-Traci,Pittman
-Eugene,Marshall
-Meredith,Wilkins
-Damon,Lawson
-Tracy,Ellis
-May,Cox
-Gustavo,Vaughn
-Teri,Gilbert
-Sophia,Baker
-Omar,Roberts
-Beatrice,Foster
-Bessie,Wallace
-Ernest,Hernandez
-Alice,Benson
-Carrie,Hughes
-Andy,Ramirez
-Albert,Carlson
-Julie,Townsend
-Kathryn,Conner
-Brandon,Morgan
-Rosalie,Hughes
-Eddie,Sanchez
-Elbert,Manning
-Willie,Moody
-Tommy,Pittman
-Sabrina,Collier
-Tommie,Ballard
-Tabitha,Holloway
-Julia,Wade
-Casey,Armstrong
-Cesar,Ingram
-Elaine,Williamson
-Constance,Richards
-Alexander,Stephens
-Blanche,Palmer
-Allan,Barton
-Christian,Patton
-Ella,Vasquez
-Miriam,Montgomery
-Garry,Rodriquez
-Mable,Parker
-Stacy,Holt
-Melba,Kelly
-Albert,Silva
-Marcos,Schneider
-Marilyn,Holland
-Patti,Mathis
-Eileen,Johnston
-Darryl,Malone
-Gabriel,Wise
-Cecilia,Francis
-Della,Maldonado
-Katrina,Jefferson
-Priscilla,Nichols
-Elena,George
-Eduardo,Ramos
-Carlton,Hayes
-Juanita,Clark
-Faith,Glover
-Ruby,Gregory
-Daniel,Bass
-Terrell,Lane
-Bob,Bennett
-Vincent,Sharp
-Shannon,Hopkins
-Darrin,Lopez
-Eric,Carter
-Jason,Hoffman
-Terrance,Sanders
-Renee,Powell
-Josephine,Norton
-Lucas,Graves
-Gilberto,Paul
-Evan,Obrien
-Tracy,Johnson
-Joann,Reese
-Luis,Vega
-Sidney,Zimmerman
-Bernadette,Vaughn
-Salvatore,Warren
-Tyrone,Gonzalez
-Brad,Romero
-Bridget,Logan
-Matt,Hampton
-Anna,Evans
-Lydia,Burton
-Faye,Rodriguez
-Spencer,Cortez
-Roderick,Burns
-Erika,Buchanan
-Megan,Castillo
-Wilson,Owens
-Janis,Jenkins
-Frances,Kim
-Sally,Soto
-Nellie,Harrison
-Johnathan,Alvarado
-Karla,Pena
-Olga,Drake
-Merle,Luna
-Miranda,Banks
-Toni,Reeves
-Sheryl,Gross
-Martha,Burgess
-Arnold,Lindsey
-Alexandra,Mendoza
-Jose,Ramirez
-Juan,Klein
-Susan,Chandler
-Pablo,Davidson
-Wilbur,Bailey
-Cristina,Park
-Gloria,Keller
-James,Smith
-Mona,Simmons
-Tracy,Gutierrez
-Stuart,Payne
-Nina,Gray
-Flora,Mclaughlin
-Rose,Hart
-Jacqueline,Banks
-Jeremy,Blake
-Mandy,Leonard
-Tracey,Douglas
-Sylvester,Dunn
-Neil,Watts
-Ella,Lee
-Rhonda,Bryant
-Agnes,Porter
-Patricia,Summers
-Luke,Hart
-Tommie,Cannon
-Cary,Underwood
-Ricardo,Miles
-Freddie,Diaz
-Clyde,Gomez
-Dora,Craig
-Arthur,Green
-Stewart,Fuller
-Flora,Davis
-Sidney,Marshall
-Leslie,Nguyen
-Kayla,Thompson
-Christie,Cole
-Luther,Caldwell
-Elmer,Patterson
-Cecilia,Guerrero
-Sophia,Drake
-Terry,Crawford
-Ellen,Delgado
-Al,Owens
-Marty,Russell
-Ramiro,Howell
-Kerry,Collier
-Charlie,Reed
-Felicia,Hudson
-Leon,Gilbert
-Sarah,Walters
-Jose,Ford
-Jennie,Gross
-Shannon,Carter
-Carlton,Morales
-Tami,Fisher
-Randall,Peters
-Orville,Hall
-Vickie,Huff
-Juan,Pena
-Elsie,Garcia
-Sophie,Rodriquez
-Alice,Parks
-Danny,Reese
-Viola,Bishop
-Otis,Woods
-Sherry,Harvey
-Tanya,Lynch
-Tracy,Vargas
-Mabel,Osborne
-Virginia,Jensen
-Cornelius,Collins
-Katherine,Stone
-Suzanne,Reid
-Emily,Walsh
-Belinda,Robertson
-Nichole,Dixon
-Pat,Gardner
-Faith,Bowers
-Toni,Mccarthy
-Saul,Harris
-Laverne,Vega
-Wilbert,Francis
-Penny,Hansen
-Dawn,Harrington
-Lorraine,Graham
-Sammy,Moss
-Cheryl,Santiago
-Meghan,Reyes
-Violet,Dennis
-Ida,Oliver
-Tina,Glover
-Angelica,Snyder
-Roxanne,Owen
-Erin,Evans
-Beverly,Rodgers
-Paulette,Jefferson
-Traci,Hubbard
-Joann,Mcdonald
-Jamie,Pittman
-Dorothy,Bates
-Clifford,May
-Barbara,Mccormick
-Roland,Bush
-Rosemary,Munoz
-Wade,Lloyd
-Monique,Mendoza
-Lynn,Gutierrez
-Donnie,Morrison
-Devin,Lamb
-Rachael,Romero
-Herman,Mendez
-Claudia,Fernandez
+primaryIdentifier,secondaryIdentifier,nameIdentifierType,addressType,streetName,buildingNumber,postcode,townName,countrySubDivision,country,nationalIdentifier,nationalIdentifierType,countryOfIssue,registrationAuthority,dateOfBirth,placeOfBirth,countryOfResidence
+Retha,Huffman,LEGL,GEOG,Cinder Landing,264,91045,Bevier,Maine,SB,1000001091,RAID,SB,RA000628,2001-09-12,Bevier,SB
+Alfonso,Gorter,LEGL,GEOG,Silver Elk,306,50716,Susanville,West Virginia,VU,1000001105,RAID,VU,RA000628,1952-11-04,Susanville,VU
+Ahmed,Gibson,LEGL,GEOG,Heather Sixth,143,40532,Rosamond,Arkansas,PH,1000001113,RAID,PH,RA000628,1972-09-02,Rosamond,PH
+Wilfredo,de Graaf,LEGL,GEOG,Bear Heights,106,11127,Davidson,Delaware,VC,1000001121,RAID,VC,RA000628,1979-04-05,Davidson,VC
+Edmundo,Benitez,LEGL,GEOG,W Center,443,44772,Morland,California,GH,1000001148,RAID,GH,RA000628,1981-09-28,Morland,GH
+Genaro,Howell,LEGL,GEOG,Main Key,93,26192,Seldovia Village,Wyoming,RE,1000001156,RAID,RE,RA000628,1984-12-25,Seldovia Village,RE
+Lily,Hartman,LEGL,GEOG,Deer Bend,301,30573,La Palma,Missouri,ST,1000001164,RAID,ST,RA000628,2003-10-14,La Palma,ST
+Cortez,Terweele,LEGL,GEOG,Fred Street,987,88530,Alapaha,South Carolina,CL,1000001172,RAID,CL,RA000628,1991-06-30,Alapaha,CL
+Edgardo,de Ridder,LEGL,GEOG,Foggy Drive,599,68150,Cumberland village,South Dakota,EH,1000001180,RAID,EH,RA000628,1968-11-21,Cumberland village,EH
+Chery,Koeleman,LEGL,GEOG,Green Squaw,367,85165,Canyon Lake,Mississippi,VG,1000001199,RAID,VG,RA000628,1991-04-15,Canyon Lake,VG
+Tomas,Lorentz,LEGL,GEOG,Seventh Lawn,343,41821,Flanagan village,West Virginia,CH,1000001202,RAID,CH,RA000628,1968-02-05,Flanagan village,CH
+Felipe,Yang,LEGL,GEOG,NE Track,111,45385,Savonburg,Illinois,SY,1000001210,RAID,SY,RA000628,1958-02-06,Savonburg,SY
+Jodi,Trevino,LEGL,GEOG,Grand Shadow,308,43670,Lohrville village,Missouri,PK,1000001229,RAID,PK,RA000628,1979-06-16,Lohrville village,PK
+Moises,Cruz,LEGL,GEOG,Dusty Falls,33,40571,McComb,Oklahoma,DE,1000001237,RAID,DE,RA000628,2003-07-04,McComb,DE
+Justin,Riddle,LEGL,GEOG,Tawny Loaf,787,48908,Keyes,Alabama,DJ,1000001245,RAID,DJ,RA000628,1988-11-15,Keyes,DJ
+Mike,Brouwer,LEGL,GEOG,Round Cliff,908,51068,Forrestville,Mississippi,ID,1000001253,RAID,ID,RA000628,1963-08-31,Forrestville,ID
+Myron,Schouten,LEGL,GEOG,Honey Pine,880,12006,Hansboro,South Carolina,TR,1000001261,RAID,TR,RA000628,1969-04-13,Hansboro,TR
+Martin,Eskes,LEGL,GEOG,Bright Tunnel,853,19514,Lockhart,Arkansas,RU,1000001288,RAID,RU,RA000628,1958-09-14,Lockhart,RU
+Arthur,Cash,LEGL,GEOG,SE Gateway,363,10347,Cantril,Virginia,BZ,1000001296,RAID,BZ,RA000628,1943-12-22,Cantril,BZ
+Nellie,Copeland,LEGL,GEOG,Crystal Blossom,249,20214,Hope Mills,Michigan,PL,1000001318,RAID,PL,RA000628,1963-05-22,Hope Mills,PL
+Fiona,Barnett,LEGL,GEOG,Summit Viaduct,181,90812,Great River,Missouri,RO,1000001326,RAID,RO,RA000628,2000-12-13,Great River,RO
+Nick,Hendricks,LEGL,GEOG,Main Street,76,54909,Meigs,Minnesota,UY,1000001334,RAID,UY,RA000628,1993-06-29,Meigs,UY
+Camie,Oneil,LEGL,GEOG,Horse Street,979,77804,Akins,Alaska,KW,1000001342,RAID,KW,RA000628,1976-06-20,Akins,KW
+Herta,Muusse,LEGL,GEOG,Round Neck,319,57522,Whitten,Indiana,WS,1000001350,RAID,WS,RA000628,1992-12-09,Whitten,WS
+Sarina,Esparza,LEGL,GEOG,High Bayoo,374,27863,Palisade village,Louisiana,ME,1000001369,RAID,ME,RA000628,1952-11-27,Palisade village,ME
+Herbert,Westerveld,LEGL,GEOG,Thunder Apple,772,57316,Lakeview village,Idaho,LS,1000001377,RAID,LS,RA000628,1966-03-19,Lakeview village,LS
+Eva,Hopkins,LEGL,GEOG,Noble Walk,594,19647,Averill Park,Iowa,CU,1000001385,RAID,CU,RA000628,1981-10-29,Averill Park,CU
+Hipolito,Gutierrez,LEGL,GEOG,Qwerty Way,765,81374,Kingsgate,Connecticut,PR,1000001393,RAID,PR,RA000628,1984-04-01,Kingsgate,PR
+Rhett,Coleman,LEGL,GEOG,Shady Track,660,34216,Beaman,Arizona,GG,1000001407,RAID,GG,RA000628,1975-02-04,Beaman,GG
+Giovanni,Wammes,LEGL,GEOG,Course Mews,720,66889,MacArthur,Virginia,IR,1000001415,RAID,IR,RA000628,1956-09-26,MacArthur,IR
+Bee,Lawrence,LEGL,GEOG,Brant Street,798,44592,Bradley village,Missouri,UA,1000001423,RAID,UA,RA000628,1992-02-19,Bradley village,UA
+Stefanie,Wilkins,LEGL,GEOG,Rest Run,365,69259,Sherwood,Vermont,CI,1000001431,RAID,CI,RA000628,1992-06-27,Sherwood,CI
+Ezequiel,Brewer,LEGL,GEOG,Wagon Manor,189,8953,La Vale,Washington,HK,1000001458,RAID,HK,RA000628,1987-07-25,La Vale,HK
+Krista,Shaffer,LEGL,GEOG,Red Quail,258,14010,Garrison village,New Mexico,GF,1000001466,RAID,GF,RA000628,1957-05-18,Garrison village,GF
+Rafaela,van der Helm,LEGL,GEOG,King Street,532,21855,St. Ignatius,New Mexico,ML,1000001474,RAID,ML,RA000628,1983-11-16,St. Ignatius,ML
+Merideth,Martin,LEGL,GEOG,Sunny Track,506,86150,Alta,South Dakota,NP,1000001482,RAID,NP,RA000628,1942-07-08,Alta,NP
+Sung,Blanchard,LEGL,GEOG,Bright Glade,425,13811,Meridian Station,Hawaii,CA,1000001490,RAID,CA,RA000628,1964-10-09,Meridian Station,CA
+Darius,Miedema,LEGL,GEOG,Floor Street,453,24656,Nurillo,California,BM,1000001504,RAID,BM,RA000628,1993-11-10,Nurillo,BM
+Wyatt,Roos,LEGL,GEOG,Broad Lagoon,198,27329,Pierpont,Alaska,TM,1000001512,RAID,TM,RA000628,1948-08-25,Pierpont,TM
+Vernetta,van Winzum,LEGL,GEOG,E Cliff,903,45155,Chapmanville,Arkansas,GT,1000001520,RAID,GT,RA000628,1959-11-21,Chapmanville,GT
+Hanna,Christensen,LEGL,GEOG,Amber Annex,653,61606,Houtzdale borough,West Virginia,DO,1000001539,RAID,DO,RA000628,1995-11-13,Houtzdale borough,DO
+Denny,de With,LEGL,GEOG,Brook Way,125,45707,Little Creek,Florida,SE,1000001547,RAID,SE,RA000628,1946-05-29,Little Creek,SE
+Herminia,Pietersen,LEGL,GEOG,Rise Underpass,724,59038,Murray Hill,Minnesota,US,1000001555,RAID,US,RA000628,1969-04-17,Murray Hill,US
+Janet,van Soestdijck,LEGL,GEOG,Gate Drive,75,43077,Coulter,Oregon,GG,1000001563,RAID,GG,RA000628,1976-05-23,Coulter,GG
+Dominic,van Gravendijk,LEGL,GEOG,Broad Gardens,163,28012,El Camino Angosto,Nevada,AI,1000001571,RAID,AI,RA000628,1974-06-05,El Camino Angosto,AI
+Dulce,Knight,LEGL,GEOG,Ninth Terrace,356,35253,Paoli,Vermont,IQ,1000001598,RAID,IQ,RA000628,1947-09-22,Paoli,IQ
+Jacqueline,Lopez,LEGL,GEOG,E Circle,379,25382,Wilkinsburg borough,New Mexico,RU,1000001601,RAID,RU,RA000628,1953-07-21,Wilkinsburg borough,RU
+Isis,Oconnell,LEGL,GEOG,Light Land,62,37774,Rocky Ford,South Dakota,AR,1000001628,RAID,AR,RA000628,1992-08-05,Rocky Ford,AR
+Tanna,Rijkensz,LEGL,GEOG,Prairie Glen,925,30922,Marine on St. Croix,South Carolina,GI,1000001636,RAID,GI,RA000628,1993-07-12,Marine on St. Croix,GI
+Garrett,Bean,LEGL,GEOG,Lazy Plain,678,49732,Dunlevy borough,Nevada,BW,1000001644,RAID,BW,RA000628,1955-10-23,Dunlevy borough,BW
+Basil,Cordova,LEGL,GEOG,Shady Park,495,46483,Spiritwood Lake,New York,GE,1000001652,RAID,GE,RA000628,1962-10-31,Spiritwood Lake,GE
+Tracee,van Staveren,LEGL,GEOG,Willow Cove,168,87474,Bevington,Pennsylvania,BY,1000001660,RAID,BY,RA000628,1984-05-08,Bevington,BY
+Debra,Juarez,LEGL,GEOG,SW Falls,197,47809,North Auburn,New Hampshire,GT,1000001679,RAID,GT,RA000628,1970-08-27,North Auburn,GT
+Kassie,Baldwin,LEGL,GEOG,Rocky Rapid,794,12414,Fouke,Idaho,UY,1000001687,RAID,UY,RA000628,1954-10-16,Fouke,UY
+Cammie,Zielschot,LEGL,GEOG,Crystal Valley,329,80593,Cuartelez,Montana,AZ,1000001695,RAID,AZ,RA000628,1966-03-02,Cuartelez,AZ
+Ivana,van Sam,LEGL,GEOG,Honey Embers,692,25933,River Edge borough,Rhode Island,NA,1000001709,RAID,NA,RA000628,1998-10-06,River Edge borough,NA
+Wally,Bos,LEGL,GEOG,Shady View,951,75392,St. Helens,Hawaii,GD,1000001717,RAID,GD,RA000628,1976-12-07,St. Helens,GD
+Bernadine,Calderon,LEGL,GEOG,Kennedy Falls,849,65332,Shelton,Mississippi,AN,1000001725,RAID,AN,RA000628,1972-11-13,Shelton,AN
+Curtis,Dennis,LEGL,GEOG,London Street,876,24599,Dorchester,Michigan,GR,1000001733,RAID,GR,RA000628,1965-08-15,Dorchester,GR
+Jona,van Rossem,LEGL,GEOG,Lost Oval,961,59962,Whelen Springs,Nebraska,GY,1000001741,RAID,GY,RA000628,1946-02-28,Whelen Springs,GY
+Eulalia,Abraham,LEGL,GEOG,Cotton Stream,753,33957,Paden village,Delaware,NZ,1000001768,RAID,NZ,RA000628,1950-03-18,Paden village,NZ
+Toby,Aguirre,LEGL,GEOG,Silent Forge,942,37099,Eden Prairie,Pennsylvania,CC,1000001776,RAID,CC,RA000628,1945-08-12,Eden Prairie,CC
+Tari,Dougherty,LEGL,GEOG,Jane Street,987,38645,Chouteau,Colorado,PF,1000001784,RAID,PF,RA000628,1986-09-02,Chouteau,PF
+Kieth,Petty,LEGL,GEOG,Mission Trafficway,842,31515,Northlakes,New York,GP,1000001792,RAID,GP,RA000628,1972-02-04,Northlakes,GP
+Maris,Mcclure,LEGL,GEOG,Rapid Nook,817,92141,Calion,Utah,BT,1000001806,RAID,BT,RA000628,1944-09-24,Calion,BT
+Caterina,Hicks,LEGL,GEOG,Broad Creek,533,66697,Mustang Ridge,Arkansas,FM,1000001814,RAID,FM,RA000628,1953-10-02,Mustang Ridge,FM
+Cleo,van der Spank,LEGL,GEOG,Round Mountain,358,36188,North Terre Haute,New Jersey,SZ,1000001822,RAID,SZ,RA000628,1969-06-04,North Terre Haute,SZ
+Ardell,Barton,LEGL,GEOG,Amber Spring,444,90673,Northeast Ithaca,Nebraska,CM,1000001830,RAID,CM,RA000628,1996-12-05,Northeast Ithaca,CM
+Gail,Fritz,LEGL,GEOG,Jagged Oval,902,68039,Alachua,New Hampshire,GA,1000001849,RAID,GA,RA000628,1953-09-21,Alachua,GA
+Kara,Hodges,LEGL,GEOG,Sunny Narrow,852,76153,Blakesburg,New Hampshire,EG,1000001857,RAID,EG,RA000628,1964-09-16,Blakesburg,EG
+Sherlyn,Clark,LEGL,GEOG,Brook Route,471,67384,Grainfield,Michigan,GY,1000001865,RAID,GY,RA000628,1992-02-23,Grainfield,GY
+Paige,Obrien,LEGL,GEOG,Merry Rise,713,99902,Middle village,Iowa,CN,1000001873,RAID,CN,RA000628,1960-01-02,Middle village,CN
+Philip,Duran,LEGL,GEOG,Green Embers,463,19790,Maringouin,New Mexico,GL,1000001881,RAID,GL,RA000628,2001-10-06,Maringouin,GL
+Tyesha,van der Peijl,LEGL,GEOG,Embers Lawn,771,82948,Beverly Shores,Delaware,PK,1000001903,RAID,PK,RA000628,1957-01-10,Beverly Shores,PK
+Colin,Kleijne,LEGL,GEOG,George Street,567,33006,Maskell village,Tennessee,ST,1000001911,RAID,ST,RA000628,1977-06-09,Maskell village,ST
+Irving,van Piggelen,LEGL,GEOG,Honey Anchor,457,53848,Stratford borough,Louisiana,CG,1000001938,RAID,CG,RA000628,1957-02-13,Stratford borough,CG
+Stefan,Goes,LEGL,GEOG,Cozy Common,253,90408,Napier Field,South Carolina,BI,1000001946,RAID,BI,RA000628,1981-05-15,Napier Field,BI
+Liane,Boudewijn,LEGL,GEOG,Cliff Vista,4,16802,Randleman,North Carolina,MK,1000001954,RAID,MK,RA000628,1974-05-28,Randleman,MK
+Luz,Tyler,LEGL,GEOG,NW Crest,430,93311,Regan,Kentucky,LA,1000001962,RAID,LA,RA000628,1954-08-19,Regan,LA
+Delila,Brandt,LEGL,GEOG,Hickory Throughway,642,84324,Kaycee,Maryland,ZA,1000001970,RAID,ZA,RA000628,1983-06-19,Kaycee,ZA
+Loren,Knegjens,LEGL,GEOG,Indian Maple,27,30869,Fort Ripley,Wyoming,MG,1000001989,RAID,MG,RA000628,1954-11-19,Fort Ripley,MG
+Dorris,Berger,LEGL,GEOG,Red Course,457,67945,Corry,New Mexico,GL,1000001997,RAID,GL,RA000628,1951-04-26,Corry,GL
+Bud,Oneil,LEGL,GEOG,Cleave Avenue,234,17677,McDermitt,Arkansas,MD,1000002004,RAID,MD,RA000628,1948-02-05,McDermitt,MD
+Edie,van Ommeren,LEGL,GEOG,Thunder Bypass,158,14368,Tiptonville,Texas,FK,1000002012,RAID,FK,RA000628,1999-11-08,Tiptonville,FK
+Tanya,Terry,LEGL,GEOG,Creek Lawn,396,27185,Brushton village,New Mexico,AD,1000002020,RAID,AD,RA000628,1958-01-17,Brushton village,AD
+Marshall,Harmon,LEGL,GEOG,Shady Maple,202,3285,Crainville village,Rhode Island,KY,1000002039,RAID,KY,RA000628,1986-06-29,Crainville village,KY
+Genesis,de Moor,LEGL,GEOG,Rustic Second,48,62516,Avant,Mississippi,ET,1000002047,RAID,ET,RA000628,1954-05-02,Avant,ET
+Roy,Rijckx,LEGL,GEOG,Jagged Kennedy,957,66718,Flomaton,Alaska,MS,1000002055,RAID,MS,RA000628,1947-10-01,Flomaton,MS
+Archie,Montgomery,LEGL,GEOG,Colonial Course,814,27390,Blue Eye,Oregon,AG,1000002063,RAID,AG,RA000628,1982-11-19,Blue Eye,AG
+Rocco,van der Peijl,LEGL,GEOG,Lost Bluff,930,46502,Seminary,West Virginia,GA,1000002071,RAID,GA,RA000628,1983-10-01,Seminary,GA
+Lan,Meester,LEGL,GEOG,John Street,2020,86920,Ekwok,Delaware,BD,1000002098,RAID,BD,RA000628,1954-02-21,Ekwok,BD
+Dierdre,Gillespie,LEGL,GEOG,Nectar Annex,338,36739,Smith Valley,Colorado,VC,1000002101,RAID,VC,RA000628,1976-07-07,Smith Valley,VC
+Wilma,Ali,LEGL,GEOG,Light Haven,338,37766,Meridian,New York,SC,1000002128,RAID,SC,RA000628,1942-02-22,Meridian,SC
+Marketta,Bos,LEGL,GEOG,Jagged Spur,376,41693,Elyria village,Missouri,GI,1000002136,RAID,GI,RA000628,1985-01-14,Elyria village,GI
+Crissy,Mijzen,LEGL,GEOG,Anchor Union,140,43665,Pumpkin Center,Illinois,BL,1000002144,RAID,BL,RA000628,1997-02-26,Pumpkin Center,BL
+Latonya,van der Bilt,LEGL,GEOG,Dale Motorway,704,96858,Gloucester,Delaware,BT,1000002152,RAID,BT,RA000628,1992-01-22,Gloucester,BT
+Mafalda,van der Goot,LEGL,GEOG,Main Street,100,91375,West Sacramento,North Dakota,LS,1000002160,RAID,LS,RA000628,1967-03-26,West Sacramento,LS
+Jillian,Molenaar,LEGL,GEOG,NW Well,365,61341,Alpharetta,Michigan,TH,1000002179,RAID,TH,RA000628,1959-11-06,Alpharetta,TH
+Ruby,Mcfadden,LEGL,GEOG,Indian Row,616,84994,Loganville,Rhode Island,CA,1000002187,RAID,CA,RA000628,1967-04-05,Loganville,CA
+Raul,Jefferson,LEGL,GEOG,Grand Rest,434,30026,Temelec,Idaho,FR,1000002195,RAID,FR,RA000628,1951-12-05,Temelec,FR

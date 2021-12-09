@@ -1,8 +1,12 @@
 import {
     //KEEP
-	CREATE_TA_ACCOUNT,
-	CREATE_TA_ACCOUNT_SUCCESS,
-	CREATE_TA_ACCOUNT_FAIL,
+    CREATE_TA_ACCOUNT,
+    CREATE_TA_ACCOUNT_SUCCESS,
+    CREATE_TA_ACCOUNT_FAIL,
+    //KEEP
+    TA_SAVE_IVMS,
+    TA_SAVE_IVMS_SUCCESS,
+    TA_SAVE_IVMS_FAIL,
     //KEEP
     TA_IS_VERIFIED,
     TA_IS_VERIFIED_SUCCESS,
@@ -90,7 +94,7 @@ import {
 
 export const actions = {
 
-	/**
+    /**
      * Setup Accounts - Testnet seeded accounts
      * @param {object} context - Context provided by vuex
      * @param {object} payload - Payload to submit
@@ -132,6 +136,35 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_REGISTER_JURISDICTION_FAIL);
+            });
+    },
+
+    [TA_SAVE_IVMS]({ commit, dispatch, getters, state }) {
+        console.log('actions TA_SAVE_IVMS');
+        console.log('state');
+        console.log(state);
+        console.log('payload');
+        var p = {
+                "legal_person_name": state.form.ivms_legal_person_name,
+                "legal_person_name_identifier_type": state.form.ivms_legal_person_name_identifier_type,
+                "address_type": state.form.ivms_address_type,
+                "street_name": state.form.ivms_street_name,
+                "building_number": state.form.ivms_building_number,
+                "building_name": state.form.ivms_building_name,
+                "postcode": state.form.ivms_postcode,
+                "town_name": state.form.ivms_town_name,
+                "country_sub_division": state.form.ivms_country_sub_division,
+                "country": state.form.ivms_country,
+                };
+        console.log(p);
+        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-save-ivms`, p)
+            .then(response => {
+                console.log(response);
+                dispatch('createTaAccount');
+                return response;
+            })
+            .catch(error => {
+                commit(TA_SAVE_IVMS_FAIL);
             });
     },
 

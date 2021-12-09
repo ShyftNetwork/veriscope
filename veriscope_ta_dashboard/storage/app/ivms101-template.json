@@ -1,0 +1,148 @@
+{
+  "originator": {
+    "originatorPersons": [
+      {
+        "naturalPerson": {
+          "name": {
+            "nameIdentifier": [
+              {
+                "primaryIdentifier": "",
+                "secondaryIdentifier": "",
+                "nameIdentifierType": ""
+              }
+            ]
+          },
+          "geographicAddress": [
+            {
+              "addressType": "",
+              "streetName": "",
+              "buildingNumber": "",
+              "buildingName": "",
+              "postcode": "",
+              "townName": "",
+              "countrySubDivision": "",
+              "country": ""
+            }
+          ],
+          "nationalIdentification": {
+            "nationalIdentifier": "",
+            "nationalIdentifierType": "",
+            "countryOfIssue": "",
+            "registrationAuthority": ""
+          },
+          "customerIdentification": "",
+          "dateAndPlaceOfBirth": {
+            "dateOfBirth": "",
+            "placeOfBirth": ""
+          },
+          "countryOfResidence": ""
+        }
+      }
+    ],
+    "accountNumber": [
+      ""
+    ]
+  },
+  "beneficiary": {
+    "beneficiaryPersons": [
+      {
+        "naturalPerson": {
+          "name": {
+            "nameIdentifier": [
+              {
+                "primaryIdentifier": "",
+                "secondaryIdentifier": "",
+                "nameIdentifierType": ""
+              }
+            ]
+          },
+          "geographicAddress": [
+            {
+              "addressType": "",
+              "streetName": "",
+              "buildingNumber": "",
+              "buildingName": "",
+              "postcode": "",
+              "townName": "",
+              "countrySubDivision": "",
+              "country": ""
+            }
+          ],
+          "nationalIdentification": {
+            "nationalIdentifier": "",
+            "nationalIdentifierType": "",
+            "countryOfIssue": "",
+            "registrationAuthority": ""
+          },
+          "customerIdentification": "",
+          "dateAndPlaceOfBirth": {
+            "dateOfBirth": "",
+            "placeOfBirth": ""
+          },
+          "countryOfResidence": ""
+        }
+      }
+    ],
+    "accountNumber": [
+      ""
+    ]
+  },
+  "originatingVASP": {
+    "legalPerson": {
+      "name": {
+        "nameIdentifier": [
+          {
+            "legalPersonName": "",
+            "legalPersonNameIdentifierType": ""
+          }
+        ]
+      },
+      "geographicAddress": [
+        {
+          "addressType": "",
+          "streetName": "",
+          "buildingNumber": "",
+          "buildingName": "",
+          "postcode": "",
+          "townName": "",
+          "countrySubDivision": "",
+          "country": ""
+        }
+      ],
+      "nationalIdentification": {
+        "nationalIdentifier": "",
+        "nationalIdentifierType": ""
+      },
+      "customerIdentification": ""
+    }
+  },
+  "beneficiaryVASP": {
+    "legalPerson": {
+      "name": {
+        "nameIdentifier": [
+          {
+            "legalPersonName": "",
+            "legalPersonNameIdentifierType": ""
+          }
+        ]
+      },
+      "geographicAddress": [
+        {
+          "addressType": "",
+          "streetName": "",
+          "buildingNumber": "",
+          "buildingName": "",
+          "postcode": "",
+          "townName": "",
+          "countrySubDivision": "",
+          "country": ""
+        }
+      ],
+      "nationalIdentification": {
+        "nationalIdentifier": "",
+        "nationalIdentifierType": ""
+      },
+      "customerIdentification": ""
+    }
+  }
+}

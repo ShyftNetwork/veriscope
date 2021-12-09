@@ -16,6 +16,10 @@ export const TA_REGISTER_JURISDICTION = 'taRegisterJurisdiction';
 export const TA_REGISTER_JURISDICTION_SUCCESS = 'taRegisterJurisdictionSuccess';
 export const TA_REGISTER_JURISDICTION_FAIL = 'taRegisterJurisdictionFail';
 
+export const TA_SAVE_IVMS = 'taSaveIvms';
+export const TA_SAVE_IVMS_SUCCESS = 'taSaveIvmsSuccess';
+export const TA_SAVE_IVMS_FAIL = 'taSaveIvmsFail';
+
 export const TA_IS_VERIFIED = 'taIsVerified';
 export const TA_IS_VERIFIED_SUCCESS = 'taIsVerifiedSuccess';
 export const TA_IS_VERIFIED_FAIL = 'taIsVerifiedFail';
