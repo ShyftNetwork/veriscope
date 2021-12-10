@@ -92,8 +92,8 @@ Edit the .env file in the directory and add your host name and TA name.  The TA 
 Ensure you use your own domain name that has been configured with DNS.
 For example:
 ```shell
-VERISCOPE_SERVICE_HOST="vs-node-1.veriscope.network"
-VERISCOPE_COMMON_NAME="vs-node-1"
+VERISCOPE_SERVICE_HOST="pcf.veriscope.network"
+VERISCOPE_COMMON_NAME="pcf"
 ```
 
 Now we can run the setup script where you are presented with a number of options:
@@ -194,7 +194,7 @@ this to be in `/opt/nm/static-nodes.json`.  Each machine is identified
 by an enode url, formatted like `enode://{key}@{ip_address}:{port}`.
 The Nethermind setup step obtains your server's enode, and adds it
 to the 'contact' field used in the ethstats service at
-https://stats.shyft.network/ .  This command replaces your enode
+https://fedstats.veriscope.network/ .  This command replaces your enode
 list with one obtained from the ethstats server, then restarts
 nethermind to use it.
 
@@ -321,18 +321,18 @@ $ sudo systemctl status nethermind
      CGroup: /system.slice/nethermind.service
              └─1419555 /opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
 
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_blockNumber          >
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_chainId              >
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: eth_getLogs              >
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: ------------------------->
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: TOTAL                    >
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: ------------------------->
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]:  
-Dec 03 19:59:50 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:50.0323|>
-Dec 03 19:59:54 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
-Dec 03 19:59:54 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
-Dec 03 19:59:58 vs-node-1 Nethermind.Runner[1419555]: 2021-12-03 19:59:58.0401|>
-Dec 03 19:59:58 vs-node-1 Nethermind.Runner[1419555]: 2021-
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_blockNumber          >
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_chainId              >
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_getLogs              >
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: TOTAL                    >
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]:  
+Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:50.0323|>
+Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:58.0401|>
+Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-
 ```
 The service should show Active.
 
@@ -398,8 +398,8 @@ Press q to quit the Options list. **
 Login in to the application with the account you created in Option 9 above by navigating to the domain set in your root .env
 For example:
 ```shell
-VERISCOPE_SERVICE_HOST="vs-node-1.veriscope.network"
-VERISCOPE_COMMON_NAME="vs-node-1"
+VERISCOPE_SERVICE_HOST="pcf.veriscope.network"
+VERISCOPE_COMMON_NAME="pcf"
 ```
 
 ![Alt text](images/0-sign-in.png "Sign In")
@@ -415,7 +415,7 @@ This will load the TA account stored in
 $ cat /opt/veriscope/veriscope_ta_node/.env
 #DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
 TRUST_ANCHOR_PK=5c5…..914
-TRUST_ANCHOR_PREFNAME="vs-node-5"
+TRUST_ANCHOR_PREFNAME="pcf"
 TRUST_ANCHOR_ACCOUNT=0xE4A…..5F6
 
 HTTP="http://localhost:8545"
@@ -464,31 +464,42 @@ And finally complete the form for each key in the list for “Add Key Value Pair
 
 Important: For the API_URL key, ensure you enter the domain name associated with this Web Application as configured in step 1 above:
 ```
-VERISCOPE_SERVICE_HOST=”vs-node-1.veriscope.network”
+VERISCOPE_SERVICE_HOST=”pcf.veriscope.network”
 ```
   
-E.g. [https://vs-node-1.veriscope.network](https://vs-node-1.veriscope.network)
+E.g. [https://pcf.veriscope.network/kyc-template](https://pcf.veriscope.network/kyc-template)
+
+**Note:** this webapp accepts KYC requests to the route /kyc-template.  Ensure you add the route in the API_URL value.
 
 ![Alt text](images/6-API_URL.png "API URL")
 
+## IVMS for your Organization
+
+In this section of Manage Organization, you are provided a form to complete.  Set or Update Entity Information for IVMS.  This information is not posted to the blockchain or Discovery Layer.  It is used in the KYC Template when posting to another VASP.
+
+See KYC-Template-Docs/README.md for more information.
+
+![Alt text](images/ivms-form.png "IVMS Form")
+
 ## Manage Users
 
-In this section you can create a number of users to test the transfer of KYC between your account and another on the peer network.
+In this section you can create a number of users to test the transfer of KYC between your VASP and another.
 
-![Alt text](images/7-manage-users.png "Manage Users")
-
-You can enter in some basic information for a user or choose Generate Random User.
-Note: Ensure your TA account is selected in the drop down box first.
+Choose Generate Random User.
 
 ![Alt text](images/8-new-user-account.png "New User Account")
 
+Note: Ensure your TA account is selected in the drop down box first.
+
 When a new user account is created, the system auto generates a unique Shyft User ID and associates it with this user account.
-Also unique BTC and ETH addresses are created and assigned to this user.
-Note: these BTC and ETH addresses represent deposit addresses on your exchange platform.
+Also unique BTC, ETH, ZEC and XMR addresses are created and assigned to this user.
+**Note:** these addresses represent deposit addresses on your exchange platform.
 
 ![Alt text](images/9-btc-eth-addresses.png "BTC & ETH Addresses")
 
-For this guide we have prepared a second node (vs-node2) that has a user with Shyft ID, BTC and ETH deposit addresses as shown here:
+**Note:** Random users include PII that satisfy the IVMS schema.
+
+For this guide we have prepared a second node (paycase) that has a user with Shyft ID, BTC and ETH deposit addresses as shown here:
 
 ![Alt text](images/10-node-2-user.png "Node 2 User")
 
@@ -496,8 +507,8 @@ To simulate a crypto withdrawal from your exchange you can set a WALLET Attestat
 
 ![Alt text](images/11-wallet-attestation.png "Wallet Attestation")
 
-If there is a peer on the network with a deposit address on their exchange, they will pass the KYC Template directly to your peer and as a result your 
-peer will respond with your user KYC data.
+If there is a VASP on the network with this deposit address, they will provide you their Beneficiary PII.  In response your VASP will provide them your Originator PII.
+
 Completed KYC Templates can be found in the backoffice/kyctemplates view.
 
 ![Alt text](images/12-kyc-templates.png "KYC Templates")
@@ -505,8 +516,6 @@ Completed KYC Templates can be found in the backoffice/kyctemplates view.
 You can view details in the KYC Template by choosing view.
 
 ![Alt text](images/13-full-template.png "Full Template")
-
-Notice the KYC of both the sender and beneficiary of the crypto transaction.
 
 Other views in the backoffice are the number of TAs on the network, Attestations and completed KYC Templates on your platform.
 
@@ -524,38 +533,19 @@ live transaction with another VASP on Veriscope**
 | :--- | :--- |
 | VASP ENTITY | PCF |
 | VASP TA Account | 0xC0cA43B4848823d5417cAAFB9e8E6704b9d5375c |
-| VASP User     | Felix Bailey, male, 1986-04-14, Latvia  |
-| BTC Address   | 19dvC5Q7AFRLoRGb5Y1StRTyXXMtboaKP6 |
-| ETH Address   | 0x3790EDF76F21d698ba546f0a3a9C7F479b49F39E |
-| ZEC Address   | t1grwNXZPAe9WbaKow3TDYVSEbkFm4eVy6n |
-| XMR Address   | 48yewBAmPAjeEHBkBghYL84hazvtmuRyGbtnwm8D6AKZDA4B8U5qA3TZP3BNqLxj2w9GTvEx44di4bHsEJPowACB1nKD5c6 |
-
-| Name      | Value |
-| :--- | :--- |
-| VASP ENTITY | PCF |
-| VASP TA Account | 0xC0cA43B4848823d5417cAAFB9e8E6704b9d5375c |
-| VASP User | Suzanne Stokes, female, 1990-04-14, External Territories of Australia |
-| BTC Address | 14dbJRm3SeoufC6v3wizWxjeZzkfheQQ6i |
-| ETH Address | 0xFc982E152068dD7E019B5f9d5C9c42581883839a |
-| ZEC Address | t1TVhHkS9w3kRBdeAcUBy3LCFEGr216utF4 |
-| XMR Address | 4312zYYwzjSW2uvnLD7RbcfE7KrNXrv4scNWokkfRGi99C8C7DdwYt28Lh1DRMv3dj68usEgRiVfRUbtKfYazGMpPKWwYXq  |
+| VASP User     | Felix Bailey |
+| BTC Address   | 18crLganfufUzqFB2eH7jt4jPPYze45gZs |
+| ETH Address   | 0xA4bdddE6cEA9FB6a57949EBA19E6D213dc569C67 |
+| ZEC Address   | t1V6m4PFXCNU3zBDEHfEEwC3ZpxKAZHmiC2 |
+| XMR Address   | 45VzrocqjddFmy6vC58XPx5unNdHQozupbuCYPtFCXGreP7mZwCLijrX2pCSeMd1jiTFLohGVwqLyJauAtQ9d8xx3WjGKax |
 
 | Name      | Value |
 | :--- | :--- |
 | VASP ENTITY | Paycase |
 | VASP TA Account | 0xc2106031Dac53b629976e12aF769F60afcB38793 |
-| VASP User | Dora Carlson, female, 1989-05-02, Belize  |
-| BTC Address | 1Kx4moeZBo2kNj7c22dzAce11X18NVHwx2 |
-| ETH Address | 0x0723583074C28192CF2a22Ae8FD460C714388c3A 
-| ZEC Address | t1JEqXesZyoWyh7qN6ZNUaaG4krFS4QNpr4 |
-| XMR Address | 43DcM4aRLZSE2gvG3n6U9V5JdfrJ1yEDCRXyUoxw1MHd7uW4xZ6Y1FhKo7urwvfoDCNPQczjGhP9nhLcBFBgu5Cw5A9bHFX |
+| VASP User | Dora Carlson |
+| BTC Address | 13J8EydyW5Agge9K4UsxMfKE6u7B2gtfgn |
+| ETH Address | 0x08dd8246c4c15F6dA97e5a40ED5a24C405b4FB24 
+| ZEC Address | t1JLYsteVEu7ER5fzE2veqF8Cx5gV3U2mvX |
+| XMR Address | 44Sj2g1s7fsABvPjFFQakKEARu2H2AF1phsTbfiAWrtjDpJe3ncBmT673AhHfMrVr2jfvtWEsX8UJ9G3DWecBqeTPUdSpBi |
 
-| Name      | Value |
-| :--- | :--- |
-| VASP ENTITY | Paycase |
-| VASP TA Account | 0xc2106031Dac53b629976e12aF769F60afcB38793 |
-| VASP User | Alice Jefferson, female, 1989-03-03, Barbados  |
-| BTC Address | 1GyKFuKAZxqMVgXVvkaQY7r8JVJCnj33nP |
-| ETH Address | 0x815f5a46C7624522eBB1265e503a70A2fB14e922 |
-| ZEC Address | t1fzX4yzBymD3raZm9siRjomVsMxo6ygVNo |
-| XMR Address | 42zCgVBptfgUYtkeANcbzy7ZsKCU5XTWTiRe6VvAeiaghRq4UFYqWpBjK4neZjktCKBzUZHJfZbUcTXBkV3i76uPPAfMw41 |
