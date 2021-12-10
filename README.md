@@ -415,7 +415,7 @@ This will load the TA account stored in
 $ cat /opt/veriscope/veriscope_ta_node/.env
 #DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
 TRUST_ANCHOR_PK=5c5…..914
-TRUST_ANCHOR_PREFNAME="vs-node-5"
+TRUST_ANCHOR_PREFNAME="pcf"
 TRUST_ANCHOR_ACCOUNT=0xE4A…..5F6
 
 HTTP="http://localhost:8545"
