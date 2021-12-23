@@ -113,6 +113,8 @@ $ sudo scripts/setup-vasp.sh
 8) Update static node list for nethermind
 9) Create admin user
 10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
 i) install everything
 p) show daemon status
 w) restart all services
@@ -206,6 +208,15 @@ The Web Application requires an admin user to manage the Trust Anchor account.  
 
 The Web Application receives data from the node scripts over a webhook url.  This url is secured using a shared key.  This step creates or refreshes the share key in each .env file.
 
+### 11. Regenerate oauth secret (passport)
+
+The Web API is authenticated using Laravel Password (OAuth2).  This step generates or regenerates the oauth public/private keys stored in veriscope_ta_dashboard/storage/.
+Further reading can be found here: [laravel.com/docs/8.x/passport/](https://laravel.com/docs/8.x/passport/)
+
+### 12. Regenerate encrypt secret (EloquentEncryption)
+
+The Web Application generates a number of Crypto Wallet Accounts as well as TrustAnchor Users.  Private keys are stored in the DB encrypted.  This step generates or regenerates the encryption keys stored in veriscope_ta_dashboard/storage/app/
+Futher reading can be found here: [github.com/RichardStyles/EloquentEncryption](https://github.com/RichardStyles/EloquentEncryption)
 
 ### Ongoing updates
 
@@ -415,7 +426,7 @@ This will load the TA account stored in
 $ cat /opt/veriscope/veriscope_ta_node/.env
 #DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
 TRUST_ANCHOR_PK=5c5…..914
-TRUST_ANCHOR_PREFNAME="pcf"
+TRUST_ANCHOR_PREFNAME="vs-node-5"
 TRUST_ANCHOR_ACCOUNT=0xE4A…..5F6
 
 HTTP="http://localhost:8545"
