@@ -87,8 +87,6 @@
 
     @yield('content')
 
-    @include('partials.scripts')
-
     @yield('endscripts')
 </body>
 </html>

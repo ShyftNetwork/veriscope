@@ -23,6 +23,10 @@ Route::get('webhook-post-ta-data','WebhookController@webhook_post_ta_data');
 
 Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
 
+Route::post('ivms101-validate/complete','IVMS101Controller@index')->middleware('jsonschema.validate:complete');
+Route::post('ivms101-validate/beneficiary','IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
+Route::post('ivms101-validate/originator','IVMS101Controller@index')->middleware('jsonschema.validate:originator');
+
 Route::get('errors/suspended', function () { return view('errors.suspended'); })->name('suspended');
 Route::get('errors/terminated', function () { return view('errors.terminated'); })->name('terminated');
 Route::get('errors/403', function () { return view('errors/403'); });

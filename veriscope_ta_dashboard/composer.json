@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "bacon/bacon-qr-code": "^2.0",
         "beyondcode/laravel-websockets": "^1.12",
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
@@ -24,14 +25,14 @@
         "laravelcollective/html": "^6.2",
         "league/csv": "^9.7",
         "league/glide-laravel": "^1.0",
+        "opis/json-schema": "^2.2",
+        "pragmarx/google2fa-laravel": "^1.4",
+        "richardstyles/eloquentencryption": "v3.1.0",
         "s-ichikawa/laravel-sendgrid-driver": "^3.0",
         "sebdesign/laravel-state-machine": "^3.2",
         "sentry/sentry-laravel": "^2.8",
-        "spatie/laravel-activitylog": "^4.1",
-        "opis/json-schema": "^2.2",
-        "bacon/bacon-qr-code": "^2.0",
-        "pragmarx/google2fa-laravel": "^1.4",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "spatie/laravel-activitylog": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -62,7 +63,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi",
+            "@php artisan vendor:publish --provider='RichardStyles\\EloquentEncryption\\EloquentEncryptionServiceProvider' --tag='config'"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

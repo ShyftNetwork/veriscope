@@ -190,7 +190,7 @@ Use the syntax (`curl -X POST -H "Content-Type: application/json" -d @FILENAME D
 You can post a json file with `curl` like so:
 
 ```
-curl -X POST -H "Content-Type: application/json" -d @complete-example.json http://localhost:8000/api/v1/ivms101-validate/complete
+curl -X POST -H "Content-Type: application/json" -d @complete-example.json http://localhost:8000/ivms101-validate/complete
 ```
 response
 ```
@@ -199,7 +199,7 @@ Valid IVMS101
 Testing as Originator
 
 ```
-curl -X POST -H "Content-Type: application/json" -d @originator-example.json http://localhost:8000/api/v1/ivms101-validate/originator
+curl -X POST -H "Content-Type: application/json" -d @originator-example.json http://localhost:8000/ivms101-validate/originator
 ```
 response
 ```
@@ -207,7 +207,7 @@ Valid IVMS101
 ```
 Testing as Beneficiary
 ```
-curl -X POST -H "Content-Type: application/json" -d @beneficiary-example.json http://localhost:8000/api/v1/ivms101-validate/beneficiary
+curl -X POST -H "Content-Type: application/json" -d @beneficiary-example.json http://localhost:8000/ivms101-validate/beneficiary
 ```
 response
 ```
@@ -216,7 +216,7 @@ Valid IVMS101
 
 Example of malformed json
 ```
-curl -X POST -H "Content-Type: application/json" -d @malformed-full-example.json http://localhost:8000/api/v1/ivms101-validate/complete
+curl -X POST -H "Content-Type: application/json" -d @malformed-full-example.json http://localhost:8000/ivms101-validate/complete
 ```
 response
 ```

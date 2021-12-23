@@ -37,5 +37,8 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
 
+        if (! $this->app->routesAreCached()) {
+            Passport::routes();
+        }
     }
 }

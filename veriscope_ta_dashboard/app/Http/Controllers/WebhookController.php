@@ -8,6 +8,7 @@ use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
 use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use RichardStyles\EloquentEncryption\EloquentEncryption;
 
 class WebhookController extends Controller
 {
@@ -157,11 +158,15 @@ class WebhookController extends Controller
 
             $ta = TrustAnchor::firstOrCreate(['user_id' => $input['user_id']]);
 
-            // var account = {prefname:prefname, address:address, private_key:privateKey};
             $account = $data['data']['account'];
             $ta->ta_prefname = $account['prefname'];
             $ta->account_address = $account['address'];
-            $ta->private_key = $account['private_key'];
+
+            $private_key = $account['private_key'];
+            $eloquent_encryption = new EloquentEncryption();
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $ta->private_key_encrypt = bin2hex($encrypted);
+
             $ta->save();
 
             $user = User::findOrFail($input['user_id']);
@@ -254,20 +259,27 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-create-user') {
+            $eloquent_encryption = new EloquentEncryption();
 
             $trust_anchor_user_id = $data['ta_user_id'];
             $tau = TrustAnchorUser::findOrFail($trust_anchor_user_id);
             $tau->account_address = $data['data']['account']['address'];
-            $tau->private_key = $data['data']   ['account']['private_key'];
+            
+            $private_key = $data['data']['account']['private_key'];
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $tau->private_key_encrypt = bin2hex($encrypted);
+
             $tau->save();
 
             #save btc and eth to user account
-            # {"address":address, "public_key": publicKey, "private_key": privateKey};
             $bitcoinAccount = $data['data']['bitcoinAccount'];
             $cwa = new CryptoWalletAddress();
             $cwa->address = $bitcoinAccount['address'];
             $cwa->public_key = $bitcoinAccount['public_key'];
-            $cwa->private_key = $bitcoinAccount['private_key'];
+            $private_key = $bitcoinAccount['private_key'];
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $cwa->private_key_encrypt = bin2hex($encrypted);
+
             $cwa->trust_anchor_user_id = $tau->id;
             $cwa->trust_anchor_id = $tau->trust_anchor_id;
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'BTC')->first()->id;
@@ -277,7 +289,10 @@ class WebhookController extends Controller
             $cwa = new CryptoWalletAddress();
             $cwa->address = $ethereumAccount['address'];
             $cwa->public_key = $ethereumAccount['public_key'];
-            $cwa->private_key = $ethereumAccount['private_key'];
+            $private_key = $ethereumAccount['private_key'];
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $cwa->private_key_encrypt = bin2hex($encrypted);
+
             $cwa->trust_anchor_user_id = $tau->id;
             $cwa->trust_anchor_id = $tau->trust_anchor_id;
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'ETH')->first()->id;
@@ -287,7 +302,10 @@ class WebhookController extends Controller
             $cwa = new CryptoWalletAddress();
             $cwa->address = $zcashAccount['address'];
             $cwa->public_key = $zcashAccount['public_key'];
-            $cwa->private_key = $zcashAccount['private_key'];
+            $private_key = $zcashAccount['private_key'];
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $cwa->private_key_encrypt = bin2hex($encrypted);
+
             $cwa->trust_anchor_user_id = $tau->id;
             $cwa->trust_anchor_id = $tau->trust_anchor_id;
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'ZEC')->first()->id;
@@ -297,7 +315,10 @@ class WebhookController extends Controller
             $cwa = new CryptoWalletAddress();
             $cwa->address = $moneroAccount['address'];
             $cwa->public_key = $moneroAccount['public_key'];
-            $cwa->private_key = $moneroAccount['private_key'];
+            $private_key = $moneroAccount['private_key'];
+            $encrypted = $eloquent_encryption->encrypt($private_key);
+            $cwa->private_key_encrypt = bin2hex($encrypted);
+            
             $cwa->trust_anchor_user_id = $tau->id;
             $cwa->trust_anchor_id = $tau->trust_anchor_id;
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'XMR')->first()->id;
