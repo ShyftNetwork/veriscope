@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
         'webhook',
-        'kyc-template'
+        'kyc-template',
+        'ivms101-validate/*'
     ];
 }

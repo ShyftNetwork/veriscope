@@ -401,6 +401,8 @@ export const actions = {
         var p = {"trust_anchor_id": state.form.attestation_ta_account.id};
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-trust-anchor-users`, p)
             .then(({ data }) => {
+                console.log('actions TA_GET_USERS');
+                console.log(data);
                 commit(TA_GET_USERS_SUCCESS, data);
                 return data;
             })

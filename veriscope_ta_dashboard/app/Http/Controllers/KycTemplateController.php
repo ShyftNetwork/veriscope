@@ -8,6 +8,7 @@ use App\{KycTemplate,KycTemplateState,KycAttestation,SmartContractAttestation, T
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use RichardStyles\EloquentEncryption\EloquentEncryption;
 
 class KycTemplateController extends Controller
 {
@@ -221,9 +222,14 @@ class KycTemplateController extends Controller
         if (is_null($tau->public_key)) {
                     $url = $this->helper_url.'/GetEthPublicKey';
 
+            $eloquent_encryption = new EloquentEncryption();
+            $contents = stream_get_contents($tau->private_key_encrypt);
+            $encrypted_key = hex2bin($contents);
+            $pk = $eloquent_encryption->decrypt($encrypted_key);
+
             $client = new Client();
             $res = $client->request('POST', $url, [
-                'json' => ['privateKey' => $tau->private_key]
+                'json' => ['privateKey' => $pk]
             ]);
             if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
 
@@ -253,9 +259,14 @@ class KycTemplateController extends Controller
         if (is_null($ta->public_key)) {
             $url = $this->helper_url.'/GetEthPublicKey';
 
+            $eloquent_encryption = new EloquentEncryption();
+            $contents = stream_get_contents($ta->private_key_encrypt);
+            $encrypted_key = hex2bin($contents);
+            $pk = $eloquent_encryption->decrypt($encrypted_key);
+
             $client = new Client();
             $res = $client->request('POST', $url, [
-                'json' => ['privateKey' => $ta->private_key]
+                'json' => ['privateKey' => $pk]
             ]);
             if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
 
@@ -284,9 +295,14 @@ class KycTemplateController extends Controller
 
         $url = $this->helper_url.'/TASign';
 
+        $eloquent_encryption = new EloquentEncryption();
+        $contents = stream_get_contents($ta->private_key_encrypt);
+        $encrypted_key = hex2bin($contents);
+        $pk = $eloquent_encryption->decrypt($encrypted_key);
+
         $client = new Client();
         $res = $client->request('POST', $url, [
-            'json' => ['privateKey' => $ta->private_key, 'messageJSON' => $this->messageJSON."_TA"]
+            'json' => ['privateKey' => $pk, 'messageJSON' => $this->messageJSON."_TA"]
         ]);
         if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
 
@@ -319,7 +335,12 @@ class KycTemplateController extends Controller
 
         $url = $this->helper_url.'/TASign';
 
-        $private_key = str_replace("0x", "", $tau->private_key);
+        $eloquent_encryption = new EloquentEncryption();
+        $contents = stream_get_contents($tau->private_key_encrypt);
+        $encrypted_key = hex2bin($contents);
+        $pk = $eloquent_encryption->decrypt($encrypted_key);
+
+        $private_key = str_replace("0x", "", $pk);
         $client = new Client();
         $res = $client->request('POST', $url, [
             'json' => ['privateKey' => $private_key, 'messageJSON' => $this->messageJSON."_USER"]
@@ -501,9 +522,14 @@ class KycTemplateController extends Controller
 
         $url = $this->helper_url.'/DecryptData';
 
+        $eloquent_encryption = new EloquentEncryption();
+        $contents = stream_get_contents($tau->private_key_encrypt);
+        $encrypted_key = hex2bin($contents);
+        $pk = $eloquent_encryption->decrypt($encrypted_key);
+
         $client = new Client();
         $res = $client->request('POST', $url, [
-            'json' => ['privateKey' => $tau->private_key, 'kycData' => $kyc_data]
+            'json' => ['privateKey' => $pk, 'kycData' => $kyc_data]
         ]);
         if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
 

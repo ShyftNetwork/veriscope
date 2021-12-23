@@ -16,7 +16,10 @@ class TrustAnchor extends Model
      */
     protected $searchable = ['ta_prefname'];
 
-	protected $fillable = ['ta_prefname', 'ta_password', 'user_id'];
+    protected $fillable = ['ta_prefname', 'ta_password', 'user_id'];
+
+    protected $hidden = ['private_key', 'private_key_encrypt'];
+
     /**
      * The attributes that are mass searchable.
      *

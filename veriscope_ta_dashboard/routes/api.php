@@ -14,29 +14,20 @@ if (App::environment('new_prod')) {
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigned the "auth:api" middleware group. Enjoy building your API!
 |
 */
 
 $throttleLimits = 'throttle:50,1';
 if(config('app.env') == 'local') 'throttle:99999,1';
 
-Route::group(['middleware' => ['api', $throttleLimits]], function() {
+Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
-
-
-        Route::post('ivms101-validate/complete','IVMS101Controller@index')->middleware('jsonschema.validate:complete');
-        Route::post('ivms101-validate/beneficiary','IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
-        Route::post('ivms101-validate/originator','IVMS101Controller@index')->middleware('jsonschema.validate:originator');
-
 
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
-
-        //Route::get('coalition-contracts','CoalitionContractController@index');
-        //Route::get('coalition-contract-anchors','CoalitionContractController@anchors');
 
         Route::get('shyft-smart-contract-events','BlockexplorerController@index');
         Route::get('smart-contract-transactions','BlockexplorerController@transactions');
@@ -45,15 +36,8 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
         Route::get('get-smart-contract-attestation-components','BlockexplorerController@get_attestation_components');
         Route::get('get-ta-account-attestations','BlockexplorerController@get_ta_account_attestations');
         Route::get('get-user-account-attestations','BlockexplorerController@get_user_account_attestations');
-        // Logging
-        //Route::resource('user_states', 'UserStatesController', ['only' => ['index']]);
-        Route::resource('countries',   'LocationController', ['only' => ['index', 'show']]);
 
-        // User
-        // Route::get('user',             'UserController@index')->middleware('can:index,App\User');
-        //Route::get('user',             'UserController@index');
-        //Route::resource('user',        'UserController', ['only' => ['update', 'show']]);
-        //Route::put('user/{id}/verify', 'UserController@verify');
+        Route::resource('countries',   'LocationController', ['only' => ['index', 'show']]);
 
         Route::get('wallet-types',             'TrustAnchorController@wallet_types');
         Route::get('wallet-addresses/{id}',             'TrustAnchorController@wallet_addresses');
@@ -68,7 +52,6 @@ Route::group(['middleware' => ['api', $throttleLimits]], function() {
         Route::post('contracts/trust-anchor/{id}/create-ta-account', 'ContractsController@create_ta_account');
         Route::post('contracts/trust-anchor/{id}/ta-save-ivms', 'ContractsController@ta_save_ivms');
         Route::post('contracts/trust-anchor/{id}/ta-is-verified', 'ContractsController@ta_is_verified');
-        Route::post('contracts/trust-anchor/{id}/ta-reload-account', 'ContractsController@ta_reload_account');
         Route::post('contracts/trust-anchor/{id}/ta-set-jurisdiction', 'ContractsController@ta_set_jurisdiction');
 
         Route::post('contracts/trust-anchor/{id}/ta-create-user', 'ContractsController@ta_create_user');

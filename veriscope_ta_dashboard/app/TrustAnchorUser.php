@@ -14,6 +14,8 @@ class TrustAnchorUser extends Model
      * @var array
      */
 
+    protected $hidden = ['private_key', 'private_key_encrypt'];
+    
     public function trustAnchor() {
         return $this->belongsTo('App\TrustAnchor');
     }

@@ -119,42 +119,6 @@ class ContractsController extends Controller
 
           return response()->json([]);
       }
-      
-      public function ta_reload_account(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_reload_account');
-
-          $input = $request->all();
-          Log::debug(print_r($input, true));
-          $user = User::find($id);
-  
-          $account_address = $input['account'];
-
-          $trust_anchor = TrustAnchor::where('account_address', $account_address)->first();
-          Log::debug(print_r($trust_anchor, true));
-          $password = $trust_anchor->ta_password;
-          $ta_id = $trust_anchor->id;
-          $private_key = $trust_anchor->private_key;
-          $address = $trust_anchor->account_address;
-
-
-          
-          $url = $this->helper_url.'/ta-reload-account?user_id='.$id.'&password='.$password.'&ta_id='.$ta_id.'&private_key='.$private_key.'&address='.$address;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_reload_account');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_reload_account: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
 
       public function ta_set_jurisdiction(Request $request, $id)
       {

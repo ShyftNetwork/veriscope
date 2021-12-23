@@ -326,6 +326,8 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "php artisan migrate"
 	su $SERVICE_USER -c "php artisan db:seed"
 	su $SERVICE_USER -c "php artisan key:generate"
+	su $SERVICE_USER -c "php artisan passport:install"
+	su $SERVICE_USER -c "php artisan encrypt:generate"
 
 	chgrp -R www-data ./
 	chmod -R 0770 ./storage
@@ -411,6 +413,26 @@ function regenerate_webhook_secret() {
   echo "Shared secret saved"
 }
 
+function regenerate_passport_secret() {
+
+  echo "Generating new passport secret..."
+
+  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  su $SERVICE_USER -c "php artisan --force passport:install"
+
+  echo "Passport secret saved"
+}
+
+function regenerate_encrypt_secret() {
+
+  echo "Generating new encrypt secret..."
+  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  su $SERVICE_USER -c "php artisan encrypt:generate"
+
+  echo "encrypt secret saved"
+}
+
+
 function menu() {
 	echo
 	echo
@@ -424,6 +446,8 @@ function menu() {
 8) Update static node list for nethermind
 9) Create admin user
 10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
 i) install everything
 p) show daemon status
 w) restart all services
@@ -443,6 +467,8 @@ Choose what to do: "
 		8) refresh_static_nodes ; menu ;;
 		9) create_admin; menu ;;
 		10) regenerate_webhook_secret; menu ;;
+		11) regenerate_passport_secret; menu ;;
+		12) regenerate_encrypt_secret; menu ;;
 		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
