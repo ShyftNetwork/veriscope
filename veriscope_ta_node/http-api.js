@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const winston = require('winston');
+const monerojs = require("monero-javascript");
 const ethers = require("ethers");
 const Web3 = require('web3');
 const dotenv = require('dotenv');
@@ -325,6 +326,20 @@ app.get('/ta-get-key-pair-value/:account/:key', (req, res) => {
 });
 
 
+async function createMoneroAccount() {
+
+    let wallet = await monerojs.createWalletKeys({
+       networkType: "mainnet"
+    });
+
+    var address = await wallet.getAddress(0, 0);
+    var publicKey = await wallet.getPublicViewKey();
+    var privateKey = await wallet.getPrivateViewKey();
+
+    return {"address":address, "public_key": publicKey, "private_key": privateKey};
+
+}
+
 
 // eg: ta-create-user?user_id=1&ta_user_id=1&prefname=Nic&password=Password1*
 
@@ -354,7 +369,7 @@ app.get('/ta-create-user', (req, res) => {
     zcashAccountLogger['private_key'] = "xxxxxxxxxx";
 
     (async () => {
-      var moneroAccount =  utility.createMoneroAccount();
+      var moneroAccount = await createMoneroAccount();
       var moneroAccountLogger = Object.assign({}, moneroAccount);
       moneroAccountLogger['private_key'] = "xxxxxxxxxx";
 
@@ -368,7 +383,6 @@ app.get('/ta-create-user', (req, res) => {
 
       utility.sendWebhookMessage(obj);
     })();
-
     res.sendStatus(201);
 });
 

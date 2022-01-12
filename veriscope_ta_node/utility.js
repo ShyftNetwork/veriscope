@@ -7,7 +7,6 @@ const axios = require('axios');
 const EthCrypto = require('eth-crypto');
 const bitcoinjs_lib = require('bitcoinjs-lib');
 const bitgo_utxo_lib = require('bitgo-utxo-lib');
-const monerojs = require("monero-javascript");
 const winston = require('winston');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -238,19 +237,6 @@ module.exports =   {
         logger.info('sendWebsocket error');
         logger.error(error)
       });
-    },
-    createMoneroAccount: async function () {
-
-        let wallet = await monerojs.createWalletKeys({
-           networkType: "mainnet"
-        });
-
-        var address = await wallet.getAddress(0, 0);
-        var publicKey = await wallet.getPublicViewKey();
-        var privateKey = await wallet.getPrivateViewKey();
-
-        return {"address":address, "public_key": publicKey, "private_key": privateKey};
-
     },
     createZcashAccount: function() {
 
