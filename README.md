@@ -284,6 +284,9 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 8) Update static node list for nethermind
 9) Create admin user
 10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
 i) install everything
 p) show daemon status
 w) restart all services
@@ -407,6 +410,7 @@ and see if your node is in the list and wait for the node to fully synchronize
   - ta-node-2.service - Trust Anchor Node Template Helper
   - nginx.service - A high performance web server and a reverse proxy server
   - postgresql.service - PostgreSQL RDBMS
+  - redis-server.service - Advanced key-value store
 
 Press q to quit the Options list. **
 ```
