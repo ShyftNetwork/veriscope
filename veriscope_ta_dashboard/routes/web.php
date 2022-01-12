@@ -123,6 +123,9 @@ if(Config::get('backoffice.enabled')) {
 
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
 
+
+        Route::get('arena_auth', '\App\Http\Controllers\Backoffice\DashboardController@arena_auth')->name('arena.auth');
+
         Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
         Route::get('kyctemplates/{id}/details',       'KycTemplatesController@kyc_template_details');
 
