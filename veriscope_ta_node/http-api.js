@@ -353,19 +353,21 @@ app.get('/ta-create-user', (req, res) => {
     var zcashAccountLogger = Object.assign({}, zcashAccount);
     zcashAccountLogger['private_key'] = "xxxxxxxxxx";
 
-    var moneroAccount =  utility.createMoneroAccount();
-    var moneroAccountLogger = Object.assign({}, moneroAccount);
-    moneroAccountLogger['private_key'] = "xxxxxxxxxx";
+    (async () => {
+      var moneroAccount =  utility.createMoneroAccount();
+      var moneroAccountLogger = Object.assign({}, moneroAccount);
+      moneroAccountLogger['private_key'] = "xxxxxxxxxx";
 
-    var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
-    var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
-    logger.info('ta-create-user');
-    logger.info(obj_logger);
+      var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
+      var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
+      logger.info('ta-create-user');
+      logger.info(obj_logger);
 
-    var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
-    var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
+      var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
+      var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
 
-    utility.sendWebhookMessage(obj);
+      utility.sendWebhookMessage(obj);
+    })();
 
     res.sendStatus(201);
 });
