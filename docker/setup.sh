@@ -59,6 +59,18 @@ function create_sealer_pk {
 
 }
 
+function install_redis {
+
+  	apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
+  	#Configure Redis
+  	cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
+  	sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
+  	cp /etc/redis/redis.conf.new /etc/redis/redis.conf
+
+  	systemctl restart redis.service
+
+}
+
 function create_postgres_trustanchor_db {
 	if su postgres -c "psql -t -c '\du'" | cut -d \| -f 1 | grep -qw trustanchor; then
 	    echo "Postgres user trustanchor already exists."
@@ -186,7 +198,7 @@ function install_or_update_nethermind() {
 			    "Enabled": true,
 			    "Host": "0.0.0.0",
 			    "Port": 8545,
-			    "EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug"]
+			    "EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug","Subscribe"]
 			  },
 			  "KeyStoreConfig": {
 			    "TestNodeKey": "'$SEALERPK'"
@@ -222,76 +234,82 @@ function setup_or_renew_ssl {
 }
 
 function setup_nginx {
-	if ! test -s $NGINX_CFG; then
-		sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
+	
+	sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
 
-		echo '
+	echo '
     server {
-			listen 80;
-			server_name '$VERISCOPE_SERVICE_HOST';
-      rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
+		listen 80;
+		server_name '$VERISCOPE_SERVICE_HOST';
+      	rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
+	}
+
+	server {
+	    listen 443 ssl;
+	    server_name '$VERISCOPE_SERVICE_HOST';
+	    root /opt/veriscope/veriscope_ta_dashboard/public;
+
+	    ssl_certificate     '$CERTFILE';
+	    ssl_certificate_key '$CERTKEY';
+	    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+	    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+	    add_header X-Frame-Options "SAMEORIGIN";
+	    add_header X-XSS-Protection "1; mode=block";
+	    add_header X-Content-Type-Options "nosniff";
+
+	    index index.html index.htm index.php;
+
+        charset utf-8;
+
+	  	location /arena/ {
+			proxy_pass  http://127.0.0.1:8080/arena/;
+	    	proxy_set_header Host $host;
+		  	proxy_set_header X-Real-IP $remote_addr;
+		  	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	  	}
+
+		location / {
+		    try_files $uri $uri/ /index.php?$query_string;
 		}
 
-		server {
-		    listen 443 ssl;
-		    server_name '$VERISCOPE_SERVICE_HOST';
-		    root /opt/veriscope/veriscope_ta_dashboard/public;
+		location = /favicon.ico { access_log off; log_not_found off; }
+	    location = /robots.txt  { access_log off; log_not_found off; }
 
-		    ssl_certificate     '$CERTFILE';
-		    ssl_certificate_key '$CERTKEY';
-		    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-		    ssl_ciphers         HIGH:!aNULL:!MD5;
+	    error_page 404 /index.php;
 
-		    add_header X-Frame-Options "SAMEORIGIN";
-		    add_header X-XSS-Protection "1; mode=block";
-		    add_header X-Content-Type-Options "nosniff";
-
-		    index index.html index.htm index.php;
-
-		    charset utf-8;
-
-		    location / {
-		    	try_files $uri $uri/ /index.php?$query_string;
-		    }
-
-		    location = /favicon.ico { access_log off; log_not_found off; }
-		    location = /robots.txt  { access_log off; log_not_found off; }
-
-		    error_page 404 /index.php;
-
-	 	    location ~ \.php$ {
-		     	fastcgi_split_path_info ^(.+\.php)(/.+)$;
+ 	    location ~ \.php$ {
+	     	fastcgi_split_path_info ^(.+\.php)(/.+)$;
    		   	fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		     	fastcgi_index index.php;
-		    	fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-		    	include fastcgi_params;
-		    }
+	     	fastcgi_index index.php;
+	    	fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+	    	include fastcgi_params;
+	    }
 
-		    location ~ /\.(?!well-known).* {
-		    	deny all;
-		    }
+		location ~ /\.(?!well-known).* {
+	    	deny all;
+	    }
 
-		    location /app/websocketkey {
-		     	proxy_pass             http://127.0.0.1:6001;
-		     	proxy_set_header Host  $host;
-	    		proxy_set_header X-Real-IP  $remote_addr;
-	    		proxy_set_header X-VerifiedViaNginx yes;
-		    	proxy_read_timeout                  60;
-		     	proxy_connect_timeout               60;
-		  	  proxy_redirect                      off;
+	    location /app/websocketkey {
+	     	proxy_pass             http://127.0.0.1:6001;
+	     	proxy_set_header Host  $host;
+    		proxy_set_header X-Real-IP  $remote_addr;
+    		proxy_set_header X-VerifiedViaNginx yes;
+	    	proxy_read_timeout                  60;
+	     	proxy_connect_timeout               60;
+		  	proxy_redirect                      off;
 	   	   	# Allow the use of websockets
-		    	proxy_http_version 1.1;
-	    		proxy_set_header Upgrade $http_upgrade;
+	    	proxy_http_version 1.1;
+    		proxy_set_header Upgrade $http_upgrade;
 	  	  	proxy_set_header Connection 'upgrade';
 	   	   	proxy_set_header Host $host;
-		     	proxy_cache_bypass $http_upgrade;
-		    }
-		}
+	     	proxy_cache_bypass $http_upgrade;
+	    }
+	}
 
-		' >$NGINX_CFG
-	fi
+	' >$NGINX_CFG
 	systemctl enable nginx
-  systemctl restart php8.0-fpm
+  	systemctl restart php8.0-fpm
 	systemctl restart nginx
 }
 
@@ -341,6 +359,8 @@ function install_or_update_laravel {
 	else
 		echo "App key already set"
 	fi
+  su $SERVICE_USER -c "php artisan passport:install"
+  su $SERVICE_USER -c "php artisan encrypt:generate"
 
 	popd >/dev/null
 
@@ -356,17 +376,25 @@ function install_or_update_laravel {
 		systemctl daemon-reload
 	fi
 	echo "Restarting PHP-based services..."
-  systemctl enable ta-schedule
+  	systemctl enable ta-schedule
 	systemctl enable ta-wss
 	systemctl enable ta
-  systemctl restart ta-schedule
+  	systemctl restart ta-schedule
 	systemctl restart ta-wss
 	systemctl restart ta
+
 }
 
 function restart_all_services() {
 	echo "Restarting all services..."
-	systemctl restart nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql
+  	systemctl restart ta
+  	systemctl restart ta-wss
+  	systemctl restart ta-schedule
+  	systemctl restart nginx
+  	systemctl restart postgresql
+  	systemctl restart redis.service
+  	systemctl restart ta-node-1
+  	systemctl restart ta-node-2
 	echo "All services restarted"
 }
 
@@ -392,7 +420,7 @@ function refresh_static_nodes() {
 }
 
 function daemon_status() {
-	systemctl status nethermind ta ta-wss ta-node-1 ta-node-2 nginx postgresql | less
+	systemctl status nethermind ta ta-wss ta-node-1 ta-node-2 nginx postgresql redis.service | less
 }
 
 function create_admin() {
@@ -417,6 +445,24 @@ function regenerate_webhook_secret() {
 
 }
 
+function regenerate_passport_secret() {
+
+  echo "Generating new passport secret..."
+
+  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  su $SERVICE_USER -c "php artisan --force passport:install"
+
+  echo "Passport secret saved"
+}
+
+function regenerate_encrypt_secret() {
+
+  echo "Generating new encrypt secret..."
+  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  su $SERVICE_USER -c "php artisan encrypt:generate"
+
+  echo "encrypt secret saved"
+}
 
 function menu() {
 	echo
@@ -431,6 +477,9 @@ function menu() {
 8) Update static node list for nethermind
 9) Create admin user
 10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
 i) install everything
 p) show daemon status
 w) restart all services
@@ -449,9 +498,12 @@ Choose what to do: "
 		7) install_or_update_laravel ; menu ;;
 		8) refresh_static_nodes ; menu ;;
 		9) create_admin; menu ;;
-    	10) regenerate_webhook_secret; menu ;;
-    	"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
-    	"p") daemon_status ; menu ;;
+    10) regenerate_webhook_secret; menu ;;
+    11) regenerate_passport_secret; menu ;;
+    12) regenerate_encrypt_secret; menu ;;
+    13) install_redis; menu ;;
+    "i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+    "p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;
