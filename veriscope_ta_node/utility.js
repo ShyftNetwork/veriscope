@@ -7,6 +7,7 @@ const axios = require('axios');
 const EthCrypto = require('eth-crypto');
 const bitcoinjs_lib = require('bitcoinjs-lib');
 const bitgo_utxo_lib = require('bitgo-utxo-lib');
+const monerojs = require("monero-javascript");
 const winston = require('winston');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -238,6 +239,19 @@ module.exports =   {
         logger.error(error)
       });
     },
+    createMoneroAccount: async function () {
+
+     let wallet = await monerojs.createWalletKeys({
+        networkType: "mainnet"
+     });
+
+     var address = await wallet.getAddress(0, 0);
+     var publicKey = await wallet.getPublicViewKey();
+     var privateKey = await wallet.getPrivateViewKey();
+
+     return {"address":address, "public_key": publicKey, "private_key": privateKey};
+
+    },
     createZcashAccount: function() {
 
         let ecPair1 = bitgo_utxo_lib.ECPair.makeRandom({ network: bitgo_utxo_lib.networks.zcash });
@@ -460,7 +474,7 @@ module.exports =   {
           var obj = { user_id: user_id, message: "ta-set-attestation", data: result};
           //set nonceCount
           await keyv.set('nonceCount', nonceCount+1);
- 
+
           return obj;
     },
     trustAnchorGetAttestationArrayForUserAccount: async function (account) {

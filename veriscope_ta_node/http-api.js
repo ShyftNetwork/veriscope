@@ -3,7 +3,6 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const winston = require('winston');
-const monerojs = require("monero-javascript");
 const ethers = require("ethers");
 const Web3 = require('web3');
 const dotenv = require('dotenv');
@@ -326,24 +325,9 @@ app.get('/ta-get-key-pair-value/:account/:key', (req, res) => {
 });
 
 
-async function createMoneroAccount() {
-
-    let wallet = await monerojs.createWalletKeys({
-       networkType: "mainnet"
-    });
-
-    var address = await wallet.getAddress(0, 0);
-    var publicKey = await wallet.getPublicViewKey();
-    var privateKey = await wallet.getPrivateViewKey();
-
-    return {"address":address, "public_key": publicKey, "private_key": privateKey};
-
-}
-
-
 // eg: ta-create-user?user_id=1&ta_user_id=1&prefname=Nic&password=Password1*
 
-app.get('/ta-create-user', (req, res) => {
+app.get('/ta-create-user', async (req, res) => {
 
     var prefname = req.param('prefname');
     var user_id = req.param('user_id');
@@ -368,21 +352,20 @@ app.get('/ta-create-user', (req, res) => {
     var zcashAccountLogger = Object.assign({}, zcashAccount);
     zcashAccountLogger['private_key'] = "xxxxxxxxxx";
 
-    (async () => {
-      var moneroAccount = await createMoneroAccount();
-      var moneroAccountLogger = Object.assign({}, moneroAccount);
-      moneroAccountLogger['private_key'] = "xxxxxxxxxx";
+    var moneroAccount =  await utility.createMoneroAccount();
+    var moneroAccountLogger = Object.assign({}, moneroAccount);
+    moneroAccountLogger['private_key'] = "xxxxxxxxxx";
 
-      var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
-      var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
-      logger.info('ta-create-user');
-      logger.info(obj_logger);
+    var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
+    var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
+    logger.info('ta-create-user');
+    logger.info(obj_logger);
 
-      var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
-      var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
+    var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
+    var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
 
-      utility.sendWebhookMessage(obj);
-    })();
+    utility.sendWebhookMessage(obj);
+    
     res.sendStatus(201);
 });
 
@@ -549,7 +532,7 @@ app.get('/ta-get-attestation-components', (req, res) => {
     logger.info(attestation_hash);
 
     utility.taGetAttestationComponents(attestation_hash);
-    
+
     res.sendStatus(201);
 });
 
