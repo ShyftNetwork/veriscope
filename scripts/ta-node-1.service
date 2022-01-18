@@ -1,5 +1,5 @@
 [Unit]
-Description=Trust Anchor Node API 
+Description=Trust Anchor Node API
 After=network.target
 
 [Service]
@@ -13,4 +13,3 @@ LimitNOFILE=1000000
 
 [Install]
 WantedBy=default.target
-

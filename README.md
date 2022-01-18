@@ -9,13 +9,11 @@ Set Wallet Attestations
 Become discovered by other peers on the network
 Share PII between two peers as they are related to an originating crypto transaction from VASP A to VASP B.
 
-By the end of this guide, you should have completed all of the above. 
-
 In order to accomplish the above, VS utilizes a number of self managed services:
-Shyft Relay Node - a Nethermind POA client that synchronizes with the Shyft Mainnet.  VS communicates with the Relay Node 
+- Shyft Relay Node - a Nethermind POA client that synchronizes with the Shyft Mainnet.  VS communicates with the Relay Node
 over a local RPC connection (HTTP and Websocket)
-Web Application  - a laravel and vuejs framework for managing TA accounts, sharing KYC data over the peer network
-Node JS application scripts that interface the Web Application with either the Relay Node or various web3 libraries for 
+- Web Application  - a laravel and vuejs framework for managing TA accounts, sharing KYC data over the peer network
+- Node JS application scripts that interface the Web Application with either the Relay Node or various web3 libraries for
 cryptography functions.
 
 This repository comes with a complete installer that sets up a
@@ -48,7 +46,7 @@ veriscope/
 └── veriscope_ta_node
 
 ```
-Note: 
+Note:
 scripts/ is the installation setup guide
 vasp_testnet/ is the Nethermind POA relay node configuration
 veriscope_ta_dashboard/ is the Web Application (Laravel/VueJS)
@@ -115,12 +113,13 @@ $ sudo scripts/setup-vasp.sh
 10) Regenerate webhook secret
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
 i) install everything
 p) show daemon status
 w) restart all services
 r) reboot
 q) quit
-Choose what to do: 
+Choose what to do:
 ```
 
 This script deploys an all-in-one installation that is intended to
@@ -218,6 +217,13 @@ Further reading can be found here: [laravel.com/docs/8.x/passport/](https://lara
 The Web Application generates a number of Crypto Wallet Accounts as well as TrustAnchor Users.  Private keys are stored in the DB encrypted.  This step generates or regenerates the encryption keys stored in veriscope_ta_dashboard/storage/app/
 Futher reading can be found here: [github.com/RichardStyles/EloquentEncryption](https://github.com/RichardStyles/EloquentEncryption)
 
+### 13. Install Redis server
+
+The NodeJs Application manages posting of Attestations and Pending Transactions via a queuing framework. 
+Information on the framework can be found here: [The fastest, most reliable, Redis-based queue for Node.](https://www.npmjs.com/package/bull).
+Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker. [https://redis.io/](https://redis.io/).
+To read more on the motivation for queuing Attestations, please review the queue [/docs/queue.md](docs/queue.md)
+
 ### Ongoing updates
 
 Fetching the veriscope repository and re-running the installation
@@ -278,6 +284,9 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 8) Update static node list for nethermind
 9) Create admin user
 10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
 i) install everything
 p) show daemon status
 w) restart all services
@@ -308,7 +317,8 @@ Below is an example of a completed account setup in the .env:
 #DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
 TRUST_ANCHOR_PK=ae21....ce00
 TRUST_ANCHOR_PREFNAME="vs-....-1"
-TRUST_ANCHOR_ACCOUNT=0xB158....b39 
+TRUST_ANCHOR_ACCOUNT=0xB158....b39
+
 WEBHOOK_CLIENT_SECRET=tho....uain
 ```
 **NOTE:** params have been truncated "...."
@@ -318,7 +328,7 @@ When running Step 2 of the installation guide above (nethermind), your TA accoun
 
 ### 3 - Is Nethermind running? Is your nethermind node in the fedstats? Has it completed the sync?
 In order to receive blockchain events or post transactions, your nethermind client must be running.
-You can confirm this by 
+You can confirm this by
 1. viewing https://fedstats.veriscope.network/ to see if your node is up and synchronized.
 2. running the following command in the console:
 ```
@@ -400,6 +410,7 @@ and see if your node is in the list and wait for the node to fully synchronize
   - ta-node-2.service - Trust Anchor Node Template Helper
   - nginx.service - A high performance web server and a reverse proxy server
   - postgresql.service - PostgreSQL RDBMS
+  - redis-server.service - Advanced key-value store
 
 Press q to quit the Options list. **
 ```
@@ -453,8 +464,7 @@ At this stage you can query if your account has been verified and has a balance.
 ![Alt text](images/2-verified-account.png "Verified Account")
 
 ```shell
-**ACTION: If your account is not verified, please request to have your account on boarded and 
-verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.**
+**ACTION: If your account is not verified, please request to have your account on boarded and verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.**
 ```
 
 Once your account has been verified, you can confirm as shown here:
@@ -477,7 +487,7 @@ Important: For the API_URL key, ensure you enter the domain name associated with
 ```
 VERISCOPE_SERVICE_HOST=”pcf.veriscope.network”
 ```
-  
+
 E.g. [https://pcf.veriscope.network/kyc-template](https://pcf.veriscope.network/kyc-template)
 
 **Note:** this webapp accepts KYC requests to the route /kyc-template.  Ensure you add the route in the API_URL value.
@@ -534,8 +544,7 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 
 # Conduct a transaction with another VASP
 ```Shell
-**To do this, please reach out to your Veriscope Account Manager to coordinate a 
-live transaction with another VASP on Veriscope**
+**To do this, please reach out to your Veriscope Account Manager to coordinate a live transaction with another VASP on Veriscope**
 ```
 
 # VASP Test Accounts
@@ -556,7 +565,6 @@ live transaction with another VASP on Veriscope**
 | VASP TA Account | 0xc2106031Dac53b629976e12aF769F60afcB38793 |
 | VASP User | Dora Carlson |
 | BTC Address | 13J8EydyW5Agge9K4UsxMfKE6u7B2gtfgn |
-| ETH Address | 0x08dd8246c4c15F6dA97e5a40ED5a24C405b4FB24 
+| ETH Address | 0x08dd8246c4c15F6dA97e5a40ED5a24C405b4FB24
 | ZEC Address | t1JLYsteVEu7ER5fzE2veqF8Cx5gV3U2mvX |
 | XMR Address | 44Sj2g1s7fsABvPjFFQakKEARu2H2AF1phsTbfiAWrtjDpJe3ncBmT673AhHfMrVr2jfvtWEsX8UJ9G3DWecBqeTPUdSpBi |
-

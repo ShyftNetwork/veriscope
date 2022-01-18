@@ -41,7 +41,7 @@ echo "+ Service user will be $SERVICE_USER"
 # this function sets some globals to have a new ethereum PK, ACCT
 function create_sealer_pk {
 	pushd >/dev/null /opt/veriscope/veriscope_ta_node
-		
+
 	su $SERVICE_USER -c "npm install web3 dotenv"
 	local OUTPUT=$(node -e 'require("./create-account").trustAnchorCreateAccount()')
 	SEALERACCT=$(echo $OUTPUT | jq -r '.address')
@@ -58,6 +58,20 @@ function create_sealer_pk {
 	popd >/dev/null
 
 }
+
+
+function install_redis {
+
+  apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
+  #Configure Redis
+  cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
+  sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
+  cp /etc/redis/redis.conf.new /etc/redis/redis.conf
+
+  systemctl restart redis.service
+
+}
+
 
 function create_postgres_trustanchor_db {
 	if su postgres -c "psql -t -c '\du'" | cut -d \| -f 1 | grep -qw trustanchor; then
@@ -170,7 +184,7 @@ function install_or_update_nethermind() {
 				 "Enabled": true,
 				 "Host": "0.0.0.0",
 				 "Port": 8545,
-				 "EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug"]
+				 "EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug","Subscribe"]
 			  },
 			  "KeyStoreConfig": {
 				 "TestNodeKey": "'$SEALERPK'"
@@ -206,7 +220,6 @@ function setup_or_renew_ssl {
 }
 
 function setup_nginx {
-	if ! test -s $NGINX_CFG; then
 		sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
 
 		echo '
@@ -234,8 +247,15 @@ function setup_nginx {
 
 			 charset utf-8;
 
+			 location /arena/ {
+				 proxy_pass  http://127.0.0.1:8080/arena/;
+				 proxy_set_header Host $host;
+				 proxy_set_header X-Real-IP $remote_addr;
+				 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			 }
+
 			 location / {
-			try_files $uri $uri/ /index.php?$query_string;
+			   try_files $uri $uri/ /index.php?$query_string;
 			 }
 
 			 location = /favicon.ico { access_log off; log_not_found off; }
@@ -274,7 +294,6 @@ function setup_nginx {
 		}
 
 		' >$NGINX_CFG
-	fi
 	systemctl enable nginx
 	systemctl restart nginx
 }
@@ -303,7 +322,7 @@ function install_or_update_nodejs {
 
 	# this also does a restart of ta-node-1 ta-node-2
 	regenerate_webhook_secret;
-	
+
 }
 
 function install_or_update_laravel {
@@ -361,7 +380,15 @@ function install_or_update_laravel {
 
 function restart_all_services() {
 	echo "Restarting all services..."
-	systemctl restart nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql
+	##systemctl restart nethermind
+  	systemctl restart ta
+  	systemctl restart ta-wss
+  	systemctl restart ta-schedule
+  	systemctl restart nginx
+  	systemctl restart postgresql
+  	systemctl restart redis.service
+	systemctl restart ta-node-1
+	systemctl restart ta-node-2
 	echo "All services restarted"
 }
 
@@ -386,7 +413,7 @@ function refresh_static_nodes() {
 }
 
 function daemon_status() {
-	systemctl status nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql | less
+	systemctl status nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql redis.service | less
 }
 
 function create_admin() {
@@ -448,6 +475,7 @@ function menu() {
 10) Regenerate webhook secret
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
 i) install everything
 p) show daemon status
 w) restart all services
@@ -468,8 +496,9 @@ Choose what to do: "
 		9) create_admin; menu ;;
 		10) regenerate_webhook_secret; menu ;;
 		11) regenerate_passport_secret; menu ;;
-		12) regenerate_encrypt_secret; menu ;;
-		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+    	12) regenerate_encrypt_secret; menu ;;
+    	13) install_redis; menu ;;
+		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;
