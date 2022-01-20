@@ -551,7 +551,9 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 
 | Name      | Value |
 | :--- | :--- |
-| VASP ENTITY | PCF |
+| VASP ENTITY | PCF Corp. |
+| VASP API_URL | https://pcf.veriscope.network/kyc-template |
+| VASP IP | 15.223.33.76 |
 | VASP TA Account | 0xC0cA43B4848823d5417cAAFB9e8E6704b9d5375c |
 | VASP User     | Felix Bailey |
 | BTC Address   | 18crLganfufUzqFB2eH7jt4jPPYze45gZs |
@@ -561,7 +563,9 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 
 | Name      | Value |
 | :--- | :--- |
-| VASP ENTITY | Paycase |
+| VASP ENTITY | Paycase Inc. |
+| VASP API_URL | https://paycase.veriscope.network/kyc-template |
+| VASP IP | 3.97.182.35 |
 | VASP TA Account | 0xc2106031Dac53b629976e12aF769F60afcB38793 |
 | VASP User | Dora Carlson |
 | BTC Address | 13J8EydyW5Agge9K4UsxMfKE6u7B2gtfgn |
