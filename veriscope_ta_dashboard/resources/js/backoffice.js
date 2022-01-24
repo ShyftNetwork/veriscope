@@ -13,6 +13,7 @@ import DatePicker from './common/DatePicker';
 import SimpleButton from './common/SimpleButton';
 import CheckboxInput from './common/CheckboxInput';
 import Notification from './common/Notification';
+import LoadingOverlay from './common/LoadingOverlay'
 import Dropzone from './components/Dropzone';
 import Modal from './common/Modal';
 import store from './store';
@@ -31,7 +32,11 @@ import {
   SET_UI_COUNTRY,
   SET_UI_STATE,
   UPDATE_USER_COUNTRY,
-  UPDATE_USER_STATE
+  UPDATE_USER_STATE,
+  REFRESH_ALL_ATTESTATIONS,
+  REFRESH_ALL_DISCOVERY_LAYERS,
+  REFRESH_ALL_VERIFIED_TAS,
+  ATTESTATIONS_SOCKET_CONNECTION_SUCCESS
 } from './store/mutation-types';
 
 Vue.use(VeeValidate);
@@ -45,7 +50,9 @@ if (document.getElementById('backoffice')) {
       return {
           isPhoneValid: '',
           isDobValid: '',
-          notification: null
+          notification: null,
+          loading: false,
+          loadingMessage: ''
       }
     },
     components: {
@@ -60,7 +67,55 @@ if (document.getElementById('backoffice')) {
       CheckboxInput,
       Notification,
       Modal,
-      Dropzone
+      Dropzone,
+      LoadingOverlay
+    },
+    created() {
+      window.Echo.connector.pusher.connection.bind('connected', function () {
+        var socketId = window.Echo.socketId();
+        store.commit(ATTESTATIONS_SOCKET_CONNECTION_SUCCESS, socketId);
+      });
+
+      var userId = null;
+      if (document.head.querySelector('meta[name="user-id"]')
+      && document.head.querySelector('meta[name="user-id"]').content) {
+          userId = document.head.querySelector('meta[name="user-id"]').content;
+          console.log(userId);
+      }
+
+      Echo.private(`user.${userId}`)
+      .listen('ContractsInstantiate', (event) => {
+
+          if (event.data.message == 'refresh-all-attestations') {
+            if (!event.data.data.completed) {
+              this.loading = true
+              if (event.data.data.message) this.loadingMessage = event.data.data.message
+            } else {
+              app.$refs.attestationsTable.loadItems()
+              this.loading = false
+            }
+          }
+
+          if (event.data.message == 'refresh-all-discovery-layer-key-value-pairs') {
+            if (!event.data.data.completed) {
+              this.loading = true
+              if (event.data.data.message) this.loadingMessage = event.data.data.message
+            } else {
+              app.$refs.discoveryLayerTable.loadItems()
+              this.loading = false
+            }
+          }
+
+          if (event.data.message == 'refresh-all-verified-tas') {
+            if (!event.data.data.completed) {
+              this.loading = true
+              if (event.data.data.message) this.loadingMessage = event.data.data.message
+            } else {
+              app.$refs.verifiedTATable.loadItems()
+              this.loading = false
+            }
+          }
+      })
     },
     async mounted() {
       const loadUser = this[LOAD_USER](this.EDITID);
@@ -129,14 +184,18 @@ if (document.getElementById('backoffice')) {
           LOAD_USER,
           LOAD_COUNTRIES,
           LOAD_STATES,
-          UPDATE_USER
+          UPDATE_USER,
+          REFRESH_ALL_ATTESTATIONS,
+          REFRESH_ALL_DISCOVERY_LAYERS,
+          REFRESH_ALL_VERIFIED_TAS
       ]),
       ...mapMutations([
         SUBMIT_ERROR_MESSAGE_CLEAR,
         SET_UI_COUNTRY,
         SET_UI_STATE,
         UPDATE_USER_COUNTRY,
-        UPDATE_USER_STATE
+        UPDATE_USER_STATE,
+        
       ]),
       /**
        * Used to get transaction button
@@ -152,6 +211,25 @@ if (document.getElementById('backoffice')) {
           }
           return `${txUrlViewButton} ${txUrlEditButton}`;
         },
+
+        // get all attestations
+        callRefreshAllAttestations: function() {
+          this[REFRESH_ALL_ATTESTATIONS]()
+        },
+
+        // get all disovery layers
+
+        callRefreshAllDiscoveryLayers: function() {
+         this[REFRESH_ALL_DISCOVERY_LAYERS]()
+        },
+
+        // get all verified TAs
+
+        callRefreshAllVerifiedTAs: function() {
+          this[REFRESH_ALL_VERIFIED_TAS]()
+        },
+
+
       /**
        * Used to determine if the phone number validates against its Country Code
        * @param {Boolean} isValid - Boolen emitted from input

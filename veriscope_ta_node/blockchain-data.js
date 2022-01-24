@@ -3,6 +3,7 @@ const Web3 = require('web3');
 const axios = require('axios');
 const dotenv = require('dotenv');
 const winston = require('winston');
+const fs = require('fs')
 
 dotenv.config();
 
@@ -54,106 +55,146 @@ function convertComponentsFromHex(hex) {
 }
 
 function sendWebhookMessage(obj) {
+  return new Promise((resolve, reject) => {
+    const instance = axios.create();
 
-  const instance = axios.create();
-
-  instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
-
-  instance.post(webhookUrl, {
-    obj:obj
+    instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = privateKey;
+    instance.post(webhookUrl, {
+        obj: obj
+      })
+      .then((res) => {
+        logger.info('sendWebsocket success');
+        logger.info(`statusCode: ${res.statusCode}`)
+        logger.info(res)
+        resolve(obj)
+      })
+      .catch((error) => {
+        logger.info('sendWebsocket error');
+        logger.error(error)
+        resolve(obj)
+      });
   })
-  .then((res) => {
-    logger.info('sendWebsocket success');
-    logger.info(`statusCode: ${res.statusCode}`)
-    logger.info(res)
-  })
-  .catch((error) => {
-    logger.info('sendWebsocket error');
-    logger.error(error)
-  });
 }
 
 // node -e 'require("./blockchain-data").getAllAttestations()'
-module.exports.getAllAttestations = function () {
-    getAllAttestations();
+module.exports.getAllAttestations = function (user_id = null) {
+  getAllAttestations(user_id);
 };
 
 
-function getAllAttestations() {
-    (async () => {
-
-    let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorStorage.json');
+function getAllAttestations(user_id) {
+  (async () => {
+    
+    let source = fs.readFileSync(process.env.CONTRACTS + 'TrustAnchorStorage.json');
 
     let contracts = JSON.parse(source);
 
     var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_STORAGE_CONTRACT_ADDRESS);
 
     myContract.getPastEvents('EVT_setAttestation', {
-       fromBlock: 0,
-       toBlock: "latest",
-    }, function(error, events){
+      fromBlock: 0,
+      toBlock: "latest",
+    }, async function (error, events) {
 
-        for (const event of events) {
 
+        for (const [i, event] of events.entries()) {
           event['type'] = convertComponentsFromHex(event['returnValues']['_publicData_0']);
           event['document'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
           event['document_decrypt'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
 
           event['memo'] = convertComponentsFromHex(event['returnValues']['_availabilityAddressEncrypted']);
 
-          var obj = { message: "tas-event", data: event };
+          var obj = {
+            message: "tas-event",
+            data: event
+          };
+
           logger.info(obj);
-          sendWebhookMessage(obj);
+          await sendWebhookMessage(obj);
+          await sendWebhookMessage({
+            user_id,
+            message: "refresh-all-attestations",
+            data: {
+              completed: false,
+              message: `Loaded ${i} of ${events.length} attestations`
+            }
+          });
         }
-
-
+      
+      sendWebhookMessage({
+        user_id,
+        message: "refresh-all-attestations",
+        data: {
+          completed: true
+        }
+      });
     })
-
-
     logger.info('getAllAttestations result');
     logger.info();
 
-    })();
+  })();
+}
+
+function chunkArray(array, chunkSize) {
+  return Array.from({
+      length: Math.ceil(array.length / chunkSize)
+    },
+    (_, index) => array.slice(index * chunkSize, (index + 1) * chunkSize)
+  );
 }
 /*
 EVT_setTrustAnchorKeyValuePairCreated
 */
 // node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairCreated()'
-module.exports.getTrustAnchorKeyValuePairCreated = function () {
-    getTrustAnchorKeyValuePairCreated();
+module.exports.getTrustAnchorKeyValuePairCreated = function (user_id = null) {
+  getTrustAnchorKeyValuePairCreated(user_id);
 };
 
-function getTrustAnchorKeyValuePairCreated() {
-    (async () => {
+function getTrustAnchorKeyValuePairCreated(user_id) {
+  (async () => {
 
-    let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorExtraData_Unique.json');
+  let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorExtraData_Unique.json');
 
-    let contracts = JSON.parse(source);
+  let contracts = JSON.parse(source);
 
-    var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS);
+  var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS);
 
 
-    myContract.getPastEvents('EVT_setTrustAnchorKeyValuePairCreated', {
-       fromBlock: 0,
-       toBlock: "latest",
-    }, function(error, events){
-
-        for (const event of events) {
+  myContract.getPastEvents('EVT_setTrustAnchorKeyValuePairCreated', {
+     fromBlock: 0,
+     toBlock: "latest",
+  }, async function(error, events){
+      
+        for (const [i, event] of events.entries()) {
           logger.info(event);
 
           var obj = { message: "taedu-event", data: event };
-          sendWebhookMessage(obj);
-
+          await sendWebhookMessage(obj);
+          await sendWebhookMessage({
+            user_id,
+            message: "refresh-all-discovery-layer-key-value-pairs",
+            data: {
+              completed: false,
+              message: `Loaded ${i} of ${events.length} discovery layers`
+            }
+          });
         }
+      
+      sendWebhookMessage({
+        user_id,
+        message: "refresh-all-discovery-layer-key-value-pairs",
+        data: {
+          completed: true
+        }
+      });
+
+  })
 
 
-    })
+  logger.info('getTrustAnchorKeyValuePairCreated result');
+  logger.info();
 
-
-    logger.info('getTrustAnchorKeyValuePairCreated result');
-    logger.info();
-
-    })();
+  })();
 }
 
 /*
@@ -241,12 +282,12 @@ function getTrustAnchorDataRetrievalParametersCreated() {
 }
 
 // node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
-module.exports.getVerifiedTrustAnchors = function () {
-    getVerifiedTrustAnchors();
+module.exports.getVerifiedTrustAnchors = function (user_id = null) {
+    getVerifiedTrustAnchors(user_id);
 };
 
 
-function getVerifiedTrustAnchors() {
+function getVerifiedTrustAnchors(user_id) {
     (async () => {
 
     let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorManager.json');
@@ -258,15 +299,32 @@ function getVerifiedTrustAnchors() {
     myContract.getPastEvents('EVT_verifyTrustAnchor', {
        fromBlock: 0,
        toBlock: "latest",
-    }, function(error, events){
+    }, async function(error, events){
 
-        for (const event of events) {
+      
+        for (const [i, event] of events.entries()) {
           logger.info(event);
 
           var obj = { message: "tam-event", data: event };
-          sendWebhookMessage(obj);
+          await sendWebhookMessage(obj);
 
+          await sendWebhookMessage({
+            user_id,
+            message: "refresh-all-verified-tas",
+            data: {
+              completed: false,
+              message: `Loaded ${i} of ${events.length} verified trust anchors`
+            }
+          });
         }
+      
+      sendWebhookMessage({
+        user_id,
+        message: "refresh-all-verified-tas",
+        data: {
+          completed: true
+        }
+      });
 
 
     })

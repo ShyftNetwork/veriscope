@@ -90,6 +90,10 @@ import {
     TA_GET_DISCOVERY_LAYER_KEYS_SUCCESS,
     TA_GET_DISCOVERY_LAYER_KEYS_FAIL,
 
+
+    REFRESH_ALL_ATTESTATIONS,
+    REFRESH_ALL_DISCOVERY_LAYERS,
+    REFRESH_ALL_VERIFIED_TAS
 } from '../../mutation-types';
 
 export const actions = {
@@ -100,14 +104,20 @@ export const actions = {
      * @param {object} payload - Payload to submit
      * @returns {promise}
      */
-     [CREATE_TA_ACCOUNT]({ commit, getters, state }, payload) {
+    [CREATE_TA_ACCOUNT]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions CREATE_TA_ACCOUNT');
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"ta_prefname": state.form.ta_prefname,
-                "ta_password": "Password1*"};
-                // "ta_password": state.form.ta_password};
+        var p = {
+            "ta_prefname": state.form.ta_prefname,
+            "ta_password": "Password1*"
+        };
+        // "ta_password": state.form.ta_password};
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/create-ta-account`, p)
             .then(response => {
@@ -119,13 +129,19 @@ export const actions = {
     },
 
 
-    [TA_REGISTER_JURISDICTION]({ commit, getters, state }) {
+    [TA_REGISTER_JURISDICTION]({
+        commit,
+        getters,
+        state
+    }) {
         console.log('actions TA_REGISTER_JURISDICTION');
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"account_address": state.form.attestation_ta_account.account_address,
-                "jurisdiction": state.form.attestation_jurisdiction.id};
+        var p = {
+            "account_address": state.form.attestation_ta_account.account_address,
+            "jurisdiction": state.form.attestation_jurisdiction.id
+        };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-register-jurisdiction`, p)
             .then(response => {
@@ -173,7 +189,9 @@ export const actions = {
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"account": state.form.attestation_ta_account.account_address};
+        var p = {
+            "account": state.form.attestation_ta_account.account_address
+        };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-is-verified`, p)
             .then(response => {
@@ -184,13 +202,19 @@ export const actions = {
             });
     },
 
-    [TA_SET_JURISDICTION]({ commit, getters, state }, payload) {
+    [TA_SET_JURISDICTION]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_SET_JURISDICTION');
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"ta_jurisdiction": state.form.ta_jurisdiction,
-                "account": state.ta_temp_account};
+        var p = {
+            "ta_jurisdiction": state.form.ta_jurisdiction,
+            "account": state.ta_temp_account
+        };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-jurisdiction`, p)
             .then(response => {
@@ -202,17 +226,23 @@ export const actions = {
             });
     },
 
-    [TA_CREATE_USER]({ commit, getters, state }, payload) {
+    [TA_CREATE_USER]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_CREATE_USER');
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"prefname": state.form.user_prefname,
-                "password": 'Password1*',
-                "dob": state.form.dob,
-                "gender": state.form.gender.label,
-                "jurisdiction": state.form.attestation_jurisdiction.id,
-                "trust_anchor_account":state.form.attestation_ta_account};
+        var p = {
+            "prefname": state.form.user_prefname,
+            "password": 'Password1*',
+            "dob": state.form.dob,
+            "gender": state.form.gender.label,
+            "jurisdiction": state.form.attestation_jurisdiction.id,
+            "trust_anchor_account": state.form.attestation_ta_account
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-create-user`, p)
@@ -224,11 +254,17 @@ export const actions = {
             });
     },
 
-    [TA_CREATE_RANDOM_USERS]({ commit, getters, state }, payload) {
+    [TA_CREATE_RANDOM_USERS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_CREATE_RANDOM_USERS');
         console.log('state');
         console.log(state);
-        var p = {"trust_anchor_account":state.form.attestation_ta_account};
+        var p = {
+            "trust_anchor_account": state.form.attestation_ta_account
+        };
         console.log('payload');
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-create-random-users`, p)
@@ -240,7 +276,12 @@ export const actions = {
             });
     },
 
-    [TA_SET_ATTESTATION]({ commit, dispatch, getters, state }, payload) {
+    [TA_SET_ATTESTATION]({
+        commit,
+        dispatch,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_SET_ATTESTATION');
         console.log('state');
         console.log(state);
@@ -256,7 +297,8 @@ export const actions = {
 
             state.showTaSetWalletAttestationResult = 'block';
 
-            p = {"attestation_type": 'WALLET',
+            p = {
+                "attestation_type": 'WALLET',
                 "user_address": state.form.attestation_user.account_address,
                 "jurisdiction": state.form.attestation_jurisdiction.id,
                 "effective_time": '',
@@ -266,9 +308,9 @@ export const actions = {
                 "availability_address_encrypted": state.form.user_crypto_address_type.wallet_type,
                 "ta_account": state.form.attestation_ta_account,
             };
-        }
-        else {
-            p = {"attestation_user": state.form.attestation_user_account,
+        } else {
+            p = {
+                "attestation_user": state.form.attestation_user_account,
                 "jurisdiction": state.form.attestation_jurisdiction.id,
                 "effective_time": state.form.attestation_effective_date,
                 "expiry_time": state.form.attestation_expiry_date,
@@ -290,12 +332,18 @@ export const actions = {
             });
     },
 
-    [TA_GET_BALANCE]({ commit, getters, state }, payload) {
+    [TA_GET_BALANCE]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_BALANCE');
         console.log('state');
         console.log(state);
         console.log('payload');
-        var p = {"account": state.form.attestation_ta_account.account_address};
+        var p = {
+            "account": state.form.attestation_ta_account.account_address
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-balance`, p)
@@ -307,13 +355,21 @@ export const actions = {
             });
     },
 
-    [TA_SET_UNIQUE_ADDRESS]({ commit, getters, state }) {
+    [TA_SET_UNIQUE_ADDRESS]({
+        commit,
+        getters,
+        state
+    }) {
 
-        var p = {"account": state.form.attestation_ta_account.account_address};
+        var p = {
+            "account": state.form.attestation_ta_account.account_address
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-unique-address/`, p)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 console.log('TA_SET_UNIQUE_ADDRESS response');
                 return data;
             })
@@ -321,14 +377,22 @@ export const actions = {
                 commit(TA_SET_UNIQUE_ADDRESS_FAIL);
             });
     },
-    [TA_GET_UNIQUE_ADDRESS]({ commit, getters, state }) {
+    [TA_GET_UNIQUE_ADDRESS]({
+        commit,
+        getters,
+        state
+    }) {
 
-        var p = {"from_account": state.form.attestation_ta_account.account_address,
-                "to_account": state.form.ta_unique_account};
+        var p = {
+            "from_account": state.form.attestation_ta_account.account_address,
+            "to_account": state.form.ta_unique_account
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-unique-address/`, p)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 console.log('TA_GET_UNIQUE_ADDRESS response');
                 return data;
             })
@@ -337,7 +401,11 @@ export const actions = {
             });
     },
 
-    [TA_GET_USER_ATTESTATIONS]({ commit, getters, state }, payload) {
+    [TA_GET_USER_ATTESTATIONS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_USER_ATTESTATIONS');
         console.log('state');
         console.log(state);
@@ -345,10 +413,13 @@ export const actions = {
         console.log(payload);
         var p = {};
         if (payload.account_address) {
-            p = {"account": payload.account_address};
-        }
-        else {
-            p = {"account": state.form.ta_user_address};
+            p = {
+                "account": payload.account_address
+            };
+        } else {
+            p = {
+                "account": state.form.ta_user_address
+            };
         }
 
         console.log(p);
@@ -362,14 +433,20 @@ export const actions = {
             });
     },
 
-    [TA_GET_ATTESTATION_COMPONENTS]({ commit, getters, state }, payload) {
+    [TA_GET_ATTESTATION_COMPONENTS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_ATTESTATION_COMPONENTS');
         console.log('state');
         console.log(state);
         console.log('payload');
         console.log(payload);
-        var p = {"account": state.form.attestation_user.account_address,
-                "index":payload - 1};
+        var p = {
+            "account": state.form.attestation_user.account_address,
+            "index": payload - 1
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-attestation-components-in-array`, p)
@@ -381,11 +458,17 @@ export const actions = {
             });
     },
 
-    [TA_GET_TAS]({ commit, getters, state }, payload) {
+    [TA_GET_TAS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_TAS');
 
         return axios.get(`contracts/trust-anchor/${getters.UID}/ta-get-trust-anchors`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_GET_TAS_SUCCESS, data);
                 return data;
             })
@@ -394,13 +477,21 @@ export const actions = {
             });
     },
 
-    [TA_GET_USERS]({ commit, getters, state }, payload) {
+    [TA_GET_USERS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_TA_USERS');
         console.log(state.form.attestation_ta_account);
 
-        var p = {"trust_anchor_id": state.form.attestation_ta_account.id};
+        var p = {
+            "trust_anchor_id": state.form.attestation_ta_account.id
+        };
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-trust-anchor-users`, p)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 console.log('actions TA_GET_USERS');
                 console.log(data);
                 commit(TA_GET_USERS_SUCCESS, data);
@@ -411,9 +502,13 @@ export const actions = {
             });
     },
 
-    [TA_LOAD_COUNTRIES]({ commit }) {
+    [TA_LOAD_COUNTRIES]({
+        commit
+    }) {
         return axios.get('countries')
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_LOAD_COUNTRIES_SUCCESS, data);
                 return data;
             })
@@ -422,9 +517,13 @@ export const actions = {
             });
     },
 
-    [TA_LOAD_WALLET_TYPES]({ commit }) {
+    [TA_LOAD_WALLET_TYPES]({
+        commit
+    }) {
         return axios.get('wallet-types')
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_LOAD_WALLET_TYPES_SUCCESS, data);
                 return data;
             })
@@ -433,14 +532,20 @@ export const actions = {
             });
     },
 
-    [TA_LOAD_WALLET_ADDRESSES]({ commit, getters, state }) {
+    [TA_LOAD_WALLET_ADDRESSES]({
+        commit,
+        getters,
+        state
+    }) {
         var wallet_type = state.form.user_crypto_address_type.id;
         var trust_anchor_user_id = state.form.attestation_user.id;
         console.log('wallet_type');
         console.log(wallet_type);
         console.log(`wallet-addresses/${getters.UID}`);
-        return axios.get(`wallet-addresses/${getters.UID}?wallet_type=`+wallet_type+`&trust_anchor_user_id=`+trust_anchor_user_id)
-            .then(({ data }) => {
+        return axios.get(`wallet-addresses/${getters.UID}?wallet_type=` + wallet_type + `&trust_anchor_user_id=` + trust_anchor_user_id)
+            .then(({
+                data
+            }) => {
                 commit(TA_LOAD_WALLET_ADDRESSES_SUCCESS, data);
                 return data;
             })
@@ -449,16 +554,25 @@ export const actions = {
             });
     },
 
-    [TA_ASSIGN_CRYPTO_ADDRESS]({ commit, dispatch, getters, state }, payload) {
+    [TA_ASSIGN_CRYPTO_ADDRESS]({
+        commit,
+        dispatch,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_ASSIGN_CRYPTO_ADDRESS');
         console.log(state.form.attestation_ta_account);
 
-        var p = {"trust_anchor_user_id": state.form.attestation_user.id,
-                "crypto_address": state.form.user_crypto_address,
-                "crypto_type": state.form.user_crypto_address_type};
+        var p = {
+            "trust_anchor_user_id": state.form.attestation_user.id,
+            "crypto_address": state.form.user_crypto_address,
+            "crypto_type": state.form.user_crypto_address_type
+        };
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-assign-crypto-address`, p)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_ASSIGN_CRYPTO_ADDRESS_SUCCESS, data);
                 dispatch('loadStates');
                 return data;
@@ -470,12 +584,18 @@ export const actions = {
             });
     },
 
-    [TA_GET_USER_WALLET_ADDRESSES]({ commit, getters, state }, payload) {
+    [TA_GET_USER_WALLET_ADDRESSES]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_USER_WALLET_ADDRESSES');
 
 
         return axios.get(`contracts/trust-anchor/${getters.UID}/ta-get-user-wallet-addresses`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_GET_USER_WALLET_ADDRESSES_SUCCESS, data);
                 return data;
             })
@@ -486,10 +606,16 @@ export const actions = {
             });
     },
 
-    [TA_GET_ALL_ATTESTATIONS]({ commit, getters, state }, payload) {
+    [TA_GET_ALL_ATTESTATIONS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_ALL_ATTESTATIONS');
         return axios.get(`contracts/trust-anchor/${getters.UID}/ta-get-all-attestations`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_GET_ALL_ATTESTATIONS_SUCCESS, data);
                 return data;
             })
@@ -500,16 +626,23 @@ export const actions = {
             });
     },
 
-    [TA_SET_KEY_VALUE_PAIR]({ commit, getters, state }) {
+    [TA_SET_KEY_VALUE_PAIR]({
+        commit,
+        getters,
+        state
+    }) {
 
-        var p = {"account": state.form.attestation_ta_account.account_address,
-                "ta_key_name": state.form.ta_key_name.key,
-                "ta_key_value": state.form.ta_key_value
-            };
+        var p = {
+            "account": state.form.attestation_ta_account.account_address,
+            "ta_key_name": state.form.ta_key_name.key,
+            "ta_key_value": state.form.ta_key_value
+        };
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-key-value-pair/`, p)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 console.log('TA_SET_KEY_VALUE_PAIR response');
                 return data;
             })
@@ -518,11 +651,17 @@ export const actions = {
             });
     },
 
-    [TA_GET_DISCOVERY_LAYER_KEYS]({ commit, getters, state }, payload) {
+    [TA_GET_DISCOVERY_LAYER_KEYS]({
+        commit,
+        getters,
+        state
+    }, payload) {
         console.log('actions TA_GET_DISCOVERY_LAYER_KEYS');
 
         return axios.get(`contracts/trust-anchor/${getters.UID}/ta-get-discovery-layer-keys`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 commit(TA_GET_DISCOVERY_LAYER_KEYS_SUCCESS, data);
                 return data;
             })
@@ -531,4 +670,36 @@ export const actions = {
             });
     },
 
+    [REFRESH_ALL_ATTESTATIONS]({
+        commit,
+        getters,
+        state
+    }, payload) {
+        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-attestations`)
+            .then(response => {
+                return response;
+            })
+    },
+
+    [REFRESH_ALL_DISCOVERY_LAYERS]({
+        commit,
+        getters,
+        state
+    }, payload) {
+        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-discovery-layer-key-value-pairs`)
+            .then(response => {
+                return response;
+            })
+    },
+
+    [REFRESH_ALL_VERIFIED_TAS]({
+        commit,
+        getters,
+        state
+    }, payload) {
+        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-verified-tas`)
+            .then(response => {
+                return response;
+            })
+    },
 };

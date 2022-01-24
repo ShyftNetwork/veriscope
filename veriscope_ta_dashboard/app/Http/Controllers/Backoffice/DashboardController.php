@@ -32,7 +32,7 @@ class DashboardController extends Controller
     {
 
         $verified_trust_anchors = VerifiedTrustAnchor::all();
-        $trust_anchors = TrustAnchorExtraDataUnique::all()->groupBy('trust_anchor_address');
+        $trust_anchors = TrustAnchorExtraDataUnique::all();
         $attestations = SmartContractAttestation::all();
         $kyc_templates = KycTemplate::all();
 

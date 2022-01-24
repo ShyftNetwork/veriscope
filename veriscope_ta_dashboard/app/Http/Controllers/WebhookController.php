@@ -367,7 +367,15 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-get-user-attestations') {
-
+            broadcast(new ContractsInstantiate($data));
+        }
+        if ($data['message'] === 'refresh-all-attestations') {
+            broadcast(new ContractsInstantiate($data));
+        }
+        if ($data['message'] === 'refresh-all-discovery-layer-key-value-pairs') {
+            broadcast(new ContractsInstantiate($data));
+        }
+        if ($data['message'] === 'refresh-all-verified-tas') {
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-get-attestation-components-in-array') {

@@ -68,7 +68,8 @@
 
     <div class="content" id="backoffice">
       @yield('content')
-    </div>
+      <loading-overlay :loading=loading :message=loadingMessage></loading-overlay>
 
+    </div>
 </body>
 </html>
