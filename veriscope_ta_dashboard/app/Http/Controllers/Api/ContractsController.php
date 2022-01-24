@@ -714,4 +714,76 @@ class ContractsController extends Controller
 
           return response()->json($attestations);
       }
+
+      public function refresh_all_attestations(Request $request, $id)
+      {
+          Log::debug('ContractsController refresh_all_attestations');
+
+          $input = $request->all();
+          
+          Log::debug(print_r($input, true));
+          $url = $this->helper_url.'/refresh-all-attestations?user_id='.$id;
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if($res->getStatusCode() == 200) {
+
+            $response = json_decode($res->getBody());
+            Log::debug('ContractsController refresh-all-attestations');
+            Log::debug($response);
+           
+              
+          } else {
+              Log::error('ContractsController refresh-all-attestations: ' . $res->getStatusCode());
+          }
+
+          return response()->json([]);
+      }
+
+      public function refresh_all_discovery_layer_key_value_pairs(Request $request, $id)
+      {
+          Log::debug('ContractsController refresh_all_discovery_layer_key_value_pairs');
+
+          $input = $request->all();
+          
+          Log::debug(print_r($input, true));
+          $url = $this->helper_url.'/refresh-all-discovery-layer-key-value-pairs?user_id='.$id;
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if($res->getStatusCode() == 200) {
+
+            $response = json_decode($res->getBody());
+            Log::debug('ContractsController refresh-all-discovery-layer-key-value-pairs');
+            Log::debug($response);
+           
+              
+          } else {
+              Log::error('ContractsController refresh-all-discovery-layer-key-value-pairs: ' . $res->getStatusCode());
+          }
+
+          return response()->json([]);
+      }
+
+      public function refresh_all_verified_tas(Request $request, $id)
+      {
+          Log::debug('ContractsController refresh_all_verified_tas');
+
+          $input = $request->all();
+          
+          Log::debug(print_r($input, true));
+          $url = $this->helper_url.'/refresh-all-verified-tas?user_id='.$id;
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if($res->getStatusCode() == 200) {
+
+            $response = json_decode($res->getBody());
+            Log::debug('ContractsController refresh-all-verified-tas');
+            Log::debug($response);
+           
+              
+          } else {
+              Log::error('ContractsController refresh-all-verified-tas: ' . $res->getStatusCode());
+          }
+
+          return response()->json([]);
+      }
 }

@@ -3,10 +3,18 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const winston = require('winston');
+
+const {
+  getAllAttestations, 
+  getTrustAnchorKeyValuePairCreated,
+  getVerifiedTrustAnchors
+} = require('./blockchain-data')
+
 const ethers = require("ethers");
 const Web3 = require('web3');
 const dotenv = require('dotenv');
 const services = require('./services');
+
 dotenv.config();
 const Keyv = require('keyv');
 const keyv = new Keyv(process.env.REDIS_URI);
@@ -549,6 +557,74 @@ app.get('/ta-nonce-count',  async (req, res) => {
     res.status(200).json({count: baseNonce , address: trustAnchorAccount, pendingCount:  baseNoncePending });
 });
 
+/*
+save all attestations to database
+request: GET
+params:
+:user_id: 1
+*/
+// eg: refresh-all-attestations?user-id=1
+
+app.get('/refresh-all-attestations', (req, res) => {
+  var user_id = req.param('user_id');
+  refreshAllAttestations(user_id);
+  res.sendStatus(201);
+});
+
+function refreshAllAttestations(user_id) {
+  (async () => {
+    logger.info('refreshAllAttestations');
+    var obj = { user_id: user_id, message: "refresh-all-attestations", data: {completed:false} };
+    utility.sendWebhookMessage(obj);
+    getAllAttestations(user_id)
+  })();
+}
+
+/*
+save all Discovery Layer Key Value Pairs to database
+request: GET
+params:
+:user_id: 1
+*/
+// eg: refresh-all-discovery-layer-key-value-pairs?user-id=1
+
+app.get('/refresh-all-discovery-layer-key-value-pairs', (req, res) => {
+  var user_id = req.param('user_id');
+  refreshAllDiscoveryLayerKeyValuePairs(user_id);
+  res.sendStatus(201);
+});
+
+function refreshAllDiscoveryLayerKeyValuePairs (user_id) {
+  (async () => {
+    logger.info('refreshAllDiscoveryLayerKeyValuePairs');
+    var obj = { user_id: user_id, message: "refresh-all-discovery-layer-key-value-pairs", data: {completed:false} };
+    utility.sendWebhookMessage(obj);
+    getTrustAnchorKeyValuePairCreated(user_id)
+  })();
+}
+
+/*
+save all verified ta's to database
+request: GET
+params:
+:user_id: 1
+*/
+// eg: refresh-all-verified-tas?user-id=1
+
+app.get('/refresh-all-verified-tas', (req, res) => {
+  var user_id = req.param('user_id');
+  refreshAllVerifiedTAS(user_id);
+  res.sendStatus(201);
+});
+
+function refreshAllVerifiedTAS (user_id) {
+  (async () => {
+    logger.info('refreshAllTAS');
+    var obj = { user_id: user_id, message: "refresh-all-verified-tas", data: {completed:false} };
+    utility.sendWebhookMessage(obj);
+    getVerifiedTrustAnchors(user_id)
+  })();
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -661,122 +737,124 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
     logger.error('taEmptyTransactionStatusCheck: error job', error);
 });
 
+(async function() {
+  
+    provider.on("block", (blockNumber) => {
+        logger.info("block# " + blockNumber);
+    });
 
-provider.on("block", (blockNumber) => {
-    logger.info("block# " + blockNumber);
-});
+    TrustAnchorStorage.on("EVT_setAttestation",  (attestationKeccak, msg_sender, _identifiedAddress, _jurisdiction, _effectiveTime, _expiryTime, _publicData_0, _documentsMatrixEncrypted_0, _availabilityAddressEncrypted, _isManaged, _publicDataLength, _documentsMatrixEncryptedLength, event) => {
+            logger.info("event EVT_setAttestation");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_setAttestation";
+            data['returnValues'] = {};
 
-TrustAnchorStorage.on("EVT_setAttestation",  (attestationKeccak, msg_sender, _identifiedAddress, _jurisdiction, _effectiveTime, _expiryTime, _publicData_0, _documentsMatrixEncrypted_0, _availabilityAddressEncrypted, _isManaged, _publicDataLength, _documentsMatrixEncryptedLength, event) => {
-        logger.info("event EVT_setAttestation");
-        data = {};
-        data['transactionHash'] = event.transactionHash;
-        data['event'] = "EVT_setAttestation";
-        data['returnValues'] = {};
+            data['returnValues']['attestationKeccak'] = attestationKeccak;
+            data['returnValues']['msg_sender'] = msg_sender;
+            data['returnValues']['_identifiedAddress'] = _identifiedAddress;
+            data['returnValues']['_jurisdiction'] = _jurisdiction;
+            data['returnValues']['_effectiveTime'] = _effectiveTime.toString();
+            data['returnValues']['_expiryTime'] = _expiryTime.toString();
+            data['returnValues']['_publicData_0'] = _publicData_0;
+            data['returnValues']['_documentsMatrixEncrypted_0'] = _documentsMatrixEncrypted_0;
+            data['returnValues']['_availabilityAddressEncrypted'] = _availabilityAddressEncrypted;
+            data['returnValues']['_isManaged'] = _isManaged;
+            data['returnValues']['_publicDataLength'] = _publicDataLength;
+            data['returnValues']['_documentsMatrixEncryptedLength'] = _documentsMatrixEncryptedLength;
 
-        data['returnValues']['attestationKeccak'] = attestationKeccak;
-        data['returnValues']['msg_sender'] = msg_sender;
-        data['returnValues']['_identifiedAddress'] = _identifiedAddress;
-        data['returnValues']['_jurisdiction'] = _jurisdiction;
-        data['returnValues']['_effectiveTime'] = _effectiveTime.toString();
-        data['returnValues']['_expiryTime'] = _expiryTime.toString();
-        data['returnValues']['_publicData_0'] = _publicData_0;
-        data['returnValues']['_documentsMatrixEncrypted_0'] = _documentsMatrixEncrypted_0;
-        data['returnValues']['_availabilityAddressEncrypted'] = _availabilityAddressEncrypted;
-        data['returnValues']['_isManaged'] = _isManaged;
-        data['returnValues']['_publicDataLength'] = _publicDataLength;
-        data['returnValues']['_documentsMatrixEncryptedLength'] = _documentsMatrixEncryptedLength;
+            data['type'] = utility.convertComponentsFromHex(data['returnValues']['_publicData_0']);
+            data['document'] = utility.convertComponentsFromHex(data['returnValues']['_documentsMatrixEncrypted_0']);
+            data['document_decrypt'] = utility.convertComponentsFromHex(data['returnValues']['_documentsMatrixEncrypted_0']);
 
-        data['type'] = utility.convertComponentsFromHex(data['returnValues']['_publicData_0']);
-        data['document'] = utility.convertComponentsFromHex(data['returnValues']['_documentsMatrixEncrypted_0']);
-        data['document_decrypt'] = utility.convertComponentsFromHex(data['returnValues']['_documentsMatrixEncrypted_0']);
+            data['memo'] = utility.convertComponentsFromHex(data['returnValues']['_availabilityAddressEncrypted']);
 
-        data['memo'] = utility.convertComponentsFromHex(data['returnValues']['_availabilityAddressEncrypted']);
+            var obj = {
+                message: "tas-event",
+                data: data
+            };
+            utility.sendWebhookMessage(obj);
 
-        var obj = {
-            message: "tas-event",
-            data: data
-        };
-        utility.sendWebhookMessage(obj);
+            logger.info(data);
+    });
 
-        logger.info(data);
-});
+    TrustAnchorExtraData_Generic.on("EVT_setDataRetrievalParametersCreated",  (_trustAnchorAddress, _endpointName, _ipv4Address, event) => {
+            logger.info("event EVT_setDataRetrievalParametersCreated");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_setDataRetrievalParametersCreated";
+            data['returnValues'] = {};
 
-TrustAnchorExtraData_Generic.on("EVT_setDataRetrievalParametersCreated",  (_trustAnchorAddress, _endpointName, _ipv4Address, event) => {
-        logger.info("event EVT_setDataRetrievalParametersCreated");
-        data = {};
-        data['transactionHash'] = event.transactionHash;
-        data['event'] = "EVT_setDataRetrievalParametersCreated";
-        data['returnValues'] = {};
+            data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+            data['returnValues']['_endpointName'] = _endpointName;
 
-        data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
-        data['returnValues']['_endpointName'] = _endpointName;
+            var ip_address = _ipv4Address.join('.');
+            data['ipv4_address'] = ip_address;
 
-        var ip_address = _ipv4Address.join('.');
-        data['ipv4_address'] = ip_address;
+            var obj = {
+                message: "taed-event",
+                data: data
+            };
+            utility.sendWebhookMessage(obj);
 
-        var obj = {
-            message: "taed-event",
-            data: data
-        };
-        utility.sendWebhookMessage(obj);
+            logger.info(data);
+    });
 
-        logger.info(data);
-});
+    TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairCreated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
+            logger.info("event EVT_setDataRetrievalParametersCreated");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_setTrustAnchorKeyValuePairCreated";
+            data['returnValues'] = {};
 
-TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairCreated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
-        logger.info("event EVT_setDataRetrievalParametersCreated");
-        data = {};
-        data['transactionHash'] = event.transactionHash;
-        data['event'] = "EVT_setTrustAnchorKeyValuePairCreated";
-        data['returnValues'] = {};
-
-        data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
-        data['returnValues']['_keyValuePairName'] = _keyValuePairName;
-        data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
-
-
-        var obj = {
-            message: "taedu-event",
-            data: data
-        };
-        utility.sendWebhookMessage(obj);
-
-        logger.info(data);
-});
-
-TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairUpdated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
-        logger.info("event EVT_setTrustAnchorKeyValuePairUpdated");
-        data = {};
-        data['transactionHash'] = event.transactionHash;
-        data['event'] = "EVT_setTrustAnchorKeyValuePairUpdated";
-        data['returnValues'] = {};
-
-        data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
-        data['returnValues']['_keyValuePairName'] = _keyValuePairName;
-        data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
+            data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+            data['returnValues']['_keyValuePairName'] = _keyValuePairName;
+            data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
 
 
-        var obj = {
-            message: "taedu-event",
-            data: data
-        };
-        utility.sendWebhookMessage(obj);
+            var obj = {
+                message: "taedu-event",
+                data: data
+            };
+            utility.sendWebhookMessage(obj);
 
-        logger.info(data);
-});
+            logger.info(data);
+    });
 
-TrustAnchorManager.on("EVT_verifyTrustAnchor",  (trustAnchorAddress, event) => {
-        logger.info("event EVT_verifyTrustAnchor");
-        data = {};
-        data['transactionHash'] = event.transactionHash;
-        data['event'] = "EVT_verifyTrustAnchor";
-        data['returnValues'] = {};
+    TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairUpdated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
+            logger.info("event EVT_setTrustAnchorKeyValuePairUpdated");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_setTrustAnchorKeyValuePairUpdated";
+            data['returnValues'] = {};
 
-        data['returnValues']['trustAnchorAddress'] = trustAnchorAddress;
+            data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+            data['returnValues']['_keyValuePairName'] = _keyValuePairName;
+            data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
 
 
-        var obj = { message: "tam-event", data: data };
-        utility.sendWebhookMessage(obj);
+            var obj = {
+                message: "taedu-event",
+                data: data
+            };
+            utility.sendWebhookMessage(obj);
 
-        logger.info(data);
-});
+            logger.info(data);
+    });
+
+    TrustAnchorManager.on("EVT_verifyTrustAnchor",  (trustAnchorAddress, event) => {
+            logger.info("event EVT_verifyTrustAnchor");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_verifyTrustAnchor";
+            data['returnValues'] = {};
+
+            data['returnValues']['trustAnchorAddress'] = trustAnchorAddress;
+
+
+            var obj = { message: "tam-event", data: data };
+            utility.sendWebhookMessage(obj);
+
+            logger.info(data);
+    });
+  })();

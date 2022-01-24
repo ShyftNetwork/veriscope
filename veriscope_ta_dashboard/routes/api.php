@@ -78,5 +78,9 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::post('contracts/trust-anchor/{id}/ta-register-jurisdiction', 'ContractsController@ta_register_jurisdiction');
 
+        Route::get('contracts/trust-anchor/{id}/refresh-all-attestations', 'ContractsController@refresh_all_attestations');
+        Route::get('contracts/trust-anchor/{id}/refresh-all-discovery-layer-key-value-pairs', 'ContractsController@refresh_all_discovery_layer_key_value_pairs');
+        Route::get('contracts/trust-anchor/{id}/refresh-all-verified-tas', 'ContractsController@refresh_all_verified_tas');
+
     });
 });

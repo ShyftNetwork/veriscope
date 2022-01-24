@@ -542,6 +542,10 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 
 ![Alt text](images/14-dashboard.png "Dashboard")
 
+**Note:** Each section (Verified Trust Anchors, Discovery Layers and Attestations) have a Refresh Button to enable you to download all data related.
+
+![Alt text](images/15-refresh-cards.png "Refresh Sections")
+
 # Conduct a transaction with another VASP
 ```Shell
 **To do this, please reach out to your Veriscope Account Manager to coordinate a live transaction with another VASP on Veriscope**

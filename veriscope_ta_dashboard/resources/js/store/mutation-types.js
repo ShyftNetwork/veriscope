@@ -141,3 +141,11 @@ export const UPDATE_USER_STATE = 'updateUserState';
 export const UPDATE_USER = 'updateUser';
 export const SET_UI_COUNTRY = 'setUICountry';
 export const SET_UI_STATE = 'setUIState';
+
+/**
+ * Update blockchain data
+ */
+
+export const REFRESH_ALL_ATTESTATIONS = 'refreshAllAttestations'
+export const REFRESH_ALL_DISCOVERY_LAYERS = 'refreshAllDiscoveryLayers'
+export const REFRESH_ALL_VERIFIED_TAS = 'refreshAllVerifiedTAs'

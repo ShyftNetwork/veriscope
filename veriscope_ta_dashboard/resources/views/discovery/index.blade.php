@@ -12,7 +12,11 @@
           </h1>
         </div>
     </div>
-    <good-table url="trust-anchor-extra-data-unique"
+    <simple-button :on-click=callRefreshAllDiscoveryLayers>
+        Refresh All Discovery Layers
+    </simple-button>
+    <good-table  url="trust-anchor-extra-data-unique"
+    ref="discoveryLayerTable"
     :columns="[
       {
         label: 'Key Name',
