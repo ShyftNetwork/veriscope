@@ -123,6 +123,9 @@ if(Config::get('backoffice.enabled')) {
 
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
 
+        Route::get('tokens', '\App\Http\Controllers\Backoffice\TokenController@index')->name('token.index');
+        Route::get('tokens/create', '\App\Http\Controllers\Backoffice\TokenController@create')->name('token.create');
+        Route::get('tokens/revoke/{id}', '\App\Http\Controllers\Backoffice\TokenController@revoke')->name('token.revoke');
 
         Route::get('arena_auth', '\App\Http\Controllers\Backoffice\DashboardController@arena_auth')->name('arena.auth');
 

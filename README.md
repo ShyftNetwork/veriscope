@@ -114,6 +114,7 @@ $ sudo scripts/setup-vasp.sh
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
+14) Install Passport Client Environment Variables
 i) install everything
 p) show daemon status
 w) restart all services
@@ -219,10 +220,16 @@ Futher reading can be found here: [github.com/RichardStyles/EloquentEncryption](
 
 ### 13. Install Redis server
 
-The NodeJs Application manages posting of Attestations and Pending Transactions via a queuing framework. 
+The NodeJs Application manages posting of Attestations and Pending Transactions via a queuing framework.
 Information on the framework can be found here: [The fastest, most reliable, Redis-based queue for Node.](https://www.npmjs.com/package/bull).
 Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker. [https://redis.io/](https://redis.io/).
 To read more on the motivation for queuing Attestations, please review the queue [/docs/queue.md](docs/queue.md)
+
+### 14. Install Passport Client Environment Variables
+
+Passport OAuth Client variables are required set in the environment file in order to generate API token in the backoffice. Using this command you can set the variables in the environment file automatically.  I.e. "php artisan passportenv:link"
+To read more on Passport Client setup and API, please review [API Docs](/API-Docs/README.md)
+
 
 ### Ongoing updates
 
@@ -287,6 +294,7 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
+14) Install Passport Client Environment Variables
 i) install everything
 p) show daemon status
 w) restart all services
