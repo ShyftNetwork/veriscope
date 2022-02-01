@@ -95,8 +95,8 @@ function create_postgres_trustanchor_db {
 }
 
 function refresh_dependencies() {
-  apt-get -y  update
-  apt-get install -y software-properties-common curl sudo wget build-essential systemd
+  	apt-get -y  update
+  	apt-get install -y software-properties-common curl sudo wget build-essential systemd
 	add-apt-repository >/dev/null -yn ppa:ondrej/php
 	add-apt-repository >/dev/null -yn ppa:ondrej/nginx
 	# nodesource's script does an apt update
@@ -104,7 +104,7 @@ function refresh_dependencies() {
 
 	apt-get -y upgrade
 
-  apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
+  	apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
 	pg_ctlcluster 12 main start
 	if ! command -v wscat; then
 		npm install -g wscat
@@ -234,7 +234,7 @@ function setup_or_renew_ssl {
 }
 
 function setup_nginx {
-	
+
 	sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
 
 	echo '
@@ -335,11 +335,11 @@ function install_or_update_laravel {
 
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
 
-  touch ./storage/logs/laravel.log
+  	touch ./storage/logs/laravel.log
 
-  chown -R $SERVICE_USER .
+  	chown -R $SERVICE_USER .
 	chgrp -R www-data ./storage
-  chmod -R 0770 ./storage
+  	chmod -R 0770 ./storage
 
 	ENVDEST=.env
 	sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
@@ -359,8 +359,9 @@ function install_or_update_laravel {
 	else
 		echo "App key already set"
 	fi
-  su $SERVICE_USER -c "php artisan passport:install"
-  su $SERVICE_USER -c "php artisan encrypt:generate"
+  	su $SERVICE_USER -c "php artisan passport:install"
+  	su $SERVICE_USER -c "php artisan encrypt:generate"
+  	install_passport_client_env;
 
 	popd >/dev/null
 
@@ -425,8 +426,14 @@ function daemon_status() {
 
 function create_admin() {
 
-  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  su $SERVICE_USER -c "php artisan createuser:admin"
+  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  	su $SERVICE_USER -c "php artisan createuser:admin"
+}
+
+
+function install_passport_client_env(){
+  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  	su $SERVICE_USER -c "php artisan passportenv:link"
 }
 
 function regenerate_webhook_secret() {
@@ -451,6 +458,7 @@ function regenerate_passport_secret() {
 
   pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
   su $SERVICE_USER -c "php artisan --force passport:install"
+  install_passport_client_env;
 
   echo "Passport secret saved"
 }
@@ -480,6 +488,7 @@ function menu() {
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
+14) Install Passport Client Environment Variables
 i) install everything
 p) show daemon status
 w) restart all services
@@ -498,12 +507,13 @@ Choose what to do: "
 		7) install_or_update_laravel ; menu ;;
 		8) refresh_static_nodes ; menu ;;
 		9) create_admin; menu ;;
-    10) regenerate_webhook_secret; menu ;;
-    11) regenerate_passport_secret; menu ;;
-    12) regenerate_encrypt_secret; menu ;;
-    13) install_redis; menu ;;
-    "i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
-    "p") daemon_status ; menu ;;
+    	10) regenerate_webhook_secret; menu ;;
+    	11) regenerate_passport_secret; menu ;;
+    	12) regenerate_encrypt_secret; menu ;;
+    	13) install_redis; menu ;;
+    	14) install_passport_client_env; menu ;;
+    	"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+    	"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;

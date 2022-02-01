@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "09aadd20-cbc1-4659-b9d8-8cafa17ce18f",
+		"name": "Veriscope API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Set Attestation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "jurisdiction",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "attestation_type",
+							"value": "WALLET",
+							"type": "text"
+						},
+						{
+							"key": "user_address",
+							"value": "0x447832bc6303C87A7C7C0E3894a5C6848Aa24877",
+							"type": "text"
+						},
+						{
+							"key": "public_data",
+							"value": "WALLET",
+							"type": "text"
+						},
+						{
+							"key": "documents_matrix_encrypted",
+							"value": "0x447832bc6303C87A7C7C0E3894a5C6848Aa24877",
+							"type": "text"
+						},
+						{
+							"key": "availability_address_encrypted",
+							"value": "ETH",
+							"type": "text"
+						},
+						{
+							"key": "ta_address",
+							"value": "0xCeE5e50Ce863751Dca08424e5Dd4660e53c4b779",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/set_attestation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"set_attestation"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Shyft User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/create_shyft_user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"create_shyft_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Jurisdictions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/get_jurisdictions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"get_jurisdictions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Verified Trust Anchors",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/get_verified_trust_anchors",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"get_verified_trust_anchors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Is Trust Anchor Verified",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"verify_trust_anchor",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Is Trust Anchor Verified",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/0x10a32419ABcfbaaae91D0e03bc8390c418E65680",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"verify_trust_anchor",
+								"0x10a32419ABcfbaaae91D0e03bc8390c418E65680"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.20.1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Jan 2022 15:22:23 GMT"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "50"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "44"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"address\": \"0x10a32419ABcfbaaae91D0e03bc8390c418E65680\",\n    \"verified\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Trust Anchors Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{address}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"get_trust_anchor_details",
+						"{{address}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Trust Anchors Details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/0xc2106031Dac53b629976e12aF769F60afcB38793",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"get_trust_anchor_details",
+								"0xc2106031Dac53b629976e12aF769F60afcB38793"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.20.1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Jan 2022 15:22:23 GMT"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "50"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "44"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"address\": \"0x10a32419ABcfbaaae91D0e03bc8390c418E65680\",\n    \"verified\": true\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "address",
+			"value": "0x10a32419ABcfbaaae91D0e03bc8390c418E65680"
+		}
+	]
+}

@@ -23,7 +23,21 @@ if(config('app.env') == 'local') 'throttle:99999,1';
 
 Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
+    Route::group(['prefix' => 'v1/server', 'namespace' => 'Api\Server'], function() {
+
+        Route::post('set_attestation','ContractsController@ta_set_attestation');
+        Route::post('create_shyft_user','ContractsController@create_shyft_user');
+        Route::get('get_jurisdictions','ContractsController@get_jurisdictions');
+
+        Route::get('get_verified_trust_anchors','TrustAnchorController@get_verified_trust_anchors');
+        Route::get('verify_trust_anchor/{address}','TrustAnchorController@verify_trust_anchor');
+        Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
+
+    });
+
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
+
+        Route::get('tokens','TokenController@index');
 
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
@@ -37,15 +51,15 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get-ta-account-attestations','BlockexplorerController@get_ta_account_attestations');
         Route::get('get-user-account-attestations','BlockexplorerController@get_user_account_attestations');
 
-        Route::resource('countries',   'LocationController', ['only' => ['index', 'show']]);
+        Route::resource('countries','LocationController', ['only' => ['index', 'show']]);
 
-        Route::get('wallet-types',             'TrustAnchorController@wallet_types');
-        Route::get('wallet-addresses/{id}',             'TrustAnchorController@wallet_addresses');
+        Route::get('wallet-types','TrustAnchorController@wallet_types');
+        Route::get('wallet-addresses/{id}','TrustAnchorController@wallet_addresses');
 
-        Route::get('kyctemplates',             'KycTemplateController@index');
+        Route::get('kyctemplates','KycTemplateController@index');
         Route::get('kyc-template-details','KycTemplateController@kyc_template_details');
 
-        Route::get('trustanchors',             'TrustAnchorController@index');
+        Route::get('trustanchors','TrustAnchorController@index');
         Route::get('trustanchor-users','TrustAnchorController@trustanchor_users');
         Route::get('trustanchor-user-attestations','TrustAnchorController@trust_anchor_user_attestations');
 

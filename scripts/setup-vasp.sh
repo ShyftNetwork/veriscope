@@ -62,13 +62,13 @@ function create_sealer_pk {
 
 function install_redis {
 
-  apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
-  #Configure Redis
-  cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
-  sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
-  cp /etc/redis/redis.conf.new /etc/redis/redis.conf
+	apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
+	#Configure Redis
+	cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
+	sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
+	cp /etc/redis/redis.conf.new /etc/redis/redis.conf
 
-  systemctl restart redis.service
+	systemctl restart redis.service
 
 }
 
@@ -220,80 +220,80 @@ function setup_or_renew_ssl {
 }
 
 function setup_nginx {
-		sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
+	sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
 
-		echo '
-		server {
-			listen 80;
-			server_name '$VERISCOPE_SERVICE_HOST';
-			rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
-		}
+	echo '
+	server {
+		listen 80;
+		server_name '$VERISCOPE_SERVICE_HOST';
+		rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
+	}
 
-		server {
-			 listen 443 ssl;
-			 server_name '$VERISCOPE_SERVICE_HOST';
-			 root /opt/veriscope/veriscope_ta_dashboard/public;
+	server {
+		 listen 443 ssl;
+		 server_name '$VERISCOPE_SERVICE_HOST';
+		 root /opt/veriscope/veriscope_ta_dashboard/public;
 
-			 ssl_certificate     '$CERTFILE';
-			 ssl_certificate_key '$CERTKEY';
-			 ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-			 ssl_ciphers         HIGH:!aNULL:!MD5;
+		 ssl_certificate     '$CERTFILE';
+		 ssl_certificate_key '$CERTKEY';
+		 ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+		 ssl_ciphers         HIGH:!aNULL:!MD5;
 
-			 add_header X-Frame-Options "SAMEORIGIN";
-			 add_header X-XSS-Protection "1; mode=block";
-			 add_header X-Content-Type-Options "nosniff";
+		 add_header X-Frame-Options "SAMEORIGIN";
+		 add_header X-XSS-Protection "1; mode=block";
+		 add_header X-Content-Type-Options "nosniff";
 
-			 index index.html index.htm index.php;
+		 index index.html index.htm index.php;
 
-			 charset utf-8;
+		 charset utf-8;
 
-			 location /arena/ {
-				 proxy_pass  http://127.0.0.1:8080/arena/;
-				 proxy_set_header Host $host;
-				 proxy_set_header X-Real-IP $remote_addr;
-				 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			 }
+		 location /arena/ {
+			 proxy_pass  http://127.0.0.1:8080/arena/;
+			 proxy_set_header Host $host;
+			 proxy_set_header X-Real-IP $remote_addr;
+			 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		 }
 
-			 location / {
-			   try_files $uri $uri/ /index.php?$query_string;
-			 }
+		 location / {
+		   try_files $uri $uri/ /index.php?$query_string;
+		 }
 
-			 location = /favicon.ico { access_log off; log_not_found off; }
-			 location = /robots.txt  { access_log off; log_not_found off; }
+		 location = /favicon.ico { access_log off; log_not_found off; }
+		 location = /robots.txt  { access_log off; log_not_found off; }
 
-			 error_page 404 /index.php;
+		 error_page 404 /index.php;
 
-			 location ~ \.php$ {
-			fastcgi_split_path_info ^(.+\.php)(/.+)$;
-			fastcgi_pass unix:/var/run/php/php-fpm.sock;
-			fastcgi_index index.php;
-			fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-			include fastcgi_params;
-			 }
+		 location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+		include fastcgi_params;
+		 }
 
-			 location ~ /\.(?!well-known).* {
-			deny all;
-			 }
+		 location ~ /\.(?!well-known).* {
+		deny all;
+		 }
 
-			 location /app/websocketkey {
-			proxy_pass             http://127.0.0.1:6001;
-			proxy_set_header Host  $host;
-			proxy_set_header X-Real-IP  $remote_addr;
-			proxy_set_header X-VerifiedViaNginx yes;
-			proxy_read_timeout                  60;
-			proxy_connect_timeout               60;
-			proxy_redirect                      off;
+		 location /app/websocketkey {
+		proxy_pass             http://127.0.0.1:6001;
+		proxy_set_header Host  $host;
+		proxy_set_header X-Real-IP  $remote_addr;
+		proxy_set_header X-VerifiedViaNginx yes;
+		proxy_read_timeout                  60;
+		proxy_connect_timeout               60;
+		proxy_redirect                      off;
 
-			# Allow the use of websockets
-			proxy_http_version 1.1;
-			proxy_set_header Upgrade $http_upgrade;
-			proxy_set_header Connection 'upgrade';
-			proxy_set_header Host $host;
-			proxy_cache_bypass $http_upgrade;
-			 }
-		}
+		# Allow the use of websockets
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection 'upgrade';
+		proxy_set_header Host $host;
+		proxy_cache_bypass $http_upgrade;
+		 }
+	}
 
-		' >$NGINX_CFG
+	' >$NGINX_CFG
 	systemctl enable nginx
 	systemctl restart nginx
 }
@@ -346,7 +346,8 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "php artisan db:seed"
 	su $SERVICE_USER -c "php artisan key:generate"
 	su $SERVICE_USER -c "php artisan passport:install"
-	su $SERVICE_USER -c "php artisan encrypt:generate"
+  	su $SERVICE_USER -c "php artisan encrypt:generate"
+	install_passport_client_env;
 
 	chgrp -R www-data ./
 	chmod -R 0770 ./storage
@@ -418,36 +419,42 @@ function daemon_status() {
 
 function create_admin() {
 
-  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  su $SERVICE_USER -c "php artisan createuser:admin"
+  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  	su $SERVICE_USER -c "php artisan createuser:admin"
+}
+
+function install_passport_client_env(){
+  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  	su $SERVICE_USER -c "php artisan passportenv:link"
 }
 
 function regenerate_webhook_secret() {
 
-  echo "Generating new shared secret..."
-  SHARED_SECRET=$(pwgen -B 20 1)
+  	echo "Generating new shared secret..."
+  	SHARED_SECRET=$(pwgen -B 20 1)
 
-  ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
-  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+  	ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
+  	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
-  ENVDEST=/opt/veriscope/veriscope_ta_node/.env
-  sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+  	ENVDEST=/opt/veriscope/veriscope_ta_node/.env
+  	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
-  systemctl restart ta-node-1
-  systemctl restart ta-node-2
-  systemctl restart ta
+  	systemctl restart ta-node-1
+  	systemctl restart ta-node-2
+  	systemctl restart ta
 
-  echo "Shared secret saved"
+  	echo "Shared secret saved"
 }
 
 function regenerate_passport_secret() {
 
-  echo "Generating new passport secret..."
+  	echo "Generating new passport secret..."
 
-  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  su $SERVICE_USER -c "php artisan --force passport:install"
+  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+  	su $SERVICE_USER -c "php artisan --force passport:install"
+  	install_passport_client_env;
 
-  echo "Passport secret saved"
+  	echo "Passport secret saved"
 }
 
 function regenerate_encrypt_secret() {
@@ -476,6 +483,7 @@ function menu() {
 11) Regenerate oauth secret (passport)
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
+14) Install Passport Client Environment Variables
 i) install everything
 p) show daemon status
 w) restart all services
@@ -496,8 +504,9 @@ Choose what to do: "
 		9) create_admin; menu ;;
 		10) regenerate_webhook_secret; menu ;;
 		11) regenerate_passport_secret; menu ;;
-    	12) regenerate_encrypt_secret; menu ;;
-    	13) install_redis; menu ;;
+  		12) regenerate_encrypt_secret; menu ;;
+  		13) install_redis; menu ;;
+		14) install_passport_client_env; menu ;;
 		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
