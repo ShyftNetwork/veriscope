@@ -361,7 +361,6 @@ function install_or_update_laravel {
 	fi
   	su $SERVICE_USER -c "php artisan passport:install"
   	su $SERVICE_USER -c "php artisan encrypt:generate"
-  	install_passport_client_env;
 
 	popd >/dev/null
 
@@ -458,7 +457,6 @@ function regenerate_passport_secret() {
 
   pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
   su $SERVICE_USER -c "php artisan --force passport:install"
-  install_passport_client_env;
 
   echo "Passport secret saved"
 }
