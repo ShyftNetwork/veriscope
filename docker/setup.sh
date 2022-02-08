@@ -104,8 +104,9 @@ function refresh_dependencies() {
 
 	apt-get -y upgrade
 
-  	apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
-	pg_ctlcluster 12 main start
+  	apt-get -qq -y -o Acquire::https::AllowRedirect=false install vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-gmp php8.0-redis php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
+
+  	pg_ctlcluster 12 main start
 	if ! command -v wscat; then
 		npm install -g wscat
 	fi

@@ -44,8 +44,11 @@ let TrustAnchorExtraData_Unique = attachedContract(process.env.TRUST_ANCHOR_EXTR
 let TrustAnchorExtraData_Generic = attachedContract(process.env.TRUST_ANCHOR_EXTRA_DATA_GENERIC_CONTRACT_ADDRESS, 'TrustAnchorExtraData_Generic.json');
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: (process.env.LOG_LEVEL || 'info'),
   format: winston.format.json(),
+  maxsize: 512000000,
+  maxFiles: 3,
+  tailable: true,
   defaultMeta: { service: 'http-api' },
   transports: [
     //
@@ -93,7 +96,7 @@ module.exports =   {
           return decodedDocumentsMatrix;
 
       } catch (err) {
-          logger.info(err);
+          logger.error(err);
           return null;
       }
 
@@ -214,8 +217,8 @@ module.exports =   {
     },
     trustAnchorGetAttestationArrayForTrustAnchorAccount: async function (account) {
         result = await TrustAnchorStorage.getAttestationKeccakArrayForTrustAnchor(account);
-            logger.info('getAttestationKeccakArrayForTrustAnchor result');
-            logger.info(result);
+            logger.debug('getAttestationKeccakArrayForTrustAnchor result');
+            logger.debug(result);
 
         var obj = {request: 'ta-get-attestation-array-for-ta-account', result: result};
         this.sendWebhookMessage(obj);
@@ -230,12 +233,12 @@ module.exports =   {
         obj:obj
       })
       .then((res) => {
-        logger.info('sendWebsocket success');
-        logger.info(`statusCode: ${res.statusCode}`)
-        logger.info(res)
+        logger.debug('sendWebsocket success');
+        logger.debug(`statusCode: ${res.statusCode}`)
+        logger.debug(res)
       })
       .catch((error) => {
-        logger.info('sendWebsocket error');
+        logger.error('sendWebsocket error');
         logger.error(error)
       });
     },
@@ -285,8 +288,8 @@ module.exports =   {
     taGetAttestationComponents: async function (attestation_hash) {
 
         result = await TrustAnchorStorage.getAttestationComponents(attestation_hash);
-        logger.info('getAttestationComponents result');
-        logger.info(result);
+        logger.debug('getAttestationComponents result');
+        logger.debug(result);
 
         var documentsMatrixEncrypted = this.convertComponentsFromHex(result['documentsMatrixEncrypted']);
         documentsMatrixEncrypted = this.unpackDocumentsMatrixEncrypted(documentsMatrixEncrypted);
@@ -304,8 +307,8 @@ module.exports =   {
     },
     trustAnchorGetAttestationArrayForUserAccount: async function(account){
        result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-          logger.info('getAttestationKeccakArrayForIdentifiedAddress result');
-          logger.info(result);
+          logger.debug('getAttestationKeccakArrayForIdentifiedAddress result');
+          logger.debug(result);
 
        var obj = {request: 'ta-get-attestation-array-for-user-account', result: result};
        this.sendWebhookMessage(obj);
@@ -313,7 +316,7 @@ module.exports =   {
     taGetAttestationComponentsInKeccakArray: async function (user_id, account, index) {
 
       result = await TrustAnchorStorage.getAttestationComponentsInKeccakArray(account, index);
-      logger.info('getGraphConstructableAttestationInKeccakArray result');
+      logger.debug('getGraphConstructableAttestationInKeccakArray result');
 
       var list = [];
 
@@ -334,15 +337,15 @@ module.exports =   {
       dict['memo'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']);
       dict['user_address'] = account;
 
-      logger.info(dict);
+      logger.debug(dict);
       list.push(dict);
       var obj = { user_id: user_id, message: "ta-get-attestation-components-in-array", data: list };
       this.sendWebhookMessage(obj);
     },
     taGetAttestationKeccakArrayForIdentifiedAddress: async function(user_id, account) {
       result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-      logger.info('getAttestationKeccakArrayForIdentifiedAddress result');
-      logger.info(result);
+      logger.debug('getAttestationKeccakArrayForIdentifiedAddress result');
+      logger.debug(result);
       var list = [];
       for(var i = 0; i < result.length; i++) {
         var dict = {hash: result[i]};
@@ -355,16 +358,16 @@ module.exports =   {
 
         result = await TrustAnchorManager.isTrustAnchorVerified(account);
 
-        logger.info('isTrustAnchorVerified result');
-        logger.info(result);
+        logger.debug('isTrustAnchorVerified result');
+        logger.debug(result);
 
         var obj = { user_id: user_id, message: "ta-is-verified", data: result };
         this.sendWebhookMessage(obj);
     },
     taGetBalance: async function (user_id, account) {
         result = await web3.eth.getBalance(account);
-        logger.info('getBalance result');
-        logger.info(result);
+        logger.debug('getBalance result');
+        logger.debug(result);
 
         var obj = { user_id: user_id, message: "ta-get-balance", data: result };
         this.sendWebhookMessage(obj);
@@ -373,16 +376,16 @@ module.exports =   {
 
         try {
           result = await TrustAnchorManager.setupTrustAnchorJurisdiction(jurisdiction);
-          logger.info('setupTrustAnchorJurisdiction result');
-          logger.info(result);
+          logger.debug('setupTrustAnchorJurisdiction result');
+          logger.debug(result);
 
           var value = result['value'].toNumber();
-          logger.info(value);
+          logger.debug(value);
           var obj = { user_id: user_id, message: "ta-register-jurisdiction", data: value };
           this.sendWebhookMessage(obj);
         } catch(error) {
-          logger.info("caught error");
-          logger.info(error.message);
+          logger.error("caught error");
+          logger.error(error.message);
           var list = {message: error.message};
           var obj = { user_id: user_id, message: "ta-register-jurisdiction-error", data: list };
           this.sendWebhookMessage(obj);
@@ -391,11 +394,11 @@ module.exports =   {
     },
     taGetTrustAnchorJurisdiction: async function(user_id, account_address) {
           result = await TrustAnchorManager.getTrustAnchorJurisdiction(account_address);
-          logger.info('getTrustAnchorJurisdiction result');
-          logger.info(result);
+          logger.debug('getTrustAnchorJurisdiction result');
+          logger.debug(result);
 
           var value = result['value'].toNumber();
-          logger.info(value);
+          logger.debug(value);
           var obj = { user_id: user_id, message: "ta-get-jurisdiction", data: value };
           this.sendWebhookMessage(obj);
 
@@ -403,34 +406,34 @@ module.exports =   {
 
     trustAnchorGetUniqueAddress: async function(account) {
         result = await TrustAnchorManager.getUniqueTrustAnchorExtraDataAddress(account);
-        logger.info('getUniqueTrustAnchorExtraDataAddress result');
-        logger.info(result);
+        logger.debug('getUniqueTrustAnchorExtraDataAddress result');
+        logger.debug(result);
 
         var obj = {request: 'ta-get-unique-address', result: result};
         this.sendWebhookMessage(obj);
     },
     taSetKeyValuePair: async function(user_id, account, key_name, key_value) {
         result = await TrustAnchorExtraData_Unique.setTrustAnchorKeyValuePair(key_name, key_value);
-        logger.info('setTrustAnchorKeyValuePair result');
-        logger.info(result);
+        logger.debug('setTrustAnchorKeyValuePair result');
+        logger.debug(result);
         var value = result['value'].toNumber();
-        logger.info(value);
+        logger.debug(value);
         var obj = { user_id: user_id, message: "ta-set-key-value-pair", data: value };
         this.sendWebhookMessage(obj);
     },
     taSetUniqueAddress: async function (user_id, account) {
         result = await TrustAnchorManager.setUniqueTrustAnchorExtraDataAddress(process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS)
-        logger.info('setUniqueTrustAnchorExtraDataAddress result');
-        logger.info(result);
+        logger.debug('setUniqueTrustAnchorExtraDataAddress result');
+        logger.debug(result);
         var value = result['value'].toNumber();
-        logger.info(value);
+        logger.debug(value);
         var obj = { user_id: user_id, message: "ta-set-unique-address", data: value };
         this.sendWebhookMessage(obj);
     },
     trustAnchorGetNumberOfKeyValuePairs: async function (account) {
         result = await TrustAnchorExtraData_Unique.getTrustAnchorNumberOfKeyValuePairs(account);
-        logger.info('getTrustAnchorNumberOfKeyValuePairs result');
-        logger.info(result);
+        logger.debug('getTrustAnchorNumberOfKeyValuePairs result');
+        logger.debug(result);
 
         var obj = {request: 'ta-get-number-of-key-value-pairs', result: result};
         this.sendWebhookMessage(obj);
@@ -438,16 +441,16 @@ module.exports =   {
     trustAnchorGetKeyValuePairNameByIndex: async function(account, index) {
 
         result = await TrustAnchorExtraData_Unique.getTrustAnchorKeyValuePairNameByIndex(account, index);
-        logger.info('getTrustAnchorKeyValuePairNameByIndex result');
-        logger.info(result);
+        logger.debug('getTrustAnchorKeyValuePairNameByIndex result');
+        logger.debug(result);
 
         var obj = {request: 'ta-get-key-value-pair-name-by-index', result: result};
         this.sendWebhookMessage(obj);
     },
     trustAnchorGetKeyPairValue: async function (account, key) {
         result = await TrustAnchorExtraData_Unique.getTrustAnchorKeyValuePairValue(account, key);
-        logger.info('getTrustAnchorKeyValuePairNameByIndex result');
-        logger.info(result);
+        logger.debug('getTrustAnchorKeyValuePairNameByIndex result');
+        logger.debug(result);
 
         var obj = {request: 'ta-get-key-pair-value', result: result};
         this.sendWebhookMessage(obj);
@@ -460,8 +463,8 @@ module.exports =   {
             user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed,
             { nonce: nonceCount}
           );
-          logger.info('setAttestation result');
-          logger.info(result);
+          logger.debug('setAttestation result');
+          logger.debug(result);
 
           result['documents_matrix_encrypted'] = this.convertFromByte32(documents_matrix_encrypted);
           result['public_data'] = this.convertFromByte32(public_data);
@@ -470,7 +473,7 @@ module.exports =   {
           result['user_address'] = user_address;
           result['ta_address'] = ta_address;
           result['value'] = result['value'].toNumber();
-          logger.info(result);
+          logger.debug(result);
           var obj = { user_id: user_id, message: "ta-set-attestation", data: result};
           //set nonceCount
           await keyv.set('nonceCount', nonceCount+1);
@@ -480,8 +483,8 @@ module.exports =   {
     trustAnchorGetAttestationArrayForUserAccount: async function (account) {
 
         result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-            logger.info('getAttestationKeccakArrayForIdentifiedAddress result');
-            logger.info(result);
+            logger.debug('getAttestationKeccakArrayForIdentifiedAddress result');
+            logger.debug(result);
 
         var obj = {request: 'ta-get-attestation-array-for-user-account', result: result};
         this.sendWebhookMessage(obj);
@@ -502,8 +505,8 @@ module.exports =   {
       // Sending ether
       let result = await provider.sendTransaction(tx);
 
-      logger.info('createEmpyTransaction result');
-      logger.info(result);
+      logger.debug('createEmpyTransaction result');
+      logger.debug(result);
 
       var obj = {request: 'ta-create-empty-transaction', result: result};
 

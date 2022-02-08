@@ -14,8 +14,11 @@ const privateKey = process.env.WEBHOOK_CLIENT_SECRET;
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: (process.env.LOG_LEVEL || 'info'),
   format: winston.format.json(),
+  maxsize: 512000000,
+  maxFiles: 3,
+  tailable: true,
   defaultMeta: { service: 'blockchain-data' },
   transports: [
     //
@@ -63,13 +66,13 @@ function sendWebhookMessage(obj) {
         obj: obj
       })
       .then((res) => {
-        logger.info('sendWebsocket success');
-        logger.info(`statusCode: ${res.statusCode}`)
-        logger.info(res)
+        logger.debug('sendWebsocket success');
+        logger.debug(`statusCode: ${res.statusCode}`)
+        logger.debug(res)
         resolve(obj)
       })
       .catch((error) => {
-        logger.info('sendWebsocket error');
+        logger.error('sendWebsocket error');
         logger.error(error)
         resolve(obj)
       });
@@ -109,7 +112,7 @@ function getAllAttestations(user_id) {
             data: event
           };
 
-          logger.info(obj);
+          logger.debug(obj);
           await sendWebhookMessage(obj);
           await sendWebhookMessage({
             user_id,
@@ -129,8 +132,8 @@ function getAllAttestations(user_id) {
         }
       });
     })
-    logger.info('getAllAttestations result');
-    logger.info();
+    logger.debug('getAllAttestations result');
+    logger.debug();
 
   })();
 }
@@ -166,7 +169,7 @@ function getTrustAnchorKeyValuePairCreated(user_id) {
   }, async function(error, events){
       
         for (const [i, event] of events.entries()) {
-          logger.info(event);
+          logger.debug(event);
 
           var obj = { message: "taedu-event", data: event };
           await sendWebhookMessage(obj);
@@ -191,8 +194,8 @@ function getTrustAnchorKeyValuePairCreated(user_id) {
   })
 
 
-  logger.info('getTrustAnchorKeyValuePairCreated result');
-  logger.info();
+  logger.debug('getTrustAnchorKeyValuePairCreated result');
+  logger.debug();
 
   })();
 }
@@ -221,7 +224,7 @@ function getTrustAnchorKeyValuePairUpdated() {
     }, function(error, events){
 
         for (const event of events) {
-          logger.info(event);
+          logger.debug(event);
 
           var obj = { message: "taedu-event", data: event };
           sendWebhookMessage(obj);
@@ -232,8 +235,8 @@ function getTrustAnchorKeyValuePairUpdated() {
     })
 
 
-    logger.info('getTrustAnchorKeyValuePairUpdated result');
-    logger.info();
+    logger.debug('getTrustAnchorKeyValuePairUpdated result');
+    logger.debug();
 
     })();
 }
@@ -262,7 +265,7 @@ function getTrustAnchorDataRetrievalParametersCreated() {
     }, function(error, events){
 
         for (const event of events) {
-          logger.info(event);
+          logger.debug(event);
           var ip_address = event['returnValues']['_ipv4Address'].join('.');
           event['ipv4_address'] = ip_address;
 
@@ -275,8 +278,8 @@ function getTrustAnchorDataRetrievalParametersCreated() {
     })
 
 
-    logger.info('getTrustAnchorKeyValuePairUpdated result');
-    logger.info();
+    logger.debug('getTrustAnchorKeyValuePairUpdated result');
+    logger.debug();
 
     })();
 }
@@ -303,7 +306,7 @@ function getVerifiedTrustAnchors(user_id) {
 
       
         for (const [i, event] of events.entries()) {
-          logger.info(event);
+          logger.debug(event);
 
           var obj = { message: "tam-event", data: event };
           await sendWebhookMessage(obj);
@@ -329,8 +332,8 @@ function getVerifiedTrustAnchors(user_id) {
 
     })
 
-    logger.info('getVerifiedTrustAnchors result');
-    logger.info();
+    logger.debug('getVerifiedTrustAnchors result');
+    logger.debug();
 
     })();
 }

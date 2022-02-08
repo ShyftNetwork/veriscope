@@ -3,7 +3,7 @@ Description=Nethermind Ethereum Daemon
 After=network.target
 
 [Service]
-User=shft
+User=shyft
 Group=www-data
 UMask=0002
 WorkingDirectory=/opt/nm/
