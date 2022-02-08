@@ -4,6 +4,8 @@ After=network.target
 
 [Service]
 User=shyft
+Group=www-data
+UMask=0002
 WorkingDirectory=/opt/veriscope_ta_node/
 ExecStart=/usr/bin/node http-api.js
 Restart=on-failure

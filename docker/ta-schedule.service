@@ -1,0 +1,15 @@
+[Unit]
+Description=Trust Anchor Dashboard Schedule
+After=network.target
+
+[Service]
+User=shyft
+Group=www-data
+UMask=0002
+WorkingDirectory=/opt/veriscope/veriscope_ta_dashboard/
+ExecStart=/usr/bin/php artisan schedule:work
+Restart=on-failure
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=default.target

@@ -3,7 +3,9 @@ Description=Nethermind Ethereum Daemon
 After=network.target
 
 [Service]
-User=root
+User=shyft
+Group=www-data
+UMask=000
 WorkingDirectory=/opt/nm/
 ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
 Restart=on-failure
