@@ -24,8 +24,11 @@ const session = require('express-session');
 
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: (process.env.LOG_LEVEL || 'info'),
   format: winston.format.json(),
+  maxsize: 512000000,
+  maxFiles: 3,
+  tailable: true,
   defaultMeta: { service: 'http-api' },
   transports: [
     //
@@ -146,7 +149,7 @@ app.get('/create-new-user-account', (req, res) => {
     var data = {account: account};
     var obj = { user_id: user_id, message: "create-new-user-account", data: data };
 
-    logger.info(obj_logger);
+    logger.debug(obj_logger);
     utility.sendWebhookMessage(obj);
 
     res.sendStatus(201);
@@ -366,8 +369,8 @@ app.get('/ta-create-user', async (req, res) => {
 
     var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
     var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
-    logger.info('ta-create-user');
-    logger.info(obj_logger);
+    logger.debug('ta-create-user');
+    logger.debug(obj_logger);
 
     var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
     var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
@@ -417,7 +420,7 @@ app.get('/ta-set-attestation', (req, res) => {
     var public_data = utility.convertToByte32(req.param('public_data'));
 
     var documents_matrix_encrypted = utility.packDocumentsMatrixEncrypted(req.param('documents_matrix_encrypted'));
-    logger.info('documents_matrix_encrypted');
+    logger.debug('documents_matrix_encrypted');
     documents_matrix_encrypted = utility.convertToByte32(documents_matrix_encrypted);
 
     var availability_address_encrypted = req.param('availability_address_encrypted').padStart(32, ' ');
@@ -532,12 +535,12 @@ response:
 // eg: ta-get-attestation-components?attestation_hash=0x31b24ad5f701548700a29427260c85232679530132e13e4110ee0ada9d8f25f3
 
 app.get('/ta-get-attestation-components', (req, res) => {
-    logger.info('/ta-get-attestation-components');
+    logger.debug('/ta-get-attestation-components');
 
 
     var attestation_hash = req.param('attestation_hash');
-    logger.info('attestation_hash');
-    logger.info(attestation_hash);
+    logger.debug('attestation_hash');
+    logger.debug(attestation_hash);
 
     utility.taGetAttestationComponents(attestation_hash);
 
@@ -547,7 +550,7 @@ app.get('/ta-get-attestation-components', (req, res) => {
 
 app.get('/ta-nonce-count',  async (req, res) => {
 
-    logger.info('/ta-nonce-count');
+    logger.debug('/ta-nonce-count');
 
     let baseNonce = await provider.getTransactionCount(trustAnchorAccount);
 
@@ -573,7 +576,7 @@ app.get('/refresh-all-attestations', (req, res) => {
 
 function refreshAllAttestations(user_id) {
   (async () => {
-    logger.info('refreshAllAttestations');
+    logger.debug('refreshAllAttestations');
     var obj = { user_id: user_id, message: "refresh-all-attestations", data: {completed:false} };
     utility.sendWebhookMessage(obj);
     getAllAttestations(user_id)
@@ -596,7 +599,7 @@ app.get('/refresh-all-discovery-layer-key-value-pairs', (req, res) => {
 
 function refreshAllDiscoveryLayerKeyValuePairs (user_id) {
   (async () => {
-    logger.info('refreshAllDiscoveryLayerKeyValuePairs');
+    logger.debug('refreshAllDiscoveryLayerKeyValuePairs');
     var obj = { user_id: user_id, message: "refresh-all-discovery-layer-key-value-pairs", data: {completed:false} };
     utility.sendWebhookMessage(obj);
     getTrustAnchorKeyValuePairCreated(user_id)
@@ -619,7 +622,7 @@ app.get('/refresh-all-verified-tas', (req, res) => {
 
 function refreshAllVerifiedTAS (user_id) {
   (async () => {
-    logger.info('refreshAllTAS');
+    logger.debug('refreshAllTAS');
     var obj = { user_id: user_id, message: "refresh-all-verified-tas", data: {completed:false} };
     utility.sendWebhookMessage(obj);
     getVerifiedTrustAnchors(user_id)
@@ -634,8 +637,8 @@ app.use(function(req, res, next) {
 
 keyv.on('error', (err) => {
 
- logger.info('keyv connection error')
- logger.info(err)
+ logger.error('keyv connection error')
+ logger.error(err)
 
 });
 
@@ -649,7 +652,7 @@ app.listen(httpPort, async () => {
   //set nonceCount
   await keyv.set('nonceCount', nonceCount);
 
-  logger.info('listening on '+httpPort);
+  logger.debug('listening on '+httpPort);
 });
 
 /**
@@ -658,8 +661,8 @@ app.listen(httpPort, async () => {
 
 queue.taSetAttestation.on('completed', async function(job, response) {
     // A job taSetAttestation
-    logger.info('taSetAttestation:', job);
-    logger.info('response', response);
+    logger.debug('taSetAttestation:', job);
+    logger.debug('response', response);
 
     queue.taSetAttestationStatusCheck.add(response, services.bull.opts);
 
@@ -682,8 +685,8 @@ queue.taSetAttestation.on('error', function(error) {
 
 queue.taSetAttestationStatusCheck.on('completed', async function(job, response) {
     // A job taSetAttestationStatusCheck
-    logger.info('taSetAttestationStatusCheck:', job);
-    logger.info('response', response);
+    logger.debug('taSetAttestationStatusCheck:', job);
+    logger.debug('response', response);
 });
 
 queue.taSetAttestationStatusCheck.on('failed', function(job, err) {
@@ -704,8 +707,8 @@ queue.taSetAttestationStatusCheck.on('error', function(error) {
  */
 queue.taEmptyTransaction.on('completed', async function(job, response) {
     // A job taEmptyTransaction
-    logger.info('taEmptyTransaction:', job);
-    logger.info('response', response);
+    logger.debug('taEmptyTransaction:', job);
+    logger.debug('response', response);
 });
 
 queue.taEmptyTransaction.on('failed', function(job, err) {
@@ -723,8 +726,8 @@ queue.taEmptyTransaction.on('error', function(error) {
  */
 queue.taEmptyTransactionStatusCheck.on('completed', async function(job, response) {
     // A job taEmptyTransaction
-    logger.info('taEmptyTransactionStatusCheck:', job);
-    logger.info('response', response);
+    logger.debug('taEmptyTransactionStatusCheck:', job);
+    logger.debug('response', response);
 });
 
 queue.taEmptyTransactionStatusCheck.on('failed', function(job, err) {
@@ -740,11 +743,11 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
 (async function() {
   
     provider.on("block", (blockNumber) => {
-        logger.info("block# " + blockNumber);
+        logger.debug("block# " + blockNumber);
     });
 
     TrustAnchorStorage.on("EVT_setAttestation",  (attestationKeccak, msg_sender, _identifiedAddress, _jurisdiction, _effectiveTime, _expiryTime, _publicData_0, _documentsMatrixEncrypted_0, _availabilityAddressEncrypted, _isManaged, _publicDataLength, _documentsMatrixEncryptedLength, event) => {
-            logger.info("event EVT_setAttestation");
+            logger.debug("event EVT_setAttestation");
             data = {};
             data['transactionHash'] = event.transactionHash;
             data['event'] = "EVT_setAttestation";
@@ -775,11 +778,11 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             };
             utility.sendWebhookMessage(obj);
 
-            logger.info(data);
+            logger.debug(data);
     });
 
     TrustAnchorExtraData_Generic.on("EVT_setDataRetrievalParametersCreated",  (_trustAnchorAddress, _endpointName, _ipv4Address, event) => {
-            logger.info("event EVT_setDataRetrievalParametersCreated");
+            logger.debug("event EVT_setDataRetrievalParametersCreated");
             data = {};
             data['transactionHash'] = event.transactionHash;
             data['event'] = "EVT_setDataRetrievalParametersCreated";
@@ -797,11 +800,11 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             };
             utility.sendWebhookMessage(obj);
 
-            logger.info(data);
+            logger.debug(data);
     });
 
     TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairCreated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
-            logger.info("event EVT_setDataRetrievalParametersCreated");
+            logger.debug("event EVT_setDataRetrievalParametersCreated");
             data = {};
             data['transactionHash'] = event.transactionHash;
             data['event'] = "EVT_setTrustAnchorKeyValuePairCreated";
@@ -818,11 +821,11 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             };
             utility.sendWebhookMessage(obj);
 
-            logger.info(data);
+            logger.debug(data);
     });
 
     TrustAnchorExtraData_Unique.on("EVT_setTrustAnchorKeyValuePairUpdated",  (_trustAnchorAddress, _keyValuePairName, _keyValuePairValue, event) => {
-            logger.info("event EVT_setTrustAnchorKeyValuePairUpdated");
+            logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
             data = {};
             data['transactionHash'] = event.transactionHash;
             data['event'] = "EVT_setTrustAnchorKeyValuePairUpdated";
@@ -839,11 +842,11 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             };
             utility.sendWebhookMessage(obj);
 
-            logger.info(data);
+            logger.debug(data);
     });
 
     TrustAnchorManager.on("EVT_verifyTrustAnchor",  (trustAnchorAddress, event) => {
-            logger.info("event EVT_verifyTrustAnchor");
+            logger.debug("event EVT_verifyTrustAnchor");
             data = {};
             data['transactionHash'] = event.transactionHash;
             data['event'] = "EVT_verifyTrustAnchor";
@@ -855,6 +858,6 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             var obj = { message: "tam-event", data: data };
             utility.sendWebhookMessage(obj);
 
-            logger.info(data);
+            logger.debug(data);
     });
   })();
