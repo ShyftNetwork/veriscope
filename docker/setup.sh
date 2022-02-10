@@ -362,7 +362,8 @@ function install_or_update_laravel {
 	fi
   	su $SERVICE_USER -c "php artisan passport:install"
   	su $SERVICE_USER -c "php artisan encrypt:generate"
-
+  	su $SERVICE_USER -c "php artisan passportenv:link"
+  	
 	popd >/dev/null
 
 	if ! test -s "/etc/systemd/system/ta.service"; then
