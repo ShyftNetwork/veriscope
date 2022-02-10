@@ -166,7 +166,9 @@ class WebhookController extends Controller
             $eloquent_encryption = new EloquentEncryption();
             $encrypted = $eloquent_encryption->encrypt($private_key);
             $ta->private_key_encrypt = bin2hex($encrypted);
-
+            $ta->signature_hash = $account['signature_hash']['SignatureHash'];
+            $ta->signature = $account['signature_hash']['Signature'];
+            $ta->public_key = $account['public_key'];
             $ta->save();
 
             $user = User::findOrFail($input['user_id']);
@@ -269,6 +271,9 @@ class WebhookController extends Controller
             $encrypted = $eloquent_encryption->encrypt($private_key);
             $tau->private_key_encrypt = bin2hex($encrypted);
 
+            $tau->signature_hash = $data['data']['signature_hash']['SignatureHash'];
+            $tau->signature = $data['data']['signature_hash']['Signature'];
+            $tau->public_key = $data['data']['public_key'];
             $tau->save();
 
             #save btc and eth to user account

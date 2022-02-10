@@ -547,6 +547,9 @@
             this.ta_account_columns =  [
                     {label: 'TA Prefname', field: 'ta_prefname'},
                     {label: 'TA Account', field: 'account_address'},
+                    {label: 'TA Public Key', field: 'public_key'},
+                    {label: 'TA Signature', field: 'signature'},
+                    {label: 'TA Signature Hash', field: 'signature_hash'},
                 ];
             this.ta_account_rows = [];
             this.ta_ivms_columns =  [

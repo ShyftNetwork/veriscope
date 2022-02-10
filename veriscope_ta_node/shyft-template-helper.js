@@ -5,9 +5,38 @@ const EthCrypto = require('eth-crypto');
 const EthUtil = require('ethereumjs-util');
 const devp2p = require("@ethereumjs/devp2p");
 const secp256k1 = require("secp256k1");
+const winston = require('winston');
 
 const dotenv = require('dotenv');
 dotenv.config();
+
+
+const logger = winston.createLogger({
+  level: (process.env.LOG_LEVEL || 'info'),
+  format: winston.format.json(),
+  maxsize: 512000000,
+  maxFiles: 3,
+  tailable: true,
+  defaultMeta: { service: 'shyft-template-helper' },
+  transports: [
+    //
+    // - Write all logs with level `error` and below to `error.log`
+    // - Write all logs with level `info` and below to `combined.log`
+    //
+    new winston.transports.File({ filename: 'logs/shyft-template-helper.error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/shyft-template-helper.combined.log' }),
+  ],
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+
+logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+}));
+
 
 function bufferToHex(buffer) {
     var result = EthUtil.bufferToHex(buffer);
@@ -36,18 +65,22 @@ function getEthAddressFromPublicKey(_publicKey) {
 }
 
 function encryptData(publicKey, data) {
+    logger.debug("encryptData");
+
     let userPublicKey = new Buffer("04" + publicKey, "hex");
     let bufferData = new Buffer(data);
 
     let ecies = new devp2p.ECIES(null, devp2p.pk2id(userPublicKey), devp2p.pk2id(userPublicKey));
     let encryptedData = ecies._encryptMessage(bufferData);
+    
+    logger.debug(encryptedData.toString("base64"));
 
     return encryptedData.toString("base64");
 }
 
 function decryptData(privateKey, data) {
 
-    console.log("decryptData");
+    logger.debug("decryptData");
 
     let userPrivateKey = new Buffer(privateKey, "hex");
     let bufferEncryptedData = new Buffer(data, "base64");
@@ -55,32 +88,19 @@ function decryptData(privateKey, data) {
     const userPublicKey = Buffer.from(secp256k1.publicKeyCreate(userPrivateKey, false));
     let ecies = new devp2p.ECIES(userPrivateKey, devp2p.pk2id(userPublicKey));
     let decryptedData = ecies._decryptMessage(bufferEncryptedData);
+    
+    logger.debug(decryptedData.toString("utf8"));
 
     return decryptedData.toString("utf8");
 }
 
-function TASign(messageJSON, privateKey) {
-
-    var messageBuffer = new Buffer(JSON.stringify(messageJSON));
-    var hash = EthUtil.hashPersonalMessage(messageBuffer);
-
-    var ecprivkey = Buffer.from(privateKey, 'hex');
-
-    var result = EthUtil.ecsign(hash, ecprivkey, 1);
-    var template = {};
-
-    template['SignatureHash'] = bufferToHex(hash);
-    template['Signature'] = { r: bufferToHex(result['r']), s: bufferToHex(result['s']), v: bufferToHex(result['v']) };
-
-    return template;
-
-}
-
 function TARecover(template, type) {
+    logger.debug("TARecover");
     var returnMessage = {};
     var message;
     var signature;
-    console.log(type);
+
+    logger.debug(type);
     if (type === 'BeneficiaryTA') {
         message = template['BeneficiaryTASignatureHash'];
         signature = template['BeneficiaryTASignature'];
@@ -140,54 +160,45 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 // start the express web server listening on 8091
 app.listen(process.env.TEMPLATE_HELPER_PORT, () => {
-    console.log('listening on ' + process.env.TEMPLATE_HELPER_PORT);
-});
-
-app.post('/TASign', (req, res) => {
-    console.log('TASign');
-
-    var messageJSON = req.param('messageJSON');
-    var privateKey = req.param('privateKey');
-    console.log(messageJSON);
-    console.log(privateKey);
-    var result = TASign(messageJSON, privateKey);
-    res.json(result);
+    logger.debug('listening on ' + process.env.TEMPLATE_HELPER_PORT);
 });
 
 app.post('/TARecover', (req, res) => {
-    console.log('TARecover');
+    logger.debug('TARecover');
     var kycTemplate = JSON.parse(req.param('kycTemplate'));
     var type = req.param('type');
 
     var result = TARecover(kycTemplate, type);
+    logger.debug(result);
     res.json(result);
 });
 
 app.post('/EncryptData', (req, res) => {
-    console.log('EncryptData');
+    logger.debug('EncryptData');
     var publicKey = req.param('publicKey');
     var kycJSON = req.param('kycJSON');
     var kycData = JSON.stringify(kycJSON);
     var kycEncrypt = encryptData(publicKey, kycData);
-    console.log(kycEncrypt);
+    logger.debug(kycEncrypt);
     res.json({ kycEncrypt: kycEncrypt });
 });
 
 app.post('/DecryptData', (req, res) => {
 
-    console.log('DecryptData');
+    logger.debug('DecryptData');
     var privateKey = req.param('privateKey');
     var kycData = req.param('kycData');
 
     var kycDecrypt = decryptData(privateKey.substr(2), kycData);
-    console.log(kycDecrypt);
+    logger.debug(kycDecrypt);
     res.json({ kycDecrypt: JSON.parse(kycDecrypt) });
 });
 
 app.post('/GetEthPublicKey', (req, res) => {
-    console.log('GetEthPublicKey');
+    logger.debug('GetEthPublicKey');
     var privateKey = req.param('privateKey');
     var publicKey = getEthPublicKey(privateKey);
+    logger.debug(publicKey);
     res.json({ publicKey: publicKey });
 
 });
