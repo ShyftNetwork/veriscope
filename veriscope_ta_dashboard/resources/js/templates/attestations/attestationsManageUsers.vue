@@ -275,6 +275,9 @@
             this.ta_get_user_columns =  [
                     {label: 'User Full Name', field: 'prefname'},
                     {label: 'User Shyft Account', field: 'account_address'},
+                    {label: 'User Shyft Public Key', field: 'public_key'},
+                    {label: 'User Shyft Signature', field: 'signature'},
+                    {label: 'User Shyft Signature Hash', field: 'signature_hash'},
                     {label: 'Primary Identifier', field: 'primary_identifier'},
                     {label: 'Secondary Identifier', field: 'secondary_identifier'},
                     {label: 'Name Identifier Type', field: 'name_identifier_type'},

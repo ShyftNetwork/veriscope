@@ -141,11 +141,14 @@ app.get('/create-new-user-account', (req, res) => {
     var TRUST_ANCHOR_ACCOUNT = process.env.TRUST_ANCHOR_ACCOUNT;
     var TRUST_ANCHOR_PK = process.env.TRUST_ANCHOR_PK;
 
-    var account_logger = {prefname:TRUST_ANCHOR_PREFNAME, address:TRUST_ANCHOR_ACCOUNT, private_key:"xxxxxxxxxx"};
+    var ta_sign_template = utility.TASign(process.env.SIGN_MESSAGE+"_TA", TRUST_ANCHOR_PK);
+    var ta_public_key = utility.GetEthPublicKey(TRUST_ANCHOR_PK);
+
+    var account_logger = {prefname:TRUST_ANCHOR_PREFNAME, address:TRUST_ANCHOR_ACCOUNT, private_key:"xxxxxxxxxx", public_key:ta_public_key, signature_hash:ta_sign_template};
     var data_logger = {account: account_logger};
     var obj_logger = { user_id: user_id, message: "create-new-user-account", data: data_logger };
 
-    var account = {prefname:TRUST_ANCHOR_PREFNAME, address:TRUST_ANCHOR_ACCOUNT, private_key:TRUST_ANCHOR_PK};
+    var account = {prefname:TRUST_ANCHOR_PREFNAME, address:TRUST_ANCHOR_ACCOUNT, private_key:TRUST_ANCHOR_PK, public_key:ta_public_key, signature_hash:ta_sign_template};
     var data = {account: account};
     var obj = { user_id: user_id, message: "create-new-user-account", data: data };
 
@@ -351,6 +354,9 @@ app.get('/ta-create-user', async (req, res) => {
     var account = {address:address, private_key:privateKey};
     var accountLogger = {address:address, private_key:"xxxxxxxxxx"};
 
+    var user_sign_template = utility.TASign(process.env.SIGN_MESSAGE+"_USER", privateKey.substr(2));
+    var user_public_key = utility.GetEthPublicKey(privateKey.substr(2));
+
     var bitcoinAccount = utility.createBitcoinAccount();
     var bitcoinAccountLogger = Object.assign({}, bitcoinAccount);
     bitcoinAccountLogger['private_key'] = "xxxxxxxxxx";
@@ -367,12 +373,14 @@ app.get('/ta-create-user', async (req, res) => {
     var moneroAccountLogger = Object.assign({}, moneroAccount);
     moneroAccountLogger['private_key'] = "xxxxxxxxxx";
 
-    var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger};
+    
+
+    var data_logger = {prefname:prefname, account: accountLogger, user_id: user_id, bitcoinAccount: bitcoinAccountLogger, ethereumAccount: ethereumAccountLogger, zcashAccount: zcashAccountLogger, moneroAccount: moneroAccountLogger, public_key: user_public_key, signature_hash:user_sign_template};
     var obj_logger = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data_logger };
     logger.debug('ta-create-user');
     logger.debug(obj_logger);
 
-    var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount};
+    var data = {prefname:prefname, account: account, user_id: user_id, bitcoinAccount: bitcoinAccount, ethereumAccount: ethereumAccount, zcashAccount: zcashAccount, moneroAccount: moneroAccount, public_key: user_public_key, signature_hash:user_sign_template};
     var obj = { user_id: user_id, ta_user_id: ta_user_id, message: "ta-create-user", data: data };
 
     utility.sendWebhookMessage(obj);

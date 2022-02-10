@@ -218,30 +218,6 @@ class KycTemplateController extends Controller
             return;
         }
 
-
-        if (is_null($tau->public_key)) {
-                    $url = $this->helper_url.'/GetEthPublicKey';
-
-            $eloquent_encryption = new EloquentEncryption();
-            $contents = stream_get_contents($tau->private_key_encrypt);
-            $encrypted_key = hex2bin($contents);
-            $pk = $eloquent_encryption->decrypt($encrypted_key);
-
-            $client = new Client();
-            $res = $client->request('POST', $url, [
-                'json' => ['privateKey' => $pk]
-            ]);
-            if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
-
-                $response = $res->getBody();
-                $tau->public_key = json_decode($response)->publicKey;
-                $tau->save();
-
-            } else {
-              Log::error('KycTemplateController addUserPublicKey: ' . print_r($res, true));
-            }
-        }
-
         if ($ta->account_address == $kycTemplate->beneficiary_ta_address) {
             $kycTemplate->beneficiary_user_public_key = $tau->public_key;
             $kycTemplate->save();
@@ -256,29 +232,6 @@ class KycTemplateController extends Controller
 
     public function addTAPublicKey($kycTemplate, $ta) {
 
-        if (is_null($ta->public_key)) {
-            $url = $this->helper_url.'/GetEthPublicKey';
-
-            $eloquent_encryption = new EloquentEncryption();
-            $contents = stream_get_contents($ta->private_key_encrypt);
-            $encrypted_key = hex2bin($contents);
-            $pk = $eloquent_encryption->decrypt($encrypted_key);
-
-            $client = new Client();
-            $res = $client->request('POST', $url, [
-                'json' => ['privateKey' => $pk]
-            ]);
-            if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
-
-                $response = $res->getBody();
-                $ta->public_key = json_decode($response)->publicKey;
-                $ta->save();
-
-
-            } else {
-              Log::error('KycTemplateController addTAPublicKey: ' . print_r($res, true));
-            }
-        }
         if ($ta->account_address == $kycTemplate->beneficiary_ta_address) {
             $kycTemplate->beneficiary_ta_public_key = $ta->public_key;
             $this->updateKycTemplateForState($kycTemplate, 'BENEFICIARY_TA_PUBLIC_KEY');
@@ -292,29 +245,6 @@ class KycTemplateController extends Controller
     }
 
     public function addTASignature($kycTemplate, $ta) {
-
-        $url = $this->helper_url.'/TASign';
-
-        $eloquent_encryption = new EloquentEncryption();
-        $contents = stream_get_contents($ta->private_key_encrypt);
-        $encrypted_key = hex2bin($contents);
-        $pk = $eloquent_encryption->decrypt($encrypted_key);
-
-        $client = new Client();
-        $res = $client->request('POST', $url, [
-            'json' => ['privateKey' => $pk, 'messageJSON' => $this->messageJSON."_TA"]
-        ]);
-        if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
-
-            $response = $res->getBody();
-            $ta->signature_hash = json_decode($response)->SignatureHash;
-            $ta->signature = json_encode(json_decode($response)->Signature);
-            $ta->save();
-
-
-        } else {
-          Log::error('KycTemplateController addTASignature: ' . print_r($res, true));
-        }
 
         if ($ta->account_address == $kycTemplate->beneficiary_ta_address) {
             $kycTemplate->beneficiary_ta_signature_hash = $ta->signature_hash;
@@ -332,30 +262,6 @@ class KycTemplateController extends Controller
     }
 
     public function addUserSignature($kycTemplate, $tau) {
-
-        $url = $this->helper_url.'/TASign';
-
-        $eloquent_encryption = new EloquentEncryption();
-        $contents = stream_get_contents($tau->private_key_encrypt);
-        $encrypted_key = hex2bin($contents);
-        $pk = $eloquent_encryption->decrypt($encrypted_key);
-
-        $private_key = str_replace("0x", "", $pk);
-        $client = new Client();
-        $res = $client->request('POST', $url, [
-            'json' => ['privateKey' => $private_key, 'messageJSON' => $this->messageJSON."_USER"]
-        ]);
-        if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
-
-            $response = $res->getBody();
-            $tau->signature_hash = json_decode($response)->SignatureHash;
-            $tau->signature = json_encode(json_decode($response)->Signature);
-            $tau->save();
-
-
-        } else {
-          Log::error('KycTemplateController addUserSignature: ' . print_r($res, true));
-        }
 
         if ($tau->account_address == $kycTemplate->beneficiary_user_address) {
             $kycTemplate->beneficiary_user_signature_hash = $tau->signature_hash;

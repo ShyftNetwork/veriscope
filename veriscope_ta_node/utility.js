@@ -5,6 +5,7 @@ const pako = require('pako');
 const web3_eth_abi = require("web3-eth-abi");
 const axios = require('axios');
 const EthCrypto = require('eth-crypto');
+const EthUtil = require('ethereumjs-util');
 const bitcoinjs_lib = require('bitcoinjs-lib');
 const bitgo_utxo_lib = require('bitgo-utxo-lib');
 const monerojs = require("monero-javascript");
@@ -49,7 +50,7 @@ const logger = winston.createLogger({
   maxsize: 512000000,
   maxFiles: 3,
   tailable: true,
-  defaultMeta: { service: 'http-api' },
+  defaultMeta: { service: 'utility' },
   transports: [
     //
     // - Write all logs with level `error` and below to `error.log`
@@ -69,6 +70,11 @@ logger.add(new winston.transports.Console({
     format: winston.format.simple(),
 }));
 
+function bufferToHex(buffer) {
+    var result = EthUtil.bufferToHex(buffer);
+
+    return result;
+}
 
 module.exports =   {
     decodeDocument: function (_documentEncoded) {
@@ -283,6 +289,44 @@ module.exports =   {
       var privateKey = keyPair.toWIF();
 
       return {"address":address, "public_key": publicKey, "private_key": privateKey};
+
+    },
+    TASign: function(message, privateKey) {
+
+      logger.debug("TASign");
+      logger.debug(message);
+
+      var messageBuffer = new Buffer(message);
+      logger.debug(messageBuffer);
+      var hash = EthUtil.hashPersonalMessage(messageBuffer);
+      logger.debug(hash);
+      var ecprivkey = Buffer.from(privateKey, 'hex');
+      logger.debug(ecprivkey);
+      var result = EthUtil.ecsign(hash, ecprivkey, 1);
+      logger.debug(result);
+      var template = {};
+
+      template['SignatureHash'] = bufferToHex(hash);
+      template['Signature'] = { r: bufferToHex(result['r']), s: bufferToHex(result['s']), v: bufferToHex(result['v']) };
+      logger.debug(template);
+
+      return template;
+
+    },
+    GetEthPublicKey: function(privateKey) {
+
+      logger.debug("GetEthPublicKey");
+      logger.debug(privateKey);
+
+      if (Buffer.isBuffer(privateKey)) {
+          privateKey = "0x" + privateKey.toString('hex');
+      }
+
+      const publicKey = EthCrypto.publicKeyByPrivateKey(
+          privateKey
+      );
+
+      return publicKey;
 
     },
     taGetAttestationComponents: async function (attestation_hash) {
