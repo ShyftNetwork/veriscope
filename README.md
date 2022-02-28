@@ -21,35 +21,44 @@ running installation, complete with Postgres database, nginx serving
 SSL connections with a reverse-proxy to backend services running
 Node.js and PHP Artisan.
 
-To use the all-in-one setup script, you **first need a machine which
-can be reached from the internet on ports 80 and 443**, with a DNS
-name that points to it.  The script is tested on Ubuntu 20.10.
-Minimum 2 GB of RAM.
+To use the all-in-one setup script, you first need a machine which
+can be reached from the internet on ports 80 and 443, with a DNS
+name that points to it.
+
+**Note:** If you intend to synchronize the blockchain with your nethermind node, be mindful on the storage disk size.  e.g. 1 million blocks requires approximately 8GB of storage.
+
+## Setup
 
 If necessary, create a new Unix account to act as the service user.
 Ensure the service user is in appropriate groups. The setup recipe
 assumes the user who invokes 'sudo' is the service user.
 
-## Setup
 Please begin the installation by cloning this repository.
 
 ```shell
 veriscope/
+├── API-Docs
 ├── Dockerfile
+├── IVMS-101
+├── KYC-Template-Docs
 ├── README.md
+├── chains
 ├── docker
 ├── docker-compose.yml
+├── docs
 ├── images
 ├── scripts
-├── vasp_testnet
 ├── veriscope_ta_dashboard
 └── veriscope_ta_node
-
 ```
 Note:
+
 scripts/ is the installation setup guide
-vasp_testnet/ is the Nethermind POA relay node configuration
+
+chains/ is the Nethermind POA relay node configuration. please review [Chains Readme](/chains/README.md)
+
 veriscope_ta_dashboard/ is the Web Application (Laravel/VueJS)
+
 veriscipe_ta_node/ is the NodeJS interface between the Web Application and the Relay Node
 
 Before continuing ensure you have a sudo user and run the following commands (for example “forge”):
@@ -86,12 +95,24 @@ Then navigate to opt/veriscope/
 $ ​​cd /opt/veriscope
 ```
 
-Edit the .env file in the directory and add your host name and TA name.  The TA name is only referenced locally.
-Ensure you use your own domain name that has been configured with DNS.
+Edit the .env file in the directory and add your host name and TA name.  
+
+The VERISCOPE_COMMON_NAME name is only referenced locally.  
+
+You must choose VERISCOPE_TARGET as either veriscope_testnet, fed_testnet or fed_mainnet as this target will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses), see here [Chains Readme](/chains/README.md)
+
+Ensure you use your own domain name that has been configured with DNS (80, 443).
+
 For example:
 ```shell
-VERISCOPE_SERVICE_HOST="pcf.veriscope.network"
-VERISCOPE_COMMON_NAME="pcf"
+# Provide a DNS name that can be used to reach your node from the Internet. Open ports 80 and 443 to it.
+VERISCOPE_SERVICE_HOST=subdomain.domain.com
+
+# Provide a common name for your organization - no Inc or Ltd needed. This is used for user interfaces only.
+VERISCOPE_COMMON_NAME=YOUR_VASP_NAME
+
+# Identify a chain to deploy to - choose from the list of directory names in chains/ - veriscope_testnet fed_testnet fed_mainnet
+VERISCOPE_TARGET=veriscope_testnet
 ```
 
 Now we can run the setup script where you are presented with a number of options:
@@ -144,9 +165,40 @@ Nethermind is the Etherum implementation used on Shyft. This is
 installed to `/opt/nm/` with its config file in `/opt/nm/config.cfg`,
 and the chain state in `/opt/nm/nethermind_db`.
 
+```
+├── Data
+├── NLog.config
+├── Nethermind.Cli
+├── Nethermind.Launcher
+├── Nethermind.Runner
+├── config.cfg
+├── git-hash
+├── keystore
+├── logs
+├── nethermind_db
+├── plugins
+├── shyftchainspec.json
+└── static-nodes.json
+```
 This step will create a random sealer account, and provide its
 private key and public address.  These should be kept someplace
 safe for permanent systems.
+
+**Note:** if you intend to use an RPC connection instead of synchronizing the blockchain locally, terminate nethermind and change the HTTP and WS params in the .env of veriscope_ta_node/.env to the provided rpc domain.  e.g. 
+```
+$ pwd
+/opt/veriscope/veriscope_ta_node
+$ cat .env
+#RPC Replace HTTP and WS below with the following
+#HTTP="https://rpc.shyft.network/"
+#WS="wss://rpc.shyft.network/"
+```
+and restart the ta-node-1 service like so:
+
+```
+$sudo systemctl restart ta-node-1
+
+```
 
 ### 3. Set up new postgres user
 
@@ -199,6 +251,8 @@ to the 'contact' field used in the ethstats service at
 https://fedstats.veriscope.network/ .  This command replaces your enode
 list with one obtained from the ethstats server, then restarts
 nethermind to use it.
+
+**Note:** this is optional and only recommended when synchronizing the blockchain with your nethermind relay node.
 
 ### 9. Create admin user
 

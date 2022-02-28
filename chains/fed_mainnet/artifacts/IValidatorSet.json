@@ -1,0 +1,1057 @@
+{
+  "contractName": "IValidatorSet",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_parentHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address[]",
+          "name": "_newSet",
+          "type": "address[]"
+        }
+      ],
+      "name": "InitiateChange",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "finalizeChange",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "blockNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "reportBenign",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "blockNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "proof",
+          "type": "bytes"
+        }
+      ],
+      "name": "reportMalicious",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getValidators",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"_parentHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"address[]\",\"name\":\"_newSet\",\"type\":\"address[]\"}],\"name\":\"InitiateChange\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"finalizeChange\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getValidators\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"validator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"reportBenign\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"validator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"}],\"name\":\"reportMalicious\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"events\":{\"InitiateChange(bytes32,address[])\":{\"notice\":\"Issue this log event to signal a desired change in validator set. This will not lead to a change in active validator set until finalizeChange is called. Only the last log event of any block can take effect. If a signal is issued while another is being finalized it may never take effect. _parentHash here should be the parent block hash, or the signal will not be recognized.\"}},\"kind\":\"user\",\"methods\":{\"finalizeChange()\":{\"notice\":\"Called when an initiated change reaches finality and is activated. Only valid when msg.sender == SYSTEM (EIP96, 2**160 - 2). Also called when the contract is first enabled for consensus. In this case, the \\\"change\\\" finalized is the activation of the initial set.\"},\"getValidators()\":{\"notice\":\"Get current validator set (last enacted or initial if no changes ever made).\"},\"reportBenign(address,uint256)\":{\"notice\":\"Reports benign misbehavior of validator of the current validator set (e.g. validator offline).\"},\"reportMalicious(address,uint256,bytes)\":{\"notice\":\"Reports malicious misbehavior of validator of the current validator set and provides proof of that misbehavor, which varies by engine (e.g. double vote).\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IValidatorSet.sol\":\"IValidatorSet\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IValidatorSet.sol\":{\"keccak256\":\"0xcd7a5e2cdac9f1cb5f0db366dfc296c022909aea2554687a2722dffe1f68e76b\",\"license\":\"APACHE2\",\"urls\":[\"bzz-raw://da5566efff2355acb4eb1c149de83d0bffd2a984b383c4b96aa425bf79f48b09\",\"dweb:/ipfs/QmbR7kS74q6DxFSNx4mnBoyZDvJwZiAdqwiXSUTcn6fNKS\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// Copyright 2017 Peter Czaban, Parity Technologies Ltd.\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//     http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\n//SPDX-License-Identifier: APACHE2\n\n//@note:@shyft: updated to solidity 7.1, updated code where required\npragma solidity ^0.7.1;\n\n\ninterface IValidatorSet {\n\t/// Issue this log event to signal a desired change in validator set.\n\t/// This will not lead to a change in active validator set until\n\t/// finalizeChange is called.\n\t///\n\t/// Only the last log event of any block can take effect.\n\t/// If a signal is issued while another is being finalized it may never\n\t/// take effect.\n\t///\n\t/// _parentHash here should be the parent block hash, or the\n\t/// signal will not be recognized.\n\tevent InitiateChange(bytes32 indexed _parentHash, address[] _newSet);\n\n\t/// Called when an initiated change reaches finality and is activated.\n\t/// Only valid when msg.sender == SYSTEM (EIP96, 2**160 - 2).\n\t///\n\t/// Also called when the contract is first enabled for consensus. In this case,\n\t/// the \"change\" finalized is the activation of the initial set.\n\tfunction finalizeChange()\n\t\texternal;\n\n\t/// Reports benign misbehavior of validator of the current validator set\n\t/// (e.g. validator offline).\n\tfunction reportBenign(address validator, uint256 blockNumber)\n\t\texternal;\n\n\t/// Reports malicious misbehavior of validator of the current validator set\n\t/// and provides proof of that misbehavor, which varies by engine\n\t/// (e.g. double vote).\n\tfunction reportMalicious(address validator, uint256 blockNumber, bytes calldata proof)\n\t\texternal;\n\n\t/// Get current validator set (last enacted or initial if no changes ever made).\n\tfunction getValidators()\n\t\texternal\n\t\tview returns (address[] memory);\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IValidatorSet.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IValidatorSet.sol",
+    "exportedSymbols": {
+      "IValidatorSet": [
+        6347
+      ]
+    },
+    "id": 6348,
+    "license": "APACHE2",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6309,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "721:23:41"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 6347,
+        "linearizedBaseContracts": [
+          6347
+        ],
+        "name": "IValidatorSet",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": {
+              "id": 6310,
+              "nodeType": "StructuredDocumentation",
+              "src": "774:424:41",
+              "text": "Issue this log event to signal a desired change in validator set.\n This will not lead to a change in active validator set until\n finalizeChange is called.\n Only the last log event of any block can take effect.\n If a signal is issued while another is being finalized it may never\n take effect.\n _parentHash here should be the parent block hash, or the\n signal will not be recognized."
+            },
+            "id": 6317,
+            "name": "InitiateChange",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 6316,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6312,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "_parentHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6317,
+                  "src": "1221:27:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 6311,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1221:7:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6315,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "_newSet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6317,
+                  "src": "1250:17:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 6313,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1250:7:41",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 6314,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1250:9:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1220:48:41"
+            },
+            "src": "1200:69:41"
+          },
+          {
+            "documentation": {
+              "id": 6318,
+              "nodeType": "StructuredDocumentation",
+              "src": "1272:285:41",
+              "text": "Called when an initiated change reaches finality and is activated.\n Only valid when msg.sender == SYSTEM (EIP96, 2**160 - 2).\n Also called when the contract is first enabled for consensus. In this case,\n the \"change\" finalized is the activation of the initial set."
+            },
+            "functionSelector": "75286211",
+            "id": 6321,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "finalizeChange",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6319,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1582:2:41"
+            },
+            "returnParameters": {
+              "id": 6320,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1595:0:41"
+            },
+            "scope": 6347,
+            "src": "1559:37:41",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 6322,
+              "nodeType": "StructuredDocumentation",
+              "src": "1599:103:41",
+              "text": "Reports benign misbehavior of validator of the current validator set\n (e.g. validator offline)."
+            },
+            "functionSelector": "d69f13bb",
+            "id": 6329,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reportBenign",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6327,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6324,
+                  "mutability": "mutable",
+                  "name": "validator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6329,
+                  "src": "1726:17:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6323,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1726:7:41",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6326,
+                  "mutability": "mutable",
+                  "name": "blockNumber",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6329,
+                  "src": "1745:19:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6325,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1745:7:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1725:40:41"
+            },
+            "returnParameters": {
+              "id": 6328,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1776:0:41"
+            },
+            "scope": 6347,
+            "src": "1704:73:41",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 6330,
+              "nodeType": "StructuredDocumentation",
+              "src": "1780:167:41",
+              "text": "Reports malicious misbehavior of validator of the current validator set\n and provides proof of that misbehavor, which varies by engine\n (e.g. double vote)."
+            },
+            "functionSelector": "c476dd40",
+            "id": 6339,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reportMalicious",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6337,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6332,
+                  "mutability": "mutable",
+                  "name": "validator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6339,
+                  "src": "1974:17:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6331,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1974:7:41",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6334,
+                  "mutability": "mutable",
+                  "name": "blockNumber",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6339,
+                  "src": "1993:19:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6333,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1993:7:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6336,
+                  "mutability": "mutable",
+                  "name": "proof",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6339,
+                  "src": "2014:20:41",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 6335,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2014:5:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1973:62:41"
+            },
+            "returnParameters": {
+              "id": 6338,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2046:0:41"
+            },
+            "scope": 6347,
+            "src": "1949:98:41",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 6340,
+              "nodeType": "StructuredDocumentation",
+              "src": "2050:80:41",
+              "text": "Get current validator set (last enacted or initial if no changes ever made)."
+            },
+            "functionSelector": "b7ab4db5",
+            "id": 6346,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getValidators",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6341,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2154:2:41"
+            },
+            "returnParameters": {
+              "id": 6345,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6344,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6346,
+                  "src": "2184:16:41",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 6342,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "2184:7:41",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 6343,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2184:9:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2183:18:41"
+            },
+            "scope": 6347,
+            "src": "2132:70:41",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6348,
+        "src": "747:1457:41"
+      }
+    ],
+    "src": "721:1484:41"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IValidatorSet.sol",
+      "exportedSymbols": {
+        "IValidatorSet": [
+          6347
+        ]
+      },
+      "license": "APACHE2"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 6309,
+        "name": "PragmaDirective",
+        "src": "721:23:41"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            6347
+          ],
+          "name": "IValidatorSet",
+          "scope": 6348
+        },
+        "children": [
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "InitiateChange"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": "Issue this log event to signal a desired change in validator set.\n This will not lead to a change in active validator set until\n finalizeChange is called.\n Only the last log event of any block can take effect.\n If a signal is issued while another is being finalized it may never\n take effect.\n _parentHash here should be the parent block hash, or the\n signal will not be recognized."
+                },
+                "id": 6310,
+                "name": "StructuredDocumentation",
+                "src": "774:424:41"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": true,
+                      "mutability": "mutable",
+                      "name": "_parentHash",
+                      "scope": 6317,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 6311,
+                        "name": "ElementaryTypeName",
+                        "src": "1221:7:41"
+                      }
+                    ],
+                    "id": 6312,
+                    "name": "VariableDeclaration",
+                    "src": "1221:27:41"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "mutability": "mutable",
+                      "name": "_newSet",
+                      "scope": 6317,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "address[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "stateMutability": "nonpayable",
+                              "type": "address"
+                            },
+                            "id": 6313,
+                            "name": "ElementaryTypeName",
+                            "src": "1250:7:41"
+                          }
+                        ],
+                        "id": 6314,
+                        "name": "ArrayTypeName",
+                        "src": "1250:9:41"
+                      }
+                    ],
+                    "id": 6315,
+                    "name": "VariableDeclaration",
+                    "src": "1250:17:41"
+                  }
+                ],
+                "id": 6316,
+                "name": "ParameterList",
+                "src": "1220:48:41"
+              }
+            ],
+            "id": 6317,
+            "name": "EventDefinition",
+            "src": "1200:69:41"
+          },
+          {
+            "attributes": {
+              "functionSelector": "75286211",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "finalizeChange",
+              "scope": 6347,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": "Called when an initiated change reaches finality and is activated.\n Only valid when msg.sender == SYSTEM (EIP96, 2**160 - 2).\n Also called when the contract is first enabled for consensus. In this case,\n the \"change\" finalized is the activation of the initial set."
+                },
+                "id": 6318,
+                "name": "StructuredDocumentation",
+                "src": "1272:285:41"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 6319,
+                "name": "ParameterList",
+                "src": "1582:2:41"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 6320,
+                "name": "ParameterList",
+                "src": "1595:0:41"
+              }
+            ],
+            "id": 6321,
+            "name": "FunctionDefinition",
+            "src": "1559:37:41"
+          },
+          {
+            "attributes": {
+              "functionSelector": "d69f13bb",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "reportBenign",
+              "scope": 6347,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": "Reports benign misbehavior of validator of the current validator set\n (e.g. validator offline)."
+                },
+                "id": 6322,
+                "name": "StructuredDocumentation",
+                "src": "1599:103:41"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "validator",
+                      "scope": 6329,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 6323,
+                        "name": "ElementaryTypeName",
+                        "src": "1726:7:41"
+                      }
+                    ],
+                    "id": 6324,
+                    "name": "VariableDeclaration",
+                    "src": "1726:17:41"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "blockNumber",
+                      "scope": 6329,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 6325,
+                        "name": "ElementaryTypeName",
+                        "src": "1745:7:41"
+                      }
+                    ],
+                    "id": 6326,
+                    "name": "VariableDeclaration",
+                    "src": "1745:19:41"
+                  }
+                ],
+                "id": 6327,
+                "name": "ParameterList",
+                "src": "1725:40:41"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 6328,
+                "name": "ParameterList",
+                "src": "1776:0:41"
+              }
+            ],
+            "id": 6329,
+            "name": "FunctionDefinition",
+            "src": "1704:73:41"
+          },
+          {
+            "attributes": {
+              "functionSelector": "c476dd40",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "reportMalicious",
+              "scope": 6347,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": "Reports malicious misbehavior of validator of the current validator set\n and provides proof of that misbehavor, which varies by engine\n (e.g. double vote)."
+                },
+                "id": 6330,
+                "name": "StructuredDocumentation",
+                "src": "1780:167:41"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "validator",
+                      "scope": 6339,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 6331,
+                        "name": "ElementaryTypeName",
+                        "src": "1974:7:41"
+                      }
+                    ],
+                    "id": 6332,
+                    "name": "VariableDeclaration",
+                    "src": "1974:17:41"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "blockNumber",
+                      "scope": 6339,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 6333,
+                        "name": "ElementaryTypeName",
+                        "src": "1993:7:41"
+                      }
+                    ],
+                    "id": 6334,
+                    "name": "VariableDeclaration",
+                    "src": "1993:19:41"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "proof",
+                      "scope": 6339,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 6335,
+                        "name": "ElementaryTypeName",
+                        "src": "2014:5:41"
+                      }
+                    ],
+                    "id": 6336,
+                    "name": "VariableDeclaration",
+                    "src": "2014:20:41"
+                  }
+                ],
+                "id": 6337,
+                "name": "ParameterList",
+                "src": "1973:62:41"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 6338,
+                "name": "ParameterList",
+                "src": "2046:0:41"
+              }
+            ],
+            "id": 6339,
+            "name": "FunctionDefinition",
+            "src": "1949:98:41"
+          },
+          {
+            "attributes": {
+              "functionSelector": "b7ab4db5",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getValidators",
+              "scope": 6347,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": "Get current validator set (last enacted or initial if no changes ever made)."
+                },
+                "id": 6340,
+                "name": "StructuredDocumentation",
+                "src": "2050:80:41"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 6341,
+                "name": "ParameterList",
+                "src": "2154:2:41"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 6346,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "address[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "address[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "stateMutability": "nonpayable",
+                              "type": "address"
+                            },
+                            "id": 6342,
+                            "name": "ElementaryTypeName",
+                            "src": "2184:7:41"
+                          }
+                        ],
+                        "id": 6343,
+                        "name": "ArrayTypeName",
+                        "src": "2184:9:41"
+                      }
+                    ],
+                    "id": 6344,
+                    "name": "VariableDeclaration",
+                    "src": "2184:16:41"
+                  }
+                ],
+                "id": 6345,
+                "name": "ParameterList",
+                "src": "2183:18:41"
+              }
+            ],
+            "id": 6346,
+            "name": "FunctionDefinition",
+            "src": "2132:70:41"
+          }
+        ],
+        "id": 6347,
+        "name": "ContractDefinition",
+        "src": "747:1457:41"
+      }
+    ],
+    "id": 6348,
+    "name": "SourceUnit",
+    "src": "721:1484:41"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:47.198Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "events": {
+      "InitiateChange(bytes32,address[])": {
+        "notice": "Issue this log event to signal a desired change in validator set. This will not lead to a change in active validator set until finalizeChange is called. Only the last log event of any block can take effect. If a signal is issued while another is being finalized it may never take effect. _parentHash here should be the parent block hash, or the signal will not be recognized."
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "finalizeChange()": {
+        "notice": "Called when an initiated change reaches finality and is activated. Only valid when msg.sender == SYSTEM (EIP96, 2**160 - 2). Also called when the contract is first enabled for consensus. In this case, the \"change\" finalized is the activation of the initial set."
+      },
+      "getValidators()": {
+        "notice": "Get current validator set (last enacted or initial if no changes ever made)."
+      },
+      "reportBenign(address,uint256)": {
+        "notice": "Reports benign misbehavior of validator of the current validator set (e.g. validator offline)."
+      },
+      "reportMalicious(address,uint256,bytes)": {
+        "notice": "Reports malicious misbehavior of validator of the current validator set and provides proof of that misbehavor, which varies by engine (e.g. double vote)."
+      }
+    },
+    "version": 1
+  }
+}

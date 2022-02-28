@@ -1,0 +1,445 @@
+{
+  "contractName": "ChainIdTest",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getChainId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getChainId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Tests/ChainIdTest.sol\":\"ChainIdTest\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Tests/ChainIdTest.sol\":{\"keccak256\":\"0x13385ef7e5bba5619282b63a735cab383620910bbe7c1b581d09b939482483f7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://1c025bc1b11388a18d048968cd9bcab57eeb052128461fad0259c742e0207dc2\",\"dweb:/ipfs/QmTRDKxiV6RArB7W7vP1QyTcafnmWDBaisSuxAq7BVhxDx\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50607f8061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80633408e47014602d575b600080fd5b60336045565b60408051918252519081900360200190f35b469056fea2646970667358221220dc0cffd587df0eb92464acc785bf6c283bf65eb63dc9b4b4b6bfb064e6520e3264736f6c63430007010033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c80633408e47014602d575b600080fd5b60336045565b60408051918252519081900360200190f35b469056fea2646970667358221220dc0cffd587df0eb92464acc785bf6c283bf65eb63dc9b4b4b6bfb064e6520e3264736f6c63430007010033",
+  "immutableReferences": {},
+  "sourceMap": "63:187:73:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "63:187:73:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;91:157;;;:::i;:::-;;;;;;;;;;;;;;;;;204:9;91:157;:::o",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ncontract ChainIdTest {\n\n    function getChainId() external pure returns (uint256) {\n        uint256 id;\n        assembly {\n            id := chainid()\n        }\n        return id;\n    }\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Tests/ChainIdTest.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Tests/ChainIdTest.sol",
+    "exportedSymbols": {
+      "ChainIdTest": [
+        45594
+      ]
+    },
+    "id": 45595,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 45581,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:73"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 45594,
+        "linearizedBaseContracts": [
+          45594
+        ],
+        "name": "ChainIdTest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 45592,
+              "nodeType": "Block",
+              "src": "145:103:73",
+              "statements": [
+                {
+                  "assignments": [
+                    45587
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 45587,
+                      "mutability": "mutable",
+                      "name": "id",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 45592,
+                      "src": "155:10:73",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 45586,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "155:7:73",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 45588,
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "155:10:73"
+                },
+                {
+                  "AST": {
+                    "nodeType": "YulBlock",
+                    "src": "184:39:73",
+                    "statements": [
+                      {
+                        "nodeType": "YulAssignment",
+                        "src": "198:15:73",
+                        "value": {
+                          "arguments": [],
+                          "functionName": {
+                            "name": "chainid",
+                            "nodeType": "YulIdentifier",
+                            "src": "204:7:73"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "204:9:73"
+                        },
+                        "variableNames": [
+                          {
+                            "name": "id",
+                            "nodeType": "YulIdentifier",
+                            "src": "198:2:73"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "evmVersion": "istanbul",
+                  "externalReferences": [
+                    {
+                      "declaration": 45587,
+                      "isOffset": false,
+                      "isSlot": false,
+                      "src": "198:2:73",
+                      "valueSize": 1
+                    }
+                  ],
+                  "id": 45589,
+                  "nodeType": "InlineAssembly",
+                  "src": "175:48:73"
+                },
+                {
+                  "expression": {
+                    "id": 45590,
+                    "name": "id",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 45587,
+                    "src": "239:2:73",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 45585,
+                  "id": 45591,
+                  "nodeType": "Return",
+                  "src": "232:9:73"
+                }
+              ]
+            },
+            "functionSelector": "3408e470",
+            "id": 45593,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getChainId",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 45582,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "110:2:73"
+            },
+            "returnParameters": {
+              "id": 45585,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 45584,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 45593,
+                  "src": "136:7:73",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 45583,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "136:7:73",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "135:9:73"
+            },
+            "scope": 45594,
+            "src": "91:157:73",
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 45595,
+        "src": "63:187:73"
+      }
+    ],
+    "src": "0:251:73"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Tests/ChainIdTest.sol",
+      "exportedSymbols": {
+        "ChainIdTest": [
+          45594
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 45581,
+        "name": "PragmaDirective",
+        "src": "0:23:73"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            45594
+          ],
+          "name": "ChainIdTest",
+          "scope": 45595
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "3408e470",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getChainId",
+              "scope": 45594,
+              "stateMutability": "pure",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 45582,
+                "name": "ParameterList",
+                "src": "110:2:73"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 45593,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 45583,
+                        "name": "ElementaryTypeName",
+                        "src": "136:7:73"
+                      }
+                    ],
+                    "id": 45584,
+                    "name": "VariableDeclaration",
+                    "src": "136:7:73"
+                  }
+                ],
+                "id": 45585,
+                "name": "ParameterList",
+                "src": "135:9:73"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "assignments": [
+                        45587
+                      ]
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "constant": false,
+                          "mutability": "mutable",
+                          "name": "id",
+                          "scope": 45592,
+                          "stateVariable": false,
+                          "storageLocation": "default",
+                          "type": "uint256",
+                          "visibility": "internal"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "uint256",
+                              "type": "uint256"
+                            },
+                            "id": 45586,
+                            "name": "ElementaryTypeName",
+                            "src": "155:7:73"
+                          }
+                        ],
+                        "id": 45587,
+                        "name": "VariableDeclaration",
+                        "src": "155:10:73"
+                      }
+                    ],
+                    "id": 45588,
+                    "name": "VariableDeclarationStatement",
+                    "src": "155:10:73"
+                  },
+                  {
+                    "attributes": {
+                      "evmVersion": "istanbul",
+                      "externalReferences": [
+                        {
+                          "declaration": 45587,
+                          "isOffset": false,
+                          "isSlot": false,
+                          "src": "198:2:73",
+                          "valueSize": 1
+                        }
+                      ],
+                      "operations": "{ id := chainid() }"
+                    },
+                    "children": [],
+                    "id": 45589,
+                    "name": "InlineAssembly",
+                    "src": "175:48:73"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 45585
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 45587,
+                          "type": "uint256",
+                          "value": "id"
+                        },
+                        "id": 45590,
+                        "name": "Identifier",
+                        "src": "239:2:73"
+                      }
+                    ],
+                    "id": 45591,
+                    "name": "Return",
+                    "src": "232:9:73"
+                  }
+                ],
+                "id": 45592,
+                "name": "Block",
+                "src": "145:103:73"
+              }
+            ],
+            "id": 45593,
+            "name": "FunctionDefinition",
+            "src": "91:157:73"
+          }
+        ],
+        "id": 45594,
+        "name": "ContractDefinition",
+        "src": "63:187:73"
+      }
+    ],
+    "id": 45595,
+    "name": "SourceUnit",
+    "src": "0:251:73"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:48.344Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

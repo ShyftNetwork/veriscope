@@ -1,0 +1,1581 @@
+{
+  "contractName": "TokenConstants",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"details\":\"Inheritable constants for token types\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Constants/TokenConstants.sol\":\"TokenConstants\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Constants/TokenConstants.sol\":{\"keccak256\":\"0xc4bce7644bafb29ddc1ef30391046833b3a98db72d7d6fbe6e19c45015812652\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://36c41ee92b6ec48a1130c06e26c92aec4d0aebea3faac29a4cca80f799cb0d21\",\"dweb:/ipfs/QmZa2tAq3zPuwUn24x8dsz6mXeJUUHBeAG9bWL46eHRcyp\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212201a436539474e37e43776a47190dfc3e33e922d58b32ed6029cadb5570187f77f64736f6c63430007010033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212201a436539474e37e43776a47190dfc3e33e922d58b32ed6029cadb5570187f77f64736f6c63430007010033",
+  "immutableReferences": {},
+  "sourceMap": "111:1261:10:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "111:1261:10:-:0;;;;;",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\n/// @dev Inheritable constants for token types\n\ncontract TokenConstants {\n\n    //@note: reference from https://github.com/satoshilabs/slips/blob/master/slip-0044.md\n    // hd chaincodes are 31 bits (max integer value = 2147483647)\n\n    //@note: reference from https://chainid.network/\n    // ethereum-compatible chaincodes are 32 bits\n\n    // given these, the final \"nativeType\" needs to be a mix of both.\n\n    uint256 constant TestNetTokenOffset = 2**128;\n    uint256 constant PrivateNetTokenOffset = 2**192;\n\n    uint256 constant ShyftTokenType = 7341;\n    uint256 constant EtherTokenType = 60;\n    uint256 constant EtherClassicTokenType = 61;\n    uint256 constant RootstockTokenType = 30;\n\n    //Shyft Testnets\n    uint256 constant BridgeTownTokenType = TestNetTokenOffset + 0;\n\n    //Ethereum Testnets\n    uint256 constant GoerliTokenType = 5;\n    uint256 constant KovanTokenType = 42;\n    uint256 constant RinkebyTokenType = 4;\n    uint256 constant RopstenTokenType = 3;\n\n    //Ethereum Classic Testnets\n    uint256 constant KottiTokenType = 6;\n\n    //Rootstock Testnets\n    uint256 constant RootstockTestnetTokenType = 31;\n\n    //@note:@here:@deploy: need to hardcode test and/or privatenet for deploy on various blockchains\n    bool constant IsTestnet = false;\n    bool constant IsPrivatenet = false;\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Constants/TokenConstants.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Constants/TokenConstants.sol",
+    "exportedSymbols": {
+      "TokenConstants": [
+        3029
+      ]
+    },
+    "id": 3030,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2976,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 2977,
+          "nodeType": "StructuredDocumentation",
+          "src": "63:47:10",
+          "text": "@dev Inheritable constants for token types"
+        },
+        "fullyImplemented": true,
+        "id": 3029,
+        "linearizedBaseContracts": [
+          3029
+        ],
+        "name": "TokenConstants",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 2982,
+            "mutability": "constant",
+            "name": "TestNetTokenOffset",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "474:44:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2978,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "474:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_rational_340282366920938463463374607431768211456_by_1",
+                "typeString": "int_const 3402...(31 digits omitted)...1456"
+              },
+              "id": 2981,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "hexValue": "32",
+                "id": 2979,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "512:1:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_2_by_1",
+                  "typeString": "int_const 2"
+                },
+                "value": "2"
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "**",
+              "rightExpression": {
+                "hexValue": "313238",
+                "id": 2980,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "515:3:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_128_by_1",
+                  "typeString": "int_const 128"
+                },
+                "value": "128"
+              },
+              "src": "512:6:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_340282366920938463463374607431768211456_by_1",
+                "typeString": "int_const 3402...(31 digits omitted)...1456"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 2987,
+            "mutability": "constant",
+            "name": "PrivateNetTokenOffset",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "524:47:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2983,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "524:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_rational_6277101735386680763835789423207666416102355444464034512896_by_1",
+                "typeString": "int_const 6277...(50 digits omitted)...2896"
+              },
+              "id": 2986,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "hexValue": "32",
+                "id": 2984,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "565:1:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_2_by_1",
+                  "typeString": "int_const 2"
+                },
+                "value": "2"
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "**",
+              "rightExpression": {
+                "hexValue": "313932",
+                "id": 2985,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "568:3:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_192_by_1",
+                  "typeString": "int_const 192"
+                },
+                "value": "192"
+              },
+              "src": "565:6:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_6277101735386680763835789423207666416102355444464034512896_by_1",
+                "typeString": "int_const 6277...(50 digits omitted)...2896"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 2990,
+            "mutability": "constant",
+            "name": "ShyftTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "578:38:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2988,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "578:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "37333431",
+              "id": 2989,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "612:4:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_7341_by_1",
+                "typeString": "int_const 7341"
+              },
+              "value": "7341"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 2993,
+            "mutability": "constant",
+            "name": "EtherTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "622:36:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2991,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "622:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "3630",
+              "id": 2992,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "656:2:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_60_by_1",
+                "typeString": "int_const 60"
+              },
+              "value": "60"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 2996,
+            "mutability": "constant",
+            "name": "EtherClassicTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "664:43:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2994,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "664:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "3631",
+              "id": 2995,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "705:2:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_61_by_1",
+                "typeString": "int_const 61"
+              },
+              "value": "61"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 2999,
+            "mutability": "constant",
+            "name": "RootstockTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "713:40:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2997,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "713:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "3330",
+              "id": 2998,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "751:2:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_30_by_1",
+                "typeString": "int_const 30"
+              },
+              "value": "30"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3004,
+            "mutability": "constant",
+            "name": "BridgeTownTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "781:61:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3000,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "781:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              },
+              "id": 3003,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "id": 3001,
+                "name": "TestNetTokenOffset",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 2982,
+                "src": "820:18:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "+",
+              "rightExpression": {
+                "hexValue": "30",
+                "id": 3002,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "841:1:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_0_by_1",
+                  "typeString": "int_const 0"
+                },
+                "value": "0"
+              },
+              "src": "820:22:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3007,
+            "mutability": "constant",
+            "name": "GoerliTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "873:36:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3005,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "873:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "35",
+              "id": 3006,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "908:1:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_5_by_1",
+                "typeString": "int_const 5"
+              },
+              "value": "5"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3010,
+            "mutability": "constant",
+            "name": "KovanTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "915:36:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3008,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "915:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "3432",
+              "id": 3009,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "949:2:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_42_by_1",
+                "typeString": "int_const 42"
+              },
+              "value": "42"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3013,
+            "mutability": "constant",
+            "name": "RinkebyTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "957:37:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3011,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "957:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "34",
+              "id": 3012,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "993:1:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_4_by_1",
+                "typeString": "int_const 4"
+              },
+              "value": "4"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3016,
+            "mutability": "constant",
+            "name": "RopstenTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "1000:37:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3014,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "1000:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "33",
+              "id": 3015,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1036:1:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_3_by_1",
+                "typeString": "int_const 3"
+              },
+              "value": "3"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3019,
+            "mutability": "constant",
+            "name": "KottiTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "1076:35:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3017,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "1076:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "36",
+              "id": 3018,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1110:1:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_6_by_1",
+                "typeString": "int_const 6"
+              },
+              "value": "6"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3022,
+            "mutability": "constant",
+            "name": "RootstockTestnetTokenType",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "1143:47:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 3020,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "1143:7:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "3331",
+              "id": 3021,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1188:2:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_31_by_1",
+                "typeString": "int_const 31"
+              },
+              "value": "31"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3025,
+            "mutability": "constant",
+            "name": "IsTestnet",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "1298:31:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 3023,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1298:4:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": {
+              "hexValue": "66616c7365",
+              "id": 3024,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "bool",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1324:5:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "value": "false"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 3028,
+            "mutability": "constant",
+            "name": "IsPrivatenet",
+            "nodeType": "VariableDeclaration",
+            "scope": 3029,
+            "src": "1335:34:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 3026,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1335:4:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": {
+              "hexValue": "66616c7365",
+              "id": 3027,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "bool",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1364:5:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "value": "false"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 3030,
+        "src": "111:1261:10"
+      }
+    ],
+    "src": "0:1373:10"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Constants/TokenConstants.sol",
+      "exportedSymbols": {
+        "TokenConstants": [
+          3029
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 2976,
+        "name": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            3029
+          ],
+          "name": "TokenConstants",
+          "scope": 3030
+        },
+        "children": [
+          {
+            "attributes": {
+              "text": "@dev Inheritable constants for token types"
+            },
+            "id": 2977,
+            "name": "StructuredDocumentation",
+            "src": "63:47:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "TestNetTokenOffset",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2978,
+                "name": "ElementaryTypeName",
+                "src": "474:7:10"
+              },
+              {
+                "attributes": {
+                  "commonType": {
+                    "typeIdentifier": "t_rational_340282366920938463463374607431768211456_by_1",
+                    "typeString": "int_const 3402...(31 digits omitted)...1456"
+                  },
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "**",
+                  "type": "int_const 3402...(31 digits omitted)...1456"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "hexvalue": "32",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 2",
+                      "value": "2"
+                    },
+                    "id": 2979,
+                    "name": "Literal",
+                    "src": "512:1:10"
+                  },
+                  {
+                    "attributes": {
+                      "hexvalue": "313238",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 128",
+                      "value": "128"
+                    },
+                    "id": 2980,
+                    "name": "Literal",
+                    "src": "515:3:10"
+                  }
+                ],
+                "id": 2981,
+                "name": "BinaryOperation",
+                "src": "512:6:10"
+              }
+            ],
+            "id": 2982,
+            "name": "VariableDeclaration",
+            "src": "474:44:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "PrivateNetTokenOffset",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2983,
+                "name": "ElementaryTypeName",
+                "src": "524:7:10"
+              },
+              {
+                "attributes": {
+                  "commonType": {
+                    "typeIdentifier": "t_rational_6277101735386680763835789423207666416102355444464034512896_by_1",
+                    "typeString": "int_const 6277...(50 digits omitted)...2896"
+                  },
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "**",
+                  "type": "int_const 6277...(50 digits omitted)...2896"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "hexvalue": "32",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 2",
+                      "value": "2"
+                    },
+                    "id": 2984,
+                    "name": "Literal",
+                    "src": "565:1:10"
+                  },
+                  {
+                    "attributes": {
+                      "hexvalue": "313932",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 192",
+                      "value": "192"
+                    },
+                    "id": 2985,
+                    "name": "Literal",
+                    "src": "568:3:10"
+                  }
+                ],
+                "id": 2986,
+                "name": "BinaryOperation",
+                "src": "565:6:10"
+              }
+            ],
+            "id": 2987,
+            "name": "VariableDeclaration",
+            "src": "524:47:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "ShyftTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2988,
+                "name": "ElementaryTypeName",
+                "src": "578:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "37333431",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 7341",
+                  "value": "7341"
+                },
+                "id": 2989,
+                "name": "Literal",
+                "src": "612:4:10"
+              }
+            ],
+            "id": 2990,
+            "name": "VariableDeclaration",
+            "src": "578:38:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "EtherTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2991,
+                "name": "ElementaryTypeName",
+                "src": "622:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "3630",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 60",
+                  "value": "60"
+                },
+                "id": 2992,
+                "name": "Literal",
+                "src": "656:2:10"
+              }
+            ],
+            "id": 2993,
+            "name": "VariableDeclaration",
+            "src": "622:36:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "EtherClassicTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2994,
+                "name": "ElementaryTypeName",
+                "src": "664:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "3631",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 61",
+                  "value": "61"
+                },
+                "id": 2995,
+                "name": "Literal",
+                "src": "705:2:10"
+              }
+            ],
+            "id": 2996,
+            "name": "VariableDeclaration",
+            "src": "664:43:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "RootstockTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 2997,
+                "name": "ElementaryTypeName",
+                "src": "713:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "3330",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 30",
+                  "value": "30"
+                },
+                "id": 2998,
+                "name": "Literal",
+                "src": "751:2:10"
+              }
+            ],
+            "id": 2999,
+            "name": "VariableDeclaration",
+            "src": "713:40:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "BridgeTownTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3000,
+                "name": "ElementaryTypeName",
+                "src": "781:7:10"
+              },
+              {
+                "attributes": {
+                  "commonType": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "+",
+                  "type": "uint256"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "overloadedDeclarations": [
+                        null
+                      ],
+                      "referencedDeclaration": 2982,
+                      "type": "uint256",
+                      "value": "TestNetTokenOffset"
+                    },
+                    "id": 3001,
+                    "name": "Identifier",
+                    "src": "820:18:10"
+                  },
+                  {
+                    "attributes": {
+                      "hexvalue": "30",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 0",
+                      "value": "0"
+                    },
+                    "id": 3002,
+                    "name": "Literal",
+                    "src": "841:1:10"
+                  }
+                ],
+                "id": 3003,
+                "name": "BinaryOperation",
+                "src": "820:22:10"
+              }
+            ],
+            "id": 3004,
+            "name": "VariableDeclaration",
+            "src": "781:61:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "GoerliTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3005,
+                "name": "ElementaryTypeName",
+                "src": "873:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "35",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 5",
+                  "value": "5"
+                },
+                "id": 3006,
+                "name": "Literal",
+                "src": "908:1:10"
+              }
+            ],
+            "id": 3007,
+            "name": "VariableDeclaration",
+            "src": "873:36:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "KovanTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3008,
+                "name": "ElementaryTypeName",
+                "src": "915:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "3432",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 42",
+                  "value": "42"
+                },
+                "id": 3009,
+                "name": "Literal",
+                "src": "949:2:10"
+              }
+            ],
+            "id": 3010,
+            "name": "VariableDeclaration",
+            "src": "915:36:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "RinkebyTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3011,
+                "name": "ElementaryTypeName",
+                "src": "957:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "34",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 4",
+                  "value": "4"
+                },
+                "id": 3012,
+                "name": "Literal",
+                "src": "993:1:10"
+              }
+            ],
+            "id": 3013,
+            "name": "VariableDeclaration",
+            "src": "957:37:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "RopstenTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3014,
+                "name": "ElementaryTypeName",
+                "src": "1000:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "33",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 3",
+                  "value": "3"
+                },
+                "id": 3015,
+                "name": "Literal",
+                "src": "1036:1:10"
+              }
+            ],
+            "id": 3016,
+            "name": "VariableDeclaration",
+            "src": "1000:37:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "KottiTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3017,
+                "name": "ElementaryTypeName",
+                "src": "1076:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "36",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 6",
+                  "value": "6"
+                },
+                "id": 3018,
+                "name": "Literal",
+                "src": "1110:1:10"
+              }
+            ],
+            "id": 3019,
+            "name": "VariableDeclaration",
+            "src": "1076:35:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "RootstockTestnetTokenType",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 3020,
+                "name": "ElementaryTypeName",
+                "src": "1143:7:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "3331",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "number",
+                  "type": "int_const 31",
+                  "value": "31"
+                },
+                "id": 3021,
+                "name": "Literal",
+                "src": "1188:2:10"
+              }
+            ],
+            "id": 3022,
+            "name": "VariableDeclaration",
+            "src": "1143:47:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "IsTestnet",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "bool",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "bool",
+                  "type": "bool"
+                },
+                "id": 3023,
+                "name": "ElementaryTypeName",
+                "src": "1298:4:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "66616c7365",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "bool",
+                  "type": "bool",
+                  "value": "false"
+                },
+                "id": 3024,
+                "name": "Literal",
+                "src": "1324:5:10"
+              }
+            ],
+            "id": 3025,
+            "name": "VariableDeclaration",
+            "src": "1298:31:10"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "IsPrivatenet",
+              "scope": 3029,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "bool",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "bool",
+                  "type": "bool"
+                },
+                "id": 3026,
+                "name": "ElementaryTypeName",
+                "src": "1335:4:10"
+              },
+              {
+                "attributes": {
+                  "hexvalue": "66616c7365",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "token": "bool",
+                  "type": "bool",
+                  "value": "false"
+                },
+                "id": 3027,
+                "name": "Literal",
+                "src": "1364:5:10"
+              }
+            ],
+            "id": 3028,
+            "name": "VariableDeclaration",
+            "src": "1335:34:10"
+          }
+        ],
+        "id": 3029,
+        "name": "ContractDefinition",
+        "src": "111:1261:10"
+      }
+    ],
+    "id": 3030,
+    "name": "SourceUnit",
+    "src": "0:1373:10"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:26:36.233Z",
+  "devdoc": {
+    "details": "Inheritable constants for token types",
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

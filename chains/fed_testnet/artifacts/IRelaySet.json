@@ -1,0 +1,390 @@
+{
+  "contractName": "IRelaySet",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_relayedSet",
+          "type": "address"
+        }
+      ],
+      "name": "setRelayed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getRelayed",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "_result",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getRelayed\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"_result\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_relayedSet\",\"type\":\"address\"}],\"name\":\"setRelayed\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IRelaySet.sol\":\"IRelaySet\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IRelaySet.sol\":{\"keccak256\":\"0xd4633dbe74a916c778936466a38e6ad8e2690451fb0cc0ac2f137a7d721a734b\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://3f7003178b44cb58d069c5132195714c16318d21fc96f27e9c730f1a3a1e9426\",\"dweb:/ipfs/QmSunwJqZM1QfFVNXP784VsfibDKf3GcbCxLe98ddk9z7v\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "//SPDX-License-Identifier: UNLICENSED\n\npragma solidity ^0.7.1;\n\ninterface IRelaySet {\n\tfunction setRelayed(address _relayedSet)\n\t\texternal;\n\n\tfunction getRelayed()\n\t\texternal\n\t\tview\n\t\treturns (address _result);\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IRelaySet.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IRelaySet.sol",
+    "exportedSymbols": {
+      "IRelaySet": [
+        4526
+      ]
+    },
+    "id": 4527,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4515,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:26"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 4526,
+        "linearizedBaseContracts": [
+          4526
+        ],
+        "name": "IRelaySet",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "bd965677",
+            "id": 4520,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setRelayed",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4518,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4517,
+                  "mutability": "mutable",
+                  "name": "_relayedSet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4520,
+                  "src": "107:19:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4516,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "107:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "106:21:26"
+            },
+            "returnParameters": {
+              "id": 4519,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "138:0:26"
+            },
+            "scope": 4526,
+            "src": "87:52:26",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "08f81b77",
+            "id": 4525,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRelayed",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4521,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "161:2:26"
+            },
+            "returnParameters": {
+              "id": 4524,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4523,
+                  "mutability": "mutable",
+                  "name": "_result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4525,
+                  "src": "193:15:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4522,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "192:17:26"
+            },
+            "scope": 4526,
+            "src": "142:68:26",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4527,
+        "src": "64:148:26"
+      }
+    ],
+    "src": "39:174:26"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IRelaySet.sol",
+      "exportedSymbols": {
+        "IRelaySet": [
+          4526
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 4515,
+        "name": "PragmaDirective",
+        "src": "39:23:26"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4526
+          ],
+          "name": "IRelaySet",
+          "scope": 4527
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "bd965677",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setRelayed",
+              "scope": 4526,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_relayedSet",
+                      "scope": 4520,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4516,
+                        "name": "ElementaryTypeName",
+                        "src": "107:7:26"
+                      }
+                    ],
+                    "id": 4517,
+                    "name": "VariableDeclaration",
+                    "src": "107:19:26"
+                  }
+                ],
+                "id": 4518,
+                "name": "ParameterList",
+                "src": "106:21:26"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4519,
+                "name": "ParameterList",
+                "src": "138:0:26"
+              }
+            ],
+            "id": 4520,
+            "name": "FunctionDefinition",
+            "src": "87:52:26"
+          },
+          {
+            "attributes": {
+              "functionSelector": "08f81b77",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getRelayed",
+              "scope": 4526,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4521,
+                "name": "ParameterList",
+                "src": "161:2:26"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_result",
+                      "scope": 4525,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4522,
+                        "name": "ElementaryTypeName",
+                        "src": "193:7:26"
+                      }
+                    ],
+                    "id": 4523,
+                    "name": "VariableDeclaration",
+                    "src": "193:15:26"
+                  }
+                ],
+                "id": 4524,
+                "name": "ParameterList",
+                "src": "192:17:26"
+              }
+            ],
+            "id": 4525,
+            "name": "FunctionDefinition",
+            "src": "142:68:26"
+          }
+        ],
+        "id": 4526,
+        "name": "ContractDefinition",
+        "src": "64:148:26"
+      }
+    ],
+    "id": 4527,
+    "name": "SourceUnit",
+    "src": "39:174:26"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-02-22T18:23:50.050Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

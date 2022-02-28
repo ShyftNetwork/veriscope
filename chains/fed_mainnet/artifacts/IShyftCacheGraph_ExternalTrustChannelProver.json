@@ -1,0 +1,654 @@
+{
+  "contractName": "IShyftCacheGraph_ExternalTrustChannelProver",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_identifiedAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_segmentIndex",
+          "type": "uint64"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_receiptsRoot",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_rlpCacheGraphProofTx",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_receiptPath",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_receiptParentNodes",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_rlpCacheGraphProofReceipt",
+          "type": "bytes"
+        }
+      ],
+      "name": "proveCacheGraphSegment",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "result",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_identifiedAddress\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"_segmentIndex\",\"type\":\"uint64\"},{\"internalType\":\"bytes32\",\"name\":\"_receiptsRoot\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"_rlpCacheGraphProofTx\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"_receiptPath\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"_receiptParentNodes\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"_rlpCacheGraphProofReceipt\",\"type\":\"bytes\"}],\"name\":\"proveCacheGraphSegment\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"result\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IShyftCacheGraph_ExternalTrustChannelProver.sol\":\"IShyftCacheGraph_ExternalTrustChannelProver\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IShyftCacheGraph_ExternalTrustChannelProver.sol\":{\"keccak256\":\"0xe6357ef2fe453e7b20ba6bce45fd7dd67322382eb10075c92a4c2289becb69bb\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://d7c0b5ebcd8fb46576923a2a66df1fd5e9c718ef7019fc42a2f9fe7fbb91f270\",\"dweb:/ipfs/QmRoHyS7yDkj32CZk7WJzHJovbTwf1S9p7tz6D1nxGck3v\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ninterface IShyftCacheGraph_ExternalTrustChannelProver {\n    function proveCacheGraphSegment(address _identifiedAddress,\n                                    uint64 _segmentIndex,\n                                    bytes32 _receiptsRoot,\n                                    bytes memory _rlpCacheGraphProofTx,\n                                    bytes memory _receiptPath,\n                                    bytes memory _receiptParentNodes,\n                                    bytes memory _rlpCacheGraphProofReceipt) external returns (uint8 result);\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IShyftCacheGraph_ExternalTrustChannelProver.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IShyftCacheGraph_ExternalTrustChannelProver.sol",
+    "exportedSymbols": {
+      "IShyftCacheGraph_ExternalTrustChannelProver": [
+        4791
+      ]
+    },
+    "id": 4792,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4771,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:30"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 4791,
+        "linearizedBaseContracts": [
+          4791
+        ],
+        "name": "IShyftCacheGraph_ExternalTrustChannelProver",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "514551ef",
+            "id": 4790,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "proveCacheGraphSegment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4786,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4773,
+                  "mutability": "mutable",
+                  "name": "_identifiedAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "155:26:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4772,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "155:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4775,
+                  "mutability": "mutable",
+                  "name": "_segmentIndex",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "219:20:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint64",
+                    "typeString": "uint64"
+                  },
+                  "typeName": {
+                    "id": 4774,
+                    "name": "uint64",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "219:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint64",
+                      "typeString": "uint64"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4777,
+                  "mutability": "mutable",
+                  "name": "_receiptsRoot",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "277:21:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4776,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "277:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4779,
+                  "mutability": "mutable",
+                  "name": "_rlpCacheGraphProofTx",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "336:34:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4778,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "336:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4781,
+                  "mutability": "mutable",
+                  "name": "_receiptPath",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "408:25:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4780,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "408:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4783,
+                  "mutability": "mutable",
+                  "name": "_receiptParentNodes",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "471:32:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4782,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "471:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4785,
+                  "mutability": "mutable",
+                  "name": "_rlpCacheGraphProofReceipt",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "541:39:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4784,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "541:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "154:427:30"
+            },
+            "returnParameters": {
+              "id": 4789,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4788,
+                  "mutability": "mutable",
+                  "name": "result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4790,
+                  "src": "600:12:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 4787,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "600:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "599:14:30"
+            },
+            "scope": 4791,
+            "src": "123:491:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4792,
+        "src": "63:553:30"
+      }
+    ],
+    "src": "0:617:30"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IShyftCacheGraph_ExternalTrustChannelProver.sol",
+      "exportedSymbols": {
+        "IShyftCacheGraph_ExternalTrustChannelProver": [
+          4791
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 4771,
+        "name": "PragmaDirective",
+        "src": "0:23:30"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4791
+          ],
+          "name": "IShyftCacheGraph_ExternalTrustChannelProver",
+          "scope": 4792
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "514551ef",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "proveCacheGraphSegment",
+              "scope": 4791,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_identifiedAddress",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4772,
+                        "name": "ElementaryTypeName",
+                        "src": "155:7:30"
+                      }
+                    ],
+                    "id": 4773,
+                    "name": "VariableDeclaration",
+                    "src": "155:26:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_segmentIndex",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint64",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint64",
+                          "type": "uint64"
+                        },
+                        "id": 4774,
+                        "name": "ElementaryTypeName",
+                        "src": "219:6:30"
+                      }
+                    ],
+                    "id": 4775,
+                    "name": "VariableDeclaration",
+                    "src": "219:20:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_receiptsRoot",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4776,
+                        "name": "ElementaryTypeName",
+                        "src": "277:7:30"
+                      }
+                    ],
+                    "id": 4777,
+                    "name": "VariableDeclaration",
+                    "src": "277:21:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_rlpCacheGraphProofTx",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 4778,
+                        "name": "ElementaryTypeName",
+                        "src": "336:5:30"
+                      }
+                    ],
+                    "id": 4779,
+                    "name": "VariableDeclaration",
+                    "src": "336:34:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_receiptPath",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 4780,
+                        "name": "ElementaryTypeName",
+                        "src": "408:5:30"
+                      }
+                    ],
+                    "id": 4781,
+                    "name": "VariableDeclaration",
+                    "src": "408:25:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_receiptParentNodes",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 4782,
+                        "name": "ElementaryTypeName",
+                        "src": "471:5:30"
+                      }
+                    ],
+                    "id": 4783,
+                    "name": "VariableDeclaration",
+                    "src": "471:32:30"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_rlpCacheGraphProofReceipt",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 4784,
+                        "name": "ElementaryTypeName",
+                        "src": "541:5:30"
+                      }
+                    ],
+                    "id": 4785,
+                    "name": "VariableDeclaration",
+                    "src": "541:39:30"
+                  }
+                ],
+                "id": 4786,
+                "name": "ParameterList",
+                "src": "154:427:30"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "result",
+                      "scope": 4790,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 4787,
+                        "name": "ElementaryTypeName",
+                        "src": "600:5:30"
+                      }
+                    ],
+                    "id": 4788,
+                    "name": "VariableDeclaration",
+                    "src": "600:12:30"
+                  }
+                ],
+                "id": 4789,
+                "name": "ParameterList",
+                "src": "599:14:30"
+              }
+            ],
+            "id": 4790,
+            "name": "FunctionDefinition",
+            "src": "123:491:30"
+          }
+        ],
+        "id": 4791,
+        "name": "ContractDefinition",
+        "src": "63:553:30"
+      }
+    ],
+    "id": 4792,
+    "name": "SourceUnit",
+    "src": "0:617:30"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:46.845Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

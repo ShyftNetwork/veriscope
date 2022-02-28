@@ -1,0 +1,257 @@
+{
+  "contractName": "IOwned",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_new",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_new\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IOwned.sol\":\"IOwned\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IOwned.sol\":{\"keccak256\":\"0x3134308ef8226ba18d69e0cff3f11fcd05051f212c7d27fc5ab0c658a48357bf\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://c3db15ffdafe5535a3c4864bb03a71c62fa890e19a7d85c944034139d65be537\",\"dweb:/ipfs/QmTc24iu86wbdq9oN2g7EW3Xae1LLjeTDdwNwzYexx3U7y\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ninterface IOwned {\n    function setOwner(address _new)\n    external;\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IOwned.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IOwned.sol",
+    "exportedSymbols": {
+      "IOwned": [
+        4513
+      ]
+    },
+    "id": 4514,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4507,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:25"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 4513,
+        "linearizedBaseContracts": [
+          4513
+        ],
+        "name": "IOwned",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "13af4035",
+            "id": 4512,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setOwner",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4510,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4509,
+                  "mutability": "mutable",
+                  "name": "_new",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "104:12:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4508,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "104:7:25",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "103:14:25"
+            },
+            "returnParameters": {
+              "id": 4511,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "130:0:25"
+            },
+            "scope": 4513,
+            "src": "86:45:25",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4514,
+        "src": "63:70:25"
+      }
+    ],
+    "src": "0:134:25"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IOwned.sol",
+      "exportedSymbols": {
+        "IOwned": [
+          4513
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 4507,
+        "name": "PragmaDirective",
+        "src": "0:23:25"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4513
+          ],
+          "name": "IOwned",
+          "scope": 4514
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "13af4035",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setOwner",
+              "scope": 4513,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_new",
+                      "scope": 4512,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4508,
+                        "name": "ElementaryTypeName",
+                        "src": "104:7:25"
+                      }
+                    ],
+                    "id": 4509,
+                    "name": "VariableDeclaration",
+                    "src": "104:12:25"
+                  }
+                ],
+                "id": 4510,
+                "name": "ParameterList",
+                "src": "103:14:25"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4511,
+                "name": "ParameterList",
+                "src": "130:0:25"
+              }
+            ],
+            "id": 4512,
+            "name": "FunctionDefinition",
+            "src": "86:45:25"
+          }
+        ],
+        "id": 4513,
+        "name": "ContractDefinition",
+        "src": "63:70:25"
+      }
+    ],
+    "id": 4514,
+    "name": "SourceUnit",
+    "src": "0:134:25"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:46.789Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

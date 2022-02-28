@@ -1,0 +1,446 @@
+{
+  "contractName": "IBlockRewardUpdater",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "byteCode",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "inflationAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "benefactorUpdateFunction",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "shouldUpdateBenefactor",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "updatedBenefactorAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"byteCode\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"inflationAmount\",\"type\":\"uint256\"}],\"name\":\"benefactorUpdateFunction\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"shouldUpdateBenefactor\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"updatedBenefactorAddress\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IBlockRewardUpdater.sol\":\"IBlockRewardUpdater\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IBlockRewardUpdater.sol\":{\"keccak256\":\"0x4565db370a5515f01517da736f915fd9aaed5ebeb31e9d9da774d6aeba93b7a7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://ab1bec7618830386884ecc689e3fb3beca44c661e6000e03cb75981638403db6\",\"dweb:/ipfs/QmUhC7Zrg49tkHjwC2QACGz1proCNmeVNx2JfyE1bZ4Lu5\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\npragma experimental ABIEncoderV2;\n//SPDX-License-Identifier: UNLICENSED\n\ninterface IBlockRewardUpdater {\n    function benefactorUpdateFunction(bytes memory byteCode, uint inflationAmount) external returns (bool shouldUpdateBenefactor,\n                                                                                                    address updatedBenefactorAddress);\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IBlockRewardUpdater.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IBlockRewardUpdater.sol",
+    "exportedSymbols": {
+      "IBlockRewardUpdater": [
+        3416
+      ]
+    },
+    "id": 3417,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3403,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:18"
+      },
+      {
+        "id": 3404,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "24:33:18"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 3416,
+        "linearizedBaseContracts": [
+          3416
+        ],
+        "name": "IBlockRewardUpdater",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "144f6b64",
+            "id": 3415,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "benefactorUpdateFunction",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3409,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3406,
+                  "mutability": "mutable",
+                  "name": "byteCode",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3415,
+                  "src": "167:21:18",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3405,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "167:5:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3408,
+                  "mutability": "mutable",
+                  "name": "inflationAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3415,
+                  "src": "190:20:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3407,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "190:4:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "166:45:18"
+            },
+            "returnParameters": {
+              "id": 3414,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3411,
+                  "mutability": "mutable",
+                  "name": "shouldUpdateBenefactor",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3415,
+                  "src": "230:27:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 3410,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "230:4:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3413,
+                  "mutability": "mutable",
+                  "name": "updatedBenefactorAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3415,
+                  "src": "359:32:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3412,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "359:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "229:163:18"
+            },
+            "scope": 3416,
+            "src": "133:260:18",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3417,
+        "src": "97:298:18"
+      }
+    ],
+    "src": "0:396:18"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IBlockRewardUpdater.sol",
+      "exportedSymbols": {
+        "IBlockRewardUpdater": [
+          3416
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 3403,
+        "name": "PragmaDirective",
+        "src": "0:23:18"
+      },
+      {
+        "attributes": {
+          "literals": [
+            "experimental",
+            "ABIEncoderV2"
+          ]
+        },
+        "id": 3404,
+        "name": "PragmaDirective",
+        "src": "24:33:18"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            3416
+          ],
+          "name": "IBlockRewardUpdater",
+          "scope": 3417
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "144f6b64",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "benefactorUpdateFunction",
+              "scope": 3416,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "byteCode",
+                      "scope": 3415,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "bytes",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes",
+                          "type": "bytes"
+                        },
+                        "id": 3405,
+                        "name": "ElementaryTypeName",
+                        "src": "167:5:18"
+                      }
+                    ],
+                    "id": 3406,
+                    "name": "VariableDeclaration",
+                    "src": "167:21:18"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "inflationAmount",
+                      "scope": 3415,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 3407,
+                        "name": "ElementaryTypeName",
+                        "src": "190:4:18"
+                      }
+                    ],
+                    "id": 3408,
+                    "name": "VariableDeclaration",
+                    "src": "190:20:18"
+                  }
+                ],
+                "id": 3409,
+                "name": "ParameterList",
+                "src": "166:45:18"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "shouldUpdateBenefactor",
+                      "scope": 3415,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3410,
+                        "name": "ElementaryTypeName",
+                        "src": "230:4:18"
+                      }
+                    ],
+                    "id": 3411,
+                    "name": "VariableDeclaration",
+                    "src": "230:27:18"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "updatedBenefactorAddress",
+                      "scope": 3415,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 3412,
+                        "name": "ElementaryTypeName",
+                        "src": "359:7:18"
+                      }
+                    ],
+                    "id": 3413,
+                    "name": "VariableDeclaration",
+                    "src": "359:32:18"
+                  }
+                ],
+                "id": 3414,
+                "name": "ParameterList",
+                "src": "229:163:18"
+              }
+            ],
+            "id": 3415,
+            "name": "FunctionDefinition",
+            "src": "133:260:18"
+          }
+        ],
+        "id": 3416,
+        "name": "ContractDefinition",
+        "src": "97:298:18"
+      }
+    ],
+    "id": 3417,
+    "name": "SourceUnit",
+    "src": "0:396:18"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-02-22T18:32:56.685Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
