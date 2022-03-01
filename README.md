@@ -198,7 +198,6 @@ terminate nethermind and restart the ta-node-1 service like so:
 ```
 $sudo systemctl stop nethermind
 $sudo systemctl restart ta-node-1
-
 ```
 
 ### 3. Set up new postgres user
