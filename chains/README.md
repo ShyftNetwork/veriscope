@@ -12,7 +12,7 @@ sudo systemctl restart ta-node-1 ta-node-2
 
 ```
 HTTP="http://tx.veriscope.network:9400/"
-WS="wss://tx.veriscope.network:9400/"
+WS="ws://tx.veriscope.network:9400/"
 ```
 
 blockexplorer: https://bx.veriscope.network/
