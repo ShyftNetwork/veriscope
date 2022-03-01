@@ -193,9 +193,10 @@ $ cat .env
 #HTTP="https://rpc.shyft.network/"
 #WS="wss://rpc.shyft.network/"
 ```
-and restart the ta-node-1 service like so:
+terminate nethermind and restart the ta-node-1 service like so:
 
 ```
+$sudo systemctl stop nethermind
 $sudo systemctl restart ta-node-1
 
 ```
