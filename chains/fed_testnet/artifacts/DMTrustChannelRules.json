@@ -1,0 +1,361 @@
+{
+  "contractName": "DMTrustChannelRules",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"stateVariables\":{\"NoTrustChannel\":{\"details\":\"Base constant for no Trust Channel found.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DataModels/DMTrustChannelRules.sol\":\"DMTrustChannelRules\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/DataModels/DMTrustChannelRules.sol\":{\"keccak256\":\"0x5595ba3f8ae03d4f1fc6bcd60dc10d96102c9eeb0ca00fc6a7148ea4d8a44313\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://22aebbfe42bc21d15c66583904b84889eae9d87510e5d513d8c3f4f60a1a7636\",\"dweb:/ipfs/QmZKsoit9UHYutTG2abB9R4vbP1poMbEJ17tSvUKSiiC11\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\nabstract contract DMTrustChannelRules {\n    /// @dev Base constant for no Trust Channel found.\n\n    uint32 constant NoTrustChannel = 2 ** 32 - 1;\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/DataModels/DMTrustChannelRules.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/DataModels/DMTrustChannelRules.sol",
+    "exportedSymbols": {
+      "DMTrustChannelRules": [
+        3225
+      ]
+    },
+    "id": 3226,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3216,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:14"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 3225,
+        "linearizedBaseContracts": [
+          3225
+        ],
+        "name": "DMTrustChannelRules",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "documentation": {
+              "id": 3217,
+              "nodeType": "StructuredDocumentation",
+              "src": "107:51:14",
+              "text": "@dev Base constant for no Trust Channel found."
+            },
+            "id": 3224,
+            "mutability": "constant",
+            "name": "NoTrustChannel",
+            "nodeType": "VariableDeclaration",
+            "scope": 3225,
+            "src": "163:44:14",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint32",
+              "typeString": "uint32"
+            },
+            "typeName": {
+              "id": 3218,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "163:6:14",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            },
+            "value": {
+              "commonType": {
+                "typeIdentifier": "t_rational_4294967295_by_1",
+                "typeString": "int_const 4294967295"
+              },
+              "id": 3223,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "commonType": {
+                  "typeIdentifier": "t_rational_4294967296_by_1",
+                  "typeString": "int_const 4294967296"
+                },
+                "id": 3221,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "leftExpression": {
+                  "hexValue": "32",
+                  "id": 3219,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "number",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "196:1:14",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_rational_2_by_1",
+                    "typeString": "int_const 2"
+                  },
+                  "value": "2"
+                },
+                "nodeType": "BinaryOperation",
+                "operator": "**",
+                "rightExpression": {
+                  "hexValue": "3332",
+                  "id": 3220,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "number",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "201:2:14",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_rational_32_by_1",
+                    "typeString": "int_const 32"
+                  },
+                  "value": "32"
+                },
+                "src": "196:7:14",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_4294967296_by_1",
+                  "typeString": "int_const 4294967296"
+                }
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "-",
+              "rightExpression": {
+                "hexValue": "31",
+                "id": 3222,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "kind": "number",
+                "lValueRequested": false,
+                "nodeType": "Literal",
+                "src": "206:1:14",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_rational_1_by_1",
+                  "typeString": "int_const 1"
+                },
+                "value": "1"
+              },
+              "src": "196:11:14",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_4294967295_by_1",
+                "typeString": "int_const 4294967295"
+              }
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 3226,
+        "src": "63:147:14"
+      }
+    ],
+    "src": "0:211:14"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/DataModels/DMTrustChannelRules.sol",
+      "exportedSymbols": {
+        "DMTrustChannelRules": [
+          3225
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 3216,
+        "name": "PragmaDirective",
+        "src": "0:23:14"
+      },
+      {
+        "attributes": {
+          "abstract": true,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            3225
+          ],
+          "name": "DMTrustChannelRules",
+          "scope": 3226
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": true,
+              "mutability": "constant",
+              "name": "NoTrustChannel",
+              "scope": 3225,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint32",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint32",
+                  "type": "uint32"
+                },
+                "id": 3218,
+                "name": "ElementaryTypeName",
+                "src": "163:6:14"
+              },
+              {
+                "attributes": {
+                  "commonType": {
+                    "typeIdentifier": "t_rational_4294967295_by_1",
+                    "typeString": "int_const 4294967295"
+                  },
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "operator": "-",
+                  "type": "int_const 4294967295"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "commonType": {
+                        "typeIdentifier": "t_rational_4294967296_by_1",
+                        "typeString": "int_const 4294967296"
+                      },
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "operator": "**",
+                      "type": "int_const 4294967296"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "hexvalue": "32",
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "token": "number",
+                          "type": "int_const 2",
+                          "value": "2"
+                        },
+                        "id": 3219,
+                        "name": "Literal",
+                        "src": "196:1:14"
+                      },
+                      {
+                        "attributes": {
+                          "hexvalue": "3332",
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "token": "number",
+                          "type": "int_const 32",
+                          "value": "32"
+                        },
+                        "id": 3220,
+                        "name": "Literal",
+                        "src": "201:2:14"
+                      }
+                    ],
+                    "id": 3221,
+                    "name": "BinaryOperation",
+                    "src": "196:7:14"
+                  },
+                  {
+                    "attributes": {
+                      "hexvalue": "31",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "token": "number",
+                      "type": "int_const 1",
+                      "value": "1"
+                    },
+                    "id": 3222,
+                    "name": "Literal",
+                    "src": "206:1:14"
+                  }
+                ],
+                "id": 3223,
+                "name": "BinaryOperation",
+                "src": "196:11:14"
+              },
+              {
+                "attributes": {
+                  "text": "@dev Base constant for no Trust Channel found."
+                },
+                "id": 3217,
+                "name": "StructuredDocumentation",
+                "src": "107:51:14"
+              }
+            ],
+            "id": 3224,
+            "name": "VariableDeclaration",
+            "src": "163:44:14"
+          }
+        ],
+        "id": 3225,
+        "name": "ContractDefinition",
+        "src": "63:147:14"
+      }
+    ],
+    "id": 3226,
+    "name": "SourceUnit",
+    "src": "0:211:14"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-02-22T18:23:49.608Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "stateVariables": {
+      "NoTrustChannel": {
+        "details": "Base constant for no Trust Channel found."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

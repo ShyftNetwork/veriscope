@@ -1,0 +1,213 @@
+{
+  "contractName": "AttestationDataRetrievalPrototype",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/AttestationDataRetrievalPrototype.sol\":\"AttestationDataRetrievalPrototype\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/AttestationDataRetrievalPrototype.sol\":{\"keccak256\":\"0xe8b41d13d18d37878fceab3ce672771ad86c7dc9ff1fe266bb08127cf85662d7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://7e0dc4d74dd5ebdca4fe4a56a5c307a66211cb626c9936b44f80b5a6c18d527c\",\"dweb:/ipfs/QmRrqkeXCp1f4XGWrgzkdtnaukdhZ5AGP2EPWnN5aibjk2\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212207d9d0cfb10dc1505c134017c47e84385bb5efc426a6167a12fdbf3a1f972be0a64736f6c63430007010033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212207d9d0cfb10dc1505c134017c47e84385bb5efc426a6167a12fdbf3a1f972be0a64736f6c63430007010033",
+  "immutableReferences": {},
+  "sourceMap": "63:73:9:-:0;;;112:22;;;;;;;;;;63:73;;;;;;",
+  "deployedSourceMap": "63:73:9:-:0;;;;;",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ncontract AttestationDataRetrievalPrototype {\n    constructor() {\n\n    }\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/AttestationDataRetrievalPrototype.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/AttestationDataRetrievalPrototype.sol",
+    "exportedSymbols": {
+      "AttestationDataRetrievalPrototype": [
+        2820
+      ]
+    },
+    "id": 2821,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2815,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:9"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 2820,
+        "linearizedBaseContracts": [
+          2820
+        ],
+        "name": "AttestationDataRetrievalPrototype",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 2818,
+              "nodeType": "Block",
+              "src": "126:8:9",
+              "statements": []
+            },
+            "id": 2819,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2816,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "123:2:9"
+            },
+            "returnParameters": {
+              "id": 2817,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "126:0:9"
+            },
+            "scope": 2820,
+            "src": "112:22:9",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2821,
+        "src": "63:73:9"
+      }
+    ],
+    "src": "0:137:9"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/AttestationDataRetrievalPrototype.sol",
+      "exportedSymbols": {
+        "AttestationDataRetrievalPrototype": [
+          2820
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 2815,
+        "name": "PragmaDirective",
+        "src": "0:23:9"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            2820
+          ],
+          "name": "AttestationDataRetrievalPrototype",
+          "scope": 2821
+        },
+        "children": [
+          {
+            "attributes": {
+              "implemented": true,
+              "isConstructor": true,
+              "kind": "constructor",
+              "modifiers": [
+                null
+              ],
+              "name": "",
+              "scope": 2820,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2816,
+                "name": "ParameterList",
+                "src": "123:2:9"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2817,
+                "name": "ParameterList",
+                "src": "126:0:9"
+              },
+              {
+                "attributes": {
+                  "statements": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2818,
+                "name": "Block",
+                "src": "126:8:9"
+              }
+            ],
+            "id": 2819,
+            "name": "FunctionDefinition",
+            "src": "112:22:9"
+          }
+        ],
+        "id": 2820,
+        "name": "ContractDefinition",
+        "src": "63:73:9"
+      }
+    ],
+    "id": 2821,
+    "name": "SourceUnit",
+    "src": "0:137:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:46.186Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

@@ -23,6 +23,34 @@ if [ $VERISCOPE_COMMON_NAME = 'unset' ]; then
 	exit 1
 fi
 
+case "$VERISCOPE_TARGET" in
+"veriscope_testnet")
+	ETHSTATS_HOST="ws://fedstats.veriscope.network/api"
+	ETHSTATS_GET_ENODES="ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"
+	ETHSTATS_SECRET="Oogongi4"
+;;
+
+"fed_testnet")
+	ETHSTATS_HOST="wss://stats.testnet.shyft.network/api"
+	ETHSTATS_SECRET="Ish9phieph"
+	ETHSTATS_GET_ENODES="ws://stats.testnet.shyft.network/primus/?_primuscb=1627594389337-0"
+;;
+
+"fed_mainnet")
+	ETHSTATS_HOST="wss://stats.shyft.network/api"
+	ETHSTATS_SECRET="uL4tohChia"
+	ETHSTATS_GET_ENODES="ws://stats.shyft.network/primus/?_primuscb=1627594389337-0"
+;;
+
+*)
+	echo "Please set VERISCOPE_TARGET to veriscope_testnet, fed_testnet, or fed_mainnet"
+	exit 1
+;;
+esac
+
+cp -n chains/$VERISCOPE_TARGET/ta-node-env /opt/veriscope/veriscope_ta_node/.env
+
+
 SERVICE_USER=$(logname)
 CERTFILE=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/fullchain.pem
 CERTKEY=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/privkey.pem
@@ -30,7 +58,7 @@ SHARED_SECRET=
 
 NETHERMIND_DEST=/opt/nm/
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
-NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.11.1/nethermind-linux-amd64-1.11.1-919e4cc-20210831.zip"
+NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.12.4/nethermind-linux-amd64-1.12.4-1c8b669-20220113.zip"
 NETHERMIND_RPC="http://localhost:8545"
 
 NGINX_CFG=/etc/nginx/sites-enabled/ta-dashboard.conf
@@ -56,20 +84,16 @@ function create_sealer_pk {
 	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
 	popd >/dev/null
-
 }
 
 
 function install_redis {
-
 	apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
-	#Configure Redis
 	cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
 	sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
 	cp /etc/redis/redis.conf.new /etc/redis/redis.conf
 
 	systemctl restart redis.service
-
 }
 
 
@@ -138,7 +162,7 @@ function refresh_dependencies() {
 
 
 function install_or_update_nethermind() {
-	echo "Installing Nethermind to $NETHERMIND_DEST - configuration will be in $NETHERMIND_CFG"
+	echo "Installing Nethermind to $NETHERMIND_DEST - target $VERISCOPE_TARGET chain - configuration will be in $NETHERMIND_CFG"
 
 	wget -q -O /tmp/nethermind-dist.zip "$NETHERMIND_TARBALL"
 	unzip -qq -d $NETHERMIND_DEST /tmp/nethermind-dist.zip
@@ -147,11 +171,11 @@ function install_or_update_nethermind() {
 
 	if ! test -s "/opt/nm/static-nodes.json"; then
 		echo "Installing default /opt/nm/static-nodes.json"
-		cp vasp_testnet/node_1/static-nodes.json $NETHERMIND_DEST
+		cp chains/$VERISCOPE_TARGET/static-nodes.json $NETHERMIND_DEST
 	fi
-	if ! test -s "/opt/nm/VaspTestnet.json"; then
-		echo "Installing /opt/nm/VaspTestnet.json genesis file"
-		cp vasp_testnet/genesis/VaspTestnet.json $NETHERMIND_DEST
+	if ! test -s "/opt/nm/shyftchainspec.json"; then
+		echo "Installing /opt/nm/shyftchainspec.json genesis file"
+		cp chains/$VERISCOPE_TARGET/shyftchainspec.json $NETHERMIND_DEST
 	fi
 	if ! test -s "/etc/systemd/system/nethermind.service"; then
 		echo "Installing systemd unit for nethermind"
@@ -171,7 +195,7 @@ function install_or_update_nethermind() {
 				 "StoreReceipts" : true,
 				 "EnableUnsecuredDevWallet": false,
 				 "IsMining": true,
-				 "ChainSpecPath": "VaspTestnet.json",
+				 "ChainSpecPath": "shyftchainspec.json",
 				 "BaseDbPath": "nethermind_db/vasp",
 				 "LogFileName": "/var/log/nethermind.log",
 				 "StaticNodesPath": "static-nodes.json"
@@ -196,10 +220,10 @@ function install_or_update_nethermind() {
 			  "EthStats": {
 				"Enabled": true,
 				"Contact": "not-yet",
-				"Secret": "Oogongi4",
+				"Secret": "'$ETHSTATS_SECRET'",
 				"Name": "'$VERISCOPE_SERVICE_HOST'",
-				"Server": "ws://fedstats.veriscope.network/api"
-			  }
+				"Server": "'$ETHSTATS_HOST'"
+			}
 			}' >  $NETHERMIND_CFG
 	fi
 
@@ -306,6 +330,9 @@ function install_or_update_nodejs {
 	su $SERVICE_USER -c "npm install"
 	popd >/dev/null
 
+	echo "Doing chain-specific configuration"
+	cp -r chains/$VERISCOPE_TARGET/artifacts /opt/veriscope/veriscope_ta_node/
+
 	if ! test -s "/etc/systemd/system/ta-node-1.service"; then
 		echo "Activating and restarting node.js services: ta-node-1 ta-node-2"
 		cp scripts/ta-node-1.service /etc/systemd/system/
@@ -398,14 +425,15 @@ function refresh_static_nodes() {
 
 	DEST=/opt/nm/static-nodes.json
 	echo '[' >$DEST
-	wscat -x '{"emit":["ready"]}' --connect ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0 | grep enode | jq '.emit[1].nodes' | grep  -oP '"enode://.*?"'   | sed '$!s/$/,/' | tee -a $DEST
+	wscat -x '{"emit":["ready"]}' --connect $ETHSTATS_GET_ENODES | grep enode | jq '.emit[1].nodes' | grep  -oP '"enode://.*?"'   | sed '$!s/$/,/' | tee -a $DEST
 	echo ']' >>$DEST
+	cat $DEST
 
 	echo
 	echo "Cycling nethermind to obtain enode..."
 	systemctl restart nethermind
 	sleep 25
-	MATCH=`journalctl -u nethermind -n 200 | grep This.node | tail -1`
+	MATCH=`journalctl -u nethermind -n 2000 | grep This.node | tail -1`
 	[[ $MATCH =~ (enode://.+) ]]
 	ENODE=${BASH_REMATCH[1]}
 	echo "This enode: $ENODE . Updating ethstats setting..."

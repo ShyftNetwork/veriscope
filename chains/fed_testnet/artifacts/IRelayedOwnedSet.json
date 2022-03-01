@@ -1,0 +1,257 @@
+{
+  "contractName": "IRelayedOwnedSet",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_relaySet",
+          "type": "address"
+        }
+      ],
+      "name": "setRelay",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_relaySet\",\"type\":\"address\"}],\"name\":\"setRelay\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Interfaces/IRelayedOwnedSet.sol\":\"IRelayedOwnedSet\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Interfaces/IRelayedOwnedSet.sol\":{\"keccak256\":\"0xeef6a43470ae77faf5762829f9e1b54c4e4fc030ced7ba1d133043cc12e32d6d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://eff51cc81d314edfba31fa8c251fb9767631e80035477eecd7b6bb1f82c71495\",\"dweb:/ipfs/QmYsgUWFEAJdKYWiY4bX3dKGBiQ8YHBrpqyhzQEc3dtVdt\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "//SPDX-License-Identifier: UNLICENSED\n\npragma solidity ^0.7.1;\n\ninterface IRelayedOwnedSet {\n\tfunction setRelay(address _relaySet)\n\texternal;\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/Interfaces/IRelayedOwnedSet.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/Interfaces/IRelayedOwnedSet.sol",
+    "exportedSymbols": {
+      "IRelayedOwnedSet": [
+        4534
+      ]
+    },
+    "id": 4535,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4528,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:27"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 4534,
+        "linearizedBaseContracts": [
+          4534
+        ],
+        "name": "IRelayedOwnedSet",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "c805f68b",
+            "id": 4533,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setRelay",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4531,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4530,
+                  "mutability": "mutable",
+                  "name": "_relaySet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4533,
+                  "src": "112:17:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4529,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "112:7:27",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "111:19:27"
+            },
+            "returnParameters": {
+              "id": 4532,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "140:0:27"
+            },
+            "scope": 4534,
+            "src": "94:47:27",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4535,
+        "src": "64:79:27"
+      }
+    ],
+    "src": "39:105:27"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/Interfaces/IRelayedOwnedSet.sol",
+      "exportedSymbols": {
+        "IRelayedOwnedSet": [
+          4534
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 4528,
+        "name": "PragmaDirective",
+        "src": "39:23:27"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4534
+          ],
+          "name": "IRelayedOwnedSet",
+          "scope": 4535
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "c805f68b",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setRelay",
+              "scope": 4534,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_relaySet",
+                      "scope": 4533,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 4529,
+                        "name": "ElementaryTypeName",
+                        "src": "112:7:27"
+                      }
+                    ],
+                    "id": 4530,
+                    "name": "VariableDeclaration",
+                    "src": "112:17:27"
+                  }
+                ],
+                "id": 4531,
+                "name": "ParameterList",
+                "src": "111:19:27"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4532,
+                "name": "ParameterList",
+                "src": "140:0:27"
+              }
+            ],
+            "id": 4533,
+            "name": "FunctionDefinition",
+            "src": "94:47:27"
+          }
+        ],
+        "id": 4534,
+        "name": "ContractDefinition",
+        "src": "64:79:27"
+      }
+    ],
+    "id": 4535,
+    "name": "SourceUnit",
+    "src": "39:105:27"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-02-22T18:23:50.051Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

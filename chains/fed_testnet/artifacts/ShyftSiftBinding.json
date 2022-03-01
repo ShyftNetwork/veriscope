@@ -1,0 +1,123 @@
+{
+  "contractName": "ShyftSiftBinding",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ShyftSiftBinding.sol\":\"ShyftSiftBinding\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/ShyftSiftBinding.sol\":{\"keccak256\":\"0x989cf834213ded14afe2da21e905d3cd5ddcae2644070bca18ca60af56f2f206\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://5855ea0c03e443feb2a4d49be4e576a3b5361428ca32cbd6ba9753c6fd586f20\",\"dweb:/ipfs/QmbxEK5RzWi4QPHAvPipD4s8oKu3AXDiyAgW9iYczqJq42\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220b25c89598a17900fa1179c8801e2c14b83817fe5f331600f9308d7af15fc11ac64736f6c63430007010033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220b25c89598a17900fa1179c8801e2c14b83817fe5f331600f9308d7af15fc11ac64736f6c63430007010033",
+  "immutableReferences": {},
+  "sourceMap": "63:31:72:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "63:31:72:-:0;;;;;",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ncontract ShyftSiftBinding {\n\n\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/ShyftSiftBinding.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ShyftSiftBinding.sol",
+    "exportedSymbols": {
+      "ShyftSiftBinding": [
+        45579
+      ]
+    },
+    "id": 45580,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 45578,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:72"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 45579,
+        "linearizedBaseContracts": [
+          45579
+        ],
+        "name": "ShyftSiftBinding",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 45580,
+        "src": "63:31:72"
+      }
+    ],
+    "src": "0:95:72"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/ShyftSiftBinding.sol",
+      "exportedSymbols": {
+        "ShyftSiftBinding": [
+          45579
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 45578,
+        "name": "PragmaDirective",
+        "src": "0:23:72"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            45579
+          ],
+          "name": "ShyftSiftBinding",
+          "nodes": [
+            null
+          ],
+          "scope": 45580
+        },
+        "id": 45579,
+        "name": "ContractDefinition",
+        "src": "63:31:72"
+      }
+    ],
+    "id": 45580,
+    "name": "SourceUnit",
+    "src": "0:95:72"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-02-22T18:23:51.010Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

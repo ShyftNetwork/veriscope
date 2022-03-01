@@ -1,0 +1,257 @@
+{
+  "contractName": "IOwned",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_new",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_new\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/opt/shyft-ta-node/contracts/Interfaces/IOwned.sol\":\"IOwned\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/opt/shyft-ta-node/contracts/Interfaces/IOwned.sol\":{\"keccak256\":\"0x3134308ef8226ba18d69e0cff3f11fcd05051f212c7d27fc5ab0c658a48357bf\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://c3db15ffdafe5535a3c4864bb03a71c62fa890e19a7d85c944034139d65be537\",\"dweb:/ipfs/QmTc24iu86wbdq9oN2g7EW3Xae1LLjeTDdwNwzYexx3U7y\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ninterface IOwned {\n    function setOwner(address _new)\n    external;\n}\n",
+  "sourcePath": "/opt/shyft-ta-node/contracts/Interfaces/IOwned.sol",
+  "ast": {
+    "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/IOwned.sol",
+    "exportedSymbols": {
+      "IOwned": [
+        2675
+      ]
+    },
+    "id": 2676,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2669,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:17"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 2675,
+        "linearizedBaseContracts": [
+          2675
+        ],
+        "name": "IOwned",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "13af4035",
+            "id": 2674,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setOwner",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2672,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2671,
+                  "mutability": "mutable",
+                  "name": "_new",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2674,
+                  "src": "104:12:17",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2670,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "104:7:17",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "103:14:17"
+            },
+            "returnParameters": {
+              "id": 2673,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "130:0:17"
+            },
+            "scope": 2675,
+            "src": "86:45:17",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2676,
+        "src": "63:70:17"
+      }
+    ],
+    "src": "0:134:17"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/IOwned.sol",
+      "exportedSymbols": {
+        "IOwned": [
+          2675
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 2669,
+        "name": "PragmaDirective",
+        "src": "0:23:17"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2675
+          ],
+          "name": "IOwned",
+          "scope": 2676
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "13af4035",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setOwner",
+              "scope": 2675,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_new",
+                      "scope": 2674,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 2670,
+                        "name": "ElementaryTypeName",
+                        "src": "104:7:17"
+                      }
+                    ],
+                    "id": 2671,
+                    "name": "VariableDeclaration",
+                    "src": "104:12:17"
+                  }
+                ],
+                "id": 2672,
+                "name": "ParameterList",
+                "src": "103:14:17"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2673,
+                "name": "ParameterList",
+                "src": "130:0:17"
+              }
+            ],
+            "id": 2674,
+            "name": "FunctionDefinition",
+            "src": "86:45:17"
+          }
+        ],
+        "id": 2675,
+        "name": "ContractDefinition",
+        "src": "63:70:17"
+      }
+    ],
+    "id": 2676,
+    "name": "SourceUnit",
+    "src": "0:134:17"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-09-16T18:31:15.265Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "contractName": "IRelayedOwnedSet",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_relaySet",
+          "type": "address"
+        }
+      ],
+      "name": "setRelay",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_relaySet\",\"type\":\"address\"}],\"name\":\"setRelay\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/opt/shyft-ta-node/contracts/Interfaces/IRelayedOwnedSet.sol\":\"IRelayedOwnedSet\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/opt/shyft-ta-node/contracts/Interfaces/IRelayedOwnedSet.sol\":{\"keccak256\":\"0xeef6a43470ae77faf5762829f9e1b54c4e4fc030ced7ba1d133043cc12e32d6d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://eff51cc81d314edfba31fa8c251fb9767631e80035477eecd7b6bb1f82c71495\",\"dweb:/ipfs/QmYsgUWFEAJdKYWiY4bX3dKGBiQ8YHBrpqyhzQEc3dtVdt\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "//SPDX-License-Identifier: UNLICENSED\n\npragma solidity ^0.7.1;\n\ninterface IRelayedOwnedSet {\n\tfunction setRelay(address _relaySet)\n\texternal;\n}\n",
+  "sourcePath": "/opt/shyft-ta-node/contracts/Interfaces/IRelayedOwnedSet.sol",
+  "ast": {
+    "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/IRelayedOwnedSet.sol",
+    "exportedSymbols": {
+      "IRelayedOwnedSet": [
+        2696
+      ]
+    },
+    "id": 2697,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2690,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:19"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 2696,
+        "linearizedBaseContracts": [
+          2696
+        ],
+        "name": "IRelayedOwnedSet",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "c805f68b",
+            "id": 2695,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setRelay",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2693,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2692,
+                  "mutability": "mutable",
+                  "name": "_relaySet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2695,
+                  "src": "112:17:19",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2691,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "112:7:19",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "111:19:19"
+            },
+            "returnParameters": {
+              "id": 2694,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "140:0:19"
+            },
+            "scope": 2696,
+            "src": "94:47:19",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2697,
+        "src": "64:79:19"
+      }
+    ],
+    "src": "39:105:19"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/IRelayedOwnedSet.sol",
+      "exportedSymbols": {
+        "IRelayedOwnedSet": [
+          2696
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 2690,
+        "name": "PragmaDirective",
+        "src": "39:23:19"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2696
+          ],
+          "name": "IRelayedOwnedSet",
+          "scope": 2697
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "c805f68b",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setRelay",
+              "scope": 2696,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_relaySet",
+                      "scope": 2695,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 2691,
+                        "name": "ElementaryTypeName",
+                        "src": "112:7:19"
+                      }
+                    ],
+                    "id": 2692,
+                    "name": "VariableDeclaration",
+                    "src": "112:17:19"
+                  }
+                ],
+                "id": 2693,
+                "name": "ParameterList",
+                "src": "111:19:19"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2694,
+                "name": "ParameterList",
+                "src": "140:0:19"
+              }
+            ],
+            "id": 2695,
+            "name": "FunctionDefinition",
+            "src": "94:47:19"
+          }
+        ],
+        "id": 2696,
+        "name": "ContractDefinition",
+        "src": "64:79:19"
+      }
+    ],
+    "id": 2697,
+    "name": "SourceUnit",
+    "src": "39:105:19"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-09-16T18:31:15.266Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

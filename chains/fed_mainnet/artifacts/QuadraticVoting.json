@@ -1,0 +1,213 @@
+{
+  "contractName": "QuadraticVoting",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/QuadraticVoting.sol\":\"QuadraticVoting\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/QuadraticVoting.sol\":{\"keccak256\":\"0x6298250678b6a702694a71a20f593ec4cd9134e5a4b5601b6a388a590366e3ad\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://57b58b18b52cf86bbd9751af6398e08f29d6e6010837ed9ea83ae870158e4cdb\",\"dweb:/ipfs/Qmcgu4cxTWHX6wEm3DMEA6KWztBGuNsZhkFxiEYkGTFoX4\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220d0a0d06791c750fdaab63a750abea17e112be5e6b588d90af57d9fb8373274f364736f6c63430007010033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220d0a0d06791c750fdaab63a750abea17e112be5e6b588d90af57d9fb8373274f364736f6c63430007010033",
+  "immutableReferences": {},
+  "sourceMap": "63:55:57:-:0;;;94:22;;;;;;;;;;63:55;;;;;;",
+  "deployedSourceMap": "63:55:57:-:0;;;;;",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ncontract QuadraticVoting {\n    constructor() {\n\n    }\n}\n",
+  "sourcePath": "/home/ubuntu/shyft_shyftcorecontracts/contracts/QuadraticVoting.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/QuadraticVoting.sol",
+    "exportedSymbols": {
+      "QuadraticVoting": [
+        19420
+      ]
+    },
+    "id": 19421,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 19415,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:57"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 19420,
+        "linearizedBaseContracts": [
+          19420
+        ],
+        "name": "QuadraticVoting",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 19418,
+              "nodeType": "Block",
+              "src": "108:8:57",
+              "statements": []
+            },
+            "id": 19419,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 19416,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "105:2:57"
+            },
+            "returnParameters": {
+              "id": 19417,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "108:0:57"
+            },
+            "scope": 19420,
+            "src": "94:22:57",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 19421,
+        "src": "63:55:57"
+      }
+    ],
+    "src": "0:119:57"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/QuadraticVoting.sol",
+      "exportedSymbols": {
+        "QuadraticVoting": [
+          19420
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 19415,
+        "name": "PragmaDirective",
+        "src": "0:23:57"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            19420
+          ],
+          "name": "QuadraticVoting",
+          "scope": 19421
+        },
+        "children": [
+          {
+            "attributes": {
+              "implemented": true,
+              "isConstructor": true,
+              "kind": "constructor",
+              "modifiers": [
+                null
+              ],
+              "name": "",
+              "scope": 19420,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 19416,
+                "name": "ParameterList",
+                "src": "105:2:57"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 19417,
+                "name": "ParameterList",
+                "src": "108:0:57"
+              },
+              {
+                "attributes": {
+                  "statements": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 19418,
+                "name": "Block",
+                "src": "108:8:57"
+              }
+            ],
+            "id": 19419,
+            "name": "FunctionDefinition",
+            "src": "94:22:57"
+          }
+        ],
+        "id": 19420,
+        "name": "ContractDefinition",
+        "src": "63:55:57"
+      }
+    ],
+    "id": 19421,
+    "name": "SourceUnit",
+    "src": "0:119:57"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-24T18:25:47.738Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

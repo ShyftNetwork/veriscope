@@ -1,0 +1,525 @@
+{
+  "contractName": "ITrustChannelRules",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.1+commit.f4a555be\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol\":\"ITrustChannelRules\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol\":{\"keccak256\":\"0xf1c935edd003a85321dc10df2e25a9dee098ed343b2182350c39d77190c8d41e\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://599c56a0f1d040cc5fca7c2a1f02a89019646a0d3c4ee48a6bb49bd13e01c2f8\",\"dweb:/ipfs/QmbiAeo5GUi7KJpsDgUZASbXMPUPvHyLXYJ4RevPQQE1Fh\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.7.1;\n//SPDX-License-Identifier: UNLICENSED\n\ninterface ITrustChannelRules {\n    //\"rulesStorage\" keys below substructured such that there are:\n    // for every rule type (index R):\n    //\n    // 0 -> generalized storage\n    // R * 2**8 + N = Rule storage N, where N < 256.\n    //\n    // [0]: must have verification policy\n    // [1]: allow transit across other channels\n    //  .   [1 * 2**8 + 0] [#256-bit bit field#]: trust channel map A\n    //  .   [1 * 2**8 + 1] [#256-bit bit field#]: trust channel map B\n    //  .   [1 * 2**8 + 2] [#256-bit bit field#]: trust channel map C\n    //  .   [1 * 2**8 + 3] [#256-bit bit field#]: trust channel map D\n    //      ...    note: > 2048 possible trust channels, it is not limited in this contract.\n    // [2]: allow transit across jurisdiction\n    //  .   [2 * 2**8 + 0] [#256-bit bitfield] for jurisdictions allowed under this bit field (0 -> 255)\n    //  .   [2 * 2**8 + 1] [#256-bit bitfield] for jurisdictions allowed under this bit field (255 -> 511)\n    //  .   [2 * 2**8 + 2] [#256-bit bitfield] for jurisdictions allowed under this bit field (511 -> 767)\n    //  .   [2 * 2**8 + 3] [#256-bit bitfield] for jurisdictions allowed under this bit field (767 -> 1023)\n    //      ...    note: > 2048 possible jurisdictions, it is not limited in this contract.\n    // [3]: minimum synthetic kyc level required\n    //  .   [3 * 2**8 + 0] [#16-bit signed integer] kyc level required minimum across all jurisdictions\n\n    //@note: bloom filters aren't considered for the moment while the bit field allows direct comparison.\n    //  .   [0] [#256-bit bloom filter#] bloom filter for jurisdiction phase A << within rulesStorage keccack256(trustChannelKeccak, TrustChannelRules.AllowTransitAcrossJurisdiction, \"A\")\n    //          1 in 256**2 chance of collision\n    //  .   [1] [#256-bit bloom filter#] bloom filter for jurisdiction phase B << within rulesStorage keccack256(trustChannelKeccak, TrustChannelRules.AllowTransitAcrossJurisdiction, \"B\")\n    //          1 in 256**3 chance of collision\n    //  .   [2] [#256-bit bloom filter#] bloom filter for jurisdiction phase C << within rulesStorage keccack256(trustChannelKeccak, TrustChannelRules.AllowTransitAcrossJurisdiction, \"C\")\n    //          1 in 256**4 chance of collision\n    //  .   [3] [#256-bit bloom filter#] bloom filter for jurisdiction phase D << within rulesStorage keccack256(trustChannelKeccak, TrustChannelRules.AllowTransitAcrossJurisdiction, \"D\")\n\n    //minimumSyntheticKyLevelRequired\n\n    struct trustChannelRules {\n        bool isActive;\n        //256-bit bit field, to account for 256 individual possible rules.\n        uint256 rulesActive;\n        bytes32 trustChannelKeccak;\n        mapping(uint16 => bytes32) rulesStorage;\n    }\n\n    enum trustChannelRulesEnum {\n        VerificationPolicyEnforced,\n        AllowTransitAcrossOtherChannels,\n        AllowTransitAcrossJurisdictions,\n        MinimumSyntheticKycLevelRequired,\n        AmountLimitsEnforced,\n        ExternalRoutingContractEnforced,\n        AssuredAssetsEnabled,\n        NumTrustChannelRules\n    }\n}\n",
+  "sourcePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol",
+  "ast": {
+    "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol",
+    "exportedSymbols": {
+      "ITrustChannelRules": [
+        4184
+      ]
+    },
+    "id": 4185,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4163,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:32"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "id": 4184,
+        "linearizedBaseContracts": [
+          4184
+        ],
+        "name": "ITrustChannelRules",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ITrustChannelRules.trustChannelRules",
+            "id": 4174,
+            "members": [
+              {
+                "constant": false,
+                "id": 4165,
+                "mutability": "mutable",
+                "name": "isActive",
+                "nodeType": "VariableDeclaration",
+                "scope": 4174,
+                "src": "2561:13:32",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 4164,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2561:4:32",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 4167,
+                "mutability": "mutable",
+                "name": "rulesActive",
+                "nodeType": "VariableDeclaration",
+                "scope": 4174,
+                "src": "2659:19:32",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 4166,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2659:7:32",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 4169,
+                "mutability": "mutable",
+                "name": "trustChannelKeccak",
+                "nodeType": "VariableDeclaration",
+                "scope": 4174,
+                "src": "2688:26:32",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 4168,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2688:7:32",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 4173,
+                "mutability": "mutable",
+                "name": "rulesStorage",
+                "nodeType": "VariableDeclaration",
+                "scope": 4174,
+                "src": "2724:39:32",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_uint16_$_t_bytes32_$",
+                  "typeString": "mapping(uint16 => bytes32)"
+                },
+                "typeName": {
+                  "id": 4172,
+                  "keyType": {
+                    "id": 4170,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2732:6:32",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "2724:26:32",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_uint16_$_t_bytes32_$",
+                    "typeString": "mapping(uint16 => bytes32)"
+                  },
+                  "valueType": {
+                    "id": 4171,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2742:7:32",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "trustChannelRules",
+            "nodeType": "StructDefinition",
+            "scope": 4184,
+            "src": "2526:244:32",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ITrustChannelRules.trustChannelRulesEnum",
+            "id": 4183,
+            "members": [
+              {
+                "id": 4175,
+                "name": "VerificationPolicyEnforced",
+                "nodeType": "EnumValue",
+                "src": "2813:26:32"
+              },
+              {
+                "id": 4176,
+                "name": "AllowTransitAcrossOtherChannels",
+                "nodeType": "EnumValue",
+                "src": "2849:31:32"
+              },
+              {
+                "id": 4177,
+                "name": "AllowTransitAcrossJurisdictions",
+                "nodeType": "EnumValue",
+                "src": "2890:31:32"
+              },
+              {
+                "id": 4178,
+                "name": "MinimumSyntheticKycLevelRequired",
+                "nodeType": "EnumValue",
+                "src": "2931:32:32"
+              },
+              {
+                "id": 4179,
+                "name": "AmountLimitsEnforced",
+                "nodeType": "EnumValue",
+                "src": "2973:20:32"
+              },
+              {
+                "id": 4180,
+                "name": "ExternalRoutingContractEnforced",
+                "nodeType": "EnumValue",
+                "src": "3003:31:32"
+              },
+              {
+                "id": 4181,
+                "name": "AssuredAssetsEnabled",
+                "nodeType": "EnumValue",
+                "src": "3044:20:32"
+              },
+              {
+                "id": 4182,
+                "name": "NumTrustChannelRules",
+                "nodeType": "EnumValue",
+                "src": "3074:20:32"
+              }
+            ],
+            "name": "trustChannelRulesEnum",
+            "nodeType": "EnumDefinition",
+            "src": "2776:324:32"
+          }
+        ],
+        "scope": 4185,
+        "src": "63:3039:32"
+      }
+    ],
+    "src": "0:3103:32"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/opt/shyft-ta-node/contracts/Interfaces/ITrustChannelRules.sol",
+      "exportedSymbols": {
+        "ITrustChannelRules": [
+          4184
+        ]
+      },
+      "license": "UNLICENSED"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".1"
+          ]
+        },
+        "id": 4163,
+        "name": "PragmaDirective",
+        "src": "0:23:32"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4184
+          ],
+          "name": "ITrustChannelRules",
+          "scope": 4185
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "ITrustChannelRules.trustChannelRules",
+              "name": "trustChannelRules",
+              "scope": 4184,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "isActive",
+                  "scope": 4174,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bool",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bool",
+                      "type": "bool"
+                    },
+                    "id": 4164,
+                    "name": "ElementaryTypeName",
+                    "src": "2561:4:32"
+                  }
+                ],
+                "id": 4165,
+                "name": "VariableDeclaration",
+                "src": "2561:13:32"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "rulesActive",
+                  "scope": 4174,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4166,
+                    "name": "ElementaryTypeName",
+                    "src": "2659:7:32"
+                  }
+                ],
+                "id": 4167,
+                "name": "VariableDeclaration",
+                "src": "2659:19:32"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "trustChannelKeccak",
+                  "scope": 4174,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 4168,
+                    "name": "ElementaryTypeName",
+                    "src": "2688:7:32"
+                  }
+                ],
+                "id": 4169,
+                "name": "VariableDeclaration",
+                "src": "2688:26:32"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "rulesStorage",
+                  "scope": 4174,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(uint16 => bytes32)",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(uint16 => bytes32)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint16",
+                          "type": "uint16"
+                        },
+                        "id": 4170,
+                        "name": "ElementaryTypeName",
+                        "src": "2732:6:32"
+                      },
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4171,
+                        "name": "ElementaryTypeName",
+                        "src": "2742:7:32"
+                      }
+                    ],
+                    "id": 4172,
+                    "name": "Mapping",
+                    "src": "2724:26:32"
+                  }
+                ],
+                "id": 4173,
+                "name": "VariableDeclaration",
+                "src": "2724:39:32"
+              }
+            ],
+            "id": 4174,
+            "name": "StructDefinition",
+            "src": "2526:244:32"
+          },
+          {
+            "attributes": {
+              "canonicalName": "ITrustChannelRules.trustChannelRulesEnum",
+              "name": "trustChannelRulesEnum"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "VerificationPolicyEnforced"
+                },
+                "id": 4175,
+                "name": "EnumValue",
+                "src": "2813:26:32"
+              },
+              {
+                "attributes": {
+                  "name": "AllowTransitAcrossOtherChannels"
+                },
+                "id": 4176,
+                "name": "EnumValue",
+                "src": "2849:31:32"
+              },
+              {
+                "attributes": {
+                  "name": "AllowTransitAcrossJurisdictions"
+                },
+                "id": 4177,
+                "name": "EnumValue",
+                "src": "2890:31:32"
+              },
+              {
+                "attributes": {
+                  "name": "MinimumSyntheticKycLevelRequired"
+                },
+                "id": 4178,
+                "name": "EnumValue",
+                "src": "2931:32:32"
+              },
+              {
+                "attributes": {
+                  "name": "AmountLimitsEnforced"
+                },
+                "id": 4179,
+                "name": "EnumValue",
+                "src": "2973:20:32"
+              },
+              {
+                "attributes": {
+                  "name": "ExternalRoutingContractEnforced"
+                },
+                "id": 4180,
+                "name": "EnumValue",
+                "src": "3003:31:32"
+              },
+              {
+                "attributes": {
+                  "name": "AssuredAssetsEnabled"
+                },
+                "id": 4181,
+                "name": "EnumValue",
+                "src": "3044:20:32"
+              },
+              {
+                "attributes": {
+                  "name": "NumTrustChannelRules"
+                },
+                "id": 4182,
+                "name": "EnumValue",
+                "src": "3074:20:32"
+              }
+            ],
+            "id": 4183,
+            "name": "EnumDefinition",
+            "src": "2776:324:32"
+          }
+        ],
+        "id": 4184,
+        "name": "ContractDefinition",
+        "src": "63:3039:32"
+      }
+    ],
+    "id": 4185,
+    "name": "SourceUnit",
+    "src": "0:3103:32"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.1+commit.f4a555be.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-09-16T18:31:15.286Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
