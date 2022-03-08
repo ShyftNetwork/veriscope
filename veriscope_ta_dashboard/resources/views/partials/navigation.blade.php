@@ -53,6 +53,7 @@
         @endif
         @if(Auth::user()->inGroup('admin'))
           <li id="sub-dashboard"><img src="/images/nav-icons/dashboard.svg" width="20" height="20"> <a href="{{ route('backoffice.dashboard') }}">Dashboard</a></li>
+          <li id="sub-users"><a href="{{ route('horizon.index') }}" target="_blank">Horizon</a></li>
           <li id="sub-users"><a href="{{ route('arena.auth') }}" target="_blank">Arena</a></li>
           <li id="sub-users"><a href="{{ route('token.index') }}">API Tokens</a></li>
           <li id="sub-users"><img src="/images/nav-icons/users.svg" width="20" height="20"> <a href="{{ route('kyctemplates.index') }}">Kyc Templates</a></li>
