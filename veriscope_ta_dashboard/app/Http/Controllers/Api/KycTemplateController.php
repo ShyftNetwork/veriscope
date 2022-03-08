@@ -124,7 +124,9 @@ class KycTemplateController extends Controller
                     ['field' => 'Beneficiary KYC', 'data'  => $result['beneficiary_kyc']],
                     ['field' => 'Originator KYC', 'data'  => $result['sender_kyc']],
                     ['field' => 'Beneficiary KYC Decrypt', 'data'  => $result['beneficiary_kyc_decrypt']],
-                    ['field' => 'Originator KYC Decrypt', 'data'  => $result['sender_kyc_decrypt']]
+                    ['field' => 'Originator KYC Decrypt', 'data'  => $result['sender_kyc_decrypt']],
+                    ['field' => 'Beneficiary API_URL', 'data'  => $result['beneficiary_ta_url']],
+                    ['field' => 'Originator API_URL', 'data'  => $result['sender_ta_url']]
                   ];
 
 

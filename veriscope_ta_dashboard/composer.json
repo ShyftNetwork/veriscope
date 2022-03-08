@@ -15,8 +15,10 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "abagayev/laravel-migration-shortcuts": "*",
         "bacon/bacon-qr-code": "^2.0",
         "beyondcode/laravel-websockets": "^1.12",
+        "digitaldonkey/ecverify": "^1.0",
         "doctrine/dbal": "^3.1",
         "firebase/php-jwt": "^5.5",
         "fruitcake/laravel-cors": "^2.0",
@@ -24,6 +26,7 @@
         "httpoz/roles": "master",
         "kornrunner/ethereum-address": "^0.3.0",
         "laravel/framework": "^8.54",
+        "laravel/horizon": "^5.8",
         "laravel/legacy-factories": "^1.1",
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
@@ -31,16 +34,18 @@
         "laravelcollective/html": "^6.2",
         "league/csv": "^9.7",
         "league/glide-laravel": "^1.0",
+        "msztorc/laravel-env": "^1.2",
         "opis/json-schema": "^2.2",
         "pragmarx/google2fa-laravel": "^1.4",
+        "psychob/ethereum-address-validator": "dev-master",
         "richardstyles/eloquentencryption": "v3.1.0",
         "s-ichikawa/laravel-sendgrid-driver": "^3.0",
         "sebdesign/laravel-state-machine": "^3.2",
         "sentry/sentry-laravel": "^2.8",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "simplito/elliptic-php": "^1.0",
         "spatie/laravel-activitylog": "^4.1",
-        "psychob/ethereum-address-validator": "dev-master",
-        "msztorc/laravel-env": "^1.2"
+        "spatie/laravel-webhook-server": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -72,7 +77,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi",
-            "@php artisan vendor:publish --provider='RichardStyles\\EloquentEncryption\\EloquentEncryptionServiceProvider' --tag='config'"
+            "@php artisan vendor:publish --provider='RichardStyles\\EloquentEncryption\\EloquentEncryptionServiceProvider' --tag='config'",
+            "@php artisan horizon:publish --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use App\Http\Requests\SetAttestationRequest;
 use App\{Country};
 use kornrunner\Ethereum\Address;
-
+use App\Support\EthereumToolsUtils;
 
 class ContractsController extends Controller
 {
@@ -66,11 +66,26 @@ class ContractsController extends Controller
       {
 
           $data = new Address();
+          $data = [
+            'address' => strtolower($data->get()),
+            'privateKey' => $data->getPrivateKey(),
+            'publicKey'  => $data->getPublicKey(),
+          ];
+
+          $message = "VERISCOPE_USER";
+          $signed_message = EthereumToolsUtils::personalSign( $data['privateKey'], $message, 1);
 
           return response()->json([
-            'address' => "0x".$data->get(),
-            'privateKey' => $data->getPrivateKey(),
-            'publicKey' => $data->getPublicKey()
+            'account_address' => "0x".$data['address'],
+            'private_key' => $data['privateKey'],
+            'public_key' => $data['publicKey'],
+            'message' => $message,
+            'signature_hash' => $signed_message["hash"],
+            'signature' => [
+              'r' => $signed_message["r"],
+              's' => $signed_message["s"],
+              'v' => $signed_message["v"]
+            ]
           ]);
       }
 

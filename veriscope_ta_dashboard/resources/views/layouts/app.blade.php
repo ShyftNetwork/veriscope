@@ -64,10 +64,6 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/globe.css" rel="stylesheet">
 
-
-
-  <!-- End Google Tag Manager -->
-
   <!-- JS Accessible Flag -->
   <script>
     document.documentElement.className = (document.documentElement.className !== '') ? ' js' : 'js';

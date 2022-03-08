@@ -17,5 +17,5 @@ class SmartContractAttestation extends Model
      *
      * @var array
      */
-    protected $searchable = ['ta_account', 'attestation_hash', 'transaction_hash', 'user_account'];
+    protected $searchable = ['ta_account', 'attestation_hash', 'transaction_hash', 'user_account', 'documents_matrix_encrypted_decoded'];
 }

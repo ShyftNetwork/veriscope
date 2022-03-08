@@ -33,6 +33,16 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('verify_trust_anchor/{address}','TrustAnchorController@verify_trust_anchor');
         Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
 
+        # for KYC Template
+        Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
+        Route::get('get_attestations','TrustAnchorController@get_attestations');
+        Route::post('create_kyc_template','TrustAnchorController@create_kyc_template');
+        Route::get('get_kyc_templates','TrustAnchorController@get_kyc_templates');
+        Route::get('get_trust_anchor_api_url','TrustAnchorController@get_trust_anchor_api_url');
+        Route::post('encrypt_ivms','TrustAnchorController@encrypt_ivms');
+        Route::post('decrypt_ivms','TrustAnchorController@decrypt_ivms');
+        Route::get('recover_signature','TrustAnchorController@recover_signature');
+
     });
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
