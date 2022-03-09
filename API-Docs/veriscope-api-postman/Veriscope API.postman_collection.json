@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "aec4b3c2-e112-462b-9204-d8d74f3bb20b",
+		"_postman_id": "8f8140c9-19ae-4e71-8031-35d1806c07b6",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -195,7 +195,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/[INSERT TA ACCOUNT]",
+					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -204,7 +204,7 @@
 						"v1",
 						"server",
 						"verify_trust_anchor",
-						"[INSERT TA ACCOUNT]"
+						"0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892"
 					]
 				}
 			},
@@ -590,7 +590,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"type\":\"BeneficiaryUser\",\n    \"template\": {\n        \"BeneficiaryUserAddress\":\"0x2312e5209760aF088338CE7765531333F3F0e265\",\n        \"BeneficiaryUserPublicKey\":\"0a3a43061bdd42b1adc029e64be48503c0b4ec717d092bf37f83d40ab526cd44c88c33945ae598e2bd234f7d9c8096f4b26d1833d393f95c444531c53a377f6d\",\n        \"BeneficiaryUserSignatureHash\":\"0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f\",\n        \"BeneficiaryUserSignature\":{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}\n    }\n}",
+					"raw": "{\n    \"type\":\"BeneficiaryTA\",\n    \"template\": {\n        \"BeneficiaryTAAddress\":\"0x2312e5209760aF088338CE7765531333F3F0e265\",\n        \"BeneficiaryTAPublicKey\":\"0a3a43061bdd42b1adc029e64be48503c0b4ec717d092bf37f83d40ab526cd44c88c33945ae598e2bd234f7d9c8096f4b26d1833d393f95c444531c53a377f6d\",\n        \"BeneficiaryTASignatureHash\":\"0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f\",\n        \"BeneficiaryTASignature\":{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -613,7 +613,7 @@
 			"response": []
 		},
 		{
-			"name": "Recover Originator TA Signature Copy",
+			"name": "Recover Originator TA Signature",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -697,7 +697,7 @@
 			"response": []
 		},
 		{
-			"name": "Recover Originator User Signature Copy",
+			"name": "Recover Originator User Signature",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
