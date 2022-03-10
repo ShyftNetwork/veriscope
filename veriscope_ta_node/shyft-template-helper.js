@@ -140,14 +140,16 @@ function TARecover(template, type) {
         returnMessage['publicKey'] = 'no match for type: ' + type;
     }
 
-    var address = getEthAddressFromPublicKey(pubkeyString);
-    if (address === template['BeneficiaryTAAddress']) {
+    var address = getEthAddressFromPublicKey(pubkeyString).toLowerCase();
+
+    
+    if (type === 'BeneficiaryTA' && address === template['BeneficiaryTAAddress'].toLowerCase()) {
         returnMessage['beneficiaryTAAddress'] = 'found match';
-    } else if (address === template['BeneficiaryUserAddress']) {
+    } else if (type === 'BeneficiaryUser' && address === template['BeneficiaryUserAddress'].toLowerCase()) {
         returnMessage['beneficiaryUserAddress'] = 'found match';
-    } else if (address === template['SenderTAAddress']) {
+    } else if (type === 'SenderTA' && address === template['SenderTAAddress'].toLowerCase()) {
         returnMessage['senderTAAddress'] = 'found match';
-    } else if (address === template['SenderUserAddress']) {
+    } else if (type === 'SenderUser' && address === template['SenderUserAddress'].toLowerCase()) {
         returnMessage['senderUserAddress'] = 'found match';
     } else {
         returnMessage['address'] = 'no match for type: ' + type;
