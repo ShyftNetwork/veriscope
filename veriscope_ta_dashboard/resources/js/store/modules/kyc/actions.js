@@ -11,7 +11,17 @@ import {
     LOAD_STATES_FAIL,
     LOAD_USER,
     LOAD_USER_SUCCESS,
-    LOAD_USER_FAIL
+    LOAD_USER_FAIL,
+    LOAD_BA_PROVIDERS,
+    LOAD_BA_PROVIDERS_SUCCESS,
+    LOAD_BA_PROVIDERS_FAIL,
+    LOAD_BA_PROVIDERS_NETWORKS,
+    LOAD_BA_PROVIDERS_NETWORKS_SUCCESS,
+    LOAD_BA_PROVIDERS_NETWORKS_FAIL,
+    CREATE_BA_REPORT,
+    CREATE_BA_REPORT_SUCCESS,
+    CREATE_BA_REPORT_FAIL,
+
 } from '../../mutation-types';
 
 export const actions = {
@@ -156,5 +166,52 @@ export const actions = {
                 }
                 commit(SUBMIT_USER_FAIL, submissionResponse);
             });
-    }
+    },
+    /**
+     * Get the BA Providers Data Load
+     * @param {object} context - Context provided by vuex
+     * @returns {promise}
+     */
+     [LOAD_BA_PROVIDERS]({ commit }) {
+        return axios.get('baProviders')
+            .then(({ data }) => {
+                commit(LOAD_BA_PROVIDERS_SUCCESS, data);
+                return data;
+            })
+            .catch((response) => {
+                commit(LOAD_BA_PROVIDERS_FAIL);
+            });
+    },
+    /**
+     * Get the BA Providers Networks Data Load
+     * @param {object} context - Context provided by vuex
+     * @returns {promise}
+     */
+    [LOAD_BA_PROVIDERS_NETWORKS]({ commit }, {id}) {
+        return axios.get(`baProviders/${id}`)
+            .then(({ data }) => {
+                commit(LOAD_BA_PROVIDERS_NETWORKS_SUCCESS, data);
+                return data;
+            })
+            .catch((response) => {
+                commit(LOAD_BA_PROVIDERS_NETWORKS_FAIL);
+            });
+    },
+    /**
+     * Create BA report
+     * @param {object} context - Context provided by vuex
+     * @returns {promise}
+     */
+    [CREATE_BA_REPORT]({ commit, getters }, payload) {
+        return axios.post(`create-blockchain-analytics-report/${getters.UID}`, payload)
+            .then(response => {
+                return response;
+            })
+            .catch(error => {
+                commit(CREATE_BA_REPORT_FAIL, submissionResponse);
+            });
+    },
+
+    
+    
 };

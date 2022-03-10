@@ -342,7 +342,8 @@ class WebhookController extends Controller
             $taua = new TrustAnchorUserAttestation();
             $taua->trust_anchor_id = $ta->id;
             $taua->trust_anchor_user_id = $tau->id;
-            $taua->attestation_hash = $result['resultAttestationKeccak'];
+            // resultAttestationKeccak replaced with transaction hash
+            $taua->attestation_hash = $result['hash'];
             $taua->save();
 
 

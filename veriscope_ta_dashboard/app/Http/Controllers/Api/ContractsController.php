@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\{User,Country,TrustAnchor, TrustAnchorUser, TrustAnchorUserAttestation, TrustAnchorUserCryptoAddress, TrustAnchorAssociationCrypto, CryptoWalletAddress, TrustAnchorExtraData, DiscoveryLayerKey};
 use GuzzleHttp\Client;
+use App\Http\Controllers\BlockchainAnalytics\BlockchainAnalyticsController;
 
 class ContractsController extends Controller
 {
@@ -355,7 +356,7 @@ class ContractsController extends Controller
           } else {
               Log::error('ContractsController ta_set_attestation: ' . $res->getStatusCode());
           }
-
+          (new BlockchainAnalyticsController($input, $user));
           return response()->json([]);
       }
 

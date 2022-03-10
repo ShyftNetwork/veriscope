@@ -13,7 +13,12 @@ import {
     SET_UI_COUNTRY,
     SET_UI_STATE,
     UPDATE_USER_COUNTRY,
-    UPDATE_USER_STATE
+    UPDATE_USER_STATE,
+    LOAD_BA_PROVIDERS_SUCCESS,
+    LOAD_BA_PROVIDERS_FAIL,
+    LOAD_BA_PROVIDERS_NETWORKS_SUCCESS,
+    LOAD_BA_PROVIDERS_NETWORKS_FAIL,
+    CREATE_BA_REPORT_SUCCESS
 } from '../../mutation-types';
 
 export const mutations = {
@@ -198,5 +203,53 @@ export const mutations = {
      */
     [UPDATE_USER_STATE](state, value=null) {
         state.userStateValue = (value && value.name) ? value.name : null;
+    },
+    /**
+     * Used to load the blockchain analytics providers data
+     *
+     */
+     [LOAD_BA_PROVIDERS_SUCCESS] (state, payload=[]) {
+        if(!Array.isArray(payload)) return;
+        state.blockchainAnalyticsProviders = payload;
+    },
+    /**
+     * Used when loading the blockchain analytics providers data fails
+     *
+     */
+    [LOAD_BA_PROVIDERS_FAIL] (state) {
+        //TODO: Might want to commit error
+        console.log('Blockchain analytics providers data failed to load');
+    },
+    /** 
+     * Used to load the blockchain analytics provider networks data
+     *
+     */
+    [LOAD_BA_PROVIDERS_NETWORKS_SUCCESS] (state, payload=[]) {
+        if(!Array.isArray(payload)) return;
+        state.blockchainAnalyticsProvidersNetworks = payload;
+    },
+    /**
+     * Used when loading the blockchain analytics provider networks data fails
+     *
+     */
+    [LOAD_BA_PROVIDERS_NETWORKS_FAIL](state) {
+        //TODO: Might want to commit error
+        console.log('Blockchain analytics provider networks data failed to load');
+    },
+
+    /**
+     * Updates the user stored state value as reference for UI element
+     * Triggered on form selection updates
+     * @param {object} state
+     * @param {object} payload
+     */
+
+    [CREATE_BA_REPORT_SUCCESS] (state, payload) {
+        console.log('CREATE_BA_REPORT_SUCCESS')
+        console.log(state)
+        console.log(payload)
+        state.ba_provider_report_submitted = false
+        state.ba_provider_report = `/backoffice/blockchain-analytics-addresses/${payload.report_id}/view`
+
     }
 };

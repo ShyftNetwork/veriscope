@@ -39,7 +39,7 @@ class ConstantsController extends Controller
         //   'auto_invite' => true,
         // ];
 
-        $constants = Constant::all();
+        $constants = Constant::orderBy('id')->get();
 
         return view('.backoffice.constants.index', compact('constants'));
     }

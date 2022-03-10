@@ -145,5 +145,12 @@ if(Config::get('backoffice.enabled')) {
         Route::get('/discovery', function () { return view('discovery.index'); })->name('discovery');
         Route::get('/verified-trust-anchors', function () { return view('verifiedtrustanchors.index'); })->name('verifiedtrustanchors');
 
+        
+        Route::get('/blockchain-analytics-addresses', function () {return view('blockchainanalyticsaddresses.index'); })->name('blockchainanalyticsaddresses');
+        Route::get('/blockchain-analytics-addresses/{id}/view', 'BlockchainAnalyticsController@analytics_report');
+       
+        Route::get('/blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@new_report')->name('new-report');
+        Route::post('blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@create_report')->name('blockchain-analytics-addresses.new-report');
+
     });
 }
