@@ -460,7 +460,7 @@ function install_passport_client_env(){
 
 function install_horizon() {
 	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-	su $SERVICE_USER -c "composer install"
+	su $SERVICE_USER -c "composer update"
 	su $SERVICE_USER -c "php artisan horizon:publish"
 	su $SERVICE_USER -c "php artisan migrate"
 	popd >/dev/null
@@ -528,26 +528,26 @@ function menu() {
 	echo
 	echo
 	echo -ne "1) Refresh dependencies
-	2) Install/update nethermind
-	3) Set up new postgres user
-	4) Obtain/renew SSL certificate
-	5) Install/update NGINX
-	6) Install/update node.js web service
-	7) Install/update PHP web service
-	8) Update static node list for nethermind
-	9) Create admin user
-	10) Regenerate webhook secret
-	11) Regenerate oauth secret (passport)
-	12) Regenerate encrypt secret (EloquentEncryption)
-	13) Install Redis server
-	14) Install Passport Client Environment Variables
-	15) Install Horizon
-	i) Install Everything
-	p) show daemon status
-	w) restart all services
-	r) reboot
-	q) quit
-	Choose what to do: "
+2) Install/update nethermind
+3) Set up new postgres user
+4) Obtain/renew SSL certificate
+5) Install/update NGINX
+6) Install/update node.js web service
+7) Install/update PHP web service
+8) Update static node list for nethermind
+9) Create admin user
+10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
+14) Install Passport Client Environment Variables
+15) Install Horizon
+i) Install Everything
+p) show daemon status
+w) restart all services
+r) reboot
+q) quit
+Choose what to do: "
 	read choice
 	echo
 	case $choice in

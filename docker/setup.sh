@@ -474,7 +474,7 @@ function install_passport_client_env(){
 
 function install_horizon() {
     pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-    su $SERVICE_USER -c "composer install"
+    su $SERVICE_USER -c "composer update"
     su $SERVICE_USER -c "php artisan horizon:publish"
     su $SERVICE_USER -c "php artisan migrate"
     popd >/dev/null
