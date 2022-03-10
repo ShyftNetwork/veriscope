@@ -101,6 +101,30 @@ dashboard
         </div>
       </div>
       <!-- end fatf reports -->
+
+      <!-- Blockchain analytics reports -->
+      <div class="md:w-1/2 lg:w-1/4 p-4">
+        <div class="card">
+          <div class="card__header">
+            {{ __('Blockchain Analytics') }}
+            <a href="#0" class="tooltipTrigger" v-tooltip="{ content: 'View all Blockchain Analytics Reports'}"><img src="/images/icon-info.svg" alt="Info"></a>
+          </div>
+
+          <div class="card__body text-center">
+            <div>
+              <h1 class="mb-2">{{ $ba_addresses->count() }}</h1>
+              <p>
+                <strong>{{ Str::plural('Blockchain Analytics Reports', $ba_addresses->count()) }}</strong><br>
+              </p>
+            </div>
+          </div>
+
+          <div class="card__footer">
+            <a href="{{ route('blockchainanalyticsaddresses') }}">{{ __('View Blockchain Analytics') }}</a>
+          </div>
+        </div>
+      </div>
+      <!-- end Blockchain analytics reports -->
     </div>
   </div>
 </div>

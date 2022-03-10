@@ -321,7 +321,7 @@ export const actions = {
             };
         }
         console.log(p);
-
+  
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-attestation`, p)
             .then(response => {
                 dispatch('taGetUsers');

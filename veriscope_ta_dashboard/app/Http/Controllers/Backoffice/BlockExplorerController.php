@@ -71,8 +71,14 @@ class BlockExplorerController extends Controller
         Log::debug('BlockExplorerController attestation_components');
         Log::debug($id);
 
-        $attestation = SmartContractAttestation::findOrFail($id);
-        return view('.blockexplorer.attestation', ['attestation' => $attestation]);
+        if (is_numeric($id)) {
+            $attestation = SmartContractAttestation::findOrFail($id);
+            return view('.blockexplorer.attestation', ['attestation' => $attestation]);
+        } else {
+            $attestation = SmartContractAttestation::where('transaction_hash', $id)->firstOrFail();
+            return view('.blockexplorer.attestation', ['attestation' => $attestation]);
+        }
+        
     }
     
     

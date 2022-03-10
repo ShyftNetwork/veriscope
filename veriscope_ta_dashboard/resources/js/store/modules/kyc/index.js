@@ -44,7 +44,17 @@ export default {
             {label: 'Active', value: 'active'},
             {label: 'Suspended', value: 'suspended'},
             {label: 'Terminated', value: 'terminated'}
-        ]
+        ],
+        
+        ba_provider: null,
+        ba_provider_network: null,
+        ba_provider_report: null,
+        ba_provider_report_submitted: false,
+        blockchainAnalyticsProviders: [],
+        blockchainAnalyticsProvidersNetworks: [],
+        walletAddress: null
+        
+        
     },
     getters: {
         getField,

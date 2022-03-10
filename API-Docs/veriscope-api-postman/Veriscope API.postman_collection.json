@@ -1,10 +1,120 @@
 {
 	"info": {
-		"_postman_id": "09aadd20-cbc1-4659-b9d8-8cafa17ce18f",
+		"_postman_id": "6c578197-2414-412c-ad79-14216a120fc9",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Blockchain Analytics",
+			"item": [
+				{
+					"name": "Get Blockchain Analytics Providers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"get-blockchain-analytics-providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blockchain Analytics Providers Available Networks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"get-blockchain-analytics-providers-available-networks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Blockchain Analytics Report",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/generate-blockchain-analytics-report?providerId=1&network=eth&address=0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"generate-blockchain-analytics-report"
+							],
+							"query": [
+								{
+									"key": "providerId",
+									"value": "1"
+								},
+								{
+									"key": "network",
+									"value": "eth"
+								},
+								{
+									"key": "address",
+									"value": "0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Set Attestation",
 			"request": {
@@ -74,7 +184,7 @@
 					"query": [
 						{
 							"key": "",
-							"value": null,
+							"value": "",
 							"disabled": true
 						}
 					]

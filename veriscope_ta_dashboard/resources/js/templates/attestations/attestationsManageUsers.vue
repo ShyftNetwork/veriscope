@@ -173,19 +173,11 @@
                     </simple-button>
                 </div>
             </div>
-            <div class="flex flex-wrap items-center" :style="{ display:show_ta_set_wallet_attestation_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_set_wallet_attestation_result}}</strong></p>
-            </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_ta_set_wallet_attestation_hash }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">Attestation Hash: {{ta_set_wallet_attestation_hash}}</strong></p>
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">Success. Find attestation in <a href='/auth/attestations/admin'>attestation admin view</a> </strong></p>
             </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_ta_set_wallet_attestation_error }">
                 <p class="md:flex md:items-center"><img src="/images/icon-error.svg" alt="Error" class="mr-2"> <strong class="mr-2">{{ta_set_wallet_attestation_error}}</strong></p>
-            </div>
-            <div class="flex flex-wrap items-center" :style="{ display:show_fatf_button }">
-                <div class="flex flex-wrap items-center">
-                    <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">Attention - New FATF Report <a href="fatf-travel-rule-reports">Available</a></strong></p>
-                </div>
             </div>
         </div>
         </div>

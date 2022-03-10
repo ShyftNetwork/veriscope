@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\{SmartContractAttestation, KycTemplate, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
+use App\{SmartContractAttestation, KycTemplate, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, BlockchainAnalyticsAddress};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -35,9 +35,10 @@ class DashboardController extends Controller
         $trust_anchors = TrustAnchorExtraDataUnique::all();
         $attestations = SmartContractAttestation::all();
         $kyc_templates = KycTemplate::all();
+        $ba_addresses = BlockchainAnalyticsAddress::all();
 
 
-        return view('backoffice.dashboard', compact('verified_trust_anchors', 'trust_anchors', 'attestations', 'kyc_templates'));
+        return view('backoffice.dashboard', compact('verified_trust_anchors', 'trust_anchors', 'attestations', 'kyc_templates', 'ba_addresses'));
     }
 
     public function arena_auth(){
