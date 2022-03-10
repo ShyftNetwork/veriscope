@@ -220,7 +220,7 @@ export const mutations = {
 
         if(payload['attestation_type'] === 'KYC') {
             state.taSetKycAttestationData = parseInt(payload['result']) + 2;
-            state.taSetKycAttestationHashData = payload['resultAttestationKeccak'];
+            state.taSetKycAttestationHashData = payload['hash'];
             state.showTaSetKycAttestationResult = 'block';
             state.showTaSetKycAttestationHash = 'block';
             state.showTaSetKycAttestationError = 'none';
@@ -228,7 +228,7 @@ export const mutations = {
         }
         else if(payload['attestation_type'] === 'WALLET') {
             state.taSetWalletAttestationData = parseInt(payload['result']) + 2;
-            state.taSetWalletAttestationHashData = payload['resultAttestationKeccak'];
+            state.taSetWalletAttestationHashData = payload['hash'];
             state.showFatfButton = 'block';
 
             state.showTaSetWalletAttestationError = 'none';

@@ -23,6 +23,10 @@ constants
               <div class="form-control pt-0 mb-0">
                 <input id="{{ $constant->name }}" type="text" name="{{ $constant->name }}" value="{{ $constant->value }}" requried="" />
               </div>
+              @elseif($constant->type == 'text-readonly')
+              <div class="form-control pt-0 mb-0">
+                <input style="background: #f1f1f1;" id="{{ $constant->name }}" type="text" name="{{ $constant->name }}" value="{{ $constant->value }}" readonly />
+              </div>
               @elseif($constant->type == 'select')
               {{ Form::select($constant->name, array_combine(explode(',', $constant->options), explode(',', $constant->options)), $constant->value) }}
               @endif()

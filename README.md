@@ -136,7 +136,8 @@ $ sudo scripts/setup-vasp.sh
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
 14) Install Passport Client Environment Variables
-i) install everything
+15) Install Horizon
+i) Install Everything
 p) show daemon status
 w) restart all services
 r) reboot
@@ -284,6 +285,9 @@ To read more on the motivation for queuing Attestations, please review the queue
 Passport OAuth Client variables are required set in the environment file in order to generate API token in the backoffice. Using this command you can set the variables in the environment file automatically.  I.e. "php artisan passportenv:link"
 To read more on Passport Client setup and API, please review [API Docs](/API-Docs/README.md)
 
+### 15. Install Horizon
+
+Install Laravel Horizon which provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.  Please review the Horizon [/Horizon-Docs/README.md](Horizon-Docs/README.md)
 
 ### Ongoing updates
 
@@ -349,7 +353,8 @@ sudo docker exec -it veriscope_laravel.test_1 bash
 12) Regenerate encrypt secret (EloquentEncryption)
 13) Install Redis server
 14) Install Passport Client Environment Variables
-i) install everything
+15) Install Horizon
+i) Install Everything
 p) show daemon status
 w) restart all services
 r) reboot

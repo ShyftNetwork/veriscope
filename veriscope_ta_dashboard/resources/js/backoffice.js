@@ -33,6 +33,10 @@ import {
   SET_UI_STATE,
   UPDATE_USER_COUNTRY,
   UPDATE_USER_STATE,
+  LOAD_BA_PROVIDERS,
+  LOAD_BA_PROVIDERS_NETWORKS,
+  CREATE_BA_REPORT,
+  CREATE_BA_REPORT_SUCCESS,
   REFRESH_ALL_ATTESTATIONS,
   REFRESH_ALL_DISCOVERY_LAYERS,
   REFRESH_ALL_VERIFIED_TAS,
@@ -115,15 +119,22 @@ if (document.getElementById('backoffice')) {
               this.loading = false
             }
           }
+
+          if (event.data.message == 'report-created') {
+            this.ba_provider_report = `/backoffice/blockchain-analytics-addresses/${event.data.report_id}/view`
+            store.commit(CREATE_BA_REPORT_SUCCESS, event.data);
+        }
       })
     },
     async mounted() {
       const loadUser = this[LOAD_USER](this.EDITID);
       const loadCountries = this[LOAD_COUNTRIES]();
-      
+      const loadBAProviders = this[LOAD_BA_PROVIDERS]();
+
       await loadUser;
       await loadCountries;
-
+      await loadBAProviders;
+      
       this[SET_UI_COUNTRY]();
     },
     computed: {
@@ -152,7 +163,12 @@ if (document.getElementById('backoffice')) {
         'form.zip',
         'form.country',
         'form.state',
-        'form.role'
+        'form.role',
+        'ba_provider',
+        'ba_provider_network',
+        'ba_provider_report',
+        'ba_provider_report_submitted',
+        'walletAddress'
       ]),
       ...mapState({
         countryData: ({ kyc }) =>
@@ -170,7 +186,13 @@ if (document.getElementById('backoffice')) {
         submissionErrorTitle: ({ kyc }) =>
           kyc.userStatus.userNotification.message,
         submissionErrors: ({ kyc }) =>
-          kyc.userStatus.userNotification.errors
+          kyc.userStatus.userNotification.errors,
+        blockchainAnalytics: ({ kyc }) =>
+          kyc.blockchainAnalytics,
+        blockchainAnalyticsProviders: ({ kyc }) =>
+          kyc.blockchainAnalyticsProviders,
+        blockchainAnalyticsProvidersNetworks: ({ kyc }) =>
+          kyc.blockchainAnalyticsProvidersNetworks
       }),
       /**
        * Used to validate all associated fields and release the main kyc update submit
@@ -185,6 +207,9 @@ if (document.getElementById('backoffice')) {
           LOAD_COUNTRIES,
           LOAD_STATES,
           UPDATE_USER,
+          LOAD_BA_PROVIDERS,
+          LOAD_BA_PROVIDERS_NETWORKS,
+          CREATE_BA_REPORT,
           REFRESH_ALL_ATTESTATIONS,
           REFRESH_ALL_DISCOVERY_LAYERS,
           REFRESH_ALL_VERIFIED_TAS
@@ -246,6 +271,17 @@ if (document.getElementById('backoffice')) {
         const oldEnough = new Date();
         oldEnough.setFullYear(oldEnough.getFullYear()-18);
         this.isDobValid = (this.dob.getTime() > oldEnough.getTime()) ? 'You must be 18yrs or older' : '';
+      },
+      /**
+       * Callback when a BA provider is selected in the form
+       */
+      onBAProviderSelected: function() {
+        
+        if(this.ba_provider) {
+          console.log(this)
+            this[LOAD_BA_PROVIDERS_NETWORKS](this.ba_provider)
+            .then(() => this[SET_UI_STATE]());
+        }
       },
       /**
        * Callback when a country is selected in the form
@@ -326,6 +362,22 @@ if (document.getElementById('backoffice')) {
           }
         });
       },
+      createBlockchainAnalyticsReport() {
+      
+       
+        if (!this.ba_provider || !this.ba_provider_network || !this.walletAddress) return
+        this.ba_provider_report_submitted = true
+        if (this.ba_provider_report) this.ba_provider_report = null
+        this[CREATE_BA_REPORT]({
+          ba_provider: this.ba_provider,
+          network: this.ba_provider_network,
+          wallet: this.walletAddress
+        })
+        .then(response => {
+         
+
+        });
+      }
     },
   });
 }

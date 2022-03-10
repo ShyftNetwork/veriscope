@@ -43,6 +43,11 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('decrypt_ivms','TrustAnchorController@decrypt_ivms');
         Route::get('recover_signature','TrustAnchorController@recover_signature');
 
+        /* Blockchain analytics api methods */
+        Route::get('get-blockchain-analytics-providers', 'BlockchainAnalyticsApiController@get_ba_providers');
+        Route::get('get-blockchain-analytics-providers-available-networks/{id}', 'BlockchainAnalyticsApiController@get_ba_providers_available_networks');
+        Route::post('generate-blockchain-analytics-report', 'BlockchainAnalyticsApiController@get_ba_report');
+
     });
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
@@ -52,6 +57,14 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
+
+        Route::get('blockchain-analytics-addresses','BlockchainAnalyticsAddressesController@index');
+        Route::get('get-blockchain-analytics-report','BlockchainAnalyticsAddressesController@get_report');
+        Route::post('create-blockchain-analytics-report/{id}','BlockchainAnalyticsAddressesController@createReport');
+
+        Route::resource('baProviders',   'BlockchainAnalyticsController', ['only' => ['index', 'show']]);
+
+        
 
         Route::get('shyft-smart-contract-events','BlockexplorerController@index');
         Route::get('smart-contract-transactions','BlockexplorerController@transactions');

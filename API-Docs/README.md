@@ -1,5 +1,6 @@
-## How to create and API Access Token
+## How To Create an API Access Token
 
+There are a number of API requests available which can be authenticated via an API token.  Follow the guide below to create and manage your API token before integrating any of the available API requests.
 
 #### 1. Sign in
 
@@ -37,6 +38,11 @@ Once you have created a token you can choose Copy Token to save the token in you
 
 <img src="screenshots/copytoken.png" alt="copytoken" style="zoom:25%;" />
 
+## How to use Veriscope API without postman
+
+Set request headers - 
+Authorization: `Bearer ${token}`
+${token} - token generated in shyft api settings
 
 ## How to use Veriscope Postman API
 
@@ -53,7 +59,7 @@ You only need to import and set up with your own API and secret keys to begin.
 
   <img src="screenshots/import.png" alt="import" style="zoom:33%;" />
 
-- On the `Import` pop-up page, select the `Folder` tab. Click the `Choose folder from your computer` button and choose the root folder of the downloaded repository.
+- On the `Import` pop-up page, select the `Folder` tab. Click the `Choose folder from your computer` button and choose the API-Docs/veriscope-api-postman folder of the downloaded repository.
 
   <img src="screenshots/folder.png" alt="folder" style="zoom:33%;" />
 
@@ -490,3 +496,66 @@ Response
 ```
 {"senderUserPublicKey":"found match","senderUserAddress":"found match"}
 ```
+
+## Get Blockchain Analytics Providers
+```
+GET {{baseUrl}}/api/v1/server/get-blockchain-analytics-providers
+```
+Response
+```
+    {
+        "id": 1,
+        "name": "Crystal",
+        "description": "Crystal powers cryptocurrency transaction analysis and monitoring on the blockchain, bringing best-in-class anti-money laundering compliance and risk management solutions to exchanges, banks, and financial institutions."
+    },
+    {
+        "id": 2,
+        "name": "Merkle Science",
+        "description": "Merkle Science's Block Monitor is an enterprise-grade, real-time cryptocurrency transaction monitoring and wallet monitoring."
+    }
+```
+
+## Get Blockchain Analytics Provider Available Networks
+Params:
+provider_id: blockchain analytics provider id
+```
+GET {{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/{provider_id}
+```
+Response
+```
+    {
+        "id": 1,
+        "blockchain_analytics_provider_id": 1,
+        "ticker": "btc",
+        "name": "Bitcoin",
+        "provider_network_id": null
+    },
+    ...
+```
+
+## Generate Blockchain Analytics Report
+```
+POST {{baseUrl}}/api/v1/server/generate-blockchain-analytics-report
+```
+Request Body
+```
+providerId: "1"
+network: "eth"
+address: "0x6cC5F688a315f3dC28A7781717a9A798a59fDA7b"
+```
+Response
+```
+{
+    "blockchain_analytics_provider_id": 2,
+    "trust_anchor": "unknown",
+    "user_account": "unknown",
+    "blockchain": "eth",
+    "crypto_address": "0x6cC5F688a315f3dC28A7781717a9A798a59fDA7b",
+    "custodian": "OKEx",
+    "response": ...,
+    "response_status_code": 200,
+    "id": 123
+}
+```
+**Note:** Analytics Providers may have different response payloads
+

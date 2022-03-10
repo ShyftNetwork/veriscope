@@ -143,6 +143,29 @@ export const SET_UI_COUNTRY = 'setUICountry';
 export const SET_UI_STATE = 'setUIState';
 
 /**
+ * Blockchain analytics providers 
+ */
+
+export const LOAD_BA_PROVIDERS = 'loadBAProviders';
+export const LOAD_BA_PROVIDERS_SUCCESS = 'loadBAProvidersSuccess';
+export const LOAD_BA_PROVIDERS_FAIL = 'loadBAProvidersFail';
+
+/**
+ * Blockchain analytics providers supported networks
+ */
+
+ export const LOAD_BA_PROVIDERS_NETWORKS = 'loadBAProvidersNetworks';
+ export const LOAD_BA_PROVIDERS_NETWORKS_SUCCESS = 'loadBAProvidersSuccessNetworks';
+ export const LOAD_BA_PROVIDERS_NETWORKS_FAIL = 'loadBAProvidersFailNetworks';
+
+ /**
+ * Create blockchain analytics report
+ */
+ export const CREATE_BA_REPORT = 'createBAReport'
+ export const CREATE_BA_REPORT_SUCCESS = 'createBAReportSuccess'
+ export const CREATE_BA_REPORT_FAIL = 'createBAReportFail'
+
+ /**
  * Update blockchain data
  */
 
