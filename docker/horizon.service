@@ -1,13 +1,13 @@
 [Unit]
-Description=Trust Anchor Node API
+Description=Laravel Horizon Queue Manager
 After=network.target
 
 [Service]
 User=shyft
 Group=www-data
 UMask=0002
-WorkingDirectory=/opt/veriscope/veriscope_ta_node/
-ExecStart=/usr/bin/node http-api.js
+WorkingDirectory=/opt/veriscope/veriscope_ta_dashboard/
+ExecStart=/usr/bin/php artisan horizon
 Restart=on-failure
 LimitNOFILE=1000000
 

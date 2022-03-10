@@ -24,28 +24,28 @@ if [ $VERISCOPE_COMMON_NAME = 'unset' ]; then
 fi
 
 case "$VERISCOPE_TARGET" in
-"veriscope_testnet")
-	ETHSTATS_HOST="ws://fedstats.veriscope.network/api"
-	ETHSTATS_GET_ENODES="ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"
-	ETHSTATS_SECRET="Oogongi4"
-;;
+	"veriscope_testnet")
+		ETHSTATS_HOST="ws://fedstats.veriscope.network/api"
+		ETHSTATS_GET_ENODES="ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"
+		ETHSTATS_SECRET="Oogongi4"
+		;;
 
-"fed_testnet")
-	ETHSTATS_HOST="wss://stats.testnet.shyft.network/api"
-	ETHSTATS_SECRET="Ish9phieph"
-	ETHSTATS_GET_ENODES="ws://stats.testnet.shyft.network/primus/?_primuscb=1627594389337-0"
-;;
+	"fed_testnet")
+		ETHSTATS_HOST="wss://stats.testnet.shyft.network/api"
+		ETHSTATS_SECRET="Ish9phieph"
+		ETHSTATS_GET_ENODES="ws://stats.testnet.shyft.network/primus/?_primuscb=1627594389337-0"
+		;;
 
-"fed_mainnet")
-	ETHSTATS_HOST="wss://stats.shyft.network/api"
-	ETHSTATS_SECRET="uL4tohChia"
-	ETHSTATS_GET_ENODES="ws://stats.shyft.network/primus/?_primuscb=1627594389337-0"
-;;
+	"fed_mainnet")
+		ETHSTATS_HOST="wss://stats.shyft.network/api"
+		ETHSTATS_SECRET="uL4tohChia"
+		ETHSTATS_GET_ENODES="ws://stats.shyft.network/primus/?_primuscb=1627594389337-0"
+		;;
 
-*)
-	echo "Please set VERISCOPE_TARGET to veriscope_testnet, fed_testnet, or fed_mainnet"
-	exit 1
-;;
+	*)
+		echo "Please set VERISCOPE_TARGET to veriscope_testnet, fed_testnet, or fed_mainnet"
+		exit 1
+		;;
 esac
 
 cp -n chains/$VERISCOPE_TARGET/ta-node-env /opt/veriscope/veriscope_ta_node/.env
@@ -99,7 +99,7 @@ function install_redis {
 
 function create_postgres_trustanchor_db {
 	if su postgres -c "psql -t -c '\du'" | cut -d \| -f 1 | grep -qw trustanchor; then
-		 echo "Postgres user trustanchor already exists."
+		echo "Postgres user trustanchor already exists."
 	else
 		PGPASS=$(pwgen -B 20 1)
 		PGDATABASE=trustanchor
@@ -143,9 +143,9 @@ function refresh_dependencies() {
 	ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 	if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
 	then
-		 >&2 echo 'ERROR: Invalid php conmposer installer checksum'
-		 rm composer-setup.php
-		 exit 1
+		>&2 echo 'ERROR: Invalid php conmposer installer checksum'
+		rm composer-setup.php
+		exit 1
 	fi
 	php composer-setup.php --install-dir="/usr/local/bin/" --filename=composer --2
 	rm composer-setup.php
@@ -190,41 +190,41 @@ function install_or_update_nethermind() {
 		echo "New sealer ACCOUNT/PK will be $SEALERACCT, $SEALERPK"
 		echo "MAKE A NOTE OF THIS SOMEPLACE SAFE"
 		echo '{
-			  "Init": {
-				 "WebSocketsEnabled": true,
-				 "StoreReceipts" : true,
-				 "EnableUnsecuredDevWallet": false,
-				 "IsMining": true,
-				 "ChainSpecPath": "shyftchainspec.json",
-				 "BaseDbPath": "nethermind_db/vasp",
-				 "LogFileName": "/var/log/nethermind.log",
-				 "StaticNodesPath": "static-nodes.json"
-			  },
-			  "Network": {
-				 "DiscoveryPort": 30303,
-				 "P2PPort": 30303
-			  },
-			  "JsonRpc": {
-				 "Enabled": true,
-				 "Host": "0.0.0.0",
-				 "Port": 8545,
-				 "EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug","Subscribe"]
-			  },
-			  "KeyStoreConfig": {
-				 "TestNodeKey": "'$SEALERPK'"
-			  },
-			  "Aura": {
-				 "ForceSealing": true,
-				 "AllowAuRaPrivateChains": true
-			  },
-			  "EthStats": {
-				"Enabled": true,
-				"Contact": "not-yet",
-				"Secret": "'$ETHSTATS_SECRET'",
-				"Name": "'$VERISCOPE_SERVICE_HOST'",
-				"Server": "'$ETHSTATS_HOST'"
-			}
-			}' >  $NETHERMIND_CFG
+		"Init": {
+		"WebSocketsEnabled": true,
+		"StoreReceipts" : true,
+		"EnableUnsecuredDevWallet": false,
+		"IsMining": true,
+		"ChainSpecPath": "shyftchainspec.json",
+		"BaseDbPath": "nethermind_db/vasp",
+		"LogFileName": "/var/log/nethermind.log",
+		"StaticNodesPath": "static-nodes.json"
+	},
+"Network": {
+"DiscoveryPort": 30303,
+"P2PPort": 30303
+},
+"JsonRpc": {
+"Enabled": true,
+"Host": "0.0.0.0",
+"Port": 8545,
+"EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug","Subscribe"]
+},
+"KeyStoreConfig": {
+"TestNodeKey": "'$SEALERPK'"
+},
+"Aura": {
+"ForceSealing": true,
+"AllowAuRaPrivateChains": true
+},
+"EthStats": {
+"Enabled": true,
+"Contact": "not-yet",
+"Secret": "'$ETHSTATS_SECRET'",
+"Name": "'$VERISCOPE_SERVICE_HOST'",
+"Server": "'$ETHSTATS_HOST'"
+}
+}' >  $NETHERMIND_CFG
 	fi
 
 	echo "Restarting nethermind..."
@@ -248,65 +248,65 @@ function setup_nginx {
 
 	echo '
 	server {
-		listen 80;
-		server_name '$VERISCOPE_SERVICE_HOST';
-		rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
-	}
+	listen 80;
+	server_name '$VERISCOPE_SERVICE_HOST';
+	rewrite ^/(.*)$ https://'$VERISCOPE_SERVICE_HOST'$1 permanent;
+}
 
-	server {
-		 listen 443 ssl;
-		 server_name '$VERISCOPE_SERVICE_HOST';
-		 root /opt/veriscope/veriscope_ta_dashboard/public;
+server {
+listen 443 ssl;
+server_name '$VERISCOPE_SERVICE_HOST';
+root /opt/veriscope/veriscope_ta_dashboard/public;
 
-		 ssl_certificate     '$CERTFILE';
-		 ssl_certificate_key '$CERTKEY';
-		 ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-		 ssl_ciphers         HIGH:!aNULL:!MD5;
+ssl_certificate     '$CERTFILE';
+ssl_certificate_key '$CERTKEY';
+ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+ssl_ciphers         HIGH:!aNULL:!MD5;
 
-		 add_header X-Frame-Options "SAMEORIGIN";
-		 add_header X-XSS-Protection "1; mode=block";
-		 add_header X-Content-Type-Options "nosniff";
+add_header X-Frame-Options "SAMEORIGIN";
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Content-Type-Options "nosniff";
 
-		 index index.html index.htm index.php;
+index index.html index.htm index.php;
 
-		 charset utf-8;
+charset utf-8;
 
-		 location /arena/ {
-			 proxy_pass  http://127.0.0.1:8080/arena/;
-			 proxy_set_header Host $host;
-			 proxy_set_header X-Real-IP $remote_addr;
-			 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		 }
+location /arena/ {
+proxy_pass  http://127.0.0.1:8080/arena/;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
 
-		 location / {
-		   try_files $uri $uri/ /index.php?$query_string;
-		 }
+location / {
+try_files $uri $uri/ /index.php?$query_string;
+}
 
-		 location = /favicon.ico { access_log off; log_not_found off; }
-		 location = /robots.txt  { access_log off; log_not_found off; }
+location = /favicon.ico { access_log off; log_not_found off; }
+location = /robots.txt  { access_log off; log_not_found off; }
 
-		 error_page 404 /index.php;
+error_page 404 /index.php;
 
-		 location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-		fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		fastcgi_index index.php;
-		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-		include fastcgi_params;
-		 }
+location ~ \.php$ {
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+fastcgi_pass unix:/var/run/php/php-fpm.sock;
+fastcgi_index index.php;
+fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+include fastcgi_params;
+}
 
-		 location ~ /\.(?!well-known).* {
-		deny all;
-		 }
+location ~ /\.(?!well-known).* {
+deny all;
+}
 
-		 location /app/websocketkey {
-		proxy_pass             http://127.0.0.1:6001;
-		proxy_set_header Host  $host;
-		proxy_set_header X-Real-IP  $remote_addr;
-		proxy_set_header X-VerifiedViaNginx yes;
-		proxy_read_timeout                  60;
-		proxy_connect_timeout               60;
-		proxy_redirect                      off;
+location /app/websocketkey {
+proxy_pass             http://127.0.0.1:6001;
+proxy_set_header Host  $host;
+proxy_set_header X-Real-IP  $remote_addr;
+proxy_set_header X-VerifiedViaNginx yes;
+proxy_read_timeout                  60;
+proxy_connect_timeout               60;
+proxy_redirect                      off;
 
 		# Allow the use of websockets
 		proxy_http_version 1.1;
@@ -314,12 +314,12 @@ function setup_nginx {
 		proxy_set_header Connection 'upgrade';
 		proxy_set_header Host $host;
 		proxy_cache_bypass $http_upgrade;
-		 }
 	}
+}
 
-	' >$NGINX_CFG
-	systemctl enable nginx
-	systemctl restart nginx
+' >$NGINX_CFG
+systemctl enable nginx
+systemctl restart nginx
 }
 
 function install_or_update_nodejs {
@@ -373,9 +373,9 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "php artisan db:seed"
 	su $SERVICE_USER -c "php artisan key:generate"
 	su $SERVICE_USER -c "php artisan passport:install"
-  	su $SERVICE_USER -c "php artisan encrypt:generate"
-  	su $SERVICE_USER -c "php artisan passportenv:link"
-  	
+	su $SERVICE_USER -c "php artisan encrypt:generate"
+	su $SERVICE_USER -c "php artisan passportenv:link"
+
 	chgrp -R www-data ./
 	chmod -R 0770 ./storage
 	chmod -R g+s ./
@@ -391,10 +391,10 @@ function install_or_update_laravel {
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-schedule.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-wss.service
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta.service
-		sed -i '/^\[Service\]/a\UMask=0002' /lib/systemd/system/php8.0-fpm.service
-
-		systemctl daemon-reload
 	fi
+
+
+	systemctl daemon-reload
 
 	echo "Restarting PHP-based services..."
 	systemctl enable ta-schedule
@@ -409,14 +409,15 @@ function install_or_update_laravel {
 function restart_all_services() {
 	echo "Restarting all services..."
 	##systemctl restart nethermind
-  	systemctl restart ta
-  	systemctl restart ta-wss
-  	systemctl restart ta-schedule
-  	systemctl restart nginx
-  	systemctl restart postgresql
-  	systemctl restart redis.service
+	systemctl restart ta
+	systemctl restart ta-wss
+	systemctl restart ta-schedule
+	systemctl restart nginx
+	systemctl restart postgresql
+	systemctl restart redis.service
 	systemctl restart ta-node-1
 	systemctl restart ta-node-2
+	systemctl restart horizon
 	echo "All services restarted"
 }
 
@@ -442,55 +443,84 @@ function refresh_static_nodes() {
 }
 
 function daemon_status() {
-	systemctl status nethermind ta ta-wss ta-schedule ta-node-1 ta-node-2 nginx postgresql redis.service | less
+	systemctl status nethermind ta ta-wss ta-schedule ta-queue ta-node-1 ta-node-2 nginx postgresql redis.service horizon | less
 }
 
 function create_admin() {
-
-  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  	su $SERVICE_USER -c "php artisan createuser:admin"
+	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+	su $SERVICE_USER -c "php artisan createuser:admin"
+	popd >/dev/null
 }
 
 function install_passport_client_env(){
-  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  	su $SERVICE_USER -c "php artisan passportenv:link"
+	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+	su $SERVICE_USER -c "php artisan passportenv:link"
+	popd >/dev/null
+}
+
+function install_horizon() {
+	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+	su $SERVICE_USER -c "composer install"
+	su $SERVICE_USER -c "php artisan horizon:publish"
+	su $SERVICE_USER -c "php artisan migrate"
+	popd >/dev/null
+
+	pushd >/dev/null /opt/veriscope/ 
+	if ! test -s "/etc/systemd/system/horizon.service"; then
+		echo "Deploying systemd service definitions: horizon"
+		cp scripts/horizon.service /etc/systemd/system/
+		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/horizon.service
+	fi
+	if ! test -s "/etc/systemd/system/ta-queue.service"; then
+		cp scripts/ta-queue.service /etc/systemd/system/
+		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-queue.service
+	fi
+	popd >/dev/null
+
+	echo "Restarting horizon and ta-queue services..."
+	systemctl daemon-reload
+	systemctl enable horizon
+	systemctl enable ta-queue
+	systemctl restart horizon
+	systemctl restart ta-queue
 }
 
 function regenerate_webhook_secret() {
 
-  	echo "Generating new shared secret..."
-  	SHARED_SECRET=$(pwgen -B 20 1)
+	echo "Generating new shared secret..."
+	SHARED_SECRET=$(pwgen -B 20 1)
 
-  	ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
-  	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+	ENVDEST=/opt/veriscope/veriscope_ta_dashboard/.env
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
-  	ENVDEST=/opt/veriscope/veriscope_ta_node/.env
-  	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+	ENVDEST=/opt/veriscope/veriscope_ta_node/.env
+	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
-  	systemctl restart ta-node-1
-  	systemctl restart ta-node-2
-  	systemctl restart ta
+	systemctl restart ta-node-1
+	systemctl restart ta-node-2
+	systemctl restart ta
 
-  	echo "Shared secret saved"
+	echo "Shared secret saved"
 }
 
 function regenerate_passport_secret() {
+	echo "Generating new passport secret..."
 
-  	echo "Generating new passport secret..."
+	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+	su $SERVICE_USER -c "php artisan --force passport:install"
+	popd >/dev/null
 
-  	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  	su $SERVICE_USER -c "php artisan --force passport:install"
-
-  	echo "Passport secret saved"
+	echo "Passport secret saved"
 }
 
 function regenerate_encrypt_secret() {
 
-  echo "Generating new encrypt secret..."
-  pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
-  su $SERVICE_USER -c "php artisan encrypt:generate"
+	echo "Generating new encrypt secret..."
+	pushd >/dev/null /opt/veriscope/veriscope_ta_dashboard
+	su $SERVICE_USER -c "php artisan encrypt:generate"
+	popd >/dev/null
 
-  echo "encrypt secret saved"
+	echo "encrypt secret saved"
 }
 
 
@@ -498,25 +528,26 @@ function menu() {
 	echo
 	echo
 	echo -ne "1) Refresh dependencies
-2) Install/update nethermind
-3) Set up new postgres user
-4) Obtain/renew SSL certificate
-5) Install/update NGINX
-6) Install/update node.js web service
-7) Install/update PHP web service
-8) Update static node list for nethermind
-9) Create admin user
-10) Regenerate webhook secret
-11) Regenerate oauth secret (passport)
-12) Regenerate encrypt secret (EloquentEncryption)
-13) Install Redis server
-14) Install Passport Client Environment Variables
-i) install everything
-p) show daemon status
-w) restart all services
-r) reboot
-q) quit
-Choose what to do: "
+	2) Install/update nethermind
+	3) Set up new postgres user
+	4) Obtain/renew SSL certificate
+	5) Install/update NGINX
+	6) Install/update node.js web service
+	7) Install/update PHP web service
+	8) Update static node list for nethermind
+	9) Create admin user
+	10) Regenerate webhook secret
+	11) Regenerate oauth secret (passport)
+	12) Regenerate encrypt secret (EloquentEncryption)
+	13) Install Redis server
+	14) Install Passport Client Environment Variables
+	15) Install Horizon
+	i) Install Everything
+	p) show daemon status
+	w) restart all services
+	r) reboot
+	q) quit
+	Choose what to do: "
 	read choice
 	echo
 	case $choice in
@@ -531,10 +562,11 @@ Choose what to do: "
 		9) create_admin; menu ;;
 		10) regenerate_webhook_secret; menu ;;
 		11) regenerate_passport_secret; menu ;;
-  		12) regenerate_encrypt_secret; menu ;;
-  		13) install_redis; menu ;;
+		12) regenerate_encrypt_secret; menu ;;
+		13) install_redis; menu ;;
 		14) install_passport_client_env; menu ;;
-		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel  ; refresh_static_nodes; menu ;;
+		15) install_horizon; menu ;;
+		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel ; install_horizon ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;
@@ -543,5 +575,5 @@ Choose what to do: "
 }
 
 while [ 1 ]; do
-menu
+	menu
 done

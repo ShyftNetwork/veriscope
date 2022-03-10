@@ -7,11 +7,9 @@ User=shyft
 Group=www-data
 UMask=0002
 WorkingDirectory=/opt/nm/
-ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg 
+ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
 Restart=on-failure
 LimitNOFILE=1000000
 
 [Install]
 WantedBy=default.target
-
-

@@ -1,5 +1,5 @@
 [Unit]
-Description=Trust Anchor Dashboard Schedule
+Description=Trust Anchor Dashboard Queue
 After=network.target
 
 [Service]
@@ -7,7 +7,7 @@ User=shyft
 Group=www-data
 UMask=0002
 WorkingDirectory=/opt/veriscope/veriscope_ta_dashboard/
-ExecStart=/usr/bin/php artisan schedule:work
+ExecStart=/usr/bin/php artisan queue:work --sleep=3 --tries=3 --max-time=3600
 Restart=on-failure
 LimitNOFILE=1000000
 

@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=shyft
 Group=www-data
-UMask=000
+UMask=0002
 WorkingDirectory=/opt/nm/
 ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
 Restart=on-failure
