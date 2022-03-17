@@ -163,17 +163,6 @@ class ContractsController extends Controller
           $ta_user_id = $tau->id;
           $ta->trustAnchorUser()->save($tau);
 
-          #associate unused crypto address to this user
-          // $btc_address = CryptoWalletAddress::where('crypto_wallet_type_id', 1)->where('trust_anchor_user_id', null)->orderBy('id')->first();
-          // $btc_address->trust_anchor_user_id = $tau->id;
-          // $btc_address->trust_anchor_id = $ta->id;
-          // $btc_address->save();
-
-          // $eth_address = CryptoWalletAddress::where('crypto_wallet_type_id', 2)->where('trust_anchor_user_id', null)->orderBy('id')->first();
-          // $eth_address->trust_anchor_user_id = $tau->id;
-          // $eth_address->trust_anchor_id = $ta->id;
-          // $eth_address->save();
-
           $prefname = $input['prefname'];
           $password = $input['password'];
           Log::debug(print_r($input, true));
@@ -320,9 +309,9 @@ class ContractsController extends Controller
           return response()->json([]);
       }
 
-      public function ta_set_attestation(Request $request, $id)
+      public function ta_set_v3_attestation(Request $request, $id)
       {
-          Log::debug('ContractsController ta_set_attestation');
+          Log::debug('ContractsController ta_set_v3_attestation');
 
           $input = $request->all();
           Log::debug(print_r($input, true));
@@ -330,17 +319,19 @@ class ContractsController extends Controller
           $user = User::find($id);
 
           $attestation_type = $input['attestation_type'];
-          $user_address = $input['user_address'];
-          $ta_address = $input['ta_account']['account_address'];
+          $user_account = $input['user_account'];
+          $ta_account = $input['ta_account']['account_address'];
 
           $jurisdiction = $input['jurisdiction'];
           $effective_time = $input['effective_time'];
           $expiry_time = $input['expiry_time'];
-          $public_data = $input['public_data'];
-          $documents_matrix_encrypted = $input['documents_matrix_encrypted'];
-          $availability_address_encrypted = $input['availability_address_encrypted'];
+
+          $coin_blockchain = $input['coin_blockchain'];
+          $coin_token = $input['coin_token'];
+          $coin_address = $input['coin_address'];
+          $coin_memo = $input['coin_memo'];
           
-          $url = $this->helper_url.'/ta-set-attestation?attestation_type='.$attestation_type.'&user_id='.$id.'&user_address='.$user_address.'&jurisdiction='.$jurisdiction.'&effective_time='.$effective_time.'&expiry_time='.$expiry_time.'&public_data='.$public_data.'&documents_matrix_encrypted='.$documents_matrix_encrypted.'&availability_address_encrypted='.$availability_address_encrypted.'&ta_address='.$ta_address;
+          $url = $this->helper_url.'/ta-set-v3-attestation?attestation_type='.$attestation_type.'&user_id='.$id.'&user_account='.$user_account.'&jurisdiction='.$jurisdiction.'&effective_time='.$effective_time.'&expiry_time='.$expiry_time.'&coin_blockchain='.$coin_blockchain.'&coin_token='.$coin_token.'&coin_address='.$coin_address.'&coin_memo='.$coin_memo.'&ta_account='.$ta_account;
 
           Log::debug($url);
           
@@ -349,12 +340,12 @@ class ContractsController extends Controller
           if($res->getStatusCode() == 200) {
 
             $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_set_attestation');
+            Log::debug('ContractsController ta_set_v3_attestation');
             Log::debug($response);
            
               
           } else {
-              Log::error('ContractsController ta_set_attestation: ' . $res->getStatusCode());
+              Log::error('ContractsController ta_set_v3_attestation: ' . $res->getStatusCode());
           }
           (new BlockchainAnalyticsController($input, $user));
           return response()->json([]);

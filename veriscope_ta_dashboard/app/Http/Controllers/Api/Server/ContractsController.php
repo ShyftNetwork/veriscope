@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
-use App\Http\Requests\SetAttestationRequest;
+use App\Http\Requests\{SetV3AttestationRequest};
 use App\{Country};
 use kornrunner\Ethereum\Address;
 use App\Support\EthereumToolsUtils;
@@ -27,10 +27,11 @@ class ContractsController extends Controller
       /**
       * Create action for new entity
       *
-      * @param  App\Http\Requests\SetAttestationRequest $request
+      * @param  App\Http\Requests\SetV3AttestationRequest $request
       * @return \Illuminate\Http\Response
       */
-      public function ta_set_attestation(SetAttestationRequest $request)
+
+      public function ta_set_v3_attestation(SetV3AttestationRequest $request)
       {
 
           $input = $request->all();
@@ -39,7 +40,7 @@ class ContractsController extends Controller
 
           $queryString = http_build_query($input);
 
-          $url = $this->helper_url.'/ta-set-attestation?'.$queryString;
+          $url = $this->helper_url.'/ta-set-v3-attestation?'.$queryString;
 
           Log::debug($url);
 
@@ -47,14 +48,15 @@ class ContractsController extends Controller
           $res = $client->request('GET', $url);
           if($res->getStatusCode() == 200) {
             $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_set_attestation');
+            Log::debug('ContractsController ta_set_v3_attestation');
             Log::debug($response);
           } else {
-            Log::error('ContractsController ta_set_attestation: ' . $res->getStatusCode());
+            Log::error('ContractsController ta_set_v3_attestation: ' . $res->getStatusCode());
           }
 
           return response()->json([]);
       }
+      
 
       /**
       * Create Shyft User

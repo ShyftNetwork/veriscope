@@ -283,6 +283,13 @@ class BlockexplorerController extends Controller
                     ['field' => 'Documents Matrix Encrypted Decoded', 'data'  => $result['documents_matrix_encrypted_decoded']],
                     ['field' => 'Availability Address Encrypted', 'data'  => $result['availability_address_encrypted']],
                     ['field' => 'Availability Address Encrypted Decoded', 'data'  => $result['availability_address_encrypted_decoded']],
+
+                    ['field' => 'Verison Code', 'data'  => $result['version_code']],
+                    ['field' => 'Coin Blockchain', 'data'  => $result['coin_blockchain']],
+                    ['field' => 'Coin Token', 'data'  => $result['coin_token']],
+                    ['field' => 'Coin Address', 'data'  => $result['coin_address']],
+                    ['field' => 'Coin Memo', 'data'  => $result['coin_memo']],
+
                     ['field' => 'Is Managed', 'data' => $result['is_managed']],
                     ['field' => 'Attestation Hash', 'data'  => $result['attestation_hash']],
                     ['field' => 'Transaction Hash', 'data'  => $result['transaction_hash']]

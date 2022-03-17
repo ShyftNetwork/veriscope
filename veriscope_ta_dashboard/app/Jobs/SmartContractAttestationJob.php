@@ -60,9 +60,17 @@ class SmartContractAttestationJob implements ShouldQueue
           'attestation_hash' => $this->smartContractAttestation->attestation_hash,
           'transaction_hash' => $this->smartContractAttestation->transaction_hash,
           'user_account' => $this->smartContractAttestation->user_account,
+          'public_data' => $this->smartContractAttestation->public_data,
           'public_data_decoded' => $this->smartContractAttestation->public_data_decoded,
+          'documents_matrix_encrypted' => $this->smartContractAttestation->documents_matrix_encrypted,
           'documents_matrix_encrypted_decoded' => $this->smartContractAttestation->documents_matrix_encrypted_decoded,
-          'availability_address_encrypted_decoded' => $this->smartContractAttestation->availability_address_encrypted_decoded
+          'availability_address_encrypted' => $this->smartContractAttestation->availability_address_encrypted,
+          'availability_address_encrypted_decoded' => $this->smartContractAttestation->availability_address_encrypted_decoded,
+          'version_code' => $this->smartContractAttestation->version_code,
+          'coin_blockchain' => $this->smartContractAttestation->coin_blockchain,
+          'coin_token' => $this->smartContractAttestation->coin_token,
+          'coin_address' => $this->smartContractAttestation->coin_address,
+          'coin_memo' => $this->smartContractAttestation->coin_memo
         ])
         ->useSecret($webhook_secret->value)
         ->dispatch();

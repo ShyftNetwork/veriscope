@@ -6,43 +6,41 @@ There are a number of API requests available which can be authenticated via an A
 
 Enter your Email address and Password to login.
 
-<img src="screenshots/signin.png" alt="signin" style="zoom:25%;" />
-
+![Alt text](screenshots/signin.png "Sign In")
 
 
 #### 2. Backoffice
 
 Choose the Hamburger menu on the right side of the screen and select Backoffice.
 
-<img src="screenshots/hb1.png" alt="hb1" style="zoom:25%;" />
+![Alt text](screenshots/hb1.png "API Token")
 
-<img src="screenshots/backoffice.png" alt="backoffice" style="zoom:25%;" />
+![Alt text](screenshots/backoffice.png "Backoffice")
 
 #### 3. API tokens
 
 Choose Hamburger menu again and select API Tokens.
 
-<img src="screenshots/hb2.png" alt="hb2" style="zoom:25%;" />
+![Alt text](screenshots/hb2.png "Backoffice")
 
-<img src="screenshots/apitoken.png" alt="apitoken" style="zoom:25%;" />
+![Alt text](screenshots/apitoken.png "API Token")
 
 #### 4. Create tokens
 
 Choose Create Token button on the left side of the page to create a new token.
 
-<img src="screenshots/createtoken.png" alt="createtoken" style="zoom:25%;" />
+![Alt text](screenshots/createtoken.png "Create Token")
 
 #### 5. Copy tokens
 
 Once you have created a token you can choose Copy Token to save the token in your browser clipboard.  You will use the token in the clipboard as the token in the Postman Collection below.
 
-<img src="screenshots/copytoken.png" alt="copytoken" style="zoom:25%;" />
+![Alt text](screenshots/copytoken.png "Copy Token")
 
 ## How to use Veriscope API without postman
 
 Set request headers - 
 Authorization: `Bearer ${token}`
-${token} - token generated in shyft api settings
 
 ## How to use Veriscope Postman API
 
@@ -143,24 +141,31 @@ Response
 
 ```
 **Note:** "id": 1 as jurisdiction in Set Attestation example below.
-## Set Attestation
+
+**Set Attestation is Deprecated, use Set V3 Attestation**
+
+## Set V3 Attestation
 Params:
-ta_address use your TA account in Manage Organization
-user_address from example above or by creating a random user in Manage Users
-documents_matrix_encrypted is the crypto withdrawal address from your exchange
-availability_address_encrypted is the blockchain (eg BTC, ETH)
+ta_account use your TA account in Manage Organization
+user_account from example above or by creating a random user in Manage Users
+coin_blockchain is the blockchain (eg BTC, ETH)
+coin_token is the coin token on the coin blockchain
+coin_address is the crypto withdrawal address from your exchange
+coin_memo is the memo or destination tag in the crypto withdrawal
+
 ```
-POST {{baseUrl}}/api/v1/server/set_attestation
+POST {{baseUrl}}/api/v1/server/set_v3_attestation
 ```
 Request Body
+
 ```
-jurisdiction: "1"
-attestation_type: "WALLET"
-user_address: "0x1Ba96127AFa2B9FDE25E0Afd92A1EBAe98e3344A"
-public_data: "WALLET"
-documents_matrix_encrypted: "0x447832bc6303C87A7C7C0E3894a5C6848Aa24877"
-availability_address_encrypted: "ETH"
-ta_address: "0x3B5D04F55946690873A7E05Cb9E5A6f5363774cB"
+- ta_account:         0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892
+- user_account:       0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19
+- jurisdiction:       1
+- coin_blockchain:    ETH
+- coin_token:         USDT
+- coin_address:       0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
+- coin_memo:          tag
 ```
 
 ## Get Verified Trust Anchors
@@ -283,7 +288,7 @@ Response
 
 ## Get Attestations
 ```
-GET {{baseUrl}}/api/v1/server/get_trust_anchor_account
+GET {{baseUrl}}/api/v1/server/get_attestations?page=1&perPage=10&searchTerm=0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
 ```
 params:
 - page:1
@@ -300,23 +305,28 @@ Response
     "totalRecords": 1,
     "rows": [
         {
-            "id": 2,
+            "id": 1,
             "ta_account": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
-            "jurisdiction": "196",
-            "effective_time": "1615070316",
-            "expiry_time": "1678315116",
-            "public_data": "0x5700000000000000000000000000000000000000000000000000000000000000",
-            "documents_matrix_encrypted": "0x3700000000000000000000000000000000000000000000000000000000000000",
+            "jurisdiction": "1",
+            "effective_time": "1615826401",
+            "expiry_time": "1679071201",
+            "public_data": "0x61",
+            "documents_matrix_encrypted": "0x3738396338353865633130616332333031303434386235663232376239653433353262336462613634373766343330343062623636373931376131303131666132313765616362336431373362333063363133323666333361343639333636376266366566336461656332616663353265313966393732636366646232343833316331666633336364643035373231643937353138363533656131316462303061353361613430636465663530303664613131316136383861313338623234636635316537316333336138323530373637666365636332313462616333633466633566336134336336373535383664613366363138376136313266616461663965643166666330326665363332336131",
             "availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020455448",
             "is_managed": "1",
-            "attestation_hash": "0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd",
-            "transaction_hash": "0xe1723f9bb89a76d99da82972c37efd64d257dc6e1d7abe2df9af03f1d7a25049",
-            "user_account": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
-            "created_at": "2022-03-07T22:38:47.000000Z",
-            "updated_at": "2022-03-07T22:38:47.000000Z",
-            "public_data_decoded": "WALLET",
-            "documents_matrix_encrypted_decoded": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "availability_address_encrypted_decoded": "ETH"
+            "attestation_hash": "0xe3675dcc1c64ff60b226e523791c42c19c2f8d114b267e42ec9e24f147b0ddfe",
+            "transaction_hash": "0x23f2f886b5e73ea5d17310186ea46ea3f90130a584fc7cef5256b3f3b19822f3",
+            "user_account": "0x0914aF5255Ef82766693eF8bcECe47A82F1e880c",
+            "created_at": "2022-03-16T16:40:16.000000Z",
+            "updated_at": "2022-03-16T16:40:17.000000Z",
+            "public_data_decoded": "a",
+            "documents_matrix_encrypted_decoded": "789c858ec10ac23010448b5f227b9e4352b3dba6477f43040bb667917a1011fa217eacb3d173b30c61326f33a4693667bf6ef3daec2afc52e19f972ccfdb24831c1ff33cdd05721d97518653ea11db00a53aa40cdef5006da111a688a138b24cf51e71c33a8250767fcecc214bac3c4fc5f3a43c675586da3f6187a612fadaf9ed1ffc02fe6323a1",
+            "availability_address_encrypted_decoded": "ETH",
+            "version_code": "2",
+            "coin_blockchain": "ETH",
+            "coin_token": "ETH",
+            "coin_address": "0x2910543Af39abA0Cd09dBb2D50200b3E800A63D2",
+            "coin_memo": "a"
         }
     ]
 }
@@ -344,8 +354,12 @@ Response
     "updated_at": "2022-03-07T23:21:58.000000Z",
     "created_at": "2022-03-07T23:21:58.000000Z",
     "id": 5,
-    "crypto_address_type": "ETH",
-    "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
+    "coin_blockchain": "ETH",
+    "coin_token": "USDT",
+    "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+    "coin_memo": "b",
+    "coin_transaction_hash": "0x123abc",
+    "coin_transaction_value": "0.2345",
     "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
     "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
     "kyc_template_state_id": 7,
@@ -402,7 +416,51 @@ params:
 
 Response
 ```
-"{\"beneficiary\":\"kyc\"}"
+{
+    "serverParams": {
+        "page": 1,
+        "perPage": 10
+    },
+    "totalRecords": 1,
+    "rows": [
+        {
+            "id": 1,
+            "attestation_hash": "0xab53da9287732082d09b1cc72698976a4a97b6c4952e9405b285dc9f34c1c0ef",
+            "beneficiary_ta_address": "0x2312e5209760aF088338CE7765531333F3F0e265",
+            "beneficiary_ta_public_key": "0a3a43061bdd42b1adc029e64be48503c0b4ec717d092bf37f83d40ab526cd44c88c33945ae598e2bd234f7d9c8096f4b26d1833d393f95c444531c53a377f6d",
+            "beneficiary_user_address": "0x24070f44a29099bacf21bf4c2132e4a77f0e2dc3",
+            "beneficiary_user_public_key": "557c3ed7328dad8c85dc8a20a76a6af2fb16534c0df01a44b83582f11a1b051458f5ee234ace86e5830005859ff5599cff44622fb7f33f29047ec5a69a1c824d",
+            "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
+            "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
+            "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
+            "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
+            "sender_user_address": "0x0914af5255ef82766693ef8bcece47a82f1e880c",
+            "sender_user_public_key": "cdf9e8ad465ea7df9f7ffe26c1bf9d65f92419cf3c2bd0bd46c76589175245d4e68ab5a6038f2370d5895adffd12832345b68fcab220450932bc3831f04a8663",
+            "sender_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
+            "sender_ta_signature": "{\"r\":\"0xb7daa8b110e53c70ac261694c45c96d910e482eb9164afc516710be29b2c8067\",\"s\":\"0x292703a76e67a4b20ff67cd0229a66f73cf6e0c8e780979bb5fb7f6313a26d86\",\"v\":\"0x25\"}",
+            "payload": null,
+            "beneficiary_kyc": "BIPmOiBzpuDrMnjcdSMBXBznqmo7xpNPhVIaPd/epMyc6xHsuhVI7PwaYyImoKoGaBALp6SzBzCwqDcF3F7LpADMkqVIqT95ccgnW66IWRjSKM3olqoQn6vyqerA1Ivky5g1mRq3G68QzbujP5bwjEM9aVub4xRANYemdGf1r7NkD63/hoQuasobWjU=",
+            "sender_kyc": "BL/GFNRrMDHaxXAH7Wl8nDZkBG1x96U+iog1F4KpZnezQtU78cKKdRf41WfbNHefnkI4ot2PEaTcl1DmKqNqTThP651cYQ58/EjlaC8oSxQ6gZreqnv44+uV2xBMzq4NcQUwWEKz2JxP8FKtxd6M97lYIEb8MocIRyRBlk5pMJtSGVbphLYnQBQLlA==",
+            "created_at": "2022-03-16T18:15:31.000000Z",
+            "updated_at": "2022-03-16T18:31:27.000000Z",
+            "kyc_template_state_id": 2,
+            "beneficiary_user_signature_hash": "0x7ec005c40fadb64f4180dcc14d9f5927f649096a08478a4a5a112a3aa77ca549",
+            "beneficiary_user_signature": "{\"r\":\"0x08db9d0517b080b5cbb5bc36be8f15559380b7299c818f2ab7f2448ad0424722\",\"s\":\"0x08ba368247c6f54262b3eba05a9c5a477638d3f60ddb64b00ec5899c2e5fe9e9\",\"v\":\"0x25\"}",
+            "sender_user_signature_hash": "0x7ec005c40fadb64f4180dcc14d9f5927f649096a08478a4a5a112a3aa77ca549",
+            "sender_user_signature": "{\"r\":\"0x3c8449ef704232b105746d8fede1881a4c93c78e853773d37133969517493d25\",\"s\":\"0x417beeaad1d50dece87fe8c39ed3bf42056d91c357442d73aea901ba9f6e10ad\",\"v\":\"0x25\"}",
+            "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
+            "sender_ta_url": "https://q1.veriscope.network/kyc-template",
+            "beneficiary_kyc_decrypt": null,
+            "sender_kyc_decrypt": null,
+            "coin_blockchain": "ETH",
+            "coin_token": "ETH",
+            "coin_address": "0x32BC83D320E0F1F66588c777cE1b14b5Fb59B840",
+            "coin_memo": "a",
+            "coin_transaction_hash": "",
+            "coin_transaction_value": ""
+        }
+    ]
+}
 ```
 
 ## Recover Beneficiary TA Signature

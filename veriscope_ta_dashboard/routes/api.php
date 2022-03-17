@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
     Route::group(['prefix' => 'v1/server', 'namespace' => 'Api\Server'], function() {
 
-        Route::post('set_attestation','ContractsController@ta_set_attestation');
+        Route::post('set_v3_attestation','ContractsController@ta_set_v3_attestation');
         Route::post('create_shyft_user','ContractsController@create_shyft_user');
         Route::get('get_jurisdictions','ContractsController@get_jurisdictions');
 
@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('recover_signature','TrustAnchorController@recover_signature');
 
         /* Blockchain analytics api methods */
+
         Route::get('get-blockchain-analytics-providers', 'BlockchainAnalyticsApiController@get_ba_providers');
         Route::get('get-blockchain-analytics-providers-available-networks/{id}', 'BlockchainAnalyticsApiController@get_ba_providers_available_networks');
         Route::post('generate-blockchain-analytics-report', 'BlockchainAnalyticsApiController@get_ba_report');
@@ -93,7 +94,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::post('contracts/trust-anchor/{id}/ta-create-user', 'ContractsController@ta_create_user');
         Route::post('contracts/trust-anchor/{id}/ta-create-random-users', 'ContractsController@ta_create_random_users');
-        Route::post('contracts/trust-anchor/{id}/ta-set-attestation', 'ContractsController@ta_set_attestation');
+        Route::post('contracts/trust-anchor/{id}/ta-set-v3-attestation', 'ContractsController@ta_set_v3_attestation');
         Route::post('contracts/trust-anchor/{id}/ta-get-balance', 'ContractsController@ta_get_balance');
 
         Route::post('contracts/trust-anchor/{id}/ta-set-unique-address', 'ContractsController@ta_set_unique_address');

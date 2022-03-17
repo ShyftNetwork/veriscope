@@ -120,19 +120,19 @@ Note that the crypto address would be the withdrawal (or destination address) in
 
 For testing use a vanity ETH address [https://vanity-eth.tk/](https://vanity-eth.tk/).
 
-eg. ETH Address 0x48fA45507423246fDE59F5123312beAC05A87F84
+eg. ETH Address 0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
 
 params:
-- jurisdiction:						1
-- attestation_type:					WALLET
-- user_address:						0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19
-- public_data:						WALLET
-- documents_matrix_encrypted:			0x48fA45507423246fDE59F5123312beAC05A87F84
-- availability_address_encrypted:		ETH
-- ta_address:							0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892
+- ta_account:         0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892
+- user_account:       0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19
+- jurisdiction:       1
+- coin_blockchain:    ETH
+- coin_token:         USDT
+- coin_address:       0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
+- coin_memo:          tag
 
 Note: 
-jurisdiction is ID from Get Juridictions.
+jurisdiction is ID from Get Jurisdictions.
 
 ```
 {
@@ -144,15 +144,15 @@ jurisdiction is ID from Get Juridictions.
 }
 ```
 
-eg. {{baseUrl}}/api/v1/server/set_attestation
+eg. {{baseUrl}}/api/v1/server/set_v3_attestation
 
-- 196 = Singapore
-- attestation_type set to WALLET
-- user_address use Shyft User account above ("account_address": "0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19")
-- public_data set to WALLET
-- documents_matrix_encrypted use crypto address (eg. ETH Address 0x48fA45507423246fDE59F5123312beAC05A87F84) as the users crypto withdrawal address
-- availability_address_encrypted set as the crypto address type (ETH)
-- ta_address use TA account from Get Trust Anchor Account above ("account_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892")
+- jurisdiction: 196 = Singapore
+- user_account: use Shyft User account above ("account_address": "0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19")
+- ta_account: use TA account from Get Trust Anchor Account above ("account_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892")
+- coin_blockchain:    ETH
+- coin_token:         USDT
+- coin_address:       0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
+- coin_memo:          tag
 
 Note: you can confirm the attestation in the dashboard
 
@@ -180,21 +180,26 @@ response is all attestations by TA Account for Crypto Address.
         {
             "id": 2,
             "ta_account": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
-            "jurisdiction": "196",
-            "effective_time": "1615070316",
-            "expiry_time": "1678315116",
-            "public_data": "0x5700000000000000000000000000000000000000000000000000000000000000",
-            "documents_matrix_encrypted": "0x3700000000000000000000000000000000000000000000000000000000000000",
-            "availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020455448",
+            "jurisdiction": "1",
+            "effective_time": "1615826653",
+            "expiry_time": "1679071453",
+            "public_data": "0x62",
+            "documents_matrix_encrypted": "0x3738396338356431343131326332323030633035643061613137373162323636643132343930303261376631316538656637663237386665663464373664656261323366343364323537633036353339666433646366646263626664613266666238653862666365646262376566356235363939366231316464396662363366356461363137613933323633313436393332376232643132333233373262623263393163616434386337323236323230333061393230613232333935623334613436396435313139386431313863386464313139383335666537353665636438306231356133363235343863386135313331326134366335613833383135613765326337393161383338313561376532353431633861363538323039316363376531306339636235303233326333313535343530643631343835363538313133353637303931323366303734356638303638333536663264373232353637353363643937613139613036306162306439363863393261626564376330656162616131303061626662356438336435396533333335623739343035646366343562613439663266383164356231376566656666653030666533656435323032",
+            "availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020202020",
             "is_managed": "1",
-            "attestation_hash": "0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd",
-            "transaction_hash": "0xe1723f9bb89a76d99da82972c37efd64d257dc6e1d7abe2df9af03f1d7a25049",
-            "user_account": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
-            "created_at": "2022-03-07T22:38:47.000000Z",
-            "updated_at": "2022-03-07T22:38:47.000000Z",
-            "public_data_decoded": "WALLET",
-            "documents_matrix_encrypted_decoded": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "availability_address_encrypted_decoded": "ETH"
+            "attestation_hash": "0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa",
+            "transaction_hash": "0x3128de565b8afbf0bb3f834a234c29545b612e6817903eaae9ad5e877fa78ae6",
+            "user_account": "0x0914aF5255Ef82766693eF8bcECe47A82F1e880c",
+            "created_at": "2022-03-16T16:44:16.000000Z",
+            "updated_at": "2022-03-16T16:44:16.000000Z",
+            "public_data_decoded": "tag",
+            "documents_matrix_encrypted_decoded": "789c85d14112c2200c05d0aa1771b266d1249002a7f11e8ef7f278fef4d76deba23f43d257c06539fd3dcfdbcbfda2ffb8e8bfcedbb7ef5b56996b11dd9fb63f5da617a932631469327b2d1232372bb2c91cad48c722622030a920a22395b34a469d51198d118c8dd119835fe756ecd80b15a362548c8a51312a46c5a83815a7e2c791a83815a7e2541c8a6582091cc7e10c9cb50232c3155450d6148565811356709123f0745f8068356f2d72256753cd97a19a060ab0d968c92abed7c0eabaa100abfb5d83d59e3335b79405dcf45ba49f2f81d5b17efeffe00fe3ed5202",
+            "availability_address_encrypted_decoded": null,
+            "version_code": "3",
+            "coin_blockchain": "ETH",
+            "coin_token": "USDT",
+            "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+            "coin_memo": "tag"
         }
     ]
 }
@@ -206,9 +211,9 @@ Beneficiary: Get Attestation by Crypto Address
 
 Note: 
 
-searchTerm=0x48fA45507423246fDE59F5123312beAC05A87F84 is the documents_matrix_encrypted in the attesation.
+searchTerm=0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be is the coin_address in the attesation.
 
-{{baseUrl}}/api/v1/server/get_attestations?page=1&perPage=10&searchTerm=0x48fA45507423246fDE59F5123312beAC05A87F84
+{{baseUrl}}/api/v1/server/get_attestations?page=1&perPage=10&searchTerm=0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be
 
 response: 
 
@@ -223,21 +228,26 @@ response:
         {
             "id": 2,
             "ta_account": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
-            "jurisdiction": "196",
-            "effective_time": "1615070316",
-            "expiry_time": "1678315116",
-            "public_data": "0x5700000000000000000000000000000000000000000000000000000000000000",
-            "documents_matrix_encrypted": "0x3700000000000000000000000000000000000000000000000000000000000000",
-            "availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020455448",
+            "jurisdiction": "1",
+            "effective_time": "1615826653",
+            "expiry_time": "1679071453",
+            "public_data": "0x62",
+            "documents_matrix_encrypted": "0x3738396338356431343131326332323030633035643061613137373162323636643132343930303261376631316538656637663237386665663464373664656261323366343364323537633036353339666433646366646263626664613266666238653862666365646262376566356235363939366231316464396662363366356461363137613933323633313436393332376232643132333233373262623263393163616434386337323236323230333061393230613232333935623334613436396435313139386431313863386464313139383335666537353665636438306231356133363235343863386135313331326134366335613833383135613765326337393161383338313561376532353431633861363538323039316363376531306339636235303233326333313535343530643631343835363538313133353637303931323366303734356638303638333536663264373232353637353363643937613139613036306162306439363863393261626564376330656162616131303061626662356438336435396533333335623739343035646366343562613439663266383164356231376566656666653030666533656435323032",
+            "availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020202020",
             "is_managed": "1",
-            "attestation_hash": "0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd",
-            "transaction_hash": "0xe1723f9bb89a76d99da82972c37efd64d257dc6e1d7abe2df9af03f1d7a25049",
-            "user_account": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
-            "created_at": "2022-03-07T22:38:47.000000Z",
-            "updated_at": "2022-03-07T22:38:47.000000Z",
-            "public_data_decoded": "WALLET",
-            "documents_matrix_encrypted_decoded": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "availability_address_encrypted_decoded": "ETH"
+            "attestation_hash": "0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa",
+            "transaction_hash": "0x3128de565b8afbf0bb3f834a234c29545b612e6817903eaae9ad5e877fa78ae6",
+            "user_account": "0x0914aF5255Ef82766693eF8bcECe47A82F1e880c",
+            "created_at": "2022-03-16T16:44:16.000000Z",
+            "updated_at": "2022-03-16T16:44:16.000000Z",
+            "public_data_decoded": "tag",
+            "documents_matrix_encrypted_decoded": "789c85d14112c2200c05d0aa1771b266d1249002a7f11e8ef7f278fef4d76deba23f43d257c06539fd3dcfdbcbfda2ffb8e8bfcedbb7ef5b56996b11dd9fb63f5da617a932631469327b2d1232372bb2c91cad48c722622030a920a22395b34a469d51198d118c8dd119835fe756ecd80b15a362548c8a51312a46c5a83815a7e2c791a83815a7e2541c8a6582091cc7e10c9cb50232c3155450d6148565811356709123f0745f8068356f2d72256753cd97a19a060ab0d968c92abed7c0eabaa100abfb5d83d59e3335b79405dcf45ba49f2f81d5b17efeffe00fe3ed5202",
+            "availability_address_encrypted_decoded": null,
+            "version_code": "3",
+            "coin_blockchain": "ETH",
+            "coin_token": "USDT",
+            "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+            "coin_memo": "tag"
         }
     ]
 }
@@ -343,7 +353,7 @@ eg: {{baseUrl}}/api/v1/server/create_kyc_template
 
 params:
 
-- attestation_hash: 0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd
+- attestation_hash: 0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa
 - user_account: 0x1cde6938088edcef189a4599ce1331132fc1903c
 - user_public_key: d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62
 - user_signature: {
@@ -361,23 +371,27 @@ response:
 
 ```
 {
-    "attestation_hash": "0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd",
-    "updated_at": "2022-03-07T23:21:58.000000Z",
-    "created_at": "2022-03-07T23:21:58.000000Z",
-    "id": 5,
-    "crypto_address_type": "ETH",
-    "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
+    "attestation_hash": "0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa",
+    "updated_at": "2022-03-16T21:00:13.000000Z",
+    "created_at": "2022-03-16T21:00:13.000000Z",
+    "id": 4,
+    "coin_blockchain": "ETH",
+    "coin_token": "USDT",
+    "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+    "coin_memo": "tag",
+    "coin_transaction_hash": "",
+    "coin_transaction_value": "",
     "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
-    "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
+    "sender_user_address": "0x0914aF5255Ef82766693eF8bcECe47A82F1e880c",
     "kyc_template_state_id": 7,
     "beneficiary_ta_address": "0x2312e5209760aF088338CE7765531333F3F0e265",
-    "beneficiary_user_address": "0x1cde6938088edcef189a4599ce1331132fc1903c",
+    "beneficiary_user_address": "0x24070f44a29099bacf21bf4c2132e4a77f0e2dc3",
     "beneficiary_ta_public_key": "0a3a43061bdd42b1adc029e64be48503c0b4ec717d092bf37f83d40ab526cd44c88c33945ae598e2bd234f7d9c8096f4b26d1833d393f95c444531c53a377f6d",
-    "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
+    "beneficiary_user_public_key": "557c3ed7328dad8c85dc8a20a76a6af2fb16534c0df01a44b83582f11a1b051458f5ee234ace86e5830005859ff5599cff44622fb7f33f29047ec5a69a1c824d",
     "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
     "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
     "beneficiary_user_signature_hash": "0x7ec005c40fadb64f4180dcc14d9f5927f649096a08478a4a5a112a3aa77ca549",
-    "beneficiary_user_signature": "{\"r\": \"0xe39db18a6a3465286f16fc43c7e9d2f63f659ff1471eb764cdb1a0961a2beeda\",\"s\": \"0x581dd235c7ff28958dabacd08d91b82b673501f4e453ccb3dd314e45795eab7a\",\"v\": \"0x25\"}",
+    "beneficiary_user_signature": "{\"r\":\"0x08db9d0517b080b5cbb5bc36be8f15559380b7299c818f2ab7f2448ad0424722\",\"s\":\"0x08ba368247c6f54262b3eba05a9c5a477638d3f60ddb64b00ec5899c2e5fe9e9\",\"v\":\"0x25\"}",
     "sender_ta_url": "https://q1.veriscope.network/kyc-template",
     "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template"
 }
@@ -385,7 +399,7 @@ response:
 
 4) Beneficiary: **Get KYC Templates** (by atttestation hash)
 
-{{baseUrl}}/api/v1/server/get_kyc_templates?page=1&perPage=10&searchTerm=0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd
+{{baseUrl}}/api/v1/server/get_kyc_templates?page=1&perPage=10&searchTerm=0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa
 
 Note: searchTerm is the attestation_hash above.
 
@@ -400,39 +414,40 @@ response:
     "totalRecords": 1,
     "rows": [
         {
-            "id": 5,
-            "attestation_hash": "0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd",
+            "id": 4,
+            "attestation_hash": "0x875e07fdc127054e5eea9a621dc7b7afa860c16fc6433e60ed08dde9eca370aa",
             "beneficiary_ta_address": "0x2312e5209760aF088338CE7765531333F3F0e265",
             "beneficiary_ta_public_key": "0a3a43061bdd42b1adc029e64be48503c0b4ec717d092bf37f83d40ab526cd44c88c33945ae598e2bd234f7d9c8096f4b26d1833d393f95c444531c53a377f6d",
-            "beneficiary_user_address": "0x1cde6938088edcef189a4599ce1331132fc1903c",
-            "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
+            "beneficiary_user_address": "0x24070f44a29099bacf21bf4c2132e4a77f0e2dc3",
+            "beneficiary_user_public_key": "557c3ed7328dad8c85dc8a20a76a6af2fb16534c0df01a44b83582f11a1b051458f5ee234ace86e5830005859ff5599cff44622fb7f33f29047ec5a69a1c824d",
             "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
             "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-            "crypto_address_type": "ETH",
-            "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "crypto_public_key": null,
-            "crypto_signature_hash": null,
-            "crypto_signature": null,
             "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
             "sender_ta_public_key": null,
-            "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
+            "sender_user_address": "0x0914aF5255Ef82766693eF8bcECe47A82F1e880c",
             "sender_user_public_key": null,
             "sender_ta_signature_hash": null,
             "sender_ta_signature": null,
             "payload": null,
             "beneficiary_kyc": null,
             "sender_kyc": null,
-            "created_at": "2022-03-07T23:21:58.000000Z",
-            "updated_at": "2022-03-07T23:21:58.000000Z",
+            "created_at": "2022-03-16T21:00:13.000000Z",
+            "updated_at": "2022-03-16T21:00:13.000000Z",
             "kyc_template_state_id": 7,
             "beneficiary_user_signature_hash": "0x7ec005c40fadb64f4180dcc14d9f5927f649096a08478a4a5a112a3aa77ca549",
-            "beneficiary_user_signature": "{\"r\": \"0xe39db18a6a3465286f16fc43c7e9d2f63f659ff1471eb764cdb1a0961a2beeda\",\"s\": \"0x581dd235c7ff28958dabacd08d91b82b673501f4e453ccb3dd314e45795eab7a\",\"v\": \"0x25\"}",
+            "beneficiary_user_signature": "{\"r\":\"0x08db9d0517b080b5cbb5bc36be8f15559380b7299c818f2ab7f2448ad0424722\",\"s\":\"0x08ba368247c6f54262b3eba05a9c5a477638d3f60ddb64b00ec5899c2e5fe9e9\",\"v\":\"0x25\"}",
             "sender_user_signature_hash": null,
             "sender_user_signature": null,
             "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
             "sender_ta_url": "https://q1.veriscope.network/kyc-template",
             "beneficiary_kyc_decrypt": null,
-            "sender_kyc_decrypt": null
+            "sender_kyc_decrypt": null,
+            "coin_blockchain": "ETH",
+            "coin_token": "USDT",
+            "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+            "coin_memo": "tag",
+            "coin_transaction_hash": "",
+            "coin_transaction_value": ""
         }
     ]
 }
@@ -467,11 +482,6 @@ response:
             "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
             "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
             "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-            "crypto_address_type": "ETH",
-            "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "crypto_public_key": null,
-            "crypto_signature_hash": null,
-            "crypto_signature": "null",
             "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
             "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
             "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
@@ -491,7 +501,13 @@ response:
             "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
             "sender_ta_url": "https://q1.veriscope.network/kyc-template",
             "beneficiary_kyc_decrypt": null,
-            "sender_kyc_decrypt": null
+            "sender_kyc_decrypt": null,
+            "coin_blockchain": "ETH",
+            "coin_token": "USDT",
+            "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+            "coin_memo": "tag",
+            "coin_transaction_hash": "",
+            "coin_transaction_value": ""
         }
     ]
 }
@@ -610,11 +626,6 @@ response:
     "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
     "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
     "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-    "crypto_address_type": "ETH",
-    "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-    "crypto_public_key": null,
-    "crypto_signature_hash": null,
-    "crypto_signature": "null",
     "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
     "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
     "sender_user_address": "0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19",
@@ -634,7 +645,13 @@ response:
     "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
     "sender_ta_url": "https://q1.veriscope.network/kyc-template",
     "beneficiary_kyc_decrypt": null,
-    "sender_kyc_decrypt": null
+    "sender_kyc_decrypt": null,
+    "coin_blockchain": "ETH",
+    "coin_token": "USDT",
+    "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+    "coin_memo": "tag",
+    "coin_transaction_hash": "",
+    "coin_transaction_value": ""
 }
 ```
 
@@ -665,11 +682,6 @@ response:
             "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
             "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
             "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-            "crypto_address_type": "ETH",
-            "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-            "crypto_public_key": null,
-            "crypto_signature_hash": null,
-            "crypto_signature": "null",
             "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
             "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
             "sender_user_address": "0x1c982a37a77b9ae26e077e9ba15b22ec5dd74b19",
@@ -689,7 +701,13 @@ response:
             "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
             "sender_ta_url": "https://q1.veriscope.network/kyc-template",
             "beneficiary_kyc_decrypt": null,
-            "sender_kyc_decrypt": null
+            "sender_kyc_decrypt": null,
+            "coin_blockchain": "ETH",
+            "coin_token": "USDT",
+            "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+            "coin_memo": "tag",
+            "coin_transaction_hash": "",
+            "coin_transaction_value": ""
         }
     ]
 }
@@ -760,12 +778,6 @@ response:
     "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
     "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
     "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-    "crypto_address_type": "ETH",
-    "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-    "crypto_public_key": null,
-    "crypto_signature_hash": null,
-    "crypto_signature": "null",
-    "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
     "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
     "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
     "sender_user_public_key": "5f6b31cc3ec4223529cee40422504a5ba74680b9c6faa44ff2cb1520da9bcd35155974578a6e302ea30f0016f84f7829ff0d2ae97aa4f1ff5a76b13970797f53",
@@ -784,7 +796,13 @@ response:
     "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
     "sender_ta_url": "https://q1.veriscope.network/kyc-template",
     "beneficiary_kyc_decrypt": null,
-    "sender_kyc_decrypt": null
+    "sender_kyc_decrypt": null,
+    "coin_blockchain": "ETH",
+    "coin_token": "USDT",
+    "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+    "coin_memo": "tag",
+    "coin_transaction_hash": "",
+    "coin_transaction_value": ""
 }
 ```
 
@@ -845,7 +863,7 @@ params:
 - attestation_hash:0xd6f0e5fe6c38ca9575082382f495a2e7ff524e1dac102c02dc1e710ca4b7c0dd
 - user_account:0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19
 - user_public_key:5f6b31cc3ec4223529cee40422504a5ba74680b9c6faa44ff2cb1520da9bcd35155974578a6e302ea30f0016f84f7829ff0d2ae97aa4f1ff5a76b13970797f53
-- user_signature:{"r":"0x01c5873f89c2983183b005d2027465a94fc0acc4ec8dc0642f804f4343691f40","s":"0x0334694f75a2ebf9e8d4da046cf5fe5ad782c4898d7c6cd7d8db29de684a3c7b","v":"0x25"}
+- user_signature: {"r":"0x01c5873f89c2983183b005d2027465a94fc0acc4ec8dc0642f804f4343691f40","s":"0x0334694f75a2ebf9e8d4da046cf5fe5ad782c4898d7c6cd7d8db29de684a3c7b","v":"0x25"}
 - user_signature_hash:0x7ec005c40fadb64f4180dcc14d9f5927f649096a08478a4a5a112a3aa77ca549
 - ivms_encrypt:BIapAI3Xr2qd4rkxHPyruUeZ19FvqbEw+xlivIO/nPS7z1JnAsPG23UgGOBWYALf+9Vq3u5NRRSnWcb5o5BhDL0s26SOuGndSU8pmCVo49Dj8alralxw95wS9rqNCWg0tQZHK6pl9v203cwyHfHtKdmPmqLFixWZP1gtj9JcbmpF+tAIGRIMZsVApQ==
 
@@ -867,11 +885,6 @@ response:
     "beneficiary_user_public_key": "d72c12651ff33196f59f82266158c9c9ccf552461538c47413bc2d9baa2a68c01b0316807189a9c764852ddd3370417a24dec0ab0f774313423ab893243c2f62",
     "beneficiary_ta_signature_hash": "0x0b709dd4809f36a22fe48250b24a5e41e8aea491bace26627f5c68ea9b4fad3f",
     "beneficiary_ta_signature": "{\"r\":\"0xe8f8a258f054de3c0a235eaffec390bd4665dd2d437864a09cdc7af200419166\",\"s\":\"0x3ceaf779d5dd685d477708ac2eb7306fd8b2d7c03a739c9b206d4972ee9564c0\",\"v\":\"0x25\"}",
-    "crypto_address_type": "ETH",
-    "crypto_address": "0x48fA45507423246fDE59F5123312beAC05A87F84",
-    "crypto_public_key": null,
-    "crypto_signature_hash": null,
-    "crypto_signature": "null",
     "sender_ta_address": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
     "sender_ta_public_key": "00553963a21d50d804e5673fcf3993891026ea3866868bacc385fe805794871f9a85f7f0f8d29fb075823de460062ca58b29d7f5eafc196fb1f71c6ab60e4a78",
     "sender_user_address": "0x1C982A37a77b9ae26E077E9bA15b22EC5dD74B19",
@@ -891,7 +904,13 @@ response:
     "beneficiary_ta_url": "https://q2.veriscope.network/kyc-template",
     "sender_ta_url": "https://q1.veriscope.network/kyc-template",
     "beneficiary_kyc_decrypt": null,
-    "sender_kyc_decrypt": null
+    "sender_kyc_decrypt": null,
+    "coin_blockchain": "ETH",
+    "coin_token": "USDT",
+    "coin_address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+    "coin_memo": "tag",
+    "coin_transaction_hash": "",
+    "coin_transaction_value": ""
 }
 ```
 

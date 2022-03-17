@@ -2,13 +2,13 @@
 
 [Laravel Horizon](https://github.com/laravel/horizon) provides a beautiful dashboard and code-driven configuration for your Laravel powered [Redis queues](https://laravel.com/docs/8.x/queues) and allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.
 
-<img src="screenshots/screen-2.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/screen-2.png "Horizon Dashboard")
 
 ### Problem
 
 When VASPs post attestations to the Shyft Blockchain in Step 1 these attestations arrive to all connected VASPs in Step 2 as events.
 
-<img src="screenshots/Shyft-Horizon-Flow-1.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/Shyft-Horizon-Flow-1.png "Horizon Flow")
 
 Attestations in Step 2.1 are sent over to the Exchange via a custom webhook that is configured below.
 
@@ -53,11 +53,11 @@ Choose what to do: 15
 
 Run Step 15 above.
 
-## Webhook config for Horizon
+## Webhook configuration for Horizon
 
 Log into the backoffice and choose Constants.
 
-<img src="screenshots/constants.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/constants.png "Constants")
 
 When in constants (Portal Settings) add your custom Webhook URL and Webhook Secret.
 
@@ -65,7 +65,7 @@ Choose Update to save the Webhook URL and Secret.
 
 **Note:** Webhook URL should be the Exchange host API service to receive attestations (Step 2.1 and Step 2.2 above).
 
-<img src="screenshots/screen-3.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/screen-3.png "Settings")
 
 ## Webhook Jobs
 
@@ -73,55 +73,63 @@ When Veriscope receives an attestation event (Step 2.1) it will add the payload 
 
 To view Completed Jobs, navigate to the Horizon Dashboard. 
 
-<img src="screenshots/screen-1.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/screen-1.png "Settings")
 
 Choose Completed Jobs.
 
-<img src="screenshots/dashboard.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/dashboard.png "Settings")
 
 Successful Webhook jobs are called "CallWebhookJob".  To view the job details choose "CallWebhookJob".
 
-<img src="screenshots/webhook.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/webhook.png "Settings")
 
 Displayed are the details of the Webhook Post.
 
-<img src="screenshots/details.png" alt="signin" style="zoom:25%;" />
+![Alt text](screenshots/details.png "Settings")
 
 Below is an example of the payload sent to the Webhook URL.
 
 ```
 {
-	"webhookUrl": "https://.......",
-	"httpVerb": "post",
-	"tries": 3,
-	"requestTimeout": 3,
-	"backoffStrategyClass": "Spatie\WebhookServer\BackoffStrategy\ExponentialBackoffStrategy",
-	"signerClass": null,
-	"headers": {
-	"Content-Type": "application/json",
-	"Signature": "675e53d109c2a5e58b5ea86815671e7d0b965e528aa9146041f27d13b72dbad2"
+"webhookUrl": "https://[YOUR WEBHOOK URL HERE]",
+"httpVerb": "post",
+"tries": 3,
+"requestTimeout": 3,
+"backoffStrategyClass": "Spatie\WebhookServer\BackoffStrategy\ExponentialBackoffStrategy",
+"signerClass": null,
+"headers": {
+"Content-Type": "application/json",
+"Signature": "[YOUR SIGNATURE HERE]"
 },
 "verifySsl": true,
 "throwExceptionOnFailure": false,
 "queue": "default",
 "payload": {
-	"ta_account": "0xE4A86f2c2105f797Bf91F11237E0c6E4Bbfe35F6",
-	"jurisdiction": "3",
-	"effective_time": "1614724966",
-	"expiry_time": "1677969766",
+	"ta_account": "0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
+	"jurisdiction": "1",
+	"effective_time": "1615913522",
+	"expiry_time": "1679158322",
 	"is_managed": "1",
-	"attestation_hash": "0xcbab0f6a75039b34845effdefd3c1ca7d11a25fd3643cfc7ce9a97abe3c10881",
-	"transaction_hash": "0xca132d87a85bfad2533133a15ee0a7fac64210f126d3ccdbbdada526257b63fc",
-	"user_account": "0x2075CE29Fb03796ab057f02c8241f3Ce969aBA1d",
-	"public_data_decoded": "WALLET",
-	"documents_matrix_encrypted_decoded": "0x6ec88a2cb932eb46dfda0280c0eadb93b6eca13b",
-	"availability_address_encrypted_decoded": "ETH"
+	"attestation_hash": "0xdfd0a3b7766bc7f9ae5af62ba814a6e9e860e4da6bca90fc31865b50c8f79e5f",
+	"transaction_hash": "0x3a6890fae7782203c0b2e66385e1bc304da0c698251ebda913b4ec5230adce6b",
+	"user_account": "0xDAe1743aE4F79DdEa582C3BF2CdF582F1514e365",
+	"public_data": "0x313233",
+	"public_data_decoded": "123",
+	"documents_matrix_encrypted": "0x3738396338356366346230656333323030633435643162346464343865343331303362306639393964353634316635356637356563346364393833306530303933646539363031666337663639636662666137383366663439663837666564616437616666333262353134363063393264366164656233363139313632346362613833353438393164313733393033613566326434383933653132353438613737336261313432393133343834323439343636346132313039353638343432373963636639393434656635313530313434353531313434353531313434353531313463353530306363356565386435303063633535303063633564613561643761366532373330393962386366376239666537346463376637663665623733353432",
+	"documents_matrix_encrypted_decoded": "789c85cf4b0ec3200c45d1b4dd48e43103b0f999d5641f55f75ec4cd9830e0093de9601fc7f69cfbfa783ff49f87fedad7aff32b51460c92d6adeb36191624cba8354891d173903a5f2d4893e12548a773ba1429134842494664a210956844279ccf9944ef515014455114455114455114c5500cc5ee8d500cc5500cc5da5ad7a6e273099b8cf7b9fe74dc7f7f6eb73542",
+	"availability_address_encrypted": "0x2020202020202020202020202020202020202020202020202020202020202020",
+	"availability_address_encrypted_decoded": null,
+	"version_code": "3",
+	"coin_blockchain": "ETH",
+	"coin_token": "USDC",
+	"coin_address": "0x6ec88a2cb932eb46dfda0280c0eadb93b6eca13b",
+	"coin_memo": "123"
 },
 "meta": [
 ],
 "tags": [
 ],
-"uuid": "e2b0223c-8653-424d-a3bc-722f1692ff21",
+"uuid": "f600f17e-c70c-403e-8235-0497e4168171",
 "response": null,
 "errorType": null,
 "errorMessage": null,
@@ -140,9 +148,9 @@ Below is an example of the payload sent to the Webhook URL.
 }
 ```
 
-Note the **Signature** and **payload**.
+Note the **[YOUR WEBHOOK URL HERE]** and **[YOUR SIGNATURE HERE]**.
 
-"documents_matrix_encrypted_decoded": "0x6ec88a2cb932eb46dfda0280c0eadb93b6eca13b" is the crypto address to store and query against deposit addresses in the Exchange.
+"coin_address": "0x6ec88a2cb932eb46dfda0280c0eadb93b6eca13b" is the crypto address to store and query against deposit addresses in the Exchange.
 
 Signature is the header param you can use to verify the webhook payload originated from Veriscope.
 

@@ -2,19 +2,21 @@
 Welcome to the Veriscope Installation Guide
 
 Veriscope (VS) ships with a number of services (all open sourced) that in tandem enable VASPs to:
-Create Trust Anchor accounts (TAs)
-Create test User accounts (VASP users)
-Register a TA account in the Veriscope Discovery Layer
-Set Wallet Attestations
-Become discovered by other peers on the network
-Share PII between two peers as they are related to an originating crypto transaction from VASP A to VASP B.
+- Create Trust Anchor accounts (TAs)
+- Create test User accounts (VASP users)
+- Register a TA account in the Veriscope Discovery Layer
+- Set Wallet Attestations
+- Become discovered by other peers on the network
+- Share PII between two peers as they are related to an originating crypto transaction from VASP A to VASP B.
 
 In order to accomplish the above, VS utilizes a number of self managed services:
 - Shyft Relay Node - a Nethermind POA client that synchronizes with the Shyft Mainnet.  VS communicates with the Relay Node
-over a local RPC connection (HTTP and Websocket)
+over an RPC connection (HTTP and Websocket)
 - Web Application  - a laravel and vuejs framework for managing TA accounts, sharing KYC data over the peer network
 - Node JS application scripts that interface the Web Application with either the Relay Node or various web3 libraries for
 cryptography functions.
+
+![Alt text](images/pattern-1.png "Services")
 
 This repository comes with a complete installer that sets up a
 running installation, complete with Postgres database, nginx serving
@@ -27,18 +29,17 @@ name that points to it.
 
 **Note:** If you intend to synchronize the blockchain with your nethermind node, be mindful on the storage disk size.  e.g. 1 million blocks requires approximately 8GB of storage.
 
+**Do Not Continue with the setup unless you have a domain name that is reachable over ports 80 and 443.  E.g. https://subdomain.domain.com**
 ## Setup
-
-If necessary, create a new Unix account to act as the service user.
-Ensure the service user is in appropriate groups. The setup recipe
-assumes the user who invokes 'sudo' is the service user.
 
 Please begin the installation by cloning this repository.
 
 ```shell
 veriscope/
 ├── API-Docs
+├── Blockchain-Analytics-Docs
 ├── Dockerfile
+├── Horizon-Docs
 ├── IVMS-101
 ├── KYC-Template-Docs
 ├── README.md
@@ -51,15 +52,37 @@ veriscope/
 ├── veriscope_ta_dashboard
 └── veriscope_ta_node
 ```
-Note:
+**scripts/** is the installation setup guide
 
-scripts/ is the installation setup guide
+**chains/** is the Nethermind POA relay node configuration. please review [Chains Readme](/chains/README.md)
 
-chains/ is the Nethermind POA relay node configuration. please review [Chains Readme](/chains/README.md)
+**veriscope_ta_dashboard/** is the Web Application (Laravel/VueJS)
 
-veriscope_ta_dashboard/ is the Web Application (Laravel/VueJS)
+**veriscipe_ta_node/** is the NodeJS interface between the Web Application and the Relay Node
 
-veriscipe_ta_node/ is the NodeJS interface between the Web Application and the Relay Node
+## Guides
+
+[API Docs](/API-Docs/README.md) - How to setup an API Token.
+
+[API Walk Through Guide](/API-Docs/API-walkthrough-guide.md) - How to use the API for transfer of PII between two peers.
+
+[Blockchain Analytics Docs](/Blockchain-Analytics-Docs/README.md) - How to add your Blockchain Analytics provider API key for wallet screening.
+
+[Horizon Docs](/Horizon-Docs/README.md) - How to set up a webhook to receive notifications from the Shyft Network.
+
+[IVMS 101](/IVMS-101/README.md) - How to encode your Entity and User PII into IVMS
+
+[KYC Template Docs](/KYC-Template-Docs/README.md) - How to format your PII and transfer it to a peer.
+
+[Chains](/chains/README.md) - How to connect to the supported blockchains.
+
+## Setup Script
+
+If necessary, create a new Unix account to act as the service user.
+
+Ensure the service user is in appropriate groups. 
+
+The setup recipe assumes the user who invokes 'sudo' is the service user.
 
 Before continuing ensure you have a sudo user and run the following commands (for example “forge”):
 
@@ -95,13 +118,30 @@ Then navigate to opt/veriscope/
 $ ​​cd /opt/veriscope
 ```
 
-Edit the .env file in the directory and add your host name and TA name.  
+Edit the .env file in the directory and add:
+
+- your host name (VERISCOPE_SERVICE_HOST), 
+- TA name (VERISCOPE_COMMON_NAME) and 
+- chain target (VERISCOPE_TARGET).  
 
 The VERISCOPE_COMMON_NAME name is only referenced locally.  
 
-You must choose VERISCOPE_TARGET as either veriscope_testnet, fed_testnet or fed_mainnet as this target will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses), see here [Chains Readme](/chains/README.md)
+You must choose VERISCOPE_TARGET as either 
+- veriscope_testnet, 
+- fed_testnet or 
+- fed_mainnet 
 
-Ensure you use your own domain name that has been configured with DNS (80, 443).
+as this target will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses), see here [Chains Readme](/chains/README.md) for chain descriptions and configuration.
+
+The Smart Contract ABIs are installed here:
+
+```
+$ pwd
+/opt/veriscope/veriscope_ta_node/artifacts
+```
+**Ensure you use your own domain name that has been configured with DNS (80, 443).**
+
+**Do Not Continue with the setup unless you have a domain name that is reachable over ports 80 and 443.  E.g. https://subdomain.domain.com**
 
 For example:
 ```shell
@@ -145,9 +185,9 @@ q) quit
 Choose what to do:
 ```
 
-This script deploys an all-in-one installation that is intended to
-be a template for integration into your own environments' database
-servers, load balancers, and SSL key management.
+**Note:** for a fresh install complete steps 1-9, 13, 14, 15.
+
+This script deploys an all-in-one installation that is intended to be a template for integration into your own environments' database servers, load balancers, and SSL key management.
 
 ### 1. Refresh dependencies
 
@@ -181,9 +221,7 @@ and the chain state in `/opt/nm/nethermind_db`.
 ├── shyftchainspec.json
 └── static-nodes.json
 ```
-This step will create a random sealer account, and provide its
-private key and public address.  These should be kept someplace
-safe for permanent systems.
+This step will create a random sealer account, and provide its private key and public address.  These should be kept someplace safe for permanent systems.
 
 **Note:** if you intend to use an RPC connection instead of synchronizing the blockchain locally, terminate nethermind and change the HTTP and WS params in the .env of veriscope_ta_node/.env to the provided rpc domain.  e.g. 
 ```
@@ -230,7 +268,14 @@ PHP servers.
 The node webservice is several components - operating in systemd
 units called `ta-node-1` and `ta-node-2`.  This step installed
 node.js dependencies into `/opt/veriscope/node_modules`, then
-installs activatges and starts the systemd units.
+installs activates and starts the systemd units.
+
+**Note:** This step copies over the correct ABIs depending on the chain target and places them here:
+
+```
+$ pwd
+/opt/veriscope/veriscope_ta_node/artifacts
+```
 
 ### 7. Install/update PHP web service
 
@@ -263,6 +308,13 @@ The Web Application requires an admin user to manage the Trust Anchor account.  
 
 The Web Application receives data from the node scripts over a webhook url.  This url is secured using a shared key.  This step creates or refreshes the share key in each .env file.
 
+E.g.:
+```
+/opt/veriscope/veriscope_ta_node/.env
+
+WEBHOOK_CLIENT_SECRET=du7....aec
+```
+
 ### 11. Regenerate oauth secret (passport)
 
 The Web API is authenticated using Laravel Password (OAuth2).  This step generates or regenerates the oauth public/private keys stored in veriscope_ta_dashboard/storage/.
@@ -291,26 +343,15 @@ Install Laravel Horizon which provides a beautiful dashboard and code-driven con
 
 ### Ongoing updates
 
-Fetching the veriscope repository and re-running the installation
-steps will not damage any part of your installation. If you have
-customized your installation, here are the manual steps:
-
-```shell
-# log in as service user
-$ cd /opt/veriscope
-$ git pull
-$ cd veriscope_ta_dashboard
-$ composer install
-$ npm install
-$ npm run production
-$ php artisan migrate
-
-
-$ cd ../veriscope_ta_node
-$ npm install
-$ sudo systemctl restart ta ta-wss ta-schedule ta-node-1 ta-node-2
+Releases of Veriscope occur frequently.  Before deploying a release ensure you have backed up your TA Private Key (TRUST_ANCHOR_PK) and your TA Account (TRUST_ANCHOR_ACCOUNT).  In the event you wish to do a clean deploy, after you complete the installation, replace the newly created TA account with your backup.  Then restart ta-node-1 and ta-node-2.
+e.g.
 ```
+/opt/veriscope/veriscope_ta_node/.env
 
+TRUST_ANCHOR_PK=f37.......5d4
+TRUST_ANCHOR_PREFNAME="vasp"
+TRUST_ANCHOR_ACCOUNT=0x1bD8.....892
+```
 
 ## Veriscope Docker Setup
 The docker setup requires public hostname must not be a bare IP address.
@@ -365,10 +406,6 @@ q) quit
 Choose what to do: [Press i to install]
 ```
 
-```
-Choose what to do: [Press 9 to create admin user and enter the required information]
-```
-
 ## Installation Confirmation/Troubleshooting
 
 ### 1 - Has your TA account been set in the .env (veriscope_ta_node/.env)?
@@ -399,29 +436,30 @@ You can confirm this by
 1. viewing https://fedstats.veriscope.network/ to see if your node is up and synchronized.
 2. running the following command in the console:
 ```
-$ sudo systemctl status nethermind
-● nethermind.service - Nethermind Ethereum Daemon
-     Loaded: loaded (/etc/systemd/system/nethermind.service; disabled; vendor p>
-     Active: active (running) since Thu 2021-11-25 21:25:19 UTC; 1 weeks 0 days>
-   Main PID: 1419555 (Nethermind.Runn)
-      Tasks: 72 (limit: 4631)
-     Memory: 1.2G
-     CGroup: /system.slice/nethermind.service
-             └─1419555 /opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
+	$ sudo systemctl status nethermind
+	● nethermind.service - Nethermind Ethereum Daemon
+	     Loaded: loaded (/etc/systemd/system/nethermind.service; disabled; vendor p>
+	     Active: active (running) since Thu 2021-11-25 21:25:19 UTC; 1 weeks 0 days>
+	   Main PID: 1419555 (Nethermind.Runn)
+	      Tasks: 72 (limit: 4631)
+	     Memory: 1.2G
+	     CGroup: /system.slice/nethermind.service
+	             └─1419555 /opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
 
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_blockNumber          >
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_chainId              >
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_getLogs              >
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: TOTAL                    >
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]:  
-Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:50.0323|>
-Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
-Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
-Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:58.0401|>
-Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_blockNumber          >
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_chainId              >
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: eth_getLogs              >
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: TOTAL                    >
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: ------------------------->
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]:  
+	Dec 03 19:59:50 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:50.0323|>
+	Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+	Dec 03 19:59:54 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:54.0361|>
+	Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-12-03 19:59:58.0401|>
+	Dec 03 19:59:58 pcf Nethermind.Runner[1419555]: 2021-
 ```
+
 The service should show Active.
 
 To confirm the webapp, http-api and nethermind (fully synched) are all connected, you should be able to fetch account balance in the webapp.
@@ -431,7 +469,23 @@ Both the webapp and nodejs logs to files in the following directories:
 
 webapp -> /opt/veriscope/veriscope_ta_dashboard/storage/logs
 
+```
+$ pwd
+/opt/veriscope/veriscope_ta_dashboard/storage/logs
+$ ls
+laravel.log
+```
+
 nodejs -> /opt/veriscope/veriscope_ta_node/logs
+
+```
+$ pwd
+/opt/veriscope/veriscope_ta_node/logs
+$ ls
+blockchain-data.combined.log  http-api.error.log
+blockchain-data.error.log     shyft-template-helper.combined.log
+http-api.combined.log         shyft-template-helper.error.log
+```
 
 ### 5 - 503 when loading blockchain data
 If loading any of the blockchain data like so (see below section):
@@ -464,48 +518,64 @@ $ node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
 
 ```
 
-```shell
-**Check if things work as expected by:
+The above load blockchain data can be achieved in the Dashboard.  See below for more details.
+
+
+**Check if things work as expected by:**
 * Proceeding to [fedstats.veriscope.network/](https://fedstats.veriscope.network/)
 and see if your node is in the list and wait for the node to fully synchronize
-* In your terminal, Use Option p to confirm you have the following services running:
+
+In your terminal, Use Option p to confirm you have the following services running:
+
+```
+p) show daemon status
+```
   - nethermind.service - Nethermind Ethereum Daemon
   - ta.service - Trust Anchor Dashboard
   - ta-wss.service - Trust Anchor Dashboard Websockets
   - ta-schedule.service - Trust Anchor Dashboard Schedule
+  - ta-queue.service - Trust Anchor Dashboard Queue
   - ta-node-1.service - Trust Anchor Node API
   - ta-node-2.service - Trust Anchor Node Template Helper
   - nginx.service - A high performance web server and a reverse proxy server
   - postgresql.service - PostgreSQL RDBMS
   - redis-server.service - Advanced key-value store
-
-Press q to quit the Options list. **
-```
+  - horizon.service - Laravel Horizon Queue Manager
 
 # Get comfortable with the Web Application
 
 Login in to the application with the account you created in Option 9 above by navigating to the domain set in your root .env
+
 For example:
 ```shell
-VERISCOPE_SERVICE_HOST="pcf.veriscope.network"
-VERISCOPE_COMMON_NAME="pcf"
+# Provide a DNS name that can be used to reach your node from the Internet. Open ports 80 and 443 to it.
+VERISCOPE_SERVICE_HOST=subdomain.domain.com
+
+# Provide a common name for your organization - no Inc or Ltd needed. This is used for user interfaces only.
+VERISCOPE_COMMON_NAME=vasp
+
+# Identify a chain to deploy to - choose from the list of directory names in chains/ - veriscope_testnet fed_testnet fed_mainnet
+VERISCOPE_TARGET=veriscope_testnet
 ```
 
 ![Alt text](images/0-sign-in.png "Sign In")
 
 
-Manage Your Organization:
-auth/attestations/manage-organization
+### Manage Your Organization:
+
 Use this page to setup your TA account
+
 Choose “Load TA Account”.
+
 This will load the TA account stored in
 
 ```shell
 $ cat /opt/veriscope/veriscope_ta_node/.env
 #DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
-TRUST_ANCHOR_PK=5c5…..914
-TRUST_ANCHOR_PREFNAME="vs-node-5"
-TRUST_ANCHOR_ACCOUNT=0xE4A…..5F6
+TRUST_ANCHOR_PK=f3764....5d4
+TRUST_ANCHOR_PREFNAME="vasp"
+TRUST_ANCHOR_ACCOUNT=0x1bD....892
+WEBHOOK_CLIENT_SECRET=du7....aec
 
 HTTP="http://localhost:8545"
 WS="ws://localhost:8545"
@@ -513,13 +583,20 @@ WEBHOOK="http://localhost:8000/webhook"
 HTTP_API_PORT=8080
 TEMPLATE_HELPER_PORT=8090
 
-CONTRACTS=/opt/veriscope/veriscope_ta_node/build_veriscope_testnet/contracts/
+CONTRACTS=/opt/veriscope/veriscope_ta_node/artifacts/
 
-#vasp testnet
-TRUST_ANCHOR_MANAGER_CONTRACT_ADDRESS="0xe515c95221B8e62c2D5b9548F8a7C5e17307f766"
-TRUST_ANCHOR_STORAGE_CONTRACT_ADDRESS="0xc35EE43B583Fc14df433f209986413B62Fae66D4"
-TRUST_ANCHOR_EXTRA_DATA_GENERIC_CONTRACT_ADDRESS="0xC6a080668A62F35687EDBb69B102B3a3766b51a8"
-TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS="0x973396BE051E69503aA566b9786b72521A00a097"
+#veriscope testnet
+TRUST_ANCHOR_MANAGER_CONTRACT_ADDRESS="0x43E56edA913216666DA92Bc27a874D967F3Cb206"
+TRUST_ANCHOR_STORAGE_CONTRACT_ADDRESS="0xe515c95221B8e62c2D5b9548F8a7C5e17307f766"
+TRUST_ANCHOR_EXTRA_DATA_GENERIC_CONTRACT_ADDRESS="0x7cC356A02119623A42E26d138fac925b6F5A444c"
+TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS="0xC6a080668A62F35687EDBb69B102B3a3766b51a8"
+
+#redis
+REDIS_URI=redis://127.0.0.1:6379
+LOG_LEVEL=info
+
+SIGN_MESSAGE="VERISCOPE"
+
 ```
 Note, if you need to create a new TA account, simply replace TRUST_ANCHOR_PK and TRUST_ANCHOR_ACCOUNT with a new Account and Private Key
 
@@ -530,19 +607,13 @@ At this stage you can query if your account has been verified and has a balance.
 
 ![Alt text](images/2-verified-account.png "Verified Account")
 
-```shell
 **ACTION: If your account is not verified, please request to have your account on boarded and verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.**
-```
 
 Once your account has been verified, you can confirm as shown here:
 
 ![Alt text](images/3-account-verified.png "Account Verified")
 
 Now you can proceed with completing your account registration.
-
-Choose a Jurisdiction for your TA account.
-
-![Alt text](images/4-choose-jurisdiction.png "Choose Jurisdiction")
 
 Add your TA account to the Discovery Layer
 
@@ -552,12 +623,12 @@ And finally complete the form for each key in the list for “Add Key Value Pair
 
 Important: For the API_URL key, ensure you enter the domain name associated with this Web Application as configured in step 1 above:
 ```
-VERISCOPE_SERVICE_HOST=”pcf.veriscope.network”
+VERISCOPE_SERVICE_HOST=”subdomain.domain.com”
 ```
 
-E.g. [https://pcf.veriscope.network/kyc-template](https://pcf.veriscope.network/kyc-template)
+E.g. [https://subdomain.domain.com/kyc-template](https://subdomain.domain.com/kyc-template)
 
-**Note:** this webapp accepts KYC requests to the route /kyc-template.  Ensure you add the route in the API_URL value.
+**Note:** this webapp accepts KYC requests to the route **/kyc-template**.  Ensure you add the route in the API_URL value.
 
 ![Alt text](images/6-API_URL.png "API URL")
 
@@ -565,7 +636,7 @@ E.g. [https://pcf.veriscope.network/kyc-template](https://pcf.veriscope.network/
 
 In this section of Manage Organization, you are provided a form to complete.  Set or Update Entity Information for IVMS.  This information is not posted to the blockchain or Discovery Layer.  It is used in the KYC Template when posting to another VASP.
 
-See KYC-Template-Docs/README.md for more information.
+See [IVMS 101](/IVMS-101/README.md) for more information.
 
 ![Alt text](images/ivms-form.png "IVMS Form")
 
@@ -581,6 +652,7 @@ Note: Ensure your TA account is selected in the drop down box first.
 
 When a new user account is created, the system auto generates a unique Shyft User ID and associates it with this user account.
 Also unique BTC, ETH, ZEC and XMR addresses are created and assigned to this user.
+
 **Note:** these addresses represent deposit addresses on your exchange platform.
 
 ![Alt text](images/9-btc-eth-addresses.png "BTC & ETH Addresses")
@@ -614,9 +686,8 @@ Other views in the backoffice are the number of TAs on the network, Attestations
 ![Alt text](images/15-refresh-cards.png "Refresh Sections")
 
 # Conduct a transaction with another VASP
-```Shell
+
 **To do this, please reach out to your Veriscope Account Manager to coordinate a live transaction with another VASP on Veriscope**
-```
 
 # VASP Test Accounts
 

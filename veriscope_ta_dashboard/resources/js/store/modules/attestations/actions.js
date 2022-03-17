@@ -299,13 +299,14 @@ export const actions = {
 
             p = {
                 "attestation_type": 'WALLET',
-                "user_address": state.form.attestation_user.account_address,
+                "user_account": state.form.attestation_user.account_address,
                 "jurisdiction": state.form.attestation_jurisdiction.id,
                 "effective_time": '',
                 "expiry_time": '',
-                "public_data": payload["type"],
-                "documents_matrix_encrypted": state.form.attestation_document_matrix,
-                "availability_address_encrypted": state.form.user_crypto_address_type.wallet_type,
+                "coin_blockchain": state.form.user_coin_blockchain,
+                "coin_token": state.form.user_coin_token,
+                "coin_address": state.form.user_coin_address,
+                "coin_memo": state.form.user_coin_memo,
                 "ta_account": state.form.attestation_ta_account,
             };
         } else {
@@ -322,7 +323,7 @@ export const actions = {
         }
         console.log(p);
   
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-attestation`, p)
+        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-v3-attestation`, p)
             .then(response => {
                 dispatch('taGetUsers');
                 return response;

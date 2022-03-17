@@ -111,8 +111,6 @@ class KycTemplateController extends Controller
                     ['field' => 'Beneficiary TA Signature', 'data'  => $result['beneficiary_ta_signature']],
                     ['field' => 'Beneficiary User Signature Hash', 'data'  => $result['beneficiary_user_signature_hash']],
                     ['field' => 'Beneficiary User Signature', 'data'  => $result['beneficiary_user_signature']],
-                    ['field' => 'Crypto Address Type', 'data'  => $result['crypto_address_type']],
-                    ['field' => 'Crypto Address', 'data' => $result['crypto_address']],
                     ['field' => 'Originator TA Address', 'data'  => $result['sender_ta_address']],
                     ['field' => 'Originator User Address', 'data'  => $result['sender_user_address']],
                     ['field' => 'Originator TA Public Key', 'data' => $result['sender_ta_public_key']],
@@ -126,7 +124,13 @@ class KycTemplateController extends Controller
                     ['field' => 'Beneficiary KYC Decrypt', 'data'  => $result['beneficiary_kyc_decrypt']],
                     ['field' => 'Originator KYC Decrypt', 'data'  => $result['sender_kyc_decrypt']],
                     ['field' => 'Beneficiary API_URL', 'data'  => $result['beneficiary_ta_url']],
-                    ['field' => 'Originator API_URL', 'data'  => $result['sender_ta_url']]
+                    ['field' => 'Originator API_URL', 'data'  => $result['sender_ta_url']],
+                    ['field' => 'Coin Blockchain', 'data'  => $result['coin_blockchain']],
+                    ['field' => 'Coin Token', 'data' => $result['coin_token']],
+                    ['field' => 'Coin Address', 'data' => $result['coin_address']],
+                    ['field' => 'Coin Memo', 'data' => $result['coin_memo']],
+                    ['field' => 'Coin Transaction Hash', 'data' => $result['coin_transaction_hash']],
+                    ['field' => 'Coin Transaction Value', 'data' => $result['coin_transaction_value']],
                   ];
 
 

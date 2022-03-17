@@ -46,7 +46,6 @@
         "simplito/elliptic-php": "^1.0",
         "spatie/laravel-activitylog": "^4.1",
         "spatie/laravel-webhook-server": "^3.1",
-        "psychob/ethereum-address-validator": "dev-master",
         "msztorc/laravel-env": "^1.2",
         "abagayev/laravel-migration-shortcuts": "*"
     },

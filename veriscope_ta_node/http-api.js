@@ -388,33 +388,12 @@ app.get('/ta-create-user', async (req, res) => {
     res.sendStatus(201);
 });
 
+// eg: ta-set-v3-attestation?attestation_type=WALLET&user_id=1&user_account=0x447832bc6303C87A7C7C0E3894a5C6848Aa24877&jurisdiction=196&effective_time=&expiry_time=&coin_address=0x6878e02e4782cd71af5d48e55e28f951eff5ec7c&coin_blockchain=ETH&coin_token=USDT&coin_memo=memo&ta_account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5
 
-/*
-trust anchor set attestation
-request: GET
-params:
-:user_account: 0x4a94595a6622E4FA69945FE6eaD4407e54532d7d
-:jurisdiction: INT
-:effective_time: UNIX TIMESTAMP
-:expiry_time: UNIX TIMESTAMP
-:public_data: "WALLET"
-:documents_matrix_encrypted: "16Qygw3QgX4TgZxneVWQeVVxp2XNYf9vP9"
-:availability_address_encrypted: "BTC"
-:is_managed: true
-
-response:
-{"request":"ta-set-attestation",
-"result":{"nonce":4,"gasPrice":{"type":"BigNumber","hex":"0x04a817c800"},"gasLimit":{"type":"BigNumber","hex":"0x081382"},"to":"0xA434B2394Dac9c18fA3ef92929785cbEf1A7aD79","value":{"type":"BigNumber","hex":"0x00"},"data":"0x762435730000000000000000000000004a94595a6622e4fa69945fe6ead4407e54532d7d0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000005d3f9bc4000000000000000000000000000000000000000000000000000000006104a5c40000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000014020202020202020202020202020202020202020202020202020202020204254430000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000657414c4c455400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000106373839633633363063303062313431616630636231333032346330346534313330386338663735363262393535343136613432613539323933393935613661356135313632396539323861353234393632343261353934353962353865613938396165383538313865613138316130316231383162313865613132313530633431303263303265343539353865383938316165393538393838303339393630363430353534303663303863343036343032353636336131366536313038353130386531393534646134386337643430306134643364633432633763323132323830626534396230333835383133633033323032626236313638623033303163363130323036370000000000000000000000000000000000000000000000000000","chainId":120852482,"v":241704999,"r":"0xca539dd7b68caa29af05f12106aa4db9aff7022e2ab765ed57bdab2ec7c67d76","s":"0x2ee7e419054e36d7742d6fd34383e4b310178051916a5118f63563a8ddb5a7fd","from":"0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6","hash":"0xb8c9d00c94cc005d8438e9a2d2136b769a7e80087926b8b99ba67ee8046f4fb1"}
-}
-
-*/
-
-// eg: ta-set-attestation?attestation_type=WALLET&user_id=1&user_address=0x447832bc6303C87A7C7C0E3894a5C6848Aa24877&jurisdiction=1&effective_time=&expiry_time=&public_data=WALLET&documents_matrix_encrypted=0xAb00d650758D95BC7A9ceFe248960EEB77344eed&availability_address_encrypted=ETH&ta_address=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5
-
-app.get('/ta-set-attestation', (req, res) => {
-    var attestation_type = req.param('attestation_type');
+app.get('/ta-set-v3-attestation', (req, res) => {
+    var attestation_type = "WALLET";
     var user_id = req.param('user_id');
-    var user_address = req.param('user_address');
+    var user_account = req.param('user_account');
     var jurisdiction = req.param('jurisdiction');
     var effective_time = req.param('effective_time');
     if (!effective_time) {
@@ -425,23 +404,50 @@ app.get('/ta-set-attestation', (req, res) => {
       expiry_time = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * (365 + 1));// (in the future a year and a day)
     }
 
-    var public_data = utility.convertToByte32(req.param('public_data'));
+    var public_data = utility.convertToByte32(req.param('coin_memo'));
 
-    var documents_matrix_encrypted = utility.packDocumentsMatrixEncrypted(req.param('documents_matrix_encrypted'));
-    logger.debug('documents_matrix_encrypted');
-    documents_matrix_encrypted = utility.convertToByte32(documents_matrix_encrypted);
-
-    var availability_address_encrypted = req.param('availability_address_encrypted').padStart(32, ' ');
+    var availability_address_encrypted = " ".padStart(32, ' ');
     availability_address_encrypted = utility.convertToByte32(availability_address_encrypted);
 
-    var ta_address = req.param('ta_address');
-    var is_managed = true;
+    var coin_address = req.param('coin_address');
+    logger.debug('coin_address');
+    logger.debug(coin_address);
 
+    var coin_token = req.param('coin_token');
+    logger.debug('coin_token');
+    logger.debug(coin_token);
+
+    var coin_blockchain = req.param('coin_blockchain');
+    logger.debug('coin_blockchain');
+    logger.debug(coin_blockchain);
+
+    var coin_type = coin_blockchain+"_"+coin_token;
+    logger.debug('coin_type');
+    logger.debug(coin_type);
+
+    var travelRuleV3Template = utility.createTravelRuleV3Template(coin_address, coin_type);
+    logger.debug('travelRuleV3Template');
+    logger.debug(travelRuleV3Template);
+
+    var encodedDocumentMatrix = utility.encodeDocumentMatrixInPlace(travelRuleV3Template);
+    logger.debug('encodedDocumentMatrix');
+    logger.debug(encodedDocumentMatrix);
+
+    var encodedDocument = utility.encodeDocument(encodedDocumentMatrix.bitsMatrix, encodedDocumentMatrix.versionCode, encodedDocumentMatrix.encryptedData);
+    logger.debug('encodedDocument');
+    logger.debug(encodedDocument);
+
+    var documents_matrix_encrypted = utility.convertToByte32(encodedDocument);
+    logger.debug('documents_matrix_encrypted');
+    logger.debug(documents_matrix_encrypted);
+
+    var ta_account = req.param('ta_account');
+    var is_managed = true;
 
     queue.taSetAttestation.add({
       attestation_type: attestation_type,
       user_id: user_id,
-      user_address: user_address,
+      user_address: user_account,
       jurisdiction: jurisdiction,
       effective_time: effective_time,
       expiry_time: expiry_time,
@@ -449,14 +455,11 @@ app.get('/ta-set-attestation', (req, res) => {
       documents_matrix_encrypted: documents_matrix_encrypted,
       availability_address_encrypted: availability_address_encrypted,
       is_managed: is_managed,
-      ta_address: ta_address
+      ta_address: ta_account
     }, services.bull.opts);
-
 
     res.sendStatus(201);
 });
-
-
 
 // eg: ta-get-user-attestations?user_id=1&account=0x447832bc6303C87A7C7C0E3894a5C6848Aa24877
 

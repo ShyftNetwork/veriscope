@@ -98,8 +98,8 @@ class BlockchainAnalyticsAddressesController extends Controller
         $attestation = SmartContractAttestation::where([
           ['user_account', $result['user_account']],
           ['ta_account', $result['trust_anchor']],
-          ['documents_matrix_encrypted_decoded', 'ilike', '%' . $result['crypto_address'] . '%'],
-          ['availability_address_encrypted_decoded', 'ilike', '%' . $result['blockchain'] . '%']
+          ['coin_address', 'ilike', '%' . $result['crypto_address'] . '%'],
+          ['coin_blockchain', 'ilike', '%' . $result['blockchain'] . '%']
     
         ])->first();
         $list = $this->organizeResponse($result, $attestation);
