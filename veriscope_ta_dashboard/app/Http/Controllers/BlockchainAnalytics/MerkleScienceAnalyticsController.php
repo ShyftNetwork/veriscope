@@ -23,21 +23,21 @@ class MerkleScienceAnalyticsController extends Controller {
 
     public function __construct($data, $api_key, $user) {
         Log::debug('MerkleScienceAnalyticsController __construct');
-        $network = isset($data['availability_address_encrypted']) ? $data['availability_address_encrypted'] : $data['network']['ticker'];
+        $network = isset($data['coin_blockchain']) ? $data['coin_blockchain'] : $data['network']['ticker'];
         $networkId = BlockchainAnalyticsSupportedNetworks::where('ticker', strtolower($network))->where('blockchain_analytics_provider_id', 2)->first();
 
         if (!$network) return;
 
         if (!$user) {
-            $data['documents_matrix_encrypted'] = $data['wallet'];
+            $data['coin_address'] = $data['wallet'];
             $data['user_address'] = 'unknown';
-            $data['availability_address_encrypted'] = $data['network']['ticker'];
+            $data['coin_blockchain'] = $data['network']['ticker'];
             $data['ta_account']['account_address'] = 'unknown';
         }
 
         
         $payload = [];
-        $payload['identifier'] = $data['documents_matrix_encrypted'];
+        $payload['identifier'] = $data['coin_address'];
         $payload['currency'] = $networkId['provider_network_id'];
         
 
@@ -82,8 +82,8 @@ class MerkleScienceAnalyticsController extends Controller {
                    'blockchain_analytics_provider_id'   =>   $merkel->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
                    'user_account' => $data['user_address'],
-                   'blockchain' => strtolower($data['availability_address_encrypted']),
-                   'crypto_address' =>  $data['documents_matrix_encrypted'],
+                   'blockchain' => strtolower($data['coin_blockchain']),
+                   'crypto_address' =>  $data['coin_address'],
                    'custodian' => $custodian,
                    'response' => json_encode($response),
                    'response_status_code' => 200
@@ -104,8 +104,8 @@ class MerkleScienceAnalyticsController extends Controller {
                    'blockchain_analytics_provider_id'   =>   $merkel->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
                    'user_account' => $data['user_address'],
-                   'blockchain' => strtolower($data['availability_address_encrypted']),
-                   'crypto_address' => $data['documents_matrix_encrypted'],
+                   'blockchain' => strtolower($data['coin_blockchain']),
+                   'crypto_address' => $data['coin_address'],
         
                    'response' => json_encode($response),
                    'response_status_code' => $response['identifier']

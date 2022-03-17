@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Auth;
 use App\Rules\CryptoAddress;
 
-class SetAttestationRequest extends FormRequest
+class SetV3AttestationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +29,13 @@ class SetAttestationRequest extends FormRequest
     public function rules()
     {
         return [
-            'attestation_type'               => 'required|in:WALLET',
-            'user_address'                   => ['required',new CryptoAddress('ETH')],
+            'ta_account'                     => ['required', new CryptoAddress('ETH')],
+            'user_account'                   => ['required',new CryptoAddress('ETH')],
             'jurisdiction'                   => 'required|exists:countries,id',
-            'effective_time'                 => 'numeric',
-            'expiry_time'                    => 'numeric|gte:effective_time',
-            'public_data'                    => 'required|in:WALLET',
-            'documents_matrix_encrypted'     => 'required',
-            'availability_address_encrypted' => 'required',
-            'ta_address'                     => ['required', new CryptoAddress('ETH')]
+            'coin_memo'                      => 'required',
+            'coin_blockchain'                => 'required',
+            'coin_token'                     => 'required',
+            'coin_address'                   => 'required'
         ];
     }
 

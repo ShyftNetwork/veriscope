@@ -120,8 +120,8 @@ class BlockchainAnalyticsApiController extends Controller
                    'blockchain_analytics_provider_id'   =>   $crystal->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
                    'user_account' => $data['user_address'],
-                   'blockchain' => strtolower($data['availability_address_encrypted']),
-                   'crypto_address' => $data['documents_matrix_encrypted'],
+                   'blockchain' => strtolower($data['coin_blockchain']),
+                   'crypto_address' => $data['coin_address'],
         
                    'response' => json_encode($response),
                    'response_status_code' => $response['meta']['error_code']

@@ -15,15 +15,23 @@ When VASP A receives the KYC Template via API_URL from VASP B they complete the 
 
 **NOTE:** Recover XX Signature functions are provided by:
 ```
-$ node shyft-template-helper.js 
-listening on 8090
+$ pwd
+/opt/veriscope/veriscope_ta_node/shyft-template-helper.js
 ```
 
-As illustrated above "KYC Template Diagram", VASP A and B pass the template back and forth until the template is complete, i.e. all fields are verified and included.
+```
+function TARecover(template, type) {
+...
+}
+```
+
+As illustrated above in "KYC Template Diagram", VASP A and B pass the template back and forth until the template is complete, i.e. all fields are verified and included.
 
 Below is an example of a completed KYC Template
 
 # KYC Template
+
+
 
 | Step      | Key      | Value |
 | :--- | :--- | :--- |
@@ -36,10 +44,14 @@ Below is an example of a completed KYC Template
 | 3 | Beneficiary TA Signature | {"r":"0xdffc1d2bdd8079d6daeca2938de08a557c9cc8d827f7ea3615c1ec457840d46e","s":"0x51053ef058551cd95062f14cd08a15355feb30e6c369be5feed81aea0083fc8c","v":"0x26"} |
 | 3 | Beneficiary User Signature Hash | 0x5377021d9f5310d1477d1a7eee6750941ceb7ba2922e6f4309237355eef4ab68 |
 | 3 | Beneficiary User Signature | {"r":"0xe5efebff9f2baf574bcd3abc25d4d499888453cecf0e50642135e6bbbcaec420","s":"0x22e7805725e926bf136b53046d3bf62e2e9daca75111d683f0ae0da07c73d06e","v":"0x25"} |
-| 3 | Crypto Address Type | BTC |
-| 3 | Crypto Address | 13J8EydyW5Agge9K4UsxMfKE6u7B2gtfgn |
+| 3 | Coin Blockchain | ETH |
+| 3 | Coin Token | USDT |
+| 3 | Coin Address | 0xccdc2f37b01c2aa0c05fd4b0017f7e3af8f7d0c6 |
+| 3 | Coin Memo | tag |
 | 3 | Originator TA Address | 0xC0cA43B4848823d5417cAAFB9e8E6704b9d5375c |
 | 3 | Originator User Address | 0xb532cCA105f966a76C3826451818b55fB2190933 |
+| 3 | Beneficiary API_URL | https://xx.yyy.com/kyc-template |
+| 3 | Originator API_URL | https://aa.bbb.com/kyc-template |
 | 6 | Originator TA Public Key | c2d213d585fed2213395e61f99b988f692aec84d38b288d14ffc4a90c879531cd92105bf1336da88ec6bf1f86a74293695cfeaa444dc9fcf2614d201e4a64c02 |
 | 6 | Originator User Public Key | 030d33064a0312133b5c658d6639776c2583f536d683d337dcbef9a7a92b3e948309ed6d539af0be4789f2cb12a7f307b5f3b2bba5691d38b7f22780c7f9cf06 |
 | 6 | Originator TA Signature Hash | 0x121d699204c341a8731803f38a85123d14f1cca922961f8982deacb109d91fa8 |
@@ -50,7 +62,7 @@ Below is an example of a completed KYC Template
 | 9 | Beneficiary KYC Decrypt | {"originator":{"originatorPersons":[{"naturalPerson":{"name":{"nameIdentifier":[{"primaryIdentifier":"","secondaryIdentifier":"","nameIdentifierType":""}]},"geographicAddress":[{"addressType":"","streetName":"","buildingNumber":"","buildingName":"","postcode":"","townName":"","countrySubDivision":"","country":""}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":"","countryOfIssue":"","registrationAuthority":""},"customerIdentification":"","dateAndPlaceOfBirth":{"dateOfBirth":"","placeOfBirth":""},"countryOfResidence":""}}],"accountNumber":[""]},"beneficiary":{"beneficiaryPersons":[{"naturalPerson":{"name":{"nameIdentifier":[{"primaryIdentifier":"Ahmed","secondaryIdentifier":"Gibson","nameIdentifierType":"LEGL"}]},"geographicAddress":[{"addressType":"GEOG","streetName":"Heather Sixth","buildingNumber":"143","buildingName":null,"postcode":"40532","townName":"Rosamond","countrySubDivision":"Arkansas","country":"PH"}],"nationalIdentification":{"nationalIdentifier":"1000001113","nationalIdentifierType":"RAID","countryOfIssue":"PH","registrationAuthority":"RA000628"},"customerIdentification":"0xDF122a5c1d5ddE991E2FDC5a5743B30F2a34EA6e","dateAndPlaceOfBirth":{"dateOfBirth":"1972-09-02","placeOfBirth":"Rosamond"},"countryOfResidence":"PH"}}],"accountNumber":[""]},"originatingVASP":{"legalPerson":{"name":{"nameIdentifier":[{"legalPersonName":"","legalPersonNameIdentifierType":""}]},"geographicAddress":[{"addressType":"","streetName":"","buildingNumber":"","buildingName":"","postcode":"","townName":"","countrySubDivision":"","country":""}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":""},"customerIdentification":""}},"beneficiaryVASP":{"legalPerson":{"name":{"nameIdentifier":[{"legalPersonName":"Paycase","legalPersonNameIdentifierType":"LEGL"}]},"geographicAddress":[{"addressType":"GEOG","streetName":"First St","buildingNumber":"100","buildingName":null,"postcode":"90210","townName":"SF","countrySubDivision":"CA","country":"US"}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":""},"customerIdentification":"0xc2106031Dac53b629976e12aF769F60afcB38793"}}} |
 | 10 | Originator KYC | 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 |
 | 11 | Originator KYC Decrypt | {"originator":{"originatorPersons":[{"naturalPerson":{"name":{"nameIdentifier":[{"primaryIdentifier":"Herta","secondaryIdentifier":"Muusse","nameIdentifierType":"LEGL"}]},"geographicAddress":[{"addressType":"GEOG","streetName":"Round Neck","buildingNumber":"319","buildingName":null,"postcode":"57522","townName":"Whitten","countrySubDivision":"Indiana","country":"WS"}],"nationalIdentification":{"nationalIdentifier":"1000001350","nationalIdentifierType":"RAID","countryOfIssue":"WS","registrationAuthority":"RA000628"},"customerIdentification":"0xb532cCA105f966a76C3826451818b55fB2190933","dateAndPlaceOfBirth":{"dateOfBirth":"1992-12-09","placeOfBirth":"Whitten"},"countryOfResidence":"WS"}}],"accountNumber":[""]},"beneficiary":{"beneficiaryPersons":[{"naturalPerson":{"name":{"nameIdentifier":[{"primaryIdentifier":"","secondaryIdentifier":"","nameIdentifierType":""}]},"geographicAddress":[{"addressType":"","streetName":"","buildingNumber":"","buildingName":"","postcode":"","townName":"","countrySubDivision":"","country":""}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":"","countryOfIssue":"","registrationAuthority":""},"customerIdentification":"","dateAndPlaceOfBirth":{"dateOfBirth":"","placeOfBirth":""},"countryOfResidence":""}}],"accountNumber":[""]},"originatingVASP":{"legalPerson":{"name":{"nameIdentifier":[{"legalPersonName":"PCF","legalPersonNameIdentifierType":"LEGL"}]},"geographicAddress":[{"addressType":"GEOG","streetName":"Third St","buildingNumber":"300","buildingName":null,"postcode":"12345","townName":"New York","countrySubDivision":"NY","country":"US"}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":""},"customerIdentification":"0xC0cA43B4848823d5417cAAFB9e8E6704b9d5375c"}},"beneficiaryVASP":{"legalPerson":{"name":{"nameIdentifier":[{"legalPersonName":"","legalPersonNameIdentifierType":""}]},"geographicAddress":[{"addressType":"","streetName":"","buildingNumber":"","buildingName":"","postcode":"","townName":"","countrySubDivision":"","country":""}],"nationalIdentification":{"nationalIdentifier":"","nationalIdentifierType":""},"customerIdentification":""}}} |
+| Optional | Coin Transaction Hash | 0x..... | 
+| Optional | Coin Transaction Value | 123.456 | 
 
-
-**NOTE:** Future additions to the KYC Template will include Crypto Network, Crypto TXN Hash, Crypto Value to record actual crypto transactions as they relate to attestations.
-
+**NOTE:** Coin Transaction Hash and Coin Transaction Value are optional.

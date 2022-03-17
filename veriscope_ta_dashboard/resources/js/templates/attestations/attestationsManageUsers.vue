@@ -111,38 +111,64 @@
                 </div>
             </div>
             <div class="flex flex-wrap items-center">
-                <p>Enter the crypto wallet type</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="user_crypto_address_type"
-                        label="Crypto Address Type"
-                        placeholder="eg BTC or ETH"
-                        name="user_crypto_address_type"
-                        :options=taWalletTypeData
-                        label-to-show="wallet_type"
-                        v-validate="'required'"
-                        @input="onTaWalletTypeSelected"
-                        :error="errors.first('user_crypto_address_type')"
-                        required
-                    ></select-input>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Enter the crypto address</p>
+                <p>Enter the coin blockchain type; e.g. BTC or ETH</p>
             </div>
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="attestation_document_matrix"
-                        label="Crypto Address"
-                        placeholder="Crypto Address"
-                        name="attestation_document_matrix"
+                        v-model="user_coin_blockchain"
+                        label="Coin Blockchain"
+                        placeholder="e.g. BTC or ETH"
+                        name="user_coin_blockchain"
                         v-validate="'required'"
-                        :error="errors.first('attestation_document_matrix')"
+                        :error="errors.first('user_coin_blockchain')"
                         required
-                        disabled
+                    ></simple-input>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <p>Enter the coin token type; e.g. BTC, ETH, USDC or USDT</p>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="user_coin_token"
+                        label="Coin Token"
+                        placeholder="e.g. BTC, ETH, USDC or USDT"
+                        name="user_coin_token"
+                        v-validate="'required'"
+                        :error="errors.first('user_coin_token')"
+                        required
+                    ></simple-input>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <p>Enter the coin address</p>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="user_coin_address"
+                        label="Coin Address"
+                        name="user_coin_address"
+                        v-validate="'required'"
+                        :error="errors.first('user_coin_address')"
+                        required
+                    ></simple-input>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <p>Enter the coin memo or destination tag (Optional)</p>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="user_coin_memo"
+                        label="Coin Memo"
+                        name="user_coin_memo"
+                        v-validate="'required'"
+                        :error="errors.first('user_coin_memo')"
+                        required
                     ></simple-input>
                 </div>
             </div>
@@ -316,9 +342,10 @@
                 'form.user_prefname',
                 'form.user_password',
                 'form.attestation_user',
-                'form.attestation_document_matrix',
-                'form.attestation_public_data',
-                'form.attestation_availability_address',
+                'form.user_coin_blockchain',
+                'form.user_coin_token',
+                'form.user_coin_address',
+                'form.user_coin_memo',
                 'form.attestation_jurisdiction',
                 'form.attestation_kyc_data',
                 'form.attestation_ta_account',

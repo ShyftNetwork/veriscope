@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\{KycTemplate,KycTemplateState,KycAttestation,SmartContractAttestation, TrustAnchor, TrustAnchorUser, CryptoWalletAddress, TrustAnchorExtraDataUnique};
+use App\{KycTemplate,KycTemplateState,SmartContractAttestation, TrustAnchor, TrustAnchorUser, CryptoWalletAddress, TrustAnchorExtraDataUnique};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -108,11 +108,14 @@ class KycTemplateController extends Controller
                         "BeneficiaryTASignature"=>json_decode($kt->beneficiary_ta_signature),
                         "BeneficiaryUserSignatureHash"=>$kt->beneficiary_user_signature_hash,
                         "BeneficiaryUserSignature"=>json_decode($kt->beneficiary_user_signature),
-                        "CryptoAddressType"=>$kt->crypto_address_type,
-                        "CryptoAddress"=>$kt->crypto_address,
-                        "CryptoPublicKey"=>$kt->crypto_public_key,
-                        "CryptoSignatureHash"=>$kt->crypto_signature_hash,
-                        "CryptoSignature"=>json_decode($kt->crypto_signature),
+
+                        "CoinBlockchain"=>$kt->coin_blockchain,
+                        "CoinToken"=>$kt->coin_token,
+                        "CoinAddress"=>$kt->coin_address,
+                        "CoinMemo"=>$kt->coin_memo,
+                        "CoinTransactionHash"=>$kt->coin_transaction_hash,
+                        "CoinTransactionValue"=>$kt->coin_transaction_value,
+
                         "SenderTAAddress"=>$kt->sender_ta_address,
                         "SenderTAPublicKey"=>$kt->sender_ta_public_key,
                         "SenderUserAddress"=>$kt->sender_user_address,
@@ -144,11 +147,14 @@ class KycTemplateController extends Controller
         $kt->beneficiary_ta_signature = json_encode($kycTemplateDecode->BeneficiaryTASignature);
         $kt->beneficiary_user_signature_hash = $kycTemplateDecode->BeneficiaryUserSignatureHash;
         $kt->beneficiary_user_signature = json_encode($kycTemplateDecode->BeneficiaryUserSignature);
-        $kt->crypto_address_type = $kycTemplateDecode->CryptoAddressType;
-        $kt->crypto_address = $kycTemplateDecode->CryptoAddress;
-        $kt->crypto_public_key = $kycTemplateDecode->CryptoPublicKey;
-        $kt->crypto_signature_hash = $kycTemplateDecode->CryptoSignatureHash;
-        $kt->crypto_signature = json_encode($kycTemplateDecode->CryptoSignature);
+
+        $kt->coin_blockchain = $kycTemplateDecode->CoinBlockchain;
+        $kt->coin_token = $kycTemplateDecode->CoinToken;
+        $kt->coin_address = $kycTemplateDecode->CoinAddress;
+        $kt->coin_memo = $kycTemplateDecode->CoinMemo;
+        $kt->coin_transaction_hash = $kycTemplateDecode->CoinTransactionHash;
+        $kt->coin_transaction_value = $kycTemplateDecode->CoinTransactionValue;
+
         $kt->sender_ta_address = $kycTemplateDecode->SenderTAAddress;
         $kt->sender_ta_public_key = $kycTemplateDecode->SenderTAPublicKey;
         $kt->sender_user_address = $kycTemplateDecode->SenderUserAddress;
@@ -300,30 +306,26 @@ class KycTemplateController extends Controller
 
         $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
 
-        // Does the crypto type and address match a user account
-        $crypto_type = $sca->availability_address_encrypted_decoded;
-        $crypto_address = $sca->documents_matrix_encrypted_decoded;
-        $cwa = CryptoWalletAddress::where('address', $crypto_address)->firstOrFail();
+        // Does the crypto address match a user account
+
+        $coin_address = $sca->coin_address;
+        $cwa = CryptoWalletAddress::where('address', 'ilike', '%'.$coin_address.'%')->firstOrFail();
 
         $tau = TrustAnchorUser::where('id', $cwa->trust_anchor_user_id)->firstOrFail();
 
         $ta = TrustAnchor::where('id', $cwa->trust_anchor_id)->firstOrFail();
 
-        $attestation = KycAttestation::firstOrCreate(['attestation_hash' => $attestation_hash]);
-        $attestation->ta_account = $sca->ta_account;
-        $attestation->user_account = $sca->user_account;
-        $attestation->public_data_decoded = $sca->public_data_decoded;
-        $attestation->documents_matrix_decoded = $sca->documents_matrix_encrypted_decoded;
-        $attestation->availability_address_decoded = $sca->availability_address_encrypted_decoded;
-        $attestation->save();
-
         #prepare the template
         $kt = KycTemplate::firstOrCreate(['attestation_hash' => $attestation_hash]);
         $kt->beneficiary_ta_address = $ta->account_address;
         $kt->beneficiary_user_address = $tau->account_address;
-        $kt->crypto_address_type = $attestation->availability_address_decoded;
-        $kt->crypto_address = $attestation->documents_matrix_decoded;
-        $kt->sender_ta_address = $attestation->ta_account;
+
+        $kt->coin_blockchain = $sca->coin_blockchain;
+        $kt->coin_token = $sca->coin_token;
+        $kt->coin_address = $sca->coin_address;
+        $kt->coin_memo = $sca->coin_memo;
+
+        $kt->sender_ta_address = $sca->ta_account;
         $kt->sender_user_address = $sca->user_account;
 
         $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();

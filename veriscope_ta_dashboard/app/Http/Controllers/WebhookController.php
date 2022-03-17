@@ -392,18 +392,18 @@ class WebhookController extends Controller
             $list = [['field' => 'TA Address', 'data'  => $result['trustAnchorAddress']],
                     ['field' => 'User Address', 'data'  => $result['user_address']],
                     ['field' => 'Jurisdiction', 'data' => $country->name],
-
-                    ['field' => 'Type Hash', 'data'  => $result['publicData']],
-                    ['field' => 'Memo Hash', 'data'  => $result['availabilityAddressEncrypted']],
-                    ['field' => 'Document Hash', 'data'  => $result['documentsMatrixEncrypted']],
-                    ['field' => 'Type Decoded', 'data'  => $result['type']],
-
-
-                    ['field' => 'Document Encode', 'data'  => $result['document_encode']],
-                    ['field' => 'Document Decoded', 'data'  => $result['document']],
-                    ['field' => 'Memo Decoded', 'data'  => $result['memo']]];
-
-
+                    ['field' => 'Version Code', 'data'  => $result['version_code']],
+                    ['field' => 'Coin Blockchain', 'data'  => $result['coin_blockchain']],
+                    ['field' => 'Coin Token', 'data'  => $result['coin_token']],
+                    ['field' => 'Coin Address', 'data'  => $result['coin_address']],
+                    ['field' => 'Coin Memo', 'data'  => $result['coin_memo']],
+                    ['field' => 'Public Data', 'data'  => $result['public_data']],
+                    ['field' => 'Public Data Decoded', 'data'  => $result['public_data_decoded']],
+                    ['field' => 'Documents Matrix Encrypted', 'data'  => $result['documents_matrix_encrypted']],
+                    ['field' => 'Documents Matrix Encrypted Decoded', 'data'  => $result['documents_matrix_encrypted_decoded']],
+                    ['field' => 'Availability Address Encrypted', 'data'  => $result['availability_address_encrypted']],
+                    ['field' => 'Availability Address Encrypted Decoded', 'data'  => $result['availability_address_encrypted_decoded']]];
+                    
             $data['data'] = $list;
             broadcast(new ContractsInstantiate($data));
         }
@@ -417,62 +417,29 @@ class WebhookController extends Controller
 
             if ($data_local['type'] == 'WALLET') {
 
-                $crypto_address = $data_local['document'];
+                $crypto_address = $data_local['coin_address'];
                 Log::debug('crypto_address');
                 Log::debug($crypto_address);
 
                 $sca = SmartContractAttestation::where('attestation_hash', $data_local['attestation_hash'])->first();
-                $sca->public_data_decoded = $data_local['type'];
-                $sca->documents_matrix_encrypted_decoded = $data_local['document'];
-                $sca->availability_address_encrypted_decoded = $data_local['memo'];
+               
+                $sca->public_data = $data_local['public_data'];
+                $sca->public_data_decoded = $data_local['public_data_decoded'];
+
+                $sca->documents_matrix_encrypted = $data_local['documents_matrix_encrypted'];
+                $sca->documents_matrix_encrypted_decoded = $data_local['documents_matrix_encrypted_decoded'];
+
+                $sca->availability_address_encrypted = $data_local['availability_address_encrypted'];
+                $sca->availability_address_encrypted_decoded = $data_local['availability_address_encrypted_decoded'];
+
+                $sca->version_code = $data_local['version_code'];
+                $sca->coin_blockchain = $data_local['coin_blockchain'];
+                $sca->coin_token = $data_local['coin_token'];
+                $sca->coin_address = $data_local['coin_address'];
+                $sca->coin_memo = $data_local['coin_memo'];
 
                 $sca->save();
 
-                $sender = TrustAnchorUser::where('account_address', $sca->user_account)->first();
-                $sender_ta = TrustAnchor::where('account_address', $data_local['trustAnchorAddress'])->first();
-
-                $crypto_wallet_address = CryptoWalletAddress::where('address', $crypto_address)->first();
-
-                if ($crypto_wallet_address && $sender && $sender_ta) {
-
-                    Log::debug('crypto_wallet_address');
-                    Log::debug($crypto_wallet_address);
-
-                    $receiver_id = $crypto_wallet_address->trust_anchor_user_id;
-
-                    $receiver = TrustAnchorUser::where('id', $crypto_wallet_address->trust_anchor_user_id)->first();
-                    $receiver_ta_id = $crypto_wallet_address->trust_anchor_id;
-                    $receiver_ta = TrustAnchor::where('id', $receiver_ta_id)->first();
-                    $crypto_assoc = new TrustAnchorAssociationCrypto();
-                    $crypto_assoc->crypto_address = $crypto_address;
-
-                    if($sender) {
-                        $crypto_assoc->sender_account_address = $sender->account_address;
-                        $crypto_assoc->sender_account_prefname = $sender->prefname;
-                        $crypto_assoc->sender_dob = $sender->dob;
-                        $crypto_assoc->sender_gender = $sender->gender;
-                        $crypto_assoc->sender_jurisdiction = $sender->jurisdiction;
-                    }
-                    if($receiver) {
-                        $crypto_assoc->receiver_account_address = $receiver->account_address;
-                        $crypto_assoc->receiver_account_prefname = $receiver->prefname;
-                        $crypto_assoc->receiver_dob = $receiver->dob;
-                        $crypto_assoc->receiver_gender = $receiver->gender;
-                        $crypto_assoc->receiver_jurisdiction = $receiver->jurisdiction;
-                    }
-
-                    if($sender_ta) {
-                        $crypto_assoc->sender_ta_account_address = $sender_ta->account_address;
-                        $crypto_assoc->sender_ta_assoc_prefname = $sender_ta->ta_prefname;
-                    }
-
-                    if($receiver_ta) {
-                        $crypto_assoc->receiver_ta_account_address = $receiver_ta->account_address;
-                        $crypto_assoc->receiver_ta_assoc_prefname = $receiver_ta->ta_prefname;
-                    }
-
-                    $crypto_assoc->save();
-                }
                 #trigger Kyc Template
                 app('App\Http\Controllers\KycTemplateController')->attestation($data_local['attestation_hash']);
             }

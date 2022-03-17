@@ -150,11 +150,14 @@ class TrustAnchorController extends Controller
                         "BeneficiaryTASignature"=>json_decode($kt->beneficiary_ta_signature),
                         "BeneficiaryUserSignatureHash"=>$kt->beneficiary_user_signature_hash,
                         "BeneficiaryUserSignature"=>json_decode($kt->beneficiary_user_signature),
-                        "CryptoAddressType"=>$kt->crypto_address_type,
-                        "CryptoAddress"=>$kt->crypto_address,
-                        "CryptoPublicKey"=>$kt->crypto_public_key,
-                        "CryptoSignatureHash"=>$kt->crypto_signature_hash,
-                        "CryptoSignature"=>json_decode($kt->crypto_signature),
+
+                        "CoinBlockchain"=>$kt->coin_blockchain,
+                        "CoinToken"=>$kt->coin_token,
+                        "CoinAddress"=>$kt->coin_address,
+                        "CoinMemo"=>$kt->coin_memo,
+                        "CoinTransactionHash"=>$kt->coin_transaction_hash,
+                        "CoinTransactionValue"=>$kt->coin_transaction_value,
+                
                         "SenderTAAddress"=>$kt->sender_ta_address,
                         "SenderTAPublicKey"=>$kt->sender_ta_public_key,
                         "SenderUserAddress"=>$kt->sender_user_address,
@@ -194,9 +197,19 @@ class TrustAnchorController extends Controller
           $user_signature_hash = $input['user_signature_hash'];
           $user_signature = $input['user_signature'];
           $ivms_encrypt = "";
+          $coin_transaction_hash = "";
+          $coin_transaction_value = "";
 
           if (array_key_exists('ivms_encrypt', $input)) {
               $ivms_encrypt = $input['ivms_encrypt'];
+          }
+
+          if (array_key_exists('coin_transaction_hash', $input)) {
+              $coin_transaction_hash = $input['coin_transaction_hash'];
+          }
+
+          if (array_key_exists('coin_transaction_value', $input)) {
+              $coin_transaction_value = $input['coin_transaction_value'];
           }
 
           $ta = TrustAnchor::firstOrFail();
@@ -212,11 +225,16 @@ class TrustAnchorController extends Controller
           #prepare the template
           $kt = KycTemplate::firstOrCreate(['attestation_hash' => $attestation_hash]);
 
-          $kt->crypto_address_type = $sca->availability_address_encrypted_decoded;
-          $kt->crypto_address = $sca->documents_matrix_encrypted_decoded;
+          $kt->coin_blockchain = $sca->coin_blockchain;
+          $kt->coin_token = $sca->coin_token;
+          $kt->coin_address = $sca->coin_address;
+          $kt->coin_memo = $sca->coin_memo;
+          $kt->coin_transaction_hash = $coin_transaction_hash;
+          $kt->coin_transaction_value = $coin_transaction_value;
+          
           $kt->sender_ta_address = $sca->ta_account;
           $kt->sender_user_address = $sca->user_account;
-
+          
           $this->updateKycTemplateForState($kt, 'ATTESTATION');
 
           if($isBeneficiary) {
