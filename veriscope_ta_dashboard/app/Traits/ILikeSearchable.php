@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait Searchable
+trait ILikeSearchable
 {
     /**
      *
@@ -17,19 +17,19 @@ trait Searchable
                   $sub = explode('.', $col);
                   if($i > 0) {
                     $query->orWhereHas($sub[0], function($q) use($sub, $term, $i) {
-                        $q->where($sub[1], 'LIKE', "%{$term}%");
+                        $q->where($sub[1], 'ILIKE', "%{$term}%");
                     });
                   } else {
                     $query->whereHas($sub[0], function($q) use($sub, $term, $i) {
-                        $q->where($sub[1], 'LIKE', "%{$term}%");
+                        $q->where($sub[1], 'ILIKE', "%{$term}%");
                     });
                   }
                 } else {
                   // search the base model normally
                   if($i > 0) {
-                      $query->orWhere($col, 'LIKE', "%{$term}%");
+                      $query->orWhere($col, 'ILIKE', "%{$term}%");
                   } else {
-                      $query->where($col, 'LIKE', "%{$term}%");
+                      $query->where($col, 'ILIKE', "%{$term}%");
                   }
                 }
             }
