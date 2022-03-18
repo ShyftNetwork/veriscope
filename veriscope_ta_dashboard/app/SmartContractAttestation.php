@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\Searchable;
+use App\Traits\ILikeSearchable;
 
 class SmartContractAttestation extends Model
 {
-	use Searchable;
+	use ILikeSearchable;
 
 	protected $fillable = ['transaction_hash'];
     //
