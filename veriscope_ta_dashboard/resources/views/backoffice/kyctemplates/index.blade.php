@@ -36,12 +36,20 @@
       field: 'beneficiary_user_address',
     },
     {
-      label: 'Crypto Address Type',
-      field: 'crypto_address_type'
+      label: 'Coin Blockchain',
+      field: 'coin_blockchain'
     },
     {
-      label: 'Crypto Address',
-      field: 'crypto_wallet_address'
+      label: 'Coin Token',
+      field: 'coin_token'
+    },
+    {
+      label: 'Coin Address',
+      field: 'coin_address'
+    },
+    {
+      label: 'Coin Memo',
+      field: 'coin_memo'
     },
     {
       label: 'Sender TA Address',
