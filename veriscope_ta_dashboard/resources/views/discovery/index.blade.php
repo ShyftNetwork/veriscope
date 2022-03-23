@@ -31,9 +31,15 @@
         field: 'trust_anchor_address',
       },
       {
+        label: 'Validation',
+        field: 'action',
+        html: true,
+        sortable: false,
+      },
+      {
         label: 'Transaction Hash',
         field: 'transaction_hash',
-      }
+      },
     ]"
     :hideSearch=false
     ></good-table>

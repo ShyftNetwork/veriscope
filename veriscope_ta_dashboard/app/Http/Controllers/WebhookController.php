@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
-use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
+use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, TrustAnchorExtraDataUniqueValidation};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
@@ -255,6 +255,17 @@ class WebhookController extends Controller
                 $extra_data->save();
             }
 
+            if ($data_local['event'] === "EVT_setValidationForKeyValuePairData") {
+
+                $extra_data = TrustAnchorExtraDataUniqueValidation::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
+
+                $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
+                $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
+                $extra_data->validator_address = $data_local['returnValues']['_validatorAddress'];
+                $extra_data->save();
+            }
+
             broadcast(new ShyftSmartContractEvent($data));
         }
         if ($data['message'] === 'ta-set-jurisdiction') {
@@ -382,6 +393,9 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'refresh-all-verified-tas') {
+            broadcast(new ContractsInstantiate($data));
+        }
+        if ($data['message'] === 'get-validation-for-key-value-pair-data') {
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-get-attestation-components-in-array') {

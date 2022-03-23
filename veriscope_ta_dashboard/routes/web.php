@@ -143,6 +143,8 @@ if(Config::get('backoffice.enabled')) {
         Route::get('/blockexplorer/user-account/{id}/view',       'BlockExplorerController@user_account');
 
         Route::get('/discovery', function () { return view('discovery.index'); })->name('discovery');
+        Route::get('/discovery/{id}/validations',       'DiscoveryController@validations');
+
         Route::get('/verified-trust-anchors', function () { return view('verifiedtrustanchors.index'); })->name('verifiedtrustanchors');
 
         

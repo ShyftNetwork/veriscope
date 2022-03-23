@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
-
+        Route::get('trust-anchor-extra-data-unique-validations','DiscoveryController@validations');
         Route::get('blockchain-analytics-addresses','BlockchainAnalyticsAddressesController@index');
         Route::get('get-blockchain-analytics-report','BlockchainAnalyticsAddressesController@get_report');
         Route::post('create-blockchain-analytics-report/{id}','BlockchainAnalyticsAddressesController@createReport');

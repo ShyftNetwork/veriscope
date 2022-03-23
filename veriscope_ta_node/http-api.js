@@ -7,7 +7,9 @@ const winston = require('winston');
 const {
   getAllAttestations, 
   getTrustAnchorKeyValuePairCreated,
-  getVerifiedTrustAnchors
+  getTrustAnchorKeyValuePairUpdated,
+  getVerifiedTrustAnchors,
+  getValidationForKeyValuePairData
 } = require('./blockchain-data')
 
 const ethers = require("ethers");
@@ -605,6 +607,8 @@ params:
 app.get('/refresh-all-discovery-layer-key-value-pairs', (req, res) => {
   var user_id = req.param('user_id');
   refreshAllDiscoveryLayerKeyValuePairs(user_id);
+  refreshAllDiscoveryLayerKeyValuePairsUpdated(user_id);
+  refreshValidationsForKeyValuePairData(user_id);
   res.sendStatus(201);
 });
 
@@ -616,7 +620,21 @@ function refreshAllDiscoveryLayerKeyValuePairs (user_id) {
     getTrustAnchorKeyValuePairCreated(user_id)
   })();
 }
-
+function refreshAllDiscoveryLayerKeyValuePairsUpdated (user_id) {
+  (async () => {
+    logger.debug('refreshAllDiscoveryLayerKeyValuePairsUpdated');
+    var obj = { user_id: user_id, message: "refresh-all-discovery-layer-key-value-pairs", data: {completed:false} };
+    utility.sendWebhookMessage(obj);
+    getTrustAnchorKeyValuePairUpdated(user_id)
+  })();
+}
+function refreshValidationsForKeyValuePairData (user_id) {
+  (async () => {
+    logger.debug('getValidationForKeyValuePairData');
+  
+    getValidationForKeyValuePairData(user_id)
+  })();
+}
 /*
 save all verified ta's to database
 request: GET
@@ -845,6 +863,27 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
             data['returnValues']['_keyValuePairName'] = _keyValuePairName;
             data['returnValues']['_keyValuePairValue'] = _keyValuePairValue;
+
+
+            var obj = {
+                message: "taedu-event",
+                data: data
+            };
+            utility.sendWebhookMessage(obj);
+
+            logger.debug(data);
+    });
+
+    TrustAnchorExtraData_Unique.on("EVT_setValidationForKeyValuePairData",  (_trustAnchorAddress, _keyValuePairName, _validatorAddress, event) => {
+            logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
+            data = {};
+            data['transactionHash'] = event.transactionHash;
+            data['event'] = "EVT_setValidationForKeyValuePairData";
+            data['returnValues'] = {};
+
+            data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+            data['returnValues']['_keyValuePairName'] = _keyValuePairName;
+            data['returnValues']['_validatorAddress'] = _validatorAddress;
 
 
             var obj = {
