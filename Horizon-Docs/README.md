@@ -130,5 +130,32 @@ $payloadJson = json_encode($payload);
 $signature = hash_hmac('sha256', $payloadJson, $secret);
 ```
 
+```java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.InvalidKeyException;
+import javax.xml.bind.DatatypeConverter;
+
+class Main {
+  public static void main(String[] args) {
+  	try {
+	    String key = "the shared secret key here";
+	    String message = "[JSON PAYLOAD]";
+	    
+	    Mac hasher = Mac.getInstance("HmacSHA256");
+	    hasher.init(new SecretKeySpec(key.getBytes(), "HmacSHA256"));
+	    
+	    byte[] hash = hasher.doFinal(message.getBytes());
+	    
+	    // to lowercase hexits
+	    DatatypeConverter.printHexBinary(hash);
+  	}
+  	catch (NoSuchAlgorithmException e) {}
+  	catch (InvalidKeyException e) {}
+  }
+}
+```
+
 
 
