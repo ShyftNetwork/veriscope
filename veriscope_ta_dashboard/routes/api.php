@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_trust_anchor_api_url','TrustAnchorController@get_trust_anchor_api_url');
         Route::post('encrypt_ivms','TrustAnchorController@encrypt_ivms');
         Route::post('decrypt_ivms','TrustAnchorController@decrypt_ivms');
-        Route::get('recover_signature','TrustAnchorController@recover_signature');
+        Route::post('recover_signature','TrustAnchorController@recover_signature');
 
         /* Blockchain analytics api methods */
 

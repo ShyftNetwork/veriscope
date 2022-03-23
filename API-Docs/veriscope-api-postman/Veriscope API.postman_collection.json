@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "42769539-3e20-493d-bd5e-530afd101cd6",
+		"_postman_id": "2d2d28d6-79c1-4258-b1ba-947229298fd5",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -116,6 +116,90 @@
 			]
 		},
 		{
+			"name": "Set Attestation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "jurisdiction",
+							"value": "",
+							"description": "Integer, see Get Juridictions for Integer",
+							"type": "text"
+						},
+						{
+							"key": "attestation_type",
+							"value": "",
+							"description": "Default: WALLET",
+							"type": "text"
+						},
+						{
+							"key": "user_address",
+							"value": "",
+							"description": "see Create Shyft User, use account_address",
+							"type": "text"
+						},
+						{
+							"key": "public_data",
+							"value": "",
+							"description": "Default: WALLET",
+							"type": "text"
+						},
+						{
+							"key": "documents_matrix_encrypted",
+							"value": "",
+							"description": "Crypto Wallet Withdrawal Address",
+							"type": "text"
+						},
+						{
+							"key": "availability_address_encrypted",
+							"value": "",
+							"description": "Crypto Wallet Type, eg ETH",
+							"type": "text"
+						},
+						{
+							"key": "ta_address",
+							"value": "",
+							"description": "see Get Trust Anchor Account, use account_address",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/set_attestation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"set_attestation"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Shyft User",
 			"request": {
 				"auth": {
@@ -140,90 +224,6 @@
 						"v1",
 						"server",
 						"create_shyft_user"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set V3 Attestation",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "ta_account",
-							"value": "",
-							"description": "see Get Trust Anchor Account, use account_address",
-							"type": "text"
-						},
-						{
-							"key": "user_account",
-							"value": "",
-							"description": "see Create Shyft User, use account_address",
-							"type": "text"
-						},
-						{
-							"key": "jurisdiction",
-							"value": "",
-							"description": "Integer, see Get Juridictions for Integer",
-							"type": "text"
-						},
-						{
-							"key": "coin_blockchain",
-							"value": "",
-							"description": "Choose blockchain eg BTC, ETH, SOL",
-							"type": "text"
-						},
-						{
-							"key": "coin_token",
-							"value": "",
-							"description": "Choose token on the blockchain eg BTC, ETH, USDT or USDC",
-							"type": "text"
-						},
-						{
-							"key": "coin_address",
-							"value": "",
-							"description": "Crypto Address",
-							"type": "text"
-						},
-						{
-							"key": "coin_memo",
-							"value": "",
-							"description": "Represents memo or destination tag (optional)",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/set_v3_attestation",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"server",
-						"set_v3_attestation"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "",
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -682,9 +682,6 @@
 		},
 		{
 			"name": "Recover Beneficiary TA Signature",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -696,7 +693,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -724,9 +721,6 @@
 		},
 		{
 			"name": "Recover Originator TA Signature",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -738,7 +732,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -766,9 +760,6 @@
 		},
 		{
 			"name": "Recover Beneficiary User Signature",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -780,7 +771,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -808,9 +799,6 @@
 		},
 		{
 			"name": "Recover Originator User Signature",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -822,7 +810,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
