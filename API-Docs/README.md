@@ -465,7 +465,7 @@ Response
 
 ## Recover Beneficiary TA Signature
 ```
-GET {{baseUrl}}/api/v1/server/recover_signature
+POST {{baseUrl}}/api/v1/server/recover_signature
 ```
 params:
 
@@ -488,7 +488,7 @@ Response
 
 ## Recover Originator TA Signature
 ```
-GET {{baseUrl}}/api/v1/server/recover_signature
+POST {{baseUrl}}/api/v1/server/recover_signature
 ```
 params:
 
@@ -511,7 +511,7 @@ Response
 
 ## Recover Beneficiary User Signature
 ```
-GET {{baseUrl}}/api/v1/server/recover_signature
+POST {{baseUrl}}/api/v1/server/recover_signature
 ```
 params:
 
@@ -534,7 +534,7 @@ Response
 
 ## Recover Originator User Signature
 ```
-GET {{baseUrl}}/api/v1/server/recover_signature
+POST {{baseUrl}}/api/v1/server/recover_signature
 ```
 params:
 

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2d2d28d6-79c1-4258-b1ba-947229298fd5",
+		"_postman_id": "7e88886d-948d-454d-adb3-5b453b12fef4",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -116,7 +116,7 @@
 			]
 		},
 		{
-			"name": "Set Attestation",
+			"name": "Set V3 Attestation",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -134,51 +134,51 @@
 					"mode": "urlencoded",
 					"urlencoded": [
 						{
+							"key": "ta_account",
+							"value": "",
+							"description": "Use TA account address",
+							"type": "text"
+						},
+						{
+							"key": "user_account",
+							"value": "",
+							"description": "Use Shyft User account",
+							"type": "text"
+						},
+						{
 							"key": "jurisdiction",
 							"value": "",
-							"description": "Integer, see Get Juridictions for Integer",
+							"description": "Jurisdiction ID from Get Jurisdictions",
 							"type": "text"
 						},
 						{
-							"key": "attestation_type",
+							"key": "coin_blockchain",
 							"value": "",
-							"description": "Default: WALLET",
+							"description": "Enter the coin blockchain type; e.g. BTC or ETH",
 							"type": "text"
 						},
 						{
-							"key": "user_address",
+							"key": "coin_token",
 							"value": "",
-							"description": "see Create Shyft User, use account_address",
+							"description": "Enter the coin token type; e.g. BTC, ETH, USDC or USDT",
 							"type": "text"
 						},
 						{
-							"key": "public_data",
+							"key": "coin_address",
 							"value": "",
-							"description": "Default: WALLET",
+							"description": "Enter the coin address",
 							"type": "text"
 						},
 						{
-							"key": "documents_matrix_encrypted",
+							"key": "coin_memo",
 							"value": "",
-							"description": "Crypto Wallet Withdrawal Address",
-							"type": "text"
-						},
-						{
-							"key": "availability_address_encrypted",
-							"value": "",
-							"description": "Crypto Wallet Type, eg ETH",
-							"type": "text"
-						},
-						{
-							"key": "ta_address",
-							"value": "",
-							"description": "see Get Trust Anchor Account, use account_address",
+							"description": "Enter the coin memo or destination tag (Optional)",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/set_attestation",
+					"raw": "{{baseUrl}}/api/v1/server/set_v3_attestation",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -186,7 +186,7 @@
 						"api",
 						"v1",
 						"server",
-						"set_attestation"
+						"set_v3_attestation"
 					],
 					"query": [
 						{

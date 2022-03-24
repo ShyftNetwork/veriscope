@@ -32,7 +32,6 @@ class SetV3AttestationRequest extends FormRequest
             'ta_account'                     => ['required', new CryptoAddress('ETH')],
             'user_account'                   => ['required',new CryptoAddress('ETH')],
             'jurisdiction'                   => 'required|exists:countries,id',
-            'coin_memo'                      => 'required',
             'coin_blockchain'                => 'required',
             'coin_token'                     => 'required',
             'coin_address'                   => 'required'
