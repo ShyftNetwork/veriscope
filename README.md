@@ -70,11 +70,15 @@ veriscope/
 
 [Horizon Docs](/Horizon-Docs/README.md) - How to set up a webhook to receive notifications from the Shyft Network.
 
+[Arena Queue](/docs/queue.md) - Information on Arena Queue for posting attestations.
+
 [IVMS 101](/IVMS-101/README.md) - How to encode your Entity and User PII into IVMS
 
 [KYC Template Docs](/KYC-Template-Docs/README.md) - How to format your PII and transfer it to a peer.
 
 [Chains](/chains/README.md) - How to connect to the supported blockchains.
+
+[Nethermind Docs](/Nethermind-Docs/README.md) - Links to Nethermind Documentation.
 
 ## Setup Script
 
