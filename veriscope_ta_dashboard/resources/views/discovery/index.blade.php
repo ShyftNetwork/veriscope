@@ -27,8 +27,18 @@
         field: 'key_value_pair_value',
       },
       {
+        label: 'Block Number',
+        field: 'block_number',
+      },
+      {
         label: 'Trust Anchor Address',
         field: 'trust_anchor_address',
+      },
+      {
+        label: 'Validation',
+        field: 'action',
+        html: true,
+        sortable: false,
       },
       {
         label: 'Transaction Hash',

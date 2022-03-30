@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_verified_trust_anchors','TrustAnchorController@get_verified_trust_anchors');
         Route::get('verify_trust_anchor/{address}','TrustAnchorController@verify_trust_anchor');
         Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
+        Route::get('refresh_all_verified_trust_anchors','TrustAnchorController@refresh_all_verified_trust_anchors');
+        Route::get('refresh_all_discovery_layer_key_value_pairs', 'TrustAnchorController@refresh_all_discovery_layer_key_value_pairs');
 
         # for KYC Template
         Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
@@ -58,7 +60,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('verified-trust-anchors','VerifiedTrustAnchorController@index');
         Route::get('trust-anchor-extra-data','DiscoveryController@index');
         Route::get('trust-anchor-extra-data-unique','DiscoveryController@unique');
-
+        Route::get('trust-anchor-extra-data-unique-validations','DiscoveryController@validations');
         Route::get('blockchain-analytics-addresses','BlockchainAnalyticsAddressesController@index');
         Route::get('get-blockchain-analytics-report','BlockchainAnalyticsAddressesController@get_report');
         Route::post('create-blockchain-analytics-report/{id}','BlockchainAnalyticsAddressesController@createReport');
