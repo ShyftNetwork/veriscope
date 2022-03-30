@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
-use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor};
+use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, TrustAnchorExtraDataUniqueValidation};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
@@ -202,27 +202,12 @@ class WebhookController extends Controller
                 $extra_data = new TrustAnchorExtraData();
 
                 $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->block_number = $data_local['blockNumber'];
                 $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
                 $extra_data->endpoint_name = $data_local['returnValues']['_endpointName'];
                 $extra_data->ipv4_address = $data_local['ipv4_address'];
                 $extra_data->save();
             }
-            // $account = $data_local['returnValues']['_trustAnchorAddress'];
-            // $endpoint_hash = $data_local['returnValues']['_endpointName'];
-            // $id = 1;
-            // $url = $this->helper_url.'/ta-get-endpoint-name?user_id='.$id.'&account='.$account.'&endpoint_hash='.$endpoint_hash;
-            //   $client = new Client();
-            //   $res = $client->request('GET', $url);
-            //   if($res->getStatusCode() == 200) {
-
-            //     $response = json_decode($res->getBody());
-            //     Log::debug('ContractsController ta_get_endpoint_name');
-            //     Log::debug($response);
-
-
-            //   } else {
-            //       Log::error('ContractsController ta_get_endpoint_name: ' . $res->getStatusCode());
-            //   }
 
             broadcast(new ShyftSmartContractEvent($data));
         }
@@ -235,9 +220,10 @@ class WebhookController extends Controller
             $data_local = $data['data'];
 
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairCreated") {
-                $extra_data = new TrustAnchorExtraDataUnique();
+                $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
 
                 $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->block_number = $data_local['blockNumber'];
                 $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
                 $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
                 $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
@@ -249,9 +235,21 @@ class WebhookController extends Controller
                 $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
                 $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->block_number = $data_local['blockNumber'];
                 $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
                 $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
                 $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
+                $extra_data->save();
+            }
+
+            if ($data_local['event'] === "EVT_setValidationForKeyValuePairData") {
+
+                $extra_data = TrustAnchorExtraDataUniqueValidation::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
+
+                $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
+                $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
+                $extra_data->validator_address = $data_local['returnValues']['_validatorAddress'];
                 $extra_data->save();
             }
 
@@ -382,6 +380,9 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'refresh-all-verified-tas') {
+            broadcast(new ContractsInstantiate($data));
+        }
+        if ($data['message'] === 'get-validation-for-key-value-pair-data') {
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-get-attestation-components-in-array') {
