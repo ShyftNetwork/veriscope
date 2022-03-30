@@ -49,7 +49,8 @@ eg: {{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_address=0x1bD8d3A9AF39
     "key_value_pair_name": "API_URL",
     "key_value_pair_value": "https://q1.veriscope.network/kyc-template",
     "created_at": "2022-03-07T16:36:37.000000Z",
-    "updated_at": "2022-03-07T16:36:37.000000Z"
+    "updated_at": "2022-03-07T16:36:37.000000Z",
+    "block_number": 652829
 }
 ```
 
@@ -282,7 +283,8 @@ response:
     "key_value_pair_name": "API_URL",
     "key_value_pair_value": "https://q1.veriscope.network/kyc-template",
     "created_at": "2022-03-07T16:37:30.000000Z",
-    "updated_at": "2022-03-07T16:37:30.000000Z"
+    "updated_at": "2022-03-07T16:37:30.000000Z",
+    "block_number": 652829
 }
 ```
 **Note:** key_value_pair_name and key_value_pair_value should be set.
@@ -541,7 +543,8 @@ eg: {{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_address=0x2312e5209760
     "key_value_pair_name": "API_URL",
     "key_value_pair_value": "https://q2.veriscope.network/kyc-template",
     "created_at": "2022-03-07T16:37:30.000000Z",
-    "updated_at": "2022-03-07T16:37:30.000000Z"
+    "updated_at": "2022-03-07T16:37:30.000000Z",
+    "block_number": 652828
 }
 
 Note: key_value_pair_name and key_value_pair_value should be set.

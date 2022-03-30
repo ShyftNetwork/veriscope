@@ -202,6 +202,25 @@ Response
 }
 ```
 
+## Refresh All Verified Trust Anchors
+```
+GET {{baseUrl}}/api/v1/server/refresh_all_verified_trust_anchors
+```
+Response
+```
+[]
+```
+
+
+## Refresh All Discovery Layer Key Value Pairs
+```
+GET {{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs
+```
+Response
+```
+[]
+```
+
 ## Get Trust Anchors Details
 ```
 GET {{baseUrl}}/api/v1/server/get_trust_anchor_details/0xc2106031Dac53b629976e12aF769F60afcB38793
@@ -210,31 +229,34 @@ Response
 ```
 [
     {
-        "id": 5,
-        "transaction_hash": "0x0cffd2f568c2c7fb2b989501c77e070a63f3a7d513829b6ae3dea9a4978ef225",
-        "trust_anchor_address": "0xc2106031Dac53b629976e12aF769F60afcB38793",
-        "key_value_pair_name": "ENTITY",
-        "key_value_pair_value": "Paycase Inc.",
-        "created_at": "2022-01-24T20:44:07.000000Z",
-        "updated_at": "2022-01-24T20:44:07.000000Z"
-    },
-    {
-        "id": 7,
+        "id": 13,
         "transaction_hash": "0xf2a69553e68453d42398feaad0e5c04756f9d6d722bac1f7fe97cfb108aea969",
         "trust_anchor_address": "0xc2106031Dac53b629976e12aF769F60afcB38793",
         "key_value_pair_name": "API_URL",
         "key_value_pair_value": "https://paycase.veriscope.network/kyc-template",
-        "created_at": "2022-01-24T20:44:07.000000Z",
-        "updated_at": "2022-01-24T20:46:59.000000Z"
+        "created_at": "2022-03-30T19:53:48.000000Z",
+        "updated_at": "2022-03-30T19:53:48.000000Z",
+        "block_number": 466139
     },
     {
-        "id": 47,
+        "id": 34,
+        "transaction_hash": "0x0cffd2f568c2c7fb2b989501c77e070a63f3a7d513829b6ae3dea9a4978ef225",
+        "trust_anchor_address": "0xc2106031Dac53b629976e12aF769F60afcB38793",
+        "key_value_pair_name": "ENTITY",
+        "key_value_pair_value": "Paycase Inc.",
+        "created_at": "2022-03-30T19:53:59.000000Z",
+        "updated_at": "2022-03-30T19:53:59.000000Z",
+        "block_number": 258748
+    },
+    {
+        "id": 36,
         "transaction_hash": "0x35ec28970de7d2d4399b1c2fa3ea4e6336874f8ce5c544858f6a6bca38f15ed1",
         "trust_anchor_address": "0xc2106031Dac53b629976e12aF769F60afcB38793",
         "key_value_pair_name": "API_URL",
         "key_value_pair_value": "https://paycase.veriscope.network/",
-        "created_at": "2022-01-24T21:15:46.000000Z",
-        "updated_at": "2022-01-24T21:15:46.000000Z"
+        "created_at": "2022-03-30T19:53:59.000000Z",
+        "updated_at": "2022-03-30T19:53:59.000000Z",
+        "block_number": 258753
     }
 ]
 ```
@@ -252,7 +274,8 @@ Response
     "key_value_pair_name": "API_URL",
     "key_value_pair_value": "https://q2.veriscope.network/kyc-template",
     "created_at": "2022-03-07T16:36:37.000000Z",
-    "updated_at": "2022-03-07T16:36:37.000000Z"
+    "updated_at": "2022-03-07T16:36:37.000000Z",
+    "block_number": 652828
 }
 ```
 
