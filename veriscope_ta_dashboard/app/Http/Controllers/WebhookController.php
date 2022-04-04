@@ -222,24 +222,28 @@ class WebhookController extends Controller
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairCreated") {
                 $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
-                $extra_data->transaction_hash = $data_local['transactionHash'];
-                $extra_data->block_number = $data_local['blockNumber'];
-                $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
-                $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
-                $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
-                $extra_data->save();
+                if($extra_data->block_number < $data_local['blockNumber']) {
+                    $extra_data->transaction_hash = $data_local['transactionHash'];
+                    $extra_data->block_number = $data_local['blockNumber'];
+                    $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
+                    $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
+                    $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
+                    $extra_data->save();
+                }
             }
 
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairUpdated") {
 
                 $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
-                $extra_data->transaction_hash = $data_local['transactionHash'];
-                $extra_data->block_number = $data_local['blockNumber'];
-                $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
-                $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
-                $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
-                $extra_data->save();
+                if($extra_data->block_number < $data_local['blockNumber']) {
+                    $extra_data->transaction_hash = $data_local['transactionHash'];
+                    $extra_data->block_number = $data_local['blockNumber'];
+                    $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
+                    $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
+                    $extra_data->key_value_pair_value = $data_local['returnValues']['_keyValuePairValue'];
+                    $extra_data->save();
+                }
             }
 
             if ($data_local['event'] === "EVT_setValidationForKeyValuePairData") {
