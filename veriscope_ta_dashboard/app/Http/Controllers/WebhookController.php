@@ -257,6 +257,17 @@ class WebhookController extends Controller
                 $extra_data->save();
             }
 
+            if ($data_local['event'] === "EVT_setValidationForKeyValuePairData") {
+
+                $extra_data = TrustAnchorExtraDataUniqueValidation::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
+
+                $extra_data->transaction_hash = $data_local['transactionHash'];
+                $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
+                $extra_data->key_value_pair_name = $data_local['returnValues']['_keyValuePairName'];
+                $extra_data->validator_address = $data_local['returnValues']['_validatorAddress'];
+                $extra_data->save();
+            }
+
             broadcast(new ShyftSmartContractEvent($data));
         }
         if ($data['message'] === 'ta-set-jurisdiction') {

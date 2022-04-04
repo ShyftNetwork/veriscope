@@ -43,7 +43,7 @@
       {
         label: 'Transaction Hash',
         field: 'transaction_hash',
-      }
+      },
     ]"
     :hideSearch=false
     ></good-table>
