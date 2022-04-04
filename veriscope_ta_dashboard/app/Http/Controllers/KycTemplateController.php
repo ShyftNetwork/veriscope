@@ -189,10 +189,11 @@ class KycTemplateController extends Controller
         Log::debug(print_r($kycTemplateJSON, true));
 
         if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'BENEFICIARY') {
-            $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->SenderTAAddress)->where('key_value_pair_name', 'API_URL')->firstOrFail();
+            $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->SenderTAAddress)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();
+
         }
         else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'ORIGINATOR') {
-            $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->BeneficiaryTAAddress)->where('key_value_pair_name', 'API_URL')->firstOrFail();
+            $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->BeneficiaryTAAddress)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();
         }
 
         $url = $taedu->key_value_pair_value;
@@ -328,11 +329,11 @@ class KycTemplateController extends Controller
         $kt->sender_ta_address = $sca->ta_account;
         $kt->sender_user_address = $sca->user_account;
 
-        $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();
+        $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();
             $url = $taedu->key_value_pair_value;
         $kt->beneficiary_ta_url = $url;
 
-        $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->sender_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();
+        $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->sender_ta_address)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();
             $url = $taedu->key_value_pair_value;
         $kt->sender_ta_url = $url;
 
