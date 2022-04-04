@@ -190,7 +190,6 @@ class KycTemplateController extends Controller
 
         if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'BENEFICIARY') {
             $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->SenderTAAddress)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();
-
         }
         else if($this->isTASenderOrBeneficiary($kycTemplateJSON) == 'ORIGINATOR') {
             $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', json_decode($kycTemplateJSON)->BeneficiaryTAAddress)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->firstOrFail();

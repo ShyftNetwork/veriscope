@@ -248,7 +248,7 @@ function install_or_update_nethermind() {
 	fi
 
 	echo "Restarting nethermind..."
-	chown -R $SERVICE_USER:$SERVICE_USER /opt/nm/
+	chown -R $SERVICE_USER /opt/nm/
 	systemctl restart nethermind
 }
 
