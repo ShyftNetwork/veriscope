@@ -220,7 +220,7 @@ class WebhookController extends Controller
             $data_local = $data['data'];
 
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairCreated") {
-                $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
+                $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
                 $extra_data->transaction_hash = $data_local['transactionHash'];
                 $extra_data->block_number = $data_local['blockNumber'];
