@@ -337,3 +337,59 @@ function getVerifiedTrustAnchors(user_id) {
 
     })();
 }
+
+
+// node -e 'require("./blockchain-data").getValidationForKeyValuePairData()'
+module.exports.getValidationForKeyValuePairData = function (user_id = null) {
+    getValidationForKeyValuePairData(user_id);
+};
+
+
+function getValidationForKeyValuePairData(user_id) {
+    (async () => {
+
+    let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorExtraData_Unique.json');
+
+    let contracts = JSON.parse(source);
+
+    var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS);
+
+    myContract.getPastEvents('EVT_setValidationForKeyValuePairData', {
+       fromBlock: 0,
+       toBlock: "latest",
+    }, async function(error, events){
+
+      
+        for (const [i, event] of events.entries()) {
+          logger.debug(event);
+
+          var obj = { message: "taedu-event", data: event };
+          await sendWebhookMessage(obj);
+
+          await sendWebhookMessage({
+            user_id,
+            message: "get-validation-for-key-value-pair-data",
+            data: {
+              completed: false,
+              message: `Loaded ${i} of ${events.length} validations`
+            }
+          });
+        }
+      
+      sendWebhookMessage({
+        user_id,
+        message: "get-validation-for-key-value-pair-data",
+        data: {
+          completed: true
+        }
+      });
+
+
+    })
+
+    logger.debug('getValidationForKeyValuePairData result');
+    logger.debug();
+
+    })();
+}
+
