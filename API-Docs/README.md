@@ -369,6 +369,8 @@ params:
 
 Note: attestation_hash from Beneficiary: Get Attestation by Crypto Address above.
 - ivms_encrypt (Optional)
+- coin_transaction_hash (Optional)
+- coin_transaction_value (Optional)
 
 Response
 ```
