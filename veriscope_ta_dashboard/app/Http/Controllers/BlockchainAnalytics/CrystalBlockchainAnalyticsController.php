@@ -25,7 +25,7 @@ class CrystalBlockchainAnalyticsController extends Controller {
         
         if (!$user) {
             $data['coin_address'] = $data['wallet'];
-            $data['user_address'] = 'unknown';
+            $data['user_account'] = 'unknown';
             $data['coin_blockchain'] = $data['network']['ticker'];
             $data['ta_account']['account_address'] = 'unknown';
         }
@@ -34,7 +34,7 @@ class CrystalBlockchainAnalyticsController extends Controller {
         $payload = [];
         $payload['direction'] = "withdrawal";
         $payload['address'] = $data['coin_address'];
-        $payload['name'] = $data['user_address'] ;
+        $payload['name'] = $data['user_account'] ;
         $payload['currency'] = strtolower($data['coin_blockchain'])  ;
 
 
@@ -71,7 +71,7 @@ class CrystalBlockchainAnalyticsController extends Controller {
             array(
                    'blockchain_analytics_provider_id'   =>   $crystal->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
-                   'user_account' => $data['user_address'],
+                   'user_account' => $data['user_account'],
                    'blockchain' => strtolower($data['coin_blockchain']),
                    'crypto_address' =>  $data['coin_address'],
                    'custodian' => $custodian,
@@ -93,7 +93,7 @@ class CrystalBlockchainAnalyticsController extends Controller {
             array(
                    'blockchain_analytics_provider_id'   =>   $crystal->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
-                   'user_account' => $data['user_address'],
+                   'user_account' => $data['user_account'],
                    'blockchain' => strtolower($data['coin_blockchain']),
                    'crypto_address' => $data['coin_address'],
         
