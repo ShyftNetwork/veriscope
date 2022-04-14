@@ -393,10 +393,9 @@ class WebhookController extends Controller
             Log::debug('ta-get-attestation-components-in-array');
             Log::debug(print_r($data, true));
             $result = $data['data'][0];
-            $country = Country::where('id', hexdec($result['jurisdiction']))->first();
             $list = [['field' => 'TA Address', 'data'  => $result['trustAnchorAddress']],
                     ['field' => 'User Address', 'data'  => $result['user_address']],
-                    ['field' => 'Jurisdiction', 'data' => $country->name],
+                    ['field' => 'Jurisdiction', 'data' => $result['jurisdiction']],
                     ['field' => 'Version Code', 'data'  => $result['version_code']],
                     ['field' => 'Coin Blockchain', 'data'  => $result['coin_blockchain']],
                     ['field' => 'Coin Token', 'data'  => $result['coin_token']],
