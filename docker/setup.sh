@@ -193,10 +193,11 @@ function install_or_update_nethermind() {
 		echo "Installing default /opt/nm/static-nodes.json"
 		cp chains/$VERISCOPE_TARGET/static-nodes.json $NETHERMIND_DEST
 	fi
-	if ! test -s "/opt/nm/shyftchainspec.json"; then
-		echo "Installing /opt/nm/shyftchainspec.json genesis file"
-		cp chains/$VERISCOPE_TARGET/shyftchainspec.json $NETHERMIND_DEST
-	fi
+	
+	echo "Installing /opt/nm/shyftchainspec.json genesis file. Chcksum:"
+	cp chains/$VERISCOPE_TARGET/shyftchainspec.json $NETHERMIND_DEST
+	md5sum $NETHERMIND_DEST
+	
 	if ! test -s "/etc/systemd/system/nethermind.service"; then
 		echo "Installing systemd unit for nethermind"
 		cp scripts/nethermind.service /etc/systemd/system/nethermind.service
