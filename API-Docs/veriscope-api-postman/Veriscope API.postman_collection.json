@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c0249907-edb0-4233-9aac-af95e6cac09a",
+		"_postman_id": "77bf5184-94a1-468e-9705-67ae1c1e56a0",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -575,7 +575,22 @@
 							"key": "ivms_encrypt",
 							"value": "",
 							"description": "Use data generated from Encrypt IVMS",
-							"type": "text"
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "coin_transaction_hash",
+							"value": "",
+							"description": "Coin Transaction Hash from crypto transaction (optional)",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "coin_transaction_value",
+							"value": "",
+							"description": "Coin Transaction Value from crypto transaction (optional)",
+							"type": "text",
+							"disabled": true
 						}
 					]
 				},

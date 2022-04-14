@@ -768,6 +768,8 @@ Note: user params from Create Shyft User above (Beneficiary)
 attestation_hash from Get KYC Template above
 
 ivms_encrypt from Encrypt IVMS above
+- coin_transaction_hash (Optional)
+- coin_transaction_value (Optional)
 
 response:
 
@@ -875,6 +877,9 @@ Note: user params from Create Shyft User above (Originator)
 attestation_hash from Get KYC Template above
 
 ivms_encrypt from Encrypt IVMS above
+
+- coin_transaction_hash (Optional)
+- coin_transaction_value (Optional)
 
 response:
 
