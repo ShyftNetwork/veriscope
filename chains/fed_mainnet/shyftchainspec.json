@@ -25,13 +25,14 @@
                 "blockRewardContractTransition": "0x0",
                 "blockRewardContractTransitions": {
                     "0": "0x000000000000000000000000000000073410f33D",
-                    "9999999999": "0x57C205DdD1B33A9520c840a1272B4Ac187Ab7620"
+                    "4431021": "0x57C205DdD1B33A9520c840a1272B4Ac187Ab7620"
                 },
                 "randomnessContractCode": {
                     "0": "0x0000000000000000000000000000000000000042"
                 },
                 "blockGasLimitContractTransitions": {
-                    "0": "0xAB5b100cf7C8deFB3c8f3C48474223997A50fB13"
+                    "0": "0xAB5b100cf7C8deFB3c8f3C48474223997A50fB13",
+                    "4431021": "0xd57898d526FFd88fcAae3B8A15143b6D67650a9F"
                 }
             }
         }
@@ -55,12 +56,12 @@
         "eip1052Transition": "0x0",
         "eip1283Transition": "0x0",
         "eip1283DisableTransition": "0x0",
-        "eip152Transition": "9999999999",
-        "eip1108Transition": "9999999999",
-        "eip1344Transition": "9999999999",
-        "eip1884Transition": "9999999999",
-        "eip2028Transition": "9999999999",
-        "eip2200Transition": "9999999999"
+        "eip152Transition": "4431021",
+        "eip1108Transition": "4431021",
+        "eip1344Transition": "4431021",
+        "eip1884Transition": "4431021",
+        "eip2028Transition": "4431021",
+        "eip2200Transition": "4431021"
     },
     "genesis": {
         "seal": {
