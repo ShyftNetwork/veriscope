@@ -139,7 +139,7 @@ class BlockchainAnalyticsAddressesController extends Controller
         if ($result['blockchain_analytics_provider_id'] == 1) {
           array_push($input,['field' => 'Error message', 'data'  =>  $response['meta']['error_message'] ]);
         } else if ($result['blockchain_analytics_provider_id'] == 2 ) {
-          array_push($input,['field' => 'Error message', 'data'  =>  $response['identifier'][0] ]);
+          if(isset($response['identifier'])) array_push($input,['field' => 'Error message', 'data'  =>  $response['identifier'][0] ]);
         }
       }
       

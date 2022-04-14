@@ -23,14 +23,15 @@ class MerkleScienceAnalyticsController extends Controller {
 
     public function __construct($data, $api_key, $user) {
         Log::debug('MerkleScienceAnalyticsController __construct');
-        $network = isset($data['coin_blockchain']) ? $data['coin_blockchain'] : $data['network']['ticker'];
+        $network = isset($data['coin_blockchain']) ? $data['coin_blockchain'] : $data['network']['ticker'];       
         $networkId = BlockchainAnalyticsSupportedNetworks::where('ticker', strtolower($network))->where('blockchain_analytics_provider_id', 2)->first();
 
         if (!$network) return;
+        if (!$networkId) $networkId['provider_network_id'] = -1;
 
         if (!$user) {
             $data['coin_address'] = $data['wallet'];
-            $data['user_address'] = 'unknown';
+            $data['user_account'] = 'unknown';
             $data['coin_blockchain'] = $data['network']['ticker'];
             $data['ta_account']['account_address'] = 'unknown';
         }
@@ -62,9 +63,10 @@ class MerkleScienceAnalyticsController extends Controller {
             $response = $e->getResponse();
            
 
+            $status_code = $response->getStatusCode();
             $jsonResponse = json_decode((string) $response->getBody(), true);
 
-            return $this->save_error_to_db($jsonResponse, $data);
+            return $this->save_error_to_db($jsonResponse, $data, $status_code);
         };
     
     }
@@ -81,7 +83,7 @@ class MerkleScienceAnalyticsController extends Controller {
             array(
                    'blockchain_analytics_provider_id'   =>   $merkel->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
-                   'user_account' => $data['user_address'],
+                   'user_account' => $data['user_account'],
                    'blockchain' => strtolower($data['coin_blockchain']),
                    'crypto_address' =>  $data['coin_address'],
                    'custodian' => $custodian,
@@ -96,19 +98,19 @@ class MerkleScienceAnalyticsController extends Controller {
        broadcast(new ContractsInstantiate($data));
     }
 
-    function save_error_to_db($response, $data) {
+    function save_error_to_db($response, $data, $status_code) {
         $merkel = BlockchainAnalyticsProvider::where('name', 'Merkle Science')->first();
 
         $report = BlockchainAnalyticsAddress::insertGetId(
             array(
                    'blockchain_analytics_provider_id'   =>   $merkel->id,
                    'trust_anchor' => $data['ta_account']['account_address'],
-                   'user_account' => $data['user_address'],
+                   'user_account' => $data['user_account'],
                    'blockchain' => strtolower($data['coin_blockchain']),
                    'crypto_address' => $data['coin_address'],
         
                    'response' => json_encode($response),
-                   'response_status_code' => $response['identifier']
+                   'response_status_code' => $status_code
             )
        );
 
