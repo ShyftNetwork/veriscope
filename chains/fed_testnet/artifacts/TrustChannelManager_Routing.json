@@ -9217,8 +9217,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:32:58.075Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:58:19.402Z",
   "devdoc": {
     "details": "| A reference contract related to the Trust Channel Managers's routing contract, used for externally coordinating trusted asset flows. | An example call within the Shyft Core Contracts architecture is within the ShyftCacheGraph.sol contract, which implements an asset flow.",
     "kind": "dev",

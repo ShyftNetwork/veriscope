@@ -2065,8 +2065,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:23:49.611Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:49:40.385Z",
   "devdoc": {
     "details": "Based on https://gist.github.com/axic/5b33912c6f61ae6fd96d6c4a47afde6d",
     "kind": "dev",

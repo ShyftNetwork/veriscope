@@ -41057,8 +41057,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:32:57.976Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:58:19.281Z",
   "devdoc": {
     "details": "| This contract manages the distribution contracts for the Shyft Network. It is built to enable a native-mode or erc20-mode distribution with specific distribution tables (with individual cycles with %'s and times). | For each of the individuals allocated to, they have their own (potentially unique) distribution table, along with a potential cutoff (reduction) & the address which is managing that, as well as total distributed and any cliff/vesting information.",
     "events": {

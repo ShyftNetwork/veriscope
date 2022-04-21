@@ -4515,8 +4515,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:32:57.812Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:58:19.115Z",
   "devdoc": {
     "details": "| A reference contract related to the Shyft Cache Graph's routing channels. | Especially useful if wanting to prove off-chain data (would need to be associated to the Shyft Bridge), in relation to offchain Trust Channels the user is associated to.",
     "kind": "dev",

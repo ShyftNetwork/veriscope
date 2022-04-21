@@ -66969,12 +66969,12 @@
     "11437": {
       "events": {},
       "links": {},
-      "address": "0x6a938EDBc451dB9C2047765342164048dCFa9CDD",
-      "transactionHash": "0x8e8179e817024838bc297689e3df8c72f913b57b7e44283233b2753c7a5c9d95"
+      "address": "0x1277913ad6F1F3fDE1598563DCFDB42d3b604905",
+      "transactionHash": "0xb756c902ee02245108cb4577dc2099d0035851cc0885b57aa3084880010fa71b"
     }
   },
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:34:30.884Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:59:55.575Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "| The Trust Anchor Storage is the contract responsible for maintaining the chain-of-custody for all of the attestations on the Shyft Core architecture. | The primary design goals are to concentrate attestations into individual accounts, with the responsibility of maintenance of those attestations belonging to the Trust Anchors that has initially posted those attestations. | To prevent attestation \"spam\" (invalid attestations that end-users don't agree with), there is a signature provided by both the Trust Anchor and the end-user. | After attestation (prior to signatures), the connected Cache Graph contract can be used to map users to Trust Channels (which are the higher level connectivity to the Trust Anchor network) in an \"un-consented\" manner, after signatures, the Cache Graph can be used to map users to \"consented\" Trust Channels. | | There are two ways of managing who provides the permissions for the act of data retrieval. | One mechanism is a Managed context, where the end-user is giving permission to the Trust Anchor to fully manage the act of data transmission and retrieval on the user's behalf. | The other mechanism is an Un-managed context, where the end-user is the only entity that has permission to allow data transmission from the source Trust Anchor (that has provided the initial attestation) to another Trust Anchor. | | The contents of the attestation consist of: | 1. The end user's smart contract address that is being attested to. | 2. The jurisdiction of the attestation (may be different than the Trust Anchor's jurisdiction). | 3. The effective (start) time of the attestation (in Seconds from Unix Epoch Time). | 4. The expiry time of the attestation (in Seconds from Unix Epoch Time). | 5. Any non-PII public metadata (hash codes from the Trust Anchor, etc.) | 6. The document matrix, a series of 0's and 1's corresponding to the availability of specific pieces of \"hard\" documentation that the Trust Anchor holds. Generally encrypted via symmetric AES to prevent abstracted PII from being leaked on the blockchain directly. | 7. The availability address, an ethereum-type address corresponding to the smart contract that manages the various economic & regulatory conditions of data transfer from a Trust Anchor to a data retriever. Generally encrypted via symmetric AES to prevent abstracted PII from being leaked on the blockchain directly. | 8. Whether this attestation is managed by the Trust Anchor. This indicates that consent conditions are applied from the Trust Anchor instead of the end user. | | Administrators of this contract are able to be set in order to allow for better management practices, with multi-signature support from the Administrable contract.",

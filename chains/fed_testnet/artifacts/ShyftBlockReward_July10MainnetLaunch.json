@@ -29055,8 +29055,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:23:50.702Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:49:41.499Z",
   "devdoc": {
     "details": "| | shyft inflation per month: 12,600,000 | there is network security inflation (4,200,000) | there is network runtime community dao inflation (4,200,000) | there is byfrost staking pool inflation (4,200,000) | | the external reward (runtime + staking) is sent as an \"external\" to another contract which is then executed in this step. | | because there is no capability to emit events from this contract (and it's further calls), it is necessary to prepare the | external reward architecture in a way where the system bytecode has a hardcoded value of where the external contract call | is performed to. | | theoretically, this step could also be utilized to do other system calls in a daemon-like fashion, so I've added an external | interface step to allow this as well. | | there is also code so the administration of the node can be made discrete from the reward output, as in the case of an owner->financial manager, owner->technical manager hierarchical structure of ultimate node administration.",
     "events": {
