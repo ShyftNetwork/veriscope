@@ -66947,8 +66947,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:34:31.001Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:59:55.744Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "| This contract contains the operating system of a fully on-chain asset routing system. It uses fancy (Debruijn) math tricks to     | set up and create a number of tables of binary fields representing assignment to the Trust Channel grouping structure.     | Users are attested to by Trust Anchors, [ Trust Anchors are associated to Trust Channels ], and the relationship of the Trust     | Channels is then additively projected onto the Users own individual mapping.     |     | When routing assets, these mappings are compared, and if there is a match (cheaply done so by the math tricks), then there is     | a return code stating such, and contracts that depend on this function would then send assets.     |     | There is also a rule system in-transit. This radically effects per-transaction cost, but is capable of extreme flexibility,     | as it there are functions from basic asset limit restrictions, to being driven by an external smart contract call with     | arbitrary pass/fail logic.",

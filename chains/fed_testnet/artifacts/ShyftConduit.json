@@ -71524,8 +71524,8 @@
     "version": "0.7.1+commit.f4a555be.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.5",
-  "updatedAt": "2022-02-22T18:34:31.142Z",
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-04-19T20:59:55.895Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "| Shyft Conduit      |      | con·duit      | /känˌd(y)o͞oət/      | 1. a channel for conveying water or other fluid.      |      | con·ter·mi·nous      | /känˈtərmənəs/      | 1. sharing a common boundary.      |      | This contract manages the Shyft inflation organization and delegation to an Administrable distribution by value.      | Because the block reward never changes (only the difficulty parameter), there is no really complex math involved.      |      | We use linked lists for the Conterminous linkages because in the case of a new array, the list can be easily      | associated with the basic mappings without creating extra storage copies.      | Contextually, any Conduit formed by means of a network inflation is unable to be laundered through any means other      | than 100% network control. Network inflation is the purest of commodities, requiring physical resource production      | to \"game\", making it a much higher fruit than existing means.",
