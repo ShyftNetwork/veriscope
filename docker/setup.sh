@@ -440,7 +440,7 @@ function refresh_static_nodes() {
 
 	DEST=/opt/nm/static-nodes.json
 	echo '[' >$DEST
-	wscat -x '{"emit":["ready"]}' --connect ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0 | grep enode | jq '.emit[1].nodes' | grep  -oP '"enode://.*?"'   | sed '$!s/$/,/' | tee -a $DEST
+	wscat -x '{"emit":["ready"]}' --connect wss://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0 | grep enode | jq '.emit[1].nodes' | grep  -oP '"enode://.*?"'   | sed '$!s/$/,/' | tee -a $DEST
 	echo ']' >>$DEST
 
 	echo
