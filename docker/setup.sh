@@ -26,8 +26,8 @@ fi
 
 case "$VERISCOPE_TARGET" in
 "veriscope_testnet")
-	ETHSTATS_HOST="ws://fedstats.veriscope.network/api"
-	ETHSTATS_GET_ENODES="ws://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"
+	ETHSTATS_HOST="wss://fedstats.veriscope.network/api"
+	ETHSTATS_GET_ENODES="wss://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"
 	ETHSTATS_SECRET="Oogongi4"
 ;;
 
