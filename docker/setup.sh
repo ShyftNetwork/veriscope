@@ -34,13 +34,13 @@ case "$VERISCOPE_TARGET" in
 "fed_testnet")
 	ETHSTATS_HOST="wss://stats.testnet.shyft.network/api"
 	ETHSTATS_SECRET="Ish9phieph"
-	ETHSTATS_GET_ENODES="ws://stats.testnet.shyft.network/primus/?_primuscb=1627594389337-0"
+	ETHSTATS_GET_ENODES="wss://stats.testnet.shyft.network/primus/?_primuscb=1627594389337-0"
 ;;
 
 "fed_mainnet")
 	ETHSTATS_HOST="wss://stats.shyft.network/api"
 	ETHSTATS_SECRET="uL4tohChia"
-	ETHSTATS_GET_ENODES="ws://stats.shyft.network/primus/?_primuscb=1627594389337-0"
+	ETHSTATS_GET_ENODES="wss://stats.shyft.network/primus/?_primuscb=1627594389337-0"
 ;;
 
 *)
