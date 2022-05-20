@@ -75,17 +75,25 @@ class BlockchainAnalyticsApiController extends Controller
         $response = [];
         $inertedObject = [];
         $custodian = '';
+        $api_key = $provider['key'];
+        if (!$api_key) return response()->json("Provider API key is not set", 400);
+
         if ($provider->id == 1) {
-            $api_key = Constant::where('name', 'crystal_api_key')->first();
-            $response = $this->crystalRequest($input['address'], $network['ticker'], $api_key['value']);
+            $response = $this->crystalRequest($input['address'], $network['ticker'], $api_key);
             if (isset($response['data']['counterparty']['name'])) $custodian = $response['data']['counterparty']['name'];
             $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
         } else if ($provider->id == 2) {
-            $api_key = Constant::where('name', 'merkle_api_key')->first();
-            $response = $this->merkleScienceRequest($input['address'], $network['provider_network_id'], $api_key['value']);
+            $response = $this->merkleScienceRequest($input['address'], $network['provider_network_id'], $api_key);
             if (isset($response['tags']['owner']['tag_name_verbose'])) $custodian = $response['tags']['owner']['tag_name_verbose'];
             $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
-
+        } else if ($provider->id == 3) {
+            $response = $this->coinfirmRequest($input['address'], $api_key);
+            if (isset($response['profile_section']['owner']['name'])) $custodian = $response['profile_section']['owner']['name'];
+            $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
+        } else if ($provider->id == 4) {
+            $response = $this->chainalysisRequest($input['address'],  $network, $api_key);
+            if (isset($response[0]['cluster']['name'])) $custodian = $response[0]['cluster']['name'];
+            $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
         }
 
         return response()->json($inertedObject);
@@ -191,5 +199,58 @@ class BlockchainAnalyticsApiController extends Controller
             return $jsonResponse;
         };
     }
+
+    function coinfirmRequest($address, $api_key) {
+
+        try {
+            $client = new Client();
+            $response = $client->request('GET', 'https://api.coinfirm.com/v3/reports/aml/full/' . $address . '?v=2', [
+                'headers' => [
+                    'authorization' => 'Bearer ' . $api_key,
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ]
+            ]);
+            
+            $jsonResponse = json_decode($response->getBody(), true);
+            $jsonResponse['statusCode'] = 200;
+            return $jsonResponse;
+        } catch (ClientException $e) {  
+            $response = $e->getResponse();           
+            $jsonResponse = json_decode((string) $response->getBody(), true);
+            $jsonResponse['statusCode'] = $response->getStatusCode();
+            return $jsonResponse;
+        };
+    }
+
+    function chainalysisRequest($address, $network, $api_key) {
+
+        $payload = [];
+        $payload['network'] = $network['name'];
+        $payload['address'] = $address;
+        $payload['asset'] = strtoupper($network['ticker'])  ;
+
+        try {
+            $client = new Client();
+            $response = $client->request('POST', 'https://api.chainalysis.com/api/kyt/v1/users/veriscope/withdrawaladdresses', [
+                'headers' => [
+                    'Token' => $api_key,
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json'
+                ],
+                'body' => json_encode([$payload])
+            ]);
+            
+            $jsonResponse = json_decode($response->getBody(), true);
+            $jsonResponse['statusCode'] = 200;
+            return $jsonResponse;
+        } catch (ClientException $e) {  
+            $response = $e->getResponse();           
+            $jsonResponse = json_decode((string) $response->getBody(), true);
+            $jsonResponse['statusCode'] = $response->getStatusCode();
+            return $jsonResponse;
+        };
+    }
+
 
 }

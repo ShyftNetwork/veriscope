@@ -12,6 +12,11 @@
           </h1>
         </div>
     </div>
+    <a href="blockchain-analytics">
+      <button class="btn">
+        Blockchain Analytics API Settings
+      </button>
+    </a>
     <a href="blockchain-analytics-addresses/new-report">
       <button class="btn">
         Create Blockchain Analytics Report
