@@ -5,8 +5,8 @@ namespace App\Http\Controllers\BlockchainAnalytics;
 use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
-use App\Constant;
-use App\Http\Controllers\BlockchainAnalytics\{CrystalBlockchainAnalyticsController, MerkleScienceAnalyticsController};
+use App\BlockchainAnalyticsProvider;
+use App\Http\Controllers\BlockchainAnalytics\{CoinfirmAnalyticsController, CrystalBlockchainAnalyticsController, MerkleScienceAnalyticsController, ChainalysisController};
 
 class BlockchainAnalyticsController extends Controller {
     /**
@@ -19,23 +19,37 @@ class BlockchainAnalyticsController extends Controller {
         if ($user) {
             $data['user_id'] = $user['id'];
         }
-            $constants = Constant::all();
-            foreach($constants as $constant) {
-                if ($constant->name == 'crystal_api_key' && $constant->value) {
-                    $enabled = Constant::where('name', 'crystal_enabled')->first();
-                    if (!$user || $enabled['value'] == '1')  {
+            $providers = BlockchainAnalyticsProvider::all();
+            foreach($providers as $provider) {
+                if ($provider->id == 1 && $provider->key) {
+                    if (!$user || $provider['enabled'] == '1')  {
                         if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Crystal') {
                             Log::debug('Crystal init');
-                            (new CrystalBlockchainAnalyticsController($data, $constant->value, $user));
+                            (new CrystalBlockchainAnalyticsController($data, $provider->key, $user));
                         }
                     }
                 }
-                if ($constant->name == 'merkle_api_key' && $constant->value) {
-                    $enabled = Constant::where('name', 'merkle_enabled')->first();
-                    if (!$user || $enabled['value'] == '1')  {
+                if ($provider->id == 2 && $provider->key) {
+                    if (!$user || $provider['enabled'] == '1')  {
                         if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Merkle Science') {
                             Log::debug('Merkle init');
-                            (new MerkleScienceAnalyticsController($data, $constant->value, $user));
+                            (new MerkleScienceAnalyticsController($data, $provider->key, $user));
+                        }
+                    }
+                }
+                if ($provider->id == 3 && $provider->key) {
+                    if (!$user || $provider['enabled'] == '1')  {
+                        if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Coinfirm') {
+                            Log::debug('Coinfirm init');
+                            (new CoinfirmAnalyticsController($data, $provider->key, $user));
+                        }
+                    }
+                }
+                if ($provider->id == 4 && $provider->key) {
+                    if (!$user || $provider['enabled'] == '1')  {
+                        if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Chainalysis') {
+                            Log::debug('Chainalysis init');
+                            (new ChainalysisController($data, $provider->key, $user));
                         }
                     }
                 }

@@ -129,6 +129,9 @@ if(Config::get('backoffice.enabled')) {
 
         Route::get('arena_auth', '\App\Http\Controllers\Backoffice\DashboardController@arena_auth')->name('arena.auth');
 
+        Route::get('blockchain-analytics', 'BlockchainAnalyticsController@blockchainAnalyticsSettings')->name('blockchain.analytics');
+        Route::put('blockchain-analytics/update', 'BlockchainAnalyticsController@update')->name('blockchain.analytics.update');
+
         Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
         Route::get('kyctemplates/{id}/details',       'KycTemplatesController@kyc_template_details');
 

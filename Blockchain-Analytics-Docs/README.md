@@ -10,6 +10,8 @@ Below describes how to include crypto wallet reports by your Blockchain Analytic
 |--------------------|--------------------------------|
 | Crystal Blockchain | https://crystalblockchain.com/ |
 | Merkle Science     | https://www.merklescience.com/ |
+| Coinfirm           | https://www.coinfirm.com/      |
+| Chainalysis        | https://www.chainalysis.com/   |
 
 **Note:** Before you continue, ensure you have an API key for either provider above.
 
@@ -19,19 +21,25 @@ Below describes how to include crypto wallet reports by your Blockchain Analytic
 
 <img src="images/1.png"  style="zoom:25%;" />
 
-#### 2. Select Constants From Menu
+#### 2. Select Blockchain Analytics card
 
-Once you are in backoffice select Constants from menu
+Once you are in backoffice select Blockchain Analytics card
 
-<img src="images/2.png" style="zoom:25%;" />
+<img src="images/9.png" style="zoom:25%;" />
 
-#### 3. Add API Keys
+#### 3. Press Blockchain Analytics API Settings button
 
-In Constants page (Portal Settings), you can add your blockchain analytics provider API key. Checkbox "Run (Analytics provider) on Attestations" means whenever you make an attestation all enabled analytics providers will check if that crypto address belongs to a custodian.
+Press Blockchain Analytics API Settings button
 
-<img src="images/3.png" style="zoom:25%;" />
+<img src="images/10.png" style="zoom:25%;" />
 
-#### 3. Create Blockchain Analytics Report
+#### 4. Add API Keys
+
+In Blockchain Analytics API Settings page, you can add your blockchain analytics provider API key. Checkbox "Enabled" means whenever you make an attestation all enabled analytics providers will check if that crypto address belongs to a custodian.
+
+<img src="images/11.png" style="zoom:25%;" />
+
+#### 5. Create Blockchain Analytics Report
 
 To generate a report, choose Blockchain Analytics Reports card in the dashboard.
 
@@ -45,7 +53,7 @@ Select Analytics Provider you want to use, select Network and enter the Crypto A
 
 <img src="images/8.png" style="zoom:25%;" />
 
-#### 4. Analytic Provider Reports
+#### 6. Analytic Provider Reports
 
 To check analytic provider reports return to backoffice page and click on Blockchain Analytics Reports card.
 
@@ -67,6 +75,6 @@ For your convience below are a couple addresses you can query to test your Block
 | 0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE | eth | Binance |
 | 0x390de26d772d2e2005c6d1d24afc902bae37a4bb | eth | Upbit |
 
-#### 5. API Token Access to Blockchain Analytics
+#### 7. API Token Access to Blockchain Analytics
 
 Each of the functions described above can be accessed via your API Token.  Please refer to section Get Blockchain Analytics Providers in [API Docs](/API-Docs/README.md#get-blockchain-analytics-providers) for more details
