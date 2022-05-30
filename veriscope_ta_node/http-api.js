@@ -814,6 +814,7 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug("event EVT_setDataRetrievalParametersCreated");
             data = {};
             data['transactionHash'] = event.transactionHash;
+            data['blockNumber'] = event.blockNumber;
             data['event'] = "EVT_setDataRetrievalParametersCreated";
             data['returnValues'] = {};
 
@@ -836,6 +837,7 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug("event EVT_setDataRetrievalParametersCreated");
             data = {};
             data['transactionHash'] = event.transactionHash;
+            data['blockNumber'] = event.blockNumber;
             data['event'] = "EVT_setTrustAnchorKeyValuePairCreated";
             data['returnValues'] = {};
 
@@ -857,6 +859,7 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
             data = {};
             data['transactionHash'] = event.transactionHash;
+            data['blockNumber'] = event.blockNumber;
             data['event'] = "EVT_setTrustAnchorKeyValuePairUpdated";
             data['returnValues'] = {};
 
@@ -878,6 +881,7 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
             data = {};
             data['transactionHash'] = event.transactionHash;
+            data['blockNumber'] = event.blockNumber;
             data['event'] = "EVT_setValidationForKeyValuePairData";
             data['returnValues'] = {};
 
