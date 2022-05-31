@@ -38,27 +38,32 @@ Please begin the installation by cloning this repository.
 veriscope/
 ├── API-Docs
 ├── Blockchain-Analytics-Docs
-├── Dockerfile
+├── Discovery-Layer-Validator
 ├── Horizon-Docs
 ├── IVMS-101
 ├── KYC-Template-Docs
-├── README.md
+├── Nethermind-Docs
 ├── chains
 ├── docker
-├── docker-compose.yml
 ├── docs
 ├── images
 ├── scripts
 ├── veriscope_ta_dashboard
-└── veriscope_ta_node
+├── veriscope_ta_node
+├── .env
+├── .gitignore
+├── Dockerfile
+├── README.md
+└── docker-compose.yml
 ```
+
 **scripts/** is the installation setup guide
 
 **chains/** is the Nethermind POA relay node configuration. please review [Chains Readme](/chains/README.md)
 
 **veriscope_ta_dashboard/** is the Web Application (Laravel/VueJS)
 
-**veriscipe_ta_node/** is the NodeJS interface between the Web Application and the Relay Node
+**veriscope_ta_node/** is the NodeJS interface between the Web Application and the Relay Node
 
 ## Guides
 
