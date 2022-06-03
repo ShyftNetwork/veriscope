@@ -85,7 +85,8 @@ veriscope/
 
 [Nethermind Docs](/Nethermind-Docs/README.md) - Links to Nethermind Documentation.
 
-## Setup Script
+
+## Preliminary Setup Steps
 
 If necessary, create a new Unix account to act as the service user.
 
@@ -162,10 +163,14 @@ VERISCOPE_COMMON_NAME=YOUR_VASP_NAME
 VERISCOPE_TARGET=veriscope_testnet
 ```
 
----
 **Ensure you use your own domain name that has been configured with DNS (80, 443). DO NOT CONTINUE with the setup unless you have a domain name that is reachable over ports 80 and 443. E.g. https://subdomain.domain.com**
 
----
+
+There are two options to set-up Veriscope from here:
+- **Option 1:** using the setup-vasp.sh script and completing the relevant steps
+- **Option 2:** installing docker and using the docker/setup.sh script
+
+## Option 1 - Veriscope Script Setup
 
 Now you can run the setup script where you are presented with a number of options:
 ```shell
@@ -352,6 +357,10 @@ To read more on Passport Client setup and API, please review [API Docs](/API-Doc
 
 Install Laravel Horizon which provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.  Please review the Horizon [/Horizon-Docs/README.md](Horizon-Docs/README.md)
 
+Following this, you should be able to access and login to Veriscope at your VERISCOPE_SERVICE_HOST=subdomain.domain.com using the amdin user credentials created in step 9.
+
+Next, please reach-out to your Shyft/Veriscope Account Manager to request your Trust Anchor to be verified. You will be transferred some test SHFT tokens at the same time which will enable you to transact on the Shyft Network.
+
 ### Ongoing updates
 
 Releases of Veriscope occur frequently.  Before deploying a release ensure you have backed up your TA Private Key (TRUST_ANCHOR_PK) and your TA Account (TRUST_ANCHOR_ACCOUNT). In the event you wish to do a clean deploy, after you complete the installation, replace the newly created TA account with your backup. Then restart ta-node-1 and ta-node-2.
@@ -365,7 +374,8 @@ TRUST_ANCHOR_PREFNAME="vasp"
 TRUST_ANCHOR_ACCOUNT=0x1bD8.....892
 ```
 
-## Veriscope Docker Setup
+---
+## Option 2 - Veriscope Docker Setup
 The docker setup requires public hostname must not be a bare IP address.
 
 ### Step 1 - Docker
@@ -397,6 +407,40 @@ sudo docker compose up -d
 
 ```sh
 sudo docker exec -it veriscope_laravel.test_1 bash
+```
+
+Run the docker set-up script
+
+```sh
+/opt/veriscope/docker/setup.sh
+```
+
+```shell
+/opt/veriscope/docker/setup.sh
+1) Refresh dependencies
+2) Install/update nethermind
+3) Set up new postgres user
+4) Obtain/renew SSL certificate
+5) Install/update NGINX
+6) Install/update node.js web service
+7) Install/update PHP web service
+8) Update static node list for nethermind
+9) Create admin user
+10) Regenerate webhook secret
+11) Regenerate oauth secret (passport)
+12) Regenerate encrypt secret (EloquentEncryption)
+13) Install Redis server
+14) Install Passport Client Environment Variables
+15) Install Horizon
+i) Install Everything
+p) show daemon status
+w) restart all services
+r) reboot
+q) quit
+```
+
+```shell
+Choose what to do: [Press i to install everything]
 ```
 
 Following this, you should be able to access and login to Veriscope at your VERISCOPE_SERVICE_HOST=subdomain.domain.com using the amdin user credentials created in step 9.
