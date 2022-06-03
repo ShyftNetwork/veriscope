@@ -130,12 +130,12 @@ cd /opt/veriscope
 
 Edit the .env file in the veriscope dir
 
-```
+```shell
 nano .env
 ```
 
 and add (see example below):
-# Your host name (VERISCOPE_SERVICE_HOST),
+- Your host name (VERISCOPE_SERVICE_HOST),
 - Your VASP/Trust Anchor name (VERISCOPE_COMMON_NAME) and
 - Chain target (VERISCOPE_TARGET), either `veriscope_testnet`, `fed_testnet` or `fed_mainnet`.
 
