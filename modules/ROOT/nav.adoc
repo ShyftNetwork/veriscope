@@ -1,15 +1,18 @@
 ---
 * OVERVIEW
-** xref:what-is-veriscope.adoc[]
-** xref:getting-started.adoc[]
-** xref:running-a-node.adoc[]
-** xref:posting-data-shyft-network.adoc[]
-** xref:transferring-data-peer-to-peer.adoc[]
+** xref:overview/what-is-veriscope.adoc[]
+** xref:overview/getting-started.adoc[]
+** xref:overview/running-a-node.adoc[]
+** xref:overview/registering-a-vasp.adoc[]
+** xref:overview/posting-data-on-chain.adoc[]
+** xref:overview/transferring-data-peer-to-peer.adoc[]
 ---
 * COMPLIANCE
-** xref:registering-a-vasp.adoc[]
-** xref:vasp-due-diligence-and-verification.adoc[]
-** xref:vasp-responsibilities.adoc[]
+** xref:compliance/travel-rule-101.adoc[]
+** xref:compliance/transactions-overview.adoc[]
+** xref:compliance/vasp-responsibilities.adoc[]
+** xref:compliance/vasp-due-diligence-and-verification.adoc[]
+** xref:compliance/vasp-definition.adoc[]
 ---
 * DEVELOPERS
 ** xref:node-installation.adoc[]
@@ -17,20 +20,17 @@
 ** xref:api-reference-p2p-data-transfer.adoc[]
 ** xref:api-reference-external-integrations.adoc[]
 ---
-* EDUCATION
-** xref:travel-rule-basics.adoc[]
+* LEARN
+** xref:learn/travel-rule-basics.adoc[]
+** xref:learn/transactions.adoc[]
+** xref:learn/counterparties.adoc[]
+** xref:learn/users.adoc[]
+** xref:learn/ivms.adoc[]
 ---
-* SUPPORT
-** xref:faq.adoc[]
-** xref:troubleshooting.adoc[]
-** xref:change-log.adoc[]
+* HELP CENTRE
+** help-centre/xref:faq.adoc[]
+** help-centre/xref:troubleshooting.adoc[]
+** help-centre/xref:contact-support.adoc[]
 ---
-* Antora Basics
-** xref:inline-text-formatting.adoc[]
-** xref:special-characters.adoc[]
-** xref:admonition.adoc[]
-** xref:sidebar.adoc[]
-** xref:ui-macros.adoc[]
-** Lists
-*** xref:lists/ordered-list.adoc[]
-*** xref:lists/unordered-list.adoc[]
+* xref:change-log.adoc[]
+* xref:glossary.adoc[]
