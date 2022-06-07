@@ -1,6 +1,6 @@
 = Demo Documentation Component A
 :url-project: https://www.veriscope.network/
-:url-docs: 
+:url-docs: #
 :url-org: https://github.com/ShyftNetwork/veriscope
 :url-group: {url-org}/demo
 :url-demo-site: https://antora.gitlab.io/demo/docs-site
