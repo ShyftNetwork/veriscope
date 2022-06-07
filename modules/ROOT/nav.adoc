@@ -28,9 +28,9 @@
 ** xref:learn/ivms.adoc[]
 ---
 * HELP CENTRE
-** help/xref:faq.adoc[]
-** help/xref:troubleshooting.adoc[]
-** help/xref:contact-support.adoc[]
+** xref:help/faq.adoc[]
+** xref:help/troubleshooting.adoc[]
+** xref:help/contact-support.adoc[]
 ---
 * xref:change-log.adoc[]
 * xref:glossary.adoc[]
