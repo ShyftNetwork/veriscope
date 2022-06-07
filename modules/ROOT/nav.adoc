@@ -15,10 +15,10 @@
 ** xref:compliance/vasp-definition.adoc[]
 ---
 * DEVELOPERS
-** xref:node-installation.adoc[]
-** xref:api-reference-shyft-network.adoc[]
-** xref:api-reference-p2p-data-transfer.adoc[]
-** xref:api-reference-external-integrations.adoc[]
+** xref:developers/node-installation.adoc[]
+** xref:developers/api-reference-shyft-network.adoc[]
+** xref:developers/api-reference-p2p-data-transfer.adoc[]
+** xref:developers/api-reference-external-integrations.adoc[]
 ---
 * LEARN
 ** xref:learn/travel-rule-basics.adoc[]
@@ -28,9 +28,9 @@
 ** xref:learn/ivms.adoc[]
 ---
 * HELP CENTRE
-** help-centre/xref:faq.adoc[]
-** help-centre/xref:troubleshooting.adoc[]
-** help-centre/xref:contact-support.adoc[]
+** help/xref:faq.adoc[]
+** help/xref:troubleshooting.adoc[]
+** help/xref:contact-support.adoc[]
 ---
 * xref:change-log.adoc[]
 * xref:glossary.adoc[]

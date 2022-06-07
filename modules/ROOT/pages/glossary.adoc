@@ -1,2 +1,2 @@
 = Glossary of Terms
-:navtitle: Glossary
+:navtitle: GLOSSARY

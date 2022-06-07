@@ -1,2 +1,2 @@
 = Change Log
-:navtitle: Change Log
+:navtitle: CHANGE LOG
