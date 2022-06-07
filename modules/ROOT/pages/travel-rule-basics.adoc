@@ -1,2 +1,2 @@
 = Travel Rule Basics
-:navtitle: navtitle
+:navtitle: Travel Rule Basics

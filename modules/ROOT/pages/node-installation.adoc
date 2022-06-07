@@ -1,2 +1,2 @@
 = Node Installation
-:navtitle: navtitle
+:navtitle: Node Installation

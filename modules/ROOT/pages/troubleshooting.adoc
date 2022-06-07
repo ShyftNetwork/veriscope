@@ -1,2 +1,2 @@
 = Troubleshooting
-:navtitle: navtitle
+:navtitle: Troubleshooting

@@ -1,2 +1,2 @@
 = What is Veriscope
-:navtitle: navtitle
+:navtitle: What is Veriscope

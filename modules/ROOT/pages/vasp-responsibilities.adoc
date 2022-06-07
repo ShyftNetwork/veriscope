@@ -1,2 +1,2 @@
 = VASP Responsibilities
-:navtitle: navtitle
+:navtitle: VASP Responsibilities

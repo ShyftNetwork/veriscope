@@ -1,2 +1,2 @@
 = API Reference - External Integrations
-:navtitle: navtitle
+:navtitle: API Reference #3

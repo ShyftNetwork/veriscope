@@ -1,2 +1,2 @@
 = Registering a VASP
-:navtitle: navtitle
+:navtitle: Registering a VASP

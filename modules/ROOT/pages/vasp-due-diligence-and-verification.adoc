@@ -1,2 +1,2 @@
 = VASP Due Diligence and Verification
-:navtitle: navtitle
+:navtitle: VASP Due Diligence

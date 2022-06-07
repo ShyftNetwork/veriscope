@@ -1,2 +1,2 @@
 = Posting Data to Shyft Network
-:navtitle: navtitle
+:navtitle: Posting Data

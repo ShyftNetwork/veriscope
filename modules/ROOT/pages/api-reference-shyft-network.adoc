@@ -1,2 +1,2 @@
 = API Reference - Shyft Network
-:navtitle: navtitle
+:navtitle: API Reference #1

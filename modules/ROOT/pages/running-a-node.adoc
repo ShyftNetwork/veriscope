@@ -1,2 +1,2 @@
 = Running a Node
-:navtitle: navtitle
+:navtitle: Running a Node
