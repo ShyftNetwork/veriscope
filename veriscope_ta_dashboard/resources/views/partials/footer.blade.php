@@ -14,17 +14,17 @@
       </div>
 
       <div class="footer__sitemap border-b py-8 lg:pr-24 lg:py-0 lg:pt-8 lg:border-none xl:pr-36">
-        <p><strong class="uppercase">Shyft Website</strong></p>
+        <p><strong class="uppercase">Shyft</strong></p>
         <div class="flex flex-nowrap">
           <p class="mr-12 leading-loosest lg:mr-12 xl:mr-24">
             <a href="https://shyft.network" target="_blank">Network</a><br>
-            <a href="https://shyft.network/team" target="_blank">Team</a><br>
-            <a href="https://www.shyft.network/partners" target="_blank">Partners</a><br>
+            <a href="https://www.shyft.network/about" target="_blank">About</a><br>
+            <a href="https://www.shyft.network/ecosystem#partners" target="_blank">Partners</a><br>
           </p>
           <p class="leading-loosest">
-            <a href="https://www.shyft.network/whitepaper" target="_blank">White Paper</a><br>
+            <a href="https://assets.website-files.com/619d6b083650f27552fb105a/61f0934cccb99e60d175387d_shyft-network-inc-whitepaper_v4.1.pdf" target="_blank">White Paper</a><br>
             <a href="https://shyftnetwork.medium.com/" target="_blank">Blog</a><br>
-            <a href="https://docs.veriscope.network" target="_blank">Docs</a>
+            <!-- <a href="https://docs.veriscope.network" target="_blank">Docs</a> -->
           </p>
         </div>
       </div>
