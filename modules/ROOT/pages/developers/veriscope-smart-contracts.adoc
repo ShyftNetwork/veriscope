@@ -1,2 +1,2 @@
-= Smart Contracts
+= Veriscope Smart Contracts
 :navtitle: Smart Contracts
