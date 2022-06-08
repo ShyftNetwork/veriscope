@@ -38,27 +38,32 @@ Please begin the installation by cloning this repository.
 veriscope/
 ├── API-Docs
 ├── Blockchain-Analytics-Docs
-├── Dockerfile
+├── Discovery-Layer-Validator
 ├── Horizon-Docs
 ├── IVMS-101
 ├── KYC-Template-Docs
-├── README.md
+├── Nethermind-Docs
 ├── chains
 ├── docker
-├── docker-compose.yml
 ├── docs
 ├── images
 ├── scripts
 ├── veriscope_ta_dashboard
-└── veriscope_ta_node
+├── veriscope_ta_node
+├── .env
+├── .gitignore
+├── Dockerfile
+├── README.md
+└── docker-compose.yml
 ```
+
 **scripts/** is the installation setup guide
 
 **chains/** is the Nethermind POA relay node configuration. please review [Chains Readme](/chains/README.md)
 
 **veriscope_ta_dashboard/** is the Web Application (Laravel/VueJS)
 
-**veriscipe_ta_node/** is the NodeJS interface between the Web Application and the Relay Node
+**veriscope_ta_node/** is the NodeJS interface between the Web Application and the Relay Node
 
 ## Guides
 
@@ -80,7 +85,8 @@ veriscope/
 
 [Nethermind Docs](/Nethermind-Docs/README.md) - Links to Nethermind Documentation.
 
-## Setup Script
+
+## Preliminary Setup Steps
 
 If necessary, create a new Unix account to act as the service user.
 
@@ -91,61 +97,59 @@ The setup recipe assumes the user who invokes 'sudo' is the service user.
 Before continuing ensure you have a sudo user and run the following commands (for example “forge”):
 
 ```shell
-$ sudo adduser forge
+sudo adduser forge
 ```
 
 ```shell
-$ sudo adduser forge syslog
+sudo adduser forge syslog
 Adding user `forge' to group `syslog' ...
 Adding user forge to group syslog
 Done.
 ```
 
 ```shell
-$ sudo adduser forge www-data
+sudo adduser forge www-data
 ```
 
 Next move the repository directory to opt/
 ```shell
-$ mv veriscope /opt
+sudo mv veriscope /opt
 ```
 Change the owner of opt/ to forge
 ```shell
-$ sudo chown -R forge /opt
+sudo chown -R forge /opt
 ```
 Setup su to your user
 ```shell
-$ sudo su - forge
+sudo su - forge
 ```
 Then navigate to opt/veriscope/
 ```shell
-$ ​​cd /opt/veriscope
+cd /opt/veriscope
 ```
 
-Edit the .env file in the directory and add:
+Edit the .env file in the veriscope dir
 
-- your host name (VERISCOPE_SERVICE_HOST), 
-- TA name (VERISCOPE_COMMON_NAME) and 
-- chain target (VERISCOPE_TARGET).  
+```shell
+nano .env
+```
+
+and add (see example below):
+- Your host name (VERISCOPE_SERVICE_HOST),
+- Your VASP/Trust Anchor name (VERISCOPE_COMMON_NAME) and
+- Chain target (VERISCOPE_TARGET), either `veriscope_testnet`, `fed_testnet` or `fed_mainnet`.
+
+Save and exit with Ctrl+O and Enter, then Ctrl+X.
 
 The VERISCOPE_COMMON_NAME name is only referenced locally.  
 
-You must choose VERISCOPE_TARGET as either 
-- veriscope_testnet, 
-- fed_testnet or 
-- fed_mainnet 
-
-as this target will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses), see here [Chains Readme](/chains/README.md) for chain descriptions and configuration.
+Your choice of VERISCOPE_TARGET will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses), see here [Chains Readme](/chains/README.md) for chain descriptions and configuration.
 
 The Smart Contract ABIs are installed here:
 
 ```
-$ pwd
 /opt/veriscope/veriscope_ta_node/artifacts
 ```
-**Ensure you use your own domain name that has been configured with DNS (80, 443).**
-
-**Do Not Continue with the setup unless you have a domain name that is reachable over ports 80 and 443.  E.g. https://subdomain.domain.com**
 
 For example:
 ```shell
@@ -159,12 +163,21 @@ VERISCOPE_COMMON_NAME=YOUR_VASP_NAME
 VERISCOPE_TARGET=veriscope_testnet
 ```
 
-Now we can run the setup script where you are presented with a number of options:
+**Ensure you use your own domain name that has been configured with DNS (80, 443). DO NOT CONTINUE with the setup unless you have a domain name that is reachable over ports 80 and 443. E.g. https://subdomain.domain.com**
+
+
+There are two options to set-up Veriscope from here:
+- **Option 1:** using the setup-vasp.sh script and completing the relevant steps
+- **Option 2:** installing docker and using the docker/setup.sh script
+
+## Option 1 - Veriscope Script Setup
+
+Now you can run the setup script where you are presented with a number of options:
 ```shell
-$ sudo scripts/setup-vasp.sh
+sudo scripts/setup-vasp.sh
+
 + Located in /opt/veriscope/
 + Service user will be forge
-
 
 1) Refresh dependencies
 2) Install/update nethermind
@@ -225,22 +238,22 @@ and the chain state in `/opt/nm/nethermind_db`.
 ├── shyftchainspec.json
 └── static-nodes.json
 ```
-This step will create a random sealer account, and provide its private key and public address.  These should be kept someplace safe for permanent systems.
+This step will create a random sealer account, and provide its private key and public address. These should be kept someplace safe for permanent systems.
 
-**Note:** if you intend to use an RPC connection instead of synchronizing the blockchain locally, terminate nethermind and change the HTTP and WS params in the .env of veriscope_ta_node/.env to the provided rpc domain.  e.g. 
-```
-$ pwd
+**Note:** if you intend to use an RPC connection instead of synchronizing the blockchain locally, terminate nethermind and change the HTTP and WS params in the .env of veriscope_ta_node/.env to the provided rpc domain. E.g. 
+```shell
 /opt/veriscope/veriscope_ta_node
-$ cat .env
+cat .env
 #RPC Replace HTTP and WS below with the following
 #HTTP="https://rpc.shyft.network/"
 #WS="wss://rpc.shyft.network/"
 ```
+
 terminate nethermind and restart the ta-node-1 service like so:
 
-```
-$sudo systemctl stop nethermind
-$sudo systemctl restart ta-node-1
+```shell
+sudo systemctl stop nethermind
+sudo systemctl restart ta-node-1
 ```
 
 ### 3. Set up new postgres user
@@ -270,21 +283,20 @@ PHP servers.
 ### 6.  Install/update node.js web service
 
 The node webservice is several components - operating in systemd
-units called `ta-node-1` and `ta-node-2`.  This step installed
+units called `ta-node-1` and `ta-node-2`. This step installed
 node.js dependencies into `/opt/veriscope/node_modules`, then
 installs activates and starts the systemd units.
 
 **Note:** This step copies over the correct ABIs depending on the chain target and places them here:
 
-```
-$ pwd
+```shell
 /opt/veriscope/veriscope_ta_node/artifacts
 ```
 
 ### 7. Install/update PHP web service
 
 The PHP webservice is several components - operating in systemd
-units called `ta-schedule`, `ta-wss` and `ta`.    These carry out
+units called `ta-schedule`, `ta-wss` and `ta`. These carry out
 respectively, scheduled cron-type jobs, a websocket server, and web
 server.  This step installs installs some PHP dependencies via
 composer, builds the schema and seed data in the Postgres Database,
@@ -298,7 +310,7 @@ this to be in `/opt/nm/static-nodes.json`.  Each machine is identified
 by an enode url, formatted like `enode://{key}@{ip_address}:{port}`.
 The Nethermind setup step obtains your server's enode, and adds it
 to the 'contact' field used in the ethstats service at
-https://fedstats.veriscope.network/ .  This command replaces your enode
+https://fedstats.veriscope.network/ . This command replaces your enode
 list with one obtained from the ethstats server, then restarts
 nethermind to use it.
 
@@ -306,14 +318,14 @@ nethermind to use it.
 
 ### 9. Create admin user
 
-The Web Application requires an admin user to manage the Trust Anchor account.  Use this option to create an account so you can sign into the application.
+The Web Application requires an admin user to manage the Trust Anchor account. Use this option to create an account so you can sign into the application.
 
 ### 10. Regenerate webhook secret
 
 The Web Application receives data from the node scripts over a webhook url.  This url is secured using a shared key.  This step creates or refreshes the share key in each .env file.
 
 E.g.:
-```
+```shell
 /opt/veriscope/veriscope_ta_node/.env
 
 WEBHOOK_CLIENT_SECRET=du7....aec
@@ -345,11 +357,16 @@ To read more on Passport Client setup and API, please review [API Docs](/API-Doc
 
 Install Laravel Horizon which provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.  Please review the Horizon [/Horizon-Docs/README.md](Horizon-Docs/README.md)
 
+Following this, you should be able to access and login to Veriscope at your VERISCOPE_SERVICE_HOST=subdomain.domain.com using the amdin user credentials created in step 9.
+
+Next, please reach-out to your Shyft/Veriscope Account Manager to request your Trust Anchor to be verified. You will be transferred some test SHFT tokens at the same time which will enable you to transact on the Shyft Network.
+
 ### Ongoing updates
 
-Releases of Veriscope occur frequently.  Before deploying a release ensure you have backed up your TA Private Key (TRUST_ANCHOR_PK) and your TA Account (TRUST_ANCHOR_ACCOUNT).  In the event you wish to do a clean deploy, after you complete the installation, replace the newly created TA account with your backup.  Then restart ta-node-1 and ta-node-2.
-e.g.
-```
+Releases of Veriscope occur frequently.  Before deploying a release ensure you have backed up your TA Private Key (TRUST_ANCHOR_PK) and your TA Account (TRUST_ANCHOR_ACCOUNT). In the event you wish to do a clean deploy, after you complete the installation, replace the newly created TA account with your backup. Then restart ta-node-1 and ta-node-2.
+E.g.
+
+```shell
 /opt/veriscope/veriscope_ta_node/.env
 
 TRUST_ANCHOR_PK=f37.......5d4
@@ -357,33 +374,49 @@ TRUST_ANCHOR_PREFNAME="vasp"
 TRUST_ANCHOR_ACCOUNT=0x1bD8.....892
 ```
 
-## Veriscope Docker Setup
+---
+## Option 2 - Veriscope Docker Setup
 The docker setup requires public hostname must not be a bare IP address.
 
-### Step 1 - Docker install
+### Step 1 - Docker
 
-[Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+Follow [Install Docker on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
+Verify that Docker Engine is installed correctly by running the hello-world image.
+
+```shell
+sudo docker run hello-world
+```
+
+This command downloads a test image and runs it in a container. When the container runs, it prints a message and exits.
 
 ### Step 2 - Docker Compose
 
-https://docs.docker.com/compose/install/
+Follow [Install Docker Compose (Linux)](https://docs.docker.com/compose/install/)
 
+Verify that Docker Compose is installed correctly by checking the version.
+
+```shell
+docker compose version
+```
 
 ### Step 3 - Docker Compose UP
 ```sh
-sudo docker-compose up -d
+sudo docker compose up -d
 ```
 
 ```sh
 sudo docker exec -it veriscope_laravel.test_1 bash
 ```
 
+Run the docker set-up script
+
 ```sh
 /opt/veriscope/docker/setup.sh
 ```
 
-```
+```shell
+/opt/veriscope/docker/setup.sh
 1) Refresh dependencies
 2) Install/update nethermind
 3) Set up new postgres user
@@ -406,10 +439,15 @@ r) reboot
 q) quit
 ```
 
-```
-Choose what to do: [Press i to install]
+```shell
+Choose what to do: [Press i to install everything]
 ```
 
+Following this, you should be able to access and login to Veriscope at your VERISCOPE_SERVICE_HOST=subdomain.domain.com using the amdin user credentials created in step 9.
+
+Next, please reach-out to your Shyft/Veriscope Account Manager to request your Trust Anchor to be verified. You will be transferred some test SHFT tokens at the same time which will enable you to transact on the Shyft Network.
+
+---
 ## Installation Confirmation/Troubleshooting
 
 ### 1 - Has your TA account been set in the .env (veriscope_ta_node/.env)?

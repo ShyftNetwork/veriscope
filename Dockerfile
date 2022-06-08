@@ -28,5 +28,4 @@ COPY ./ /opt/veriscope
 
 RUN chmod +x /opt/veriscope/docker/setup.sh
 
-
 EXPOSE 80 443
