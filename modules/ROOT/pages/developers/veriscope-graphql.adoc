@@ -1,0 +1,20 @@
+= Veriscope GraphQL
+:navtitle: GraphQL
+
+== testnet
+testnet = "https://bx.veriscope.network/graphiql"
+trustAnchorStorageAddress = "0xe515c95221b8e62c2d5b9548f8a7c5e17307f766"
+
+trustAnchorStorageExtraAddress = "0xC6a080668A62F35687EDBb69B102B3a3766b51a8"
+
+
+== mainnet
+mainnet = "https://bx.shyft.network/graphiql"
+
+trustAnchorManager
+Address = "0x86f5a10c74b77ae99d952ab68c0a6ecb191dfec9"
+https://bx.shyft.network/address/0x86F5A10c74b77Ae99D952ab68C0a6ECB191dFEc9/
+
+Contract calls
+https://bx.shyft.network/address/0x86F5A10c74b77Ae99D952ab68C0a6ECB191dFEc9/read-contract
+https://bx.shyft.network/address/0x86F5A10c74b77Ae99D952ab68C0a6ECB191dFEc9/write-contract
