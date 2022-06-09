@@ -1,2 +1,0 @@
-= Running a Node
-:navtitle: Running a Node

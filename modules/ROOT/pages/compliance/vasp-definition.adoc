@@ -1,2 +1,0 @@
-= VASP Definition & Data Fields
-:navtitle: VASP Data

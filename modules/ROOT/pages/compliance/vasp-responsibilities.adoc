@@ -1,2 +1,0 @@
-= VASP Responsibilities
-:navtitle: VASP Responsibilities

@@ -1,2 +1,0 @@
-= Deposits & Withdrawals
-:navtitle: Transactions

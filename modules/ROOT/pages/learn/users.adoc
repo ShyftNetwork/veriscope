@@ -1,2 +1,0 @@
-= Originator & Beneficiary Users
-:navtitle: Users

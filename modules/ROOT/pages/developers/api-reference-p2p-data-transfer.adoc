@@ -1,2 +1,0 @@
-= API Reference - P2P Data Transfer
-:navtitle: API Reference #2

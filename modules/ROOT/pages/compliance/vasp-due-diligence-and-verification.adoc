@@ -1,2 +1,0 @@
-= VASP Due Diligence and Verification
-:navtitle: VASP Due Diligence
