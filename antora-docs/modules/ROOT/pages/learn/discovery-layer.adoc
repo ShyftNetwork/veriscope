@@ -1,10 +1,8 @@
-= Discovery Layer
+= Global VASP Discovery Layer
 :navtitle: Discovery Layer
 
-Global VASP Discovery Layer
 A global onboarding system, and decentralized lookup registry containing VASP data transmission requirements, jurisdictional data sharing information for each VASP, primary website registration, API endpoints, Data transmission standard, attested confirmations by other VASP’s of the completion of network onboarding to suffice the Veriscope governance framework (Know-Your-VASP).
 
 This tool makes it possible for VASPs to explore, search and identify other VASPs and counter-parties on the Shyft Network public discovery search engine. This system is used by all VASPs to on-board, register their endpoint and public information into the network, and holds the governance information around best practices for how Vasps interact with one another across the network.
 
 The formal onboarding process for the discovery layer will be released soon that will enable full-onboarding for global VASPs, acting as an information layer and resource to complete transactions with full data availability.
-

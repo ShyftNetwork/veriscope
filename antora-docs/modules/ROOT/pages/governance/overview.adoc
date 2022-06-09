@@ -1,30 +1,30 @@
-= Overview
-:navtitle: Overview
+= FATF Travel Rule Overview
+:navtitle: Travel Rule
 
 == Background
 As you are aware, the Financial Action Task Force issued guidance in June 2019 requiring Virtual Asset Service Providers (VASPs) to share Personal Identifiable Information (PII) and Know-Your-Customer (KYC) / Customer Due Diligence (CDD) data between transacting Originator and Beneficiary “immediately” - that is, simultaneously or concurrent with the transfer itself. Specifically, the guidance stated VASPs should ensure that:
 
-“…originating VASPs obtain and hold required and accurate originator information and required beneficiary information on virtual asset transfers, submit this information to beneficiary VASP or financial institution (if any) immediately and securely”.
+“...originating VASPs obtain and hold required and accurate originator information and required beneficiary information on virtual asset transfers, submit this information to beneficiary VASP or financial institution (if any) immediately and securely”.
 
 The required information includes the:
 
-originator’s name (i.e., the sending customer);
-originator’s account number where such an account is used to process the transaction (e.g., the VA wallet);
-originator’s physical (geographical) address, or national identity number, or customer identification number (i.e., not a transaction number) that uniquely identifies the originator to the ordering institution, or date and place of birth;
-beneficiary’s name; and
-beneficiary account number where such an account is used to process the transaction (e.g., the VA wallet). https://www.fatf-gafi.org/media/fatf/documents/recommendations/RBA-VA-VASPs.pdf
+* originator’s name (i.e., the sending customer);
+* originator’s account number where such an account is used to process the transaction (e.g., the VA wallet);
+* originator’s physical (geographical) address, or national identity number, or customer identification number (i.e., not a transaction number) that uniquely identifies the originator to the ordering institution, or date and place of birth;
+* beneficiary’s name; and
+* beneficiary account number where such an account is used to process the transaction (e.g., the VA wallet). https://www.fatf-gafi.org/media/fatf/documents/recommendations/RBA-VA-VASPs.pdf
+
 While such requirements have existed in traditional financial services for some time, there are numerous challenges brought about by introducing these to the virtual asset industry.
 
 Veriscope powered by the Shyft Network was therefore designed to provide a decentralized solution for the crypto industry to fulfill global compliance standards, including the FATF’s Travel Rule policy.
 
-Veriscope Onboarding Model
+=== Veriscope Onboarding Model
 In conversations with key partners and stakeholders, it was recognized that part of the solution should account for the processes around the introduction of VASPs to the network and their interaction between participants. Specifically, what types of information must the network participants present to the network, as well as receive from their counterparts, as part of understanding and gaining comfort around one another such that they are willing to proceed with the exchange of information.
 
-It is therefore important that there is strong and inclusive governance and processes for VERISCOPE to build trust amongst participants so that they are willing to transact information with one another.
+It is therefore important that there is strong and inclusive governance and processes for Veriscope to build trust amongst participants so that they are willing to transact information with one another.
 
-With this in mind, the VERISCOPE Onboarding model is divided into two parts: the Governance Task Force and the Rules Framework.
+With this in mind, the Veriscope Onboarding model is divided into two parts: the Governance Task Force and the Rules Framework.
 
+While the Rules Framework represents the specific requirements for the VASPs wishing to participate in Veriscope, the Governance Task Force/Team is a smaller group which has the responsibility for defining and maintaining the Rules Framework.
 
-While the Rules Framework represents the specific requirements for the VASPs wishing to participate in VERISCOPE, the Governance Task Force/Team is a smaller group which has the responsibility for defining and maintaining the Rules Framework.
-
-This document contains both the Terms of Reference and the Rules Framework. Both governance documents were reviewed and approved by the participants of the VERISCOPE Governance Task Force at their inaugural virtual meeting in Q4 2020.
+This document contains both the Terms of Reference and the Rules Framework. Both governance documents were reviewed and approved by the participants of the Veriscope Governance Task Force at their inaugural virtual meeting in Q4 2020.

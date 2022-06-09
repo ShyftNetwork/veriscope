@@ -7,12 +7,11 @@
 ** xref:governance/task-force.adoc[]
 ---
 * LEARN
-** xref:learn/travel-rule-basics.adoc[]
-** xref:compliance/the-sunrise-issue.adoc[]
-** xref:learn/transactions.adoc[]
-** xref:learn/counterparties.adoc[]
-** xref:learn/users.adoc[]
-** xref:learn/ivms.adoc[]
+** xref:learn/attestations.adoc[]
+** xref:learn/discovery-layer.adoc[]
+** xref:learn/vasp-scan.adoc[]
+** xref:learn/kyc.adoc[]
+** xref:learn/coalitions.adoc[]
 ---
 * HELP CENTRE
 ** xref:help/faq.adoc[]

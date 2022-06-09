@@ -31,12 +31,18 @@
 ** xref:learn/users.adoc[]
 ** xref:learn/ivms.adoc[]
 ---
+* LEARN
+** xref:learn/transactions.adoc[]
+** xref:learn/counterparties.adoc[]
+** xref:learn/users.adoc[]
+** xref:learn/ivms.adoc[]
+---
 * HELP CENTRE
 ** xref:help/faq.adoc[]
 ** xref:help/troubleshooting.adoc[]
 ** xref:help/contact-support.adoc[]
 ---
-* GOVERNANCE 
+* GOVERNANCE
 ** xref:governance/overview.adoc[]
 ** xref:governance/public-consultation.adoc[]
 ** xref:governance/rules-framework.adoc[]

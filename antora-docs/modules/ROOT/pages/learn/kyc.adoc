@@ -7,7 +7,7 @@ This is completed through a set of contract standards that define information re
 
 The Identity contracts outline a rule set by how broad data fields can be passed data, and therefore provides a universal binding standard for how all VASPs, current and future, will send and receive each other's datasets.
 
-Public Ledger and Transaction Handling
+== Public Ledger and Transaction Handling
 The Identity and KYC contract suites also contain cryptographic attestation libraries to enable confidential transactions to be created for public network visible transmissions, using Merkle Tree base proofs, Merkle Patricia Trie proofs. These transactions are fully transparent to the sending and receiving VASPs for compliance reasons, but are confidentialised across the public network to ensure GDPR and privacy is not violated across global transactions.
 
 The integrity of the public ledger is critical in ensuring audit trails of actions being done on user information are secured and immutable both for historical record keeping reasons and also to ensure that, in the event that VASPs in the digital asset space cease to exist, the participants involved in the transactions still maintain historical linkage and anchoring trails. As a result, we can mitigate against the risk of VASPs becoming single points of failure.
