@@ -1,51 +1,149 @@
-= FAQ
+= Frequently Asked Questions - VASPs
 :navtitle: FAQ
 
-VASP Frequently Asked Questions
-How does Veriscope Smart Contracts enable Travel Rule Compliance?
+===== How does Veriscope Smart Contracts enable Travel Rule Compliance?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 Veriscope has a set of smart contracts that were specially designed for meeting and exceeding the regulatory guidelines of the Travel Rule. Shyft provides developers with Contract API’s which are integration tools to enable utilizing the function calls in the contracts to configure VASP settings, create, attest, and exchange identity information with other VASPs on the network.
+--
+====
 
-Is the Veriscope VASP Front-End using the travel rule Smart Contracts?
+===== Is the Veriscope VASP Front-End using the travel rule Smart Contracts?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 The Veriscope font-end portal that is used to demonstrate the Travel Rule Compliance solution made possible by the Shyft Network is using the Veriscope smart contracts through two developer tools that provide ease of use API function calls. The API tools can be found in the Developer Guide.
+--
+====
 
-What can be done with the Contract API tools?
+===== What can be done with the Contract API tools?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 The purpose of the API tools is to test and integrate the Shyft Smart contract functionality within your VASP platform. All the necessary functionality is provided to create a new VASP account, onboard a VASP, verify VASPs, check if a VASP is verified, create users and assign them a Shyft ID, create attestations for user transactions between VASPs, verify attestations and more.
+--
+====
 
-What’s the difference between the Veriscope Front End and the APIs?
+===== What’s the difference between the Veriscope Front End and the APIs?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 The Veriscope Front End and APIs are different, as the Front End is used for demonstration purposes and has limited functionality compared to the APIs. As an example, the Front End has a fixed set of conditions that can be used for attestations about a user, when in fact, the possibilities are near limitless when using the API.
+--
+====
 
-What are Attestations?
-When a Trust Anchor (that is, an entity the network inherently trusts without the need to derive it) has data about a user that’s available for sharing, that data is kept confidential, and only an Attestation is published declaring that the information in question exists. The attestation is pseudonymous (attached to their network address rather than any more recognizable form of their identity), and generally restricted to metadata about the information it contains. Additionally, the metadata is encrypted with a user-controlled key, so that users can restrict access to the metadata, to entities that they consent to share it with. This degree of user control also makes it harder for an attacker to use social engineering or data mining attacks to obtain private information.
+===== What are Attestations?
+.Answer
+[%collapsible]
+====
+[literal]
+--
+When a Trust Anchor (that is, an entity the network inherently trusts without the need to derive it) has data about a user that’s available for sharing, that data is kept confidential, and only an Attestation is published declaring that the information in question exists. The attestation is pseudonymous (attached to their network address rather than any more recognizable form of their identity), and generally restricted to metadata about the information it contains. 
 
-What are Coalitions?
+Additionally, the metadata is encrypted with a user-controlled key, so that users can restrict access to the metadata, to entities that they consent to share it with. This degree of user control also makes it harder for an attacker to use social engineering or data mining attacks to obtain private information.
+--
+====
+
+===== What are Coalitions?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 Coalitions are structured by entities that participate in Veriscope, that share a common set of rules and administration mechanisms for governance of roles along with rights-based permissioning. An example of a Coalition in the case of VASPs could be a group of VASPs that have agreed upon a common set of rules for governing their VASP-to-VASP compliance procedures.
+
 Formation of a new Coalition begins with a sponsor participant and an additional participant chosen by the sponsor. These two are the first peers in a Coalition and collectively can add additional members.
 Composed of VASPs participating in data collection & sharing, which includes sharing sender and beneficiary information to solve the Travel Rule.
+
 A VASP Coalition can create complex relationships that define how they communicate with one another based on regulatory, jurisdictional, reputational requirements, and nearly any other conditional requirements.
 VASP Coalitions agree on and bind rules and requirements pertaining to business logic such as:
 - Process within Coalition for communicating & sharing information.
 - Types of information that can be shared based on regulatory & jurisdictional requirements.
 Coalitions do not exclude VASPs outside of the coalitions from conducting businesses with external entities.
 VASPs & non-VASPs can act across an infinite set of coalition arrangements and formations.
-What is the current size of the Veriscope Alliance and who are your partners?:
+--
+====
+
+===== What is the current size of the Veriscope Alliance and who are your partners?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 We currently work with Binance and its affiliate partners
 We also are in the process of onboarding the top VASPs in world, that collectively represent 70 percent global liquidity including tether & Bitfinex
-Does Veriscope use a Certificate Authority to solve the Travel Rule?
+--
+====
+
+===== Does Veriscope use a Certificate Authority to solve the Travel Rule?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 Veriscope does not use a certificate authority model, and instead takes a novel approach of establishing trust between VASP counterparties using the powerful decentralized properties of the Shyft blockchain to enable discovery, communication and verification between VASPs. As Veriscope is an open blockchain, VASPs are able to freely communicate using attestations to the blockchain and can be identified and verified independently by other VASPs as a result of transactions being signed by their public/private key pairs.
+
 With regards to VASP’s establishing themselves as a verified VASP in the first place, this can be accomplished with a federated muWith regards to VASP’s establishing themselves as a verified VASP in the first place, this can be accomplished with a federated multisig approach, where a group of VASPs in a coalition can create an n-of-m member approval process to onboard new VASPs to their coalition. Veriscope makes this possible using Trust Anchoring technology (the underlying Shyft Network infrastructure that supports the coalitions).
-What are Trust Anchors, and are VASPs Trust Anchors?
+--
+====
+
+===== What are Trust Anchors, and are VASPs Trust Anchors?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 A Trust Anchors is the Veriscope’s naming convention used to classify first-party services and data custodians. A first-party service could be a VASP that provides exchange services to users, or it could be a KYC service provider as another example. In any case, they are regarded as trusted entities that hold data that is highly regulated i.e. “hard” data.
+
 Trust Anchors receive data from data owners, and maintain, review, read, write, confirm, and attest to this data’s validity and existence on behalf of data owners, with the consent of data owners, formulating the basis for digital identity. In the case of VASP’s, data owners are the users of the exchanges.
+
 Trust Anchors are usually regulated entities, and are held responsible for their attestations, formulating the basis for cumulative credibility and reputations. Each Trust Anchor sets their own rules and is fully interoperable with other actors in the Shyft ecosystem.
+
 App Builders may require more information from an end-user that wishes to use their smart app, or may require to see the attested data. To achieve this, Shyft Network will support the creation of a temporary, encrypted, off-chain communication channel between the app-builder and the Trust Anchor; Trust Anchors will then be able to share, release or transmit any data that the End-User has previously allowed, at a cost or fee independently set by the Trust Anchor.
-How does Shyft Network mitigate centralization risks?
+--
+====
+
+===== How does Shyft Network mitigate centralization risks?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 The Shyft Network is a public blockchain network, without any centralized party in control. Any entity can run a node, and the smart contracts on the network are accessible by everyone. Data attestations can be created by any entity, and relies on the public network to be broadcast and received by other entities on the network. Attestations can come from any member of a coalition, and are not routed through a single centralized member, and are instead broadcast to the blockchain for any entity to verify.
+--
+====
 
-How does Shyft Network mitigate centralization risks?
+===== How does Shyft Network mitigate centralization risks?
+.Answer
+[%collapsible]
+====
+[literal]
+--
 The Shyft Network KYC Smart contracts were designed to support both the discovery of other VASPs in addition to enabling the data sharing requirements with regards to portable identity, credentials, and compliance with regulations required to meet a variety of standards.
-The Veriscope API function calls can be used as endpoints that integrate with other systems and solutions, to create attestations on the Shyft Network as well as validate existing attestations from the Shyft Network for use in other systems. As an open-source solution, and an open blockchain network, the Shyft Network blockchain can be relied upon to query attestations and establish connection to other VASPs for meeting Travel Rule requirements.
-How is Shyft Network interoperable with other blockchain solutions?
-The Shyft Network achieves interoperability with other networks using a technology bridge known as Byfrost. Byfrost enables cross-chain asset transfer support. Byfrost operates as an internal network of servers, acting as an attestation engine to ensure data availability and synchronization. Byfrost enables interoperable, cross-chain asset transfer and management. Zero-knowledge proofs are utilized to enable secure transfers with minimal friction.
-Byfrost allows for portable identity, credentials, and assets to bridge a layer of universality and settlement across all networks that interact with Shyft Network, and all applications that it interacts with. Through this system, Shyft binds web2.0 standards and systems with Web 3.0 infrastructure methodologies.
-The bridge allows Shyft Network (and components such as ShyftID) to be useful for users across all networks they engage with. Byfrost is the core layer that enables collaboration and data aggregation and cross system representative consolidation of information and assets. Byfrost connects all data custodians and networks together, such that we can ensure data transportability and user-driven publicly verifiable consent can be guaranteed regardless of the use cases or the environments that Shyft Network is being relied on and used within.
 
+The Veriscope API function calls can be used as endpoints that integrate with other systems and solutions, to create attestations on the Shyft Network as well as validate existing attestations from the Shyft Network for use in other systems. As an open-source solution, and an open blockchain network, the Shyft Network blockchain can be relied upon to query attestations and establish connection to other VASPs for meeting Travel Rule requirements.
+--
+====
+
+===== How is Shyft Network interoperable with other blockchain solutions?
+.Answer
+[%collapsible]
+====
+[literal]
+--
+The Shyft Network achieves interoperability with other networks using a technology bridge known as Byfrost. Byfrost enables cross-chain asset transfer support. Byfrost operates as an internal network of servers, acting as an attestation engine to ensure data availability and synchronization. Byfrost enables interoperable, cross-chain asset transfer and management. Zero-knowledge proofs are utilized to enable secure transfers with minimal friction.
+
+Byfrost allows for portable identity, credentials, and assets to bridge a layer of universality and settlement across all networks that interact with Shyft Network, and all applications that it interacts with. Through this system, Shyft binds web2.0 standards and systems with Web 3.0 infrastructure methodologies.
+
+The bridge allows Shyft Network (and components such as ShyftID) to be useful for users across all networks they engage with. Byfrost is the core layer that enables collaboration and data aggregation and cross system representative consolidation of information and assets. Byfrost connects all data custodians and networks together, such that we can ensure data transportability and user-driven publicly verifiable consent can be guaranteed regardless of the use cases or the environments that Shyft Network is being relied on and used within.
+--
+====

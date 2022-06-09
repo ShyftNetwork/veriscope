@@ -1,20 +1,9 @@
-= Welcome to the Veriscope Documentation!
+= Welcome to the Veriscope
 :navtitle: Welcome
 
-Veriscope is a smart contract-mediated, decentralized platform and API suite that combines a decentralized protocol with a global onboarding and governance system for global VASPs (Virtual Asset Service Providers). Veriscope packages the Shyft Network public blockchain protocol, together with Shyft Network Core (smart contract suite), and an API middleware that allows for a full end to end solution to the Financial Action Task Force’s Travel Rule requirement.
+Veriscope is a decentralized, open-source protocol and solution to the FATF Travel Rule requirement. 
 
-Veriscope leverages the Shyft Network to enable a global discovery layer, critical to the counterparty identification process as set out in the FATF guidance.
+These docs will guide you through everything you need to know about the Travel Rule and how to onboard your VASP on the network.
 
-This is the automatic start page for version *{page-component-display-version}* of Veriscope docs.
-
-== h2 heading
-
-some conent
-
-=== h3 heading
-
-some more content
-
-==== h4 heading
-
-some more content
+[NOTE]
+These docs are not yet all encompassing and thus you will find links to other sites (e.g. GitHub) as you read through. It is our goal to consolidate all docs on this site in the near future.

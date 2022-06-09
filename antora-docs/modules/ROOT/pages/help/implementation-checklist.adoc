@@ -3,19 +3,23 @@
 
 This document aims to explain the requirements for VASPs to leverage Veriscope and satisfy the FATF Travel Rule; i.e. the requirement to report known originators and beneficiaries of a crypto transaction between VASP platforms.
 
-As a VASP, there are five main functions to consider for integration:
+As a VASP, there are several high-level things to consider for integration:
 
-. Creating a VASP account. These accounts are called Trust Anchors (TAs). They are entities that have user KYC data; traders on your platform.
-. Creating Shyft ID accounts for users on your platform.
-. Setting Attestations for crypto withdrawal transactions.
-. Listening to network notifications like crypto wallet attestations.
-. Ultimately sharing your user PII (KYC) with a counterparty VASP as they relate to crypto transfers between the two counterparty VASPs.
+* [ ] Installing & running a Node
+* [ ] Creating a VASP "Trust Anchor" account and registering it on the Discovery Layer
+* [ ] Creating Shyft Network IDs for users on your platform
+* [ ] Setting Attestations for crypto withdrawal transactions.
+* [ ] Listening to network notifications like crypto wallet attestations
+* [ ] Ultimately sharing user PII (KYC) data with a counterparty VASP as it relates to a crypto transfer between two VASPs
 
+[NOTE]
+====
 At the end of the integration, VASPs on the network should be able to:
 
 * Discover and identify counterparties on the network.
 * Share both Originator and Beneficiary KYC data between counterparties as they relate to crypto transactions between their respective platforms.   
- 
+====
+
 == Trust Anchor Setup
 Trust Anchors on the network all follow the same onboarding process including provisioning of Shyft Network blockchain technology.
 

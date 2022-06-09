@@ -1,4 +1,4 @@
-* xref:implementation-checklist.adoc[]
+
 ---
 * INTRODUCTION
 ** xref:overview/what-is-veriscope.adoc[]
@@ -20,4 +20,5 @@
 ---
 * HELP CENTRE
 ** xref:help/faq.adoc[]
+** xref:help/implementation-checklist.adoc[]
 ---
