@@ -1,8 +1,8 @@
-= Public Consultation
-:navtitle: Public Consultation on FATF Draft Guidance: A Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers
-April 20, 2021
+= Public Consultation on FATF Draft Guidance: A Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers
+:navtitle: Public Consultation
 
 == A Response by the VERISCOPE Secretariat & Shyft Network
+April 20, 2021
 
 We appreciate the opportunity to provide comments on the Financial Action Task Force’s (FATF) draft guidance on a risk-based approach (RBA) to virtual assets (VA) and virtual asset service providers (VASP).
 

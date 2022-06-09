@@ -1,9 +1,5 @@
 
 ---
-* INTRODUCTION
-** xref:overview/what-is-veriscope.adoc[]
-** xref:compliance/travel-rule-101.adoc[]
----
 * GOVERNANCE 
 ** xref:governance/overview.adoc[]
 ** xref:governance/public-consultation.adoc[]
