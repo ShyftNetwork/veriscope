@@ -1,0 +1,4 @@
+= Glossary of Terms
+:navtitle: GLOSSARY
+
+https://www.veriscope.network/glossary

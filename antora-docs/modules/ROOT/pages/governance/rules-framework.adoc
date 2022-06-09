@@ -1,0 +1,168 @@
+= Rules Framework
+:navtitle: Rules Framework
+
+== Rules Framework
+
+Veriscope Rules Framework
+This section contains the Rules Framework for VASP Participants in the VERISCOPE Onboarding Verification model. The Rules Framework is a set of policies and processes outlining what information VASPs must provide at onboarding as part of their verification process, and the rules of engagement related to VASPs verifying one another’s information held on the Discovery Layer. The VASP participants on the network implement the Rules Framework, designed and approved by the Governance Task Force.
+
+The Rules Framework consists of four stages. Where possible, the vision is to encourage decentralized decision making among participants, who will be able to view certain information related to their counter-party VASP and, in consideration with their own risk tolerance, agree whether they consent to enter into an information exchange with that correspondent VASP.
+
+In terms of the information collected and presented about each VASP, and level of governance around this information, a VASP can choose to proceed through just one or multiple of these four stages, however it is in the interest of participating VASPs to move through as many of these stages as possible, as part of an effort to build trust on the network.
+
+Ultimately, each member of the network will have their own policies around how much they need to know about a correspondent VASP in order to exchange information with them. For example, for some VASPs, transacting information with a counter-party who has only moved through the ‘open network’ stage will be sufficient. For others, they may require more. It is therefore the participants who will self-govern who they feel comfortable transacting with, based on the information provided and presented.
+
+The four stages are as follows:
+
+
+The Open Network
+‍
+At the most basic level, this option allows any VASP wishing to join the network to do so with basic information being provided upfront as part of creating a profile on the network. The proposed information to be provided at a minimum is listed below in the section ‘VASP Discovery Layer Data List’. A VASP can join the network and exchange and receive the required transaction information from counter-parties that agree to enter into an information exchange coalition with them.
+‍
+The Discovery Layer Authority
+‍
+This second stage advocates for a so-called Discovery Layer Authority (DLA), which would consist of representation from selected network participants, including representation across the geographic footprint of Shyft’s network participants, who would form a group responsible for the verification of additional onboarding information provided by VASPs at this stage.
+
+The DLA would review the information provided, prior to upload to the Discovery Layer. An onboarding VASP would then be assigned a category, based on the types and amount of information they chose to provide to the DLA in addition to that given at the ‘Open Network’ stage. The information the VASPs would provide at this stage is in addition to the core set of information requested at the Open Network stage, and provides an enhanced level of verification from which they can build, if they choose to or are required to by other VASPs.
+
+This approach would again follow the idea of, where possible, having an onboarding VASP receive attestations against the validity of the information disclosed, so as to avoid the need to store documentation and potentially sensitive information on the Discovery Layer.
+
+Moving through the DLA allows for trust accreditation to be given to the onboarding VASP. This therefore gives the VASP a foundational level of trust accreditation on the network from which they can build in stage 3.
+‍
+Discovery and Attestation
+‍
+In this model, it is the VASPs’ fellow counter-parties who attest to the information presented by the VASP. This stage can be moved through following the ‘DLA’ stage, or can be initiated independently of any other stage (i.e. the VASP does not have to have moved through the Discovery Layer Authority to reach this stage). Having submitted responses to the onboarding information requested of them, the information would be loaded to the Discovery Layer. Where possible and appropriate, attestations would be given as opposed to requiring the actual documentation being stored on the network blockchain.
+
+As participants approach one another to exchange information, each party can decide as to whether the responses given by their counter-parties to the onboarding information are within their policies. If so, the member agrees to exchange information with their counter-parties, and can move through to stage 4. If the answers are not within their policies (e.g. a VASP does not have an active registration with their regulator despite operating in a regulated jurisdiction), the member can choose not to send their information.
+
+Furthermore, participants can choose to request additional information from one another in an effort to gain further comfort around who their counter-party is, prior to transacting with them. This may be required in cases where a member has a particularly low risk tolerance and requires additional points of information / responses from their counter-parties, over and above that which can be provided at onboarding and verified by the DLA. The participants are free to request this information between themselves, and self-manage who they choose to interact with, aligned to their own risk principles. Shyft is simply the platform which collects and presents certain baseline pieces of information, and can be used to present further information on the Discovery Layer as required.
+‍
+Trust Accreditation
+‍
+Finally, building on the attestation principle, participants that do successfully transfer information to one another can begin to accredit trust attestation to each other as time goes on and the exchange of information takes place. For example, every successful transfer of information can be accompanied with a trust attestation, which builds a member’s reputation over time, allowing them to become a trust-anchor to the network. This allows for an ongoing review of the credibility of each member on the network, as well as incentivizing each member to operate within the expected behavior of the network.
+Decision-making and reporting
+There are 6 main categories of the Framework;
+
+Creating Accounts for each VASP and Users on the VASP platform
+Onboarding and Verifying VASP Accounts
+Registering the VASP Account with the Discovery Layer
+Setting Attestations for crypto withdrawal transactions from the VASP platform
+Subscribing for Attestation and Discovery Layer Events
+Joining a Trust Channel (Coalition)
+Creating Accounts
+‍
+In order to participate on the Shyft Network, VASPs need to create unique accounts on the Shyft Network, similar to creating wallets on the Ethereum Network. Here is an example of a new account:
+
+address: 0x719bb7FE970d9Ee375149a156dB93aD128ce0b07
+
+privateKey: 0xbfe59369762717a2639925d83fbd842fa55768ddf5ebe53bfe405f3a468fe484
+
+It is this account that is needed to satisfy the next rule.
+
+Further, the VASP must create a new account for each of their registered users on their platform. The user accounts are created the same as above and must be unique to each user.
+‍
+Onboarding and Verifying VASP Accounts
+‍
+With this Shyft account, VASPs can register for onboarding and verification. The Veriscope Governance Task Force assigns the authority to administrators who hold the responsibility to verify the new account belonging to the VASP. Once the account is verified, the administrators set the account to be onboarded and verified. The verification can be confirmed by querying the open network.
+‍
+Registering the VASP Account with the Discovery Layer
+‍
+In order for the VASP account to be discovered on the Network, the VASP needs to register their account with the Discovery Layer. Once registered the VASP can set the recommended VASP attributes such as entity name, domain name and jurisdiction to the Discovery Layer.The full list of attributes are listed here along with examples:
+‍
+KEY
+VALUE
+ENTITY
+
+ACME INC.
+
+DOMAIN
+
+acme.com
+
+API URL
+
+acme.com/fatf-api
+
+COMPLIANCE CONTACT
+
+compliance@acme.com
+
+TECHNOLOGY CONTACT
+
+technology@acme.com
+
+SUPPORT CONTACT
+
+support@acme.com
+
+JURISDICTION
+
+Singapore
+
+REGULATED
+
+YES
+
+REGULATION BODY
+
+https://www.mas.gov.sg/
+
+PUBLIC REGISTRATION
+
+N/A
+
+VA/VA
+
+YES
+
+VA/FIAT
+
+NO
+
+FATF POLICY
+
+acme.com/fatf
+
+EXCHANGE/OTC/CUSTODIAN
+
+EXCHANGE
+
+INCORPORATION DATE
+
+01-01-2019
+
+Setting Attestations for crypto withdrawal transactions from the VASP platform
+‍
+To comply with the FATF Travel Rule, VASPs must share KYC data for both Sender and Beneficiary as they relate to crypto transactions between corresponding VASP platforms.
+
+For the Sender VASP, the platform where a user is initiating a withdrawal, the VASP must set an attestation to the network. An attestation contains the following required information:
+User Account
+Jurisdiction
+Effective Time
+Expiry Time
+Public Data
+Documents Matrix Encrypted
+Availability Address Encrypted
+Is Managed
+TA Account
+All these fields are necessary for the Sending VASP to request from a corresponding VASP the Beneficiary KYC data. If a corresponding VASP responds with the Beneficiary KYC data, the Sending VASP must respond with the Sender KYC data such that both VASPs comply with the FATF Travel Rule.
+
+Subscribing for Attestation and Discovery Layer Events
+‍
+When participating VASPs set attestations and register with the Discovery Layer, the network issues events to all those that have subscribed to each event type.
+
+In the case of Attestation Events, subscribers can unpack the event message and determine if their platform is the corresponding VASP as it relates to a crypto transaction. If so, the corresponding VASP must send the Beneficiary KYC data to the Sending VASP. The Sending VASP must respond with the Sender KYC Data.
+
+In the case of Discovery Layer Events, subscribers must record these Events and run a counter-party assessment to determine their own risk tolerance for the counter-party or new Discovery Layer registrant.
+‍
+Joining a Trust Channel (Coalition)
+‍
+Trust Channels or Coalitions are groups of VASPs on the Network. Each VASP can request to join a Coalition from other VASPs that are members of the Coalition. Coalitions must be self managed by their members.
+
+Examples for Coalitions are: North America, Europe, Asia, and Global.
+
+Further, members in the Coalition can determine their own rules and govern them accordingly. For example, the Asia Coalition can set the minimum threshold for complying with the FATF Travel Rule; i.e. the requirement to receive Beneficiary KYC data for crypto transactions of at least $1000.
+
+Once a VASP joins a Coalition, other VASPs can view which Coalition the VASP is a member.
+
+Lastly, there is no limit on the number of Coalitions on the Network, or how many members in a Coalition, and how many Coalitions a VASP can be a member.

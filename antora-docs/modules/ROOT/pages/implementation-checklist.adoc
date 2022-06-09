@@ -1,0 +1,96 @@
+= Implementation Checklist
+:navtitle: Implementation Checklist
+
+This document aims to explain the requirements for VASPs to leverage Veriscope and satisfy the FATF Travel Rule; i.e. the requirement to report known originators and beneficiaries of a crypto transaction between VASP platforms.
+
+As a VASP, there are five main functions to consider for integration:
+
+. Creating a VASP account. These accounts are called Trust Anchors (TAs). They are entities that have user KYC data; traders on your platform.
+. Creating Shyft ID accounts for users on your platform.
+. Setting Attestations for crypto withdrawal transactions.
+. Listening to network notifications like crypto wallet attestations.
+. Ultimately sharing your user PII (KYC) with a counterparty VASP as they relate to crypto transfers between the two counterparty VASPs.
+
+At the end of the integration, VASPs on the network should be able to:
+
+* Discover and identify counterparties on the network.
+* Share both Originator and Beneficiary KYC data between counterparties as they relate to crypto transactions between their respective platforms.   
+ 
+== Trust Anchor Setup
+Trust Anchors on the network all follow the same onboarding process including provisioning of Shyft Network blockchain technology.
+
+Shyft Network is a Proof of Authority (POA) blockchain using a nethermind client or relay node. The security of the network is managed by a group of federated nodes that are responsible for signing blocks into the blockchain.
+
+Here is the list of some of the public Federation Nodes:
+https://stats.shyft.network/[stats.shyft.network]
+
+VASPs all need to join this network as a relay node. Relay nodes can seamlessly synchronize with the Shyft Blockchain, however are not responsible for signing the blocks. Relay nodes simply propagate transactions to the Federated nodes.
+
+There are many benefits for VASPs to manage their own relay node, such as:
+
+* Relay nodes can be protected by firewalls.
+* VASPs can post transactions to their own relay node.
+* VASPs receive notifications from Shyft Network via their own relay node.
+
+== Step 1 - Administrative Onboarding Items
+
+Trust Anchor/VASP to sign Confidentiality Agreement and/or Trust Anchor Agreement.
+
+Trust Anchor/VASP integration team to onboard into the Veriscope Slack channel for technical support by a dedicated Veriscope integration team member.
+
+== Step 2 - Deploy a Relay Node and web services.
+Trust Anchor accounts can transact with their own relay node.
+
+Shyft Network has open sourced the relay node setup. 
+Once the relay node has been successfully synchronized with the VASP network, confirmation can be viewed with the following resources:
+
+* https://bx.veriscope.network/[Veriscope testnet Block Explorer]
+* https://fedstats.veriscope.network[Veriscope testnet Nodes]
+
+== Step 3 - Trust Anchor Account Setup
+Trust Anchors need to register their accounts on the VASP network.
+This requires creating an Ethereum style public/private key pair and requesting it be onboarded and verified on the network. (Your integration support team member will assist with this requirement).
+
+Once the account is verified, VASPs need to complete the onboarding registration by recording information in the Discovery Layer as described here: https://github.com/ShyftNetwork/veriscope#overview-of-the-web-application
+
+(Your integration support team member can verify that this requirement has been met prior to continuing).
+
+Note that the Discover Layer is an open registrar that enables counterparty discovery, one of the pillars of the FATF Travel Rule.
+
+== Step 4 - Define FATF User Model
+The main requirement for the FATF Travel Rule is the transfer of originator and beneficiary KYC information between two VASPs as they relate to crypto transactions between their respective platforms.
+
+As one could imagine, VASPs collect a variety of KYC data from their users at onboarding; ie. not all user models are the same or standardized.  
+
+The interVASP Messaging Standard (IVMS) is a standard put forth by industry members in order to standardize what KYC data should be gathered and formatted for the FATF Travel Rule.
+
+The pdf download available from https://intervasp.org/[intervasp.org] documents what information must be included when sharing KYC data between counterparties; user KYC and platform KYB.
+
+In this step, VASPs should create new FATF database schemas following the IVMS 101 guide. The schema should include both originator and beneficiary KYC and VASP Entity fields.
+You can validate your schema here: https://github.com/ShyftNetwork/veriscope/tree/main/IVMS-101
+
+
+== Step 5 - Set Attestions for Crypto Withdrawals
+As per the FATF requirement, VASPs that initiate crypto withdrawals must make best efforts to identify the destination for the crypto transaction. If the destination is another VASP, both VASPs must coordinate the transfer of both originator and beneficiary KYC data.
+
+The identification of counterparties can be established via attestation transactions on the Shyft Network.
+
+VASPs that are withdrawing crypto from their platform set attestations on the network.
+
+For this step, VASPs are required to set attestations for each unique withdrawal crypto address requested by their users on their platform.
+
+== Step 6 - Subscribing to Blockchain Events
+Due to the nature of blockchains processing transactions, relay nodes can subscribe to specific events such as attestations.
+
+Attestations are the key element to identifying VASPs that are connected via crypto transactions between their respective platforms. They include key information to identify who is the originator VASP, who is the user on that platform, and what crypto transaction originated from the platform.
+
+In this step, VASPs must be able to subscribe to these events and respond to attestation requests.
+
+== Step 7 - Expose FATF KYC API endpoints
+The final step in this milestone is to complete the cycle, i.e. transferring and receiving KYC data.
+
+It is important to note here that originator or beneficiary KYC data is not recorded on the Shyft Network blockchain. The transfer of the KYC data is done directly with the counterparty VASP over standard HTTPS API.  
+
+Therefore your VASP platform must expose a FATF KYC endpoint whereby it can respond to requests for KYC data or make such requests to a counterparty. See here for more information.
+
+The completion of this step means that a VASP is eligible for travel rule data transmission.

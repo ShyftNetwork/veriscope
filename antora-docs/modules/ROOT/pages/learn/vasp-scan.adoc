@@ -1,0 +1,20 @@
+= VASPScan
+:navtitle: VASPScan
+
+VASPScan - The World’s first VASP transaction explorer and discovery system
+Explore Veriscope Transactions
+A Block Explorer is a tool that provides detailed information about blocks, addresses, and transactions. We have created our own explorer that gives VASP’s the ability to publicly view and lookup addresses, transactions and various details that take place on the network, while protecting anonymity.
+
+How it works:
+
+VASPs on the Shyft Network write attestations of outbound transaction addresses. The goal of Shyft Is to enable VASP discovery by making cryptographic associations between three different objects:
+The outgoing crypto currency address (ie. Bitcoin, Ether, USDT)
+The Sending VASP's public Shyft Network address (VASP Public ID)
+The Shyft Network public address of the VASP's User (VASPs User Public ID)
+A VASP writes an attestation claim to the network, which acts as a Request for Response to other VASPs that can respond to this claim.
+If a VASP on Veriscope sees that an attestation of a crypto currency address that is associated to one of their users has been made, they can use Shyft Network's Smart Contract system packaged through the Veriscope SDK to respond to that attestation.
+VASPScan is the public explorer that searches through the messaging events of all transactions on the Shyft Network Blockchain, and identifies Attestations made by public keys owned by VASPs within the Global VASP Discovery Layer.
+
+VASPScan simultaneously reads the VASP discovery contract registry to identify which VASPS are associated to which Shyft Network public addresses, and allows all global VASPS to reference all critical counter-party information, regulatory requirements, data sharing requirements, and even, interoperability requirements across VASPs.
+
+This system enables an end to end decentralized discovery layer for VASPs across the crypto ecosystem using the outbound crypto currency address as the core discovery anchor.
