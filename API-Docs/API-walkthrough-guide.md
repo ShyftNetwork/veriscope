@@ -6,7 +6,7 @@ This guide was produced running two nodes, one as VASP A (Originator) and the ot
 
 Guide references will be made to the following flow diagram.  The end result will be VASP A and VASP B having shared encrypted IVMS PII between them respectively (Step 10 and 11).
 
-![Alt text](screenshots/0-KYC-Template_v2.png "KYC Template Logic Flow")
+![Alt text](../KYC-Template-Docs/images/0-KYC-Template_v2.png "KYC Template Logic Flow")
 
 Futher information on the KYC Template can be found here: [KYC Template Readme](/KYC-Template-Docs/README.md)
 
