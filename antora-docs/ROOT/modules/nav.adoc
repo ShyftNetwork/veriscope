@@ -1,0 +1,36 @@
+---
+* OVERVIEW
+** xref:overview/what-is-veriscope.adoc[]
+** xref:overview/getting-started.adoc[]
+** xref:overview/running-a-node.adoc[]
+** xref:overview/registering-a-vasp.adoc[]
+** xref:overview/posting-data-on-chain.adoc[]
+** xref:overview/transferring-data-peer-to-peer.adoc[]
+---
+* COMPLIANCE
+** xref:compliance/travel-rule-101.adoc[]
+** xref:compliance/transactions-overview.adoc[]
+** xref:compliance/vasp-responsibilities.adoc[]
+** xref:compliance/vasp-due-diligence-and-verification.adoc[]
+** xref:compliance/vasp-definition.adoc[]
+---
+* DEVELOPERS
+** xref:developers/node-installation.adoc[]
+** xref:developers/api-reference-shyft-network.adoc[]
+** xref:developers/api-reference-p2p-data-transfer.adoc[]
+** xref:developers/api-reference-external-integrations.adoc[]
+---
+* LEARN
+** xref:learn/travel-rule-basics.adoc[]
+** xref:learn/transactions.adoc[]
+** xref:learn/counterparties.adoc[]
+** xref:learn/users.adoc[]
+** xref:learn/ivms.adoc[]
+---
+* HELP CENTRE
+** xref:help/faq.adoc[]
+** xref:help/troubleshooting.adoc[]
+** xref:help/contact-support.adoc[]
+---
+* xref:change-log.adoc[]
+* xref:glossary.adoc[]
