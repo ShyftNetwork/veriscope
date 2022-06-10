@@ -1,8 +1,5 @@
 = Step 3: Create a VASP/Trust Anchor account and request it to be verified
-:navtitle: Create Trust Anchor
-
-[quote]
-* Create a VASP/Trust Anchor account and request it to be verified
+:navtitle: 3) Create Trust Anchor
 
 This requires creating an Ethereum style public/private key pair and requesting it be onboarded and verified on the network. (Your integration support team member will assist with the latter).
 

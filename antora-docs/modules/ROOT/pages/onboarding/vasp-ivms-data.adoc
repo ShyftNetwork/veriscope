@@ -1,8 +1,5 @@
 = Step 4: Login to Node Dashboard and submit VASP IVMS data
-:navtitle: VASP IVMS data
-
-[quote]
-* Login to Node Dashboard and submit VASP IVMS data
+:navtitle: 4) Add IVMS data
 
 Once the Node installation is complete and the Trust Anchor account onboarded & verified, a VASP representative should login to the Trust Anchor Dashboard and submit VASP IVMS information. This information is not posted to or stored on the Shyft Network. It will, however, be included in the IVMS template that's shared with other VASPs as part of the Travel Rule requirements.
 

@@ -1,8 +1,5 @@
 = Step 2: Install & run a Node
-:navtitle: Node Setup
-
-[quote]
-* Install & run a Node
+:navtitle: 2) Set-up a Node
 
 Instructions on how to install & run a node are on GitHub at https://github.com/ShyftNetwork/veriscope. 
 

@@ -1,7 +1,4 @@
-= Step 5: Implement the Veriscope APIs
-:navtitle: Veriscope APIs
-
-[quote]
-* Implement the Veriscope APIs
+= Step 6: Implement the Veriscope APIs and Business Logic
+:navtitle: 6) Implement APIs
 
 Each VASP/Trust Anchor must sign a Confidentiality Agreement and/or Trust Anchor Agreement. Please contact your Veriscope representative or email mailto:veriscope@shyft.network[veriscope@shyft.network] for more details.

@@ -1,7 +1,4 @@
 = Step 5: Register VASP Discovery Layer data
-:navtitle: VASP Discovery Layer data
-
-[quote]
-* Register VASP Discovery Layer data
+:navtitle: 5) Add data to the Discovery Layer
 
 Please follow the instructions on GitHub at https://github.com/ShyftNetwork/veriscope/tree/main/Discovery-Layer-Validator#discovery-layer-validator

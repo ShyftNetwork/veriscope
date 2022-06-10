@@ -5,17 +5,17 @@ There are several steps a VASP needs to complete to join the Veriscope network a
 
 == VASP Onboarding Steps
 
-* mailto:veriscope@shyft.network[Contact Veriscope] and sign relevant agreement(s)
-* Install & run a Node
-* Create a VASP/Trust Anchor account and request it to be verified
-* Login to Node Dashboard and submit VASP IVMS data
-* Register VASP Discovery Layer data
-* Implement the Veriscope APIs and related business logic
-* Test the end-to-end flow
-* Request to be onboarded to mainnet
+. mailto:veriscope@shyft.network[Contact Veriscope] and sign relevant agreement(s)
+. Install & run a Node
+. Create a VASP/Trust Anchor account and request it to be verified
+. Login to Node Dashboard and submit VASP IVMS data
+. Register VASP Discovery Layer data
+. Implement the Veriscope APIs and related business logic
+. Test the end-to-end flow
+. Request to be onboarded to mainnet
 
 Once the above is done, a VASP will be able to:
 
-. Post attestations (i.e. an intent to withdraw funds to a particular address)
-. Listen & respond to attestations on relevant (deposit) addresses
-. Initate & share data peer-to-peer between VASPs
+* Post attestations (i.e. an intent to withdraw funds to a particular address)
+* Listen & respond to attestations on relevant (deposit) addresses
+* Initate & share data peer-to-peer between VASPs
