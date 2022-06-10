@@ -1,19 +1,25 @@
 
+* xref:index.adoc[]
+* xref:vasp-onboarding.adoc[]
 ---
-* GOVERNANCE 
-** xref:governance/overview.adoc[]
-** xref:governance/public-consultation.adoc[]
-** xref:governance/rules-framework.adoc[]
-** xref:governance/task-force.adoc[]
+* ONBOARDING
+** xref:onboarding/veriscope-agreements.adoc[]
+** xref:onboarding/node-setup.adoc[]
+** xref:onboarding/create-trust-anchor-account.adoc[]
+** xref:onboarding/vasp-ivms-data.adoc[]
+** xref:onboarding/vasp-discovery-layer-data.adoc[]
+** xref:onboarding/veriscope-apis.adoc[]
+** xref:onboarding/.adoc[]
 ---
 * LEARN
+** xref:learn/shyft-network.adoc[]
 ** xref:learn/attestations.adoc[]
 ** xref:learn/discovery-layer.adoc[]
 ** xref:learn/vasp-scan.adoc[]
 ** xref:learn/kyc.adoc[]
 ** xref:learn/coalitions.adoc[]
 ---
-* HELP CENTRE
-** xref:help/faq.adoc[]
-** xref:help/implementation-checklist.adoc[]
+* SUPPORT
+* xref:help/faq.adoc[]
+* xref:help/implementation-checklist.adoc[]
 ---

@@ -1,5 +1,5 @@
-= Implementation Checklist
-:navtitle: Implementation Checklist
+= VASP Onboarding Checklist
+:navtitle: Onboarding Checklist
 
 This document aims to explain the requirements for VASPs to leverage Veriscope and satisfy the FATF Travel Rule; i.e. the requirement to report known originators and beneficiaries of a crypto transaction between VASP platforms.
 

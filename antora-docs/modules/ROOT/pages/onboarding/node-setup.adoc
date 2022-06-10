@@ -1,0 +1,21 @@
+= Step 2: Install & run a Node
+:navtitle: Node Setup
+
+[quote]
+* Install & run a Node
+
+Instructions on how to install & run a node are on GitHub at https://github.com/ShyftNetwork/veriscope. 
+
+[NOTE]
+This task requires engineering/techincal skills
+
+[IMPORTANT]
+====
+The following information will be generated during the installation process. It is important that this information is stored & shared securely. It will be required for subsequent steps.
+
+. Node http url (e.g. subdomain.yourdomain.com)
+. Trust Anchor public/private key pair
+. Trust Anchor Dashboard login credentials. _The Dashboard will be hosted at the node http url above once the Node installation is complete._
+====
+
+Active testnet nodes can be viewed here: https://fedstats.veriscope.network[Veriscope testnet Nodes]

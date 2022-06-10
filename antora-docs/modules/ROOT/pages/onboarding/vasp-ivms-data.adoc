@@ -1,0 +1,17 @@
+= Step 4: Login to Node Dashboard and submit VASP IVMS data
+:navtitle: VASP IVMS data
+
+[quote]
+* Login to Node Dashboard and submit VASP IVMS data
+
+Once the Node installation is complete and the Trust Anchor account onboarded & verified, a VASP representative should login to the Trust Anchor Dashboard and submit VASP IVMS information. This information is not posted to or stored on the Shyft Network. It will, however, be included in the IVMS template that's shared with other VASPs as part of the Travel Rule requirements.
+
+[NOTE]
+====
+The interVASP Messaging Standard (IVMS) is a standard put forth by industry members in order to standardize what KYC data should be gathered and formatted for the FATF Travel Rule.
+
+The pdf download available from https://intervasp.org/[intervasp.org] documents what information must be included when sharing KYC data between counterparties; user KYC and platform KYB.
+====
+
+[IMPORTANT]
+The Dashboard url (i.e. Node http url) and login credentials were generated during the Node installation step.
