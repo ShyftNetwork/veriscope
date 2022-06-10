@@ -6,4 +6,4 @@ Veriscope is a decentralized, open-source protocol and solution to the https://w
 These docs will guide you through Veriscope and how to onboard as a Virtual Asset Service Provider (VASP).
 
 [NOTE]
-These docs are a work in progress. The goal is to consolidate all documentation on this site, however, that is not yet the case. Your feedback is welcome.
+These docs are a work in progress; the goal is to consolidate all relevant documentation on this site. Your feedback is welcome.
