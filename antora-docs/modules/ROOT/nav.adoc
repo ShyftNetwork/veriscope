@@ -9,7 +9,7 @@
 * xref:onboarding/vasp-discovery-layer-data.adoc[]
 * xref:onboarding/veriscope-apis.adoc[]
 * xref:onboarding/testing.adoc[]
-* xref:onboarding/mainnet.adoc[]
+* xref:onboarding/mainnet.adoc[] +
 ---
 <br>
  +
