@@ -1,7 +1,7 @@
 
 * xref:index.adoc[]
 * xref:vasp-onboarding.adoc[]
----
+
 .Onboarding Guide
 * xref:onboarding/veriscope-agreements.adoc[]
 * xref:onboarding/node-setup.adoc[]
