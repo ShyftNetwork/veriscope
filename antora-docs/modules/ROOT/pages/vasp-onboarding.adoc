@@ -1,5 +1,5 @@
 = How to onboard to Veriscope as a VASP
-:navtitle: ONBOARDING GUIDE
+:navtitle: Getting Started
 
 There are several steps a VASP needs to complete to join the Veriscope network and meet Travel Rule obligations. These are outlined below.
 
