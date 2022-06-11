@@ -1,7 +1,9 @@
 = Welcome to the Veriscope
 :navtitle: Welcome
 
-image::6221c3c82369fc92b54311c0_veriscope-logo-v3-white.svg[Veriscope logo]
+// image::6221c3c82369fc92b54311c0_veriscope-logo-v3-white.svg[Veriscope logo]
+image::veriscope_logo_1__sc8iKEEDBKfoumrDjaTDA.png[Veriscope logo]
+
 
 Veriscope is a decentralized, open-source protocol and solution to the https://www.fatf-gafi.org/media/fatf/documents/recommendations/Updated-Guidance-VA-VASP.pdf[FATF's Travel Rule] requirement. Veriscope is built on the Shyft Network.
 
