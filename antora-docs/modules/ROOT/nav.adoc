@@ -1,6 +1,6 @@
 
 * xref:index.adoc[]
-* xref:vasp-onboarding.adoc[]
+* xref:get-started.adoc[]
 
 .Onboarding Guide
 * xref:onboarding/veriscope-agreements.adoc[]
