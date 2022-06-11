@@ -10,7 +10,6 @@
 * xref:onboarding/veriscope-apis.adoc[]
 * xref:onboarding/testing.adoc[]
 * xref:onboarding/mainnet.adoc[]
----
-* xref:" "
++
 * xref:support/support.adoc[]
 * xref:support/faq.adoc[]
