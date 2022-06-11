@@ -1,10 +1,9 @@
-= Welcome to Veriscope Docs!
+= Welcome to the Veriscope docs site
 :navtitle: Welcome
 
-// image::6221c3c82369fc92b54311c0_veriscope-logo-v3-white.svg[Veriscope logo]
 image::veriscope_logo_1__sc8iKEEDBKfoumrDjaTDA.png[Veriscope logo]
 
-
+== What is Veriscope?
 Veriscope is a decentralized, open-source protocol and solution to the https://www.fatf-gafi.org/media/fatf/documents/recommendations/Updated-Guidance-VA-VASP.pdf[FATF's Travel Rule] requirement. Veriscope is built on the Shyft Network.
 
 These docs will guide you through Veriscope and how to onboard as a Virtual Asset Service Provider (VASP).
