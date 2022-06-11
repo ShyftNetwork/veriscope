@@ -11,7 +11,7 @@
 * xref:onboarding/testing.adoc[]
 * xref:onboarding/mainnet.adoc[]
 ---
- +
+<br>
  +
  +
 * xref:support/support.adoc[]
