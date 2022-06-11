@@ -1,5 +1,5 @@
-= Step 1: Contact Veriscope and Sign Agreements
-:navtitle: 1) Review & Sign Agreements
+= Step 1: Contact Veriscope and Review & Sign Veriscope Agreements
+:navtitle: 1) Review & sign agreements
 
 Each VASP/Trust Anchor must review & sign the following forms:
 
