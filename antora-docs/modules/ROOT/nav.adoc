@@ -12,6 +12,9 @@
 * xref:onboarding/testing.adoc[]
 * xref:onboarding/mainnet.adoc[]
 
+.Veriscope APIs
+* xref:apis/introduction.adoc[]
+
 .Support
 * xref:support/support.adoc[]
 * xref:support/faq.adoc[]
