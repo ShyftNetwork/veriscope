@@ -1,4 +1,4 @@
-= Welcome to the Veriscope
+= Welcome to Veriscope Docs!
 :navtitle: Welcome
 
 // image::6221c3c82369fc92b54311c0_veriscope-logo-v3-white.svg[Veriscope logo]

@@ -19,6 +19,6 @@
 * https://bx.veriscope.network/[Testnet Explorer^]
 * https://fedstats.veriscope.network/[Testnet Federated Nodes^]
 
-.Support
+// .Support
 * xref:support/support.adoc[]
 * xref:support/faq.adoc[]
