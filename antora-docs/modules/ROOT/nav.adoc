@@ -16,8 +16,8 @@
 * xref:apis/introduction.adoc[]
 
 .References
-* https://bx.veriscope.network/[Testnet Explorer]
-* https://fedstats.veriscope.network/[Testnet Federated Nodes]
+* https://bx.veriscope.network/[Testnet Explorer^]
+* https://fedstats.veriscope.network/[Testnet Federated Nodes^]
 
 .Support
 * xref:support/support.adoc[]
