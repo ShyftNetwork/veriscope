@@ -1,13 +1,16 @@
 
 * xref:index.adoc[]
-* xref:vasp-onboarding.adoc[]
 ---
+* xref:vasp-onboarding.adoc[]
 * xref:onboarding/veriscope-agreements.adoc[]
 * xref:onboarding/node-setup.adoc[]
 * xref:onboarding/create-trust-anchor.adoc[]
 * xref:onboarding/vasp-ivms-data.adoc[]
 * xref:onboarding/vasp-discovery-layer-data.adoc[]
 * xref:onboarding/veriscope-apis.adoc[]
+* xref:onboarding/testing.adoc[]
+* xref:onboarding/mainnet.adoc[]
 ---
-* xref:help/faq.adoc[]
----
+* xref:support/support.adoc[]
+* xref:support/faq.adoc[]
+

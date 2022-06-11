@@ -1,6 +1,6 @@
 = Step 3: Create a VASP/Trust Anchor account and request it to be verified
-:navtitle: 3) Create Trust Anchor
+:navtitle: 3) Create a Trust Anchor
 
 This requires creating an Ethereum style public/private key pair and requesting it be onboarded and verified on the network. (Your integration support team member will assist with the latter).
 
-This public/private key pair is created as part of the Node installation (Install/update nethermind) so should already be done! _Please request the key pair from person(s) who set-up the node.
+The public/private key pair is created as part of the Node installation (Install/update nethermind) so should already be done! _Please request the key pair from the person(s) who set-up the node.

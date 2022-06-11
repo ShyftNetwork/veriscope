@@ -1,4 +1,7 @@
 = Step 6: Implement the Veriscope APIs and Business Logic
 :navtitle: 6) Implement APIs
 
-Each VASP/Trust Anchor must sign a Confidentiality Agreement and/or Trust Anchor Agreement. Please contact your Veriscope representative or email mailto:veriscope@shyft.network[veriscope@shyft.network] for more details.
+Please follow the instructions on GitHub at https://github.com/ShyftNetwork/veriscope/tree/main/API-Docs
+
+[NOTE]
+Veriscope now offers several https://learning.postman.com/docs/getting-started/creating-the-first-collection/[[Postman Collections] and Environments (JSON files) for a quicker and easier usage of the Veriscope RESTful APIs. You only need to import and set up with your own API and secret keys to begin.

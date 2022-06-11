@@ -1,4 +1,10 @@
 = Step 1: Contact Veriscope and Sign Agreements
 :navtitle: 1) Review & Sign Agreements
 
-Each VASP/Trust Anchor must sign a Confidentiality Agreement and/or Trust Anchor Agreement. Please contact your Veriscope representative or email mailto:veriscope@shyft.network[veriscope@shyft.network] for more details.
+Each VASP/Trust Anchor must review & sign the following forms:
+
+* Mutual Non-Disclosure Agreement (MNDA)
+* Veriscope Information Form (VIF)
+* Veriscope Trust Anchor Agreement
+
+Please contact your Veriscope representative or email mailto:veriscope@shyft.network[veriscope@shyft.network] for more details.
