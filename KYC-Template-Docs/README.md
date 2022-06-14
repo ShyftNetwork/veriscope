@@ -3,7 +3,7 @@ KYC Template Documentation.
 
 When VASPs are required to share PII as it relates to a crypto transaction, e.g. VASP A to VASP B, a KYC Template is formatted and posted directly to the corresponding VASP, as shown in the following diagram.
 
-![Alt text](images/0-KYC-Template.png "KYC Template Diagram")
+![Alt text](images/0-KYC-Template_v2.png "KYC Template Diagram")
 
 When VASP B receives the attestation set by VASP A, they complete the following logic flow while adding data to the KYC Template as shown here:
 
