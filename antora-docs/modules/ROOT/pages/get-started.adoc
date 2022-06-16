@@ -1,21 +1,25 @@
 = How to onboard to Veriscope as a VASP
 :navtitle: Get Started
 
-There are several steps a VASP needs to complete to join the Veriscope network and meet Travel Rule obligations. These are outlined below.
+There are several steps a VASP needs to complete to onboard to Veriscope and to meet their Travel Rule obligations. These are outlined below.
 
 == VASP Onboarding Steps
 
-. Review & sign Veriscope agreements
-. Install & run a Node
-. Create a VASP/Trust Anchor account and request it to be verified
-. Login to Node Dashboard and submit VASP IVMS data
-. Register VASP Discovery Layer data
-. Implement Veriscope APIs and related business logic
-. Test the end-to-end flow
-. Request to be onboarded to mainnet
+_Potential owners are indicated in `*[...]*`._
+
+====
+. Review & sign Veriscope agreements `*[Compliance, Legal]*`
+. Install & run a Node `*[Engineering]*`
+. Create a VASP account (aka Trust Anchor account) and request it to be verified & onboarded `*[Engineering]*`
+. Log-in to the Veriscope web-app and: 
+.. Complete your VASP profile (i.e. IVMS data) `*[Compliance]*`
+.. Register Discovery Layer data on-chain so that your VASP is discoverable `*[Compliance]*`
+. Implement the Veriscope APIs and related business logic `*[Engineering]*`
+. Test the end-to-end flow `*[Engineering, Compliance, Operations, Support]*`
+. Request to be onboarded to mainnet `*[Engineering, Compliance]*`
+====
 
 Once the above is done, a VASP will be able to:
 
-* Post attestations (i.e. an intent to withdraw funds to a particular address)
-* Listen & respond to attestations on relevant (deposit) addresses
-* Initate & share data peer-to-peer between VASPs
+[NOTE]
+include::partial$treeline-warning.adoc

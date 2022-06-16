@@ -1,6 +1,11 @@
 = Step 3: Create a VASP/Trust Anchor account and request it to be verified
 :navtitle: 3) Create a Trust Anchor
 
-This requires creating an Ethereum style public/private key pair and requesting it be onboarded and verified on the network. (Your integration support team member will assist with the latter).
+Creating a Trust Anchor account is done as part of the Node set-up - i.e. the previous step - yet is singled out here as a separate step as it's a common source of confusion. 
 
-The public/private key pair is created as part of the Node installation (Install/update nethermind) so should already be done! _Please request the key pair from the person(s) who set-up the node.
+[NOTE]
+The person who installed the Node should be able to provide you with the trust anchor account public/private key pair. **It is important this information is stored & shared securely.**
+
+Once you have these details, please request your trust anchor account to be verified on tesnet by providing your Veriscope contact with the corresponding **public key**. 
+
+Once verified, at least 1 SHFT test tokens will be transferred to the account to facilitate testing.

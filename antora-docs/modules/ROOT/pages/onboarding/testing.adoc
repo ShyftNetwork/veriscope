@@ -1,5 +1,5 @@
-= End-to-end Travel Rule with the Veriscope team and other VASPs
-:navtitle: 7) End-to-end Testing
+= Step 6. End-to-end testing with the Veriscope team and other VASPs
+:navtitle: 6) Test with other VASPs
 
 At this point, your VASP should be able to:
 
@@ -24,8 +24,6 @@ Attestations are the key element to identifying VASPs that are connected via cry
 In this step, VASPs must be able to subscribe to these events and respond to attestation requests.
 
 == c) Respond to and share data with your peers
-
-Step 7 - Expose FATF KYC API endpoints
 The final step in this milestone is to complete the cycle, i.e. transferring and receiving KYC data.
 
 It is important to note here that originator or beneficiary KYC data is not recorded on the Shyft Network blockchain. The transfer of the KYC data is done directly with the counterparty VASP over standard HTTPS API.  
@@ -33,4 +31,3 @@ It is important to note here that originator or beneficiary KYC data is not reco
 Therefore your VASP platform must expose a FATF KYC endpoint whereby it can respond to requests for KYC data or make such requests to a counterparty. See here for more information.
 
 The completion of this step means that a VASP is eligible for travel rule data transmission.
-

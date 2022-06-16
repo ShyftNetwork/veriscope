@@ -1,7 +1,7 @@
 = Frequently Asked Questions
 :navtitle: FAQ
 
-== VASPs / Trust Anchor FAQs
+== VASPs
 
 === How does Veriscope Smart Contracts enable Travel Rule Compliance?
 .Answer

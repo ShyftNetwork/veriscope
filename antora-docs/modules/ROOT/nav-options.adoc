@@ -1,3 +1,5 @@
+(https://docs.nethermind.io/nethermind/[Nethermind^] is the client responsible for synchronizing the Shyft Network blockchain.)
+
 * INTRODUCTION
 ** xref:overview/what-is-veriscope.adoc[]
 ** xref:compliance/travel-rule-101.adoc[]
@@ -51,3 +53,13 @@
 * xref:implementation-checklist.adoc[]
 * xref:change-log.adoc[]
 * xref:glossary.adoc[]
+
+xref:/API-Docs/README.adoc[API Docs] - How to setup an API Token.
+xref:/API-Docs/API-walkthrough-guide.adoc[API Walk Through Guide] - How to use the API for transfer of PII between two peers.
+xref:/Blockchain-Analytics-Docs/README.adoc[Blockchain Analytics Docs] - How to add your Blockchain Analytics provider API key for wallet screening.
+xref:/Horizon-Docs/README.adoc[Horizon Docs] - How to set up a webhook to receive notifications from the Shyft Network.
+xref:/docs/queue.adoc[Arena Queue] - Information on Arena Queue for posting attestations.
+xref:/IVMS-101/README.adoc[IVMS 101] - How to encode your Entity and User PII into IVMS
+xref:/KYC-Template-Docs/README.adoc[KYC Template Docs] - How to format your PII and transfer it to a peer.
+xref:/chains/README.adoc[Chains] - How to connect to the supported blockchains.
+xref:/Nethermind-Docs/README.adoc[Nethermind Docs] - Links to Nethermind Documentation.

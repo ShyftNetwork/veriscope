@@ -1,18 +1,35 @@
+// URLs
+:url-github-veriscope-core-repo: https://github.com/ShyftNetwork/veriscope
+:url-nethermind-docs: https://docs.nethermind.io/nethermind/
+:url-testnet-fedstats: https://fedstats.veriscope.network
+
 = Step 2: Install & run a Node
 :navtitle: 2) Set-up a Node
 
-Instructions on how to install & run a node are on GitHub at https://github.com/ShyftNetwork/veriscope. 
+Instructions on how to install & run a node are on GitHub at {url-github-veriscope-core-repo}[github.com/ShyftNetwork/veriscope^].
+
+At a high-level, this steps includes installing the following as well as setting up an admin user:
+
+====
+. Dependencies & pre-requisites, e.g. npm and PostgreSQL
+. A Nethermind Node
+. A Nginx web-server
+. A Node.js web service
+. The Laravel Veriscope web-app / "dashboard"
+. Redis to manage/post attestations
+. Horizon dashboard to monitor Redis queues (a view is included in the Veriscope web-app)
+====
 
 [NOTE]
-This task requires engineering/techincal skills
+{url-nethermind-docs}[Nethermind^] is the client responsible for synchronizing the Shyft Network blockchain.
 
 [IMPORTANT]
 ====
-The following information will be generated during the installation process. It is important that this information is stored & shared securely. It will be required for subsequent steps.
+The following information will be generated during the installation process and will be required for subsequent steps. It is important this information is stored & shared securely.
 
-. Node http url (e.g. subdomain.yourdomain.com)
-. Trust Anchor public/private key pair
-. Trust Anchor Dashboard login credentials. _The Dashboard will be hosted at the node http url above once the Node installation is complete._
+. Node http url (i.e. `VERISCOPE_SERVICE_HOST=subdomain.domain.com`)
+. Trust Anchor account public/private key pair
+. Trust Anchor dashboard login credentials. _The Veriscope web-app will be hosted at the node http url once the Node installation is complete._
 ====
 
-Active testnet nodes can be viewed here: https://fedstats.veriscope.network[Veriscope testnet Nodes]
+Active testnet nodes can be viewed at {url-testnet-fedstats}[Veriscope fedstats testnet Nodes^]

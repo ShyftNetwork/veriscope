@@ -1,5 +1,5 @@
 name: antora-docs
-title: Veriscope
+title: Veriscope Core
 version: 1.0.0
 start_page: ROOT:index.adoc
 asciidoc:

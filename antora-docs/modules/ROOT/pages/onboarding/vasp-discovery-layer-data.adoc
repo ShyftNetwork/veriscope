@@ -1,4 +1,10 @@
-= Step 5: Register VASP Discovery Layer data
-:navtitle: 5) Add Discovery Layer data
+// URLs
+:url-github-veriscope-core-discovery-layer: https://github.com/ShyftNetwork/veriscope/tree/main/Discovery-Layer-Validator#discovery-layer-validator
 
-Please follow the instructions on GitHub at https://github.com/ShyftNetwork/veriscope/tree/main/Discovery-Layer-Validator#discovery-layer-validator
+= Step 4b: Log-in to the Veriscope web-app and register Discovery Layer data on-chain
+:navtitle: 4-b) Register data on-chain
+
+Please follow the instructions on GitHub at 
+{url-github-veriscope-core-discovery-layer}[github.com/ShyftNetwork/veriscope/tree/main/Discovery-Layer-Validator#discovery-layer-validator^]
+
+Discovery Layer data is posted on-chain and is discoverable by other VASPs.

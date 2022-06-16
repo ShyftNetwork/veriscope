@@ -12,13 +12,27 @@
 * xref:onboarding/testing.adoc[]
 * xref:onboarding/mainnet.adoc[]
 
-.Veriscope APIs
-* xref:apis/introduction.adoc[]
+.Node Installation
+* xref:node-installation/introduction.adoc[]
+* xref:node-installation/node-setup.adoc[]
+* xref:node-installation/node-setup-script.adoc[]
+* xref:node-installation/node-maintenance.adoc[]
+* xref:node-installation/node-post-setup-steps.adoc[]
+* xref:node-installation/testing.adoc[]
 
-.References
+.Veriscope APIs
+* xref:apis/api-specification.adoc[]
+
+// .Knowledge Base
+// * xref:learn/attestations.adoc[] 
+
+.Network References
+* xref:network-reference/chains-and-smart-contracts.adoc[]
 * https://bx.veriscope.network/[Testnet Explorer^]
 * https://fedstats.veriscope.network/[Testnet Federated Nodes^]
 
-// .Support
-* xref:support/support.adoc[]
+//.Support
 * xref:support/faq.adoc[]
+* xref:support/troubleshooting.adoc[]
+* xref:support/blog-articles.adoc[]
+* xref:support/support.adoc[]

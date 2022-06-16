@@ -1,7 +1,11 @@
-= Step 6: Implement the Veriscope APIs and Business Logic
-:navtitle: 6) Implement APIs
+// URLs
+:url-github-veriscope-core-api-docs: https://github.com/ShyftNetwork/veriscope/tree/main/API-Docs
 
-Please follow the instructions on GitHub at https://github.com/ShyftNetwork/veriscope/tree/main/API-Docs
+= Step 5: Implement the Veriscope APIs and Business Logic
+:navtitle: 5) Implement Veriscope APIs
 
-[NOTE]
-Veriscope now offers several https://learning.postman.com/docs/getting-started/creating-the-first-collection/[[Postman Collections] and Environments (JSON files) for a quicker and easier usage of the Veriscope RESTful APIs. You only need to import and set up with your own API and secret keys to begin.
+Please follow the instructions on GitHub at 
+{url-github-veriscope-core-api-docs}[github.com/ShyftNetwork/veriscope/tree/main/API-Docs^].
+
+// [NOTE]
+// Veriscope now offers several https://learning.postman.com/docs/getting-started/creating-the-first-collection/[Postman Collections] and Environments (JSON files) for a quicker and easier usage of the Veriscope RESTful APIs. You only need to import and set up with your own API and secret keys to begin.

@@ -1,0 +1,31 @@
+// URLs
+:url-github-veriscope-core-repo: https://github.com/ShyftNetwork/veriscope
+
+= Veriscope Node Installation Guide
+:navtitle: Introduction
+
+Veriscope ships with a number of services (all open sourced) that in tandem enable VASPs to:
+
+include::partial$veriscope-enables-vasps-to.adoc
+
+In order to accomplish the above, Veriscope utilizes a number of *self-managed services (illustrated below):*
+
+* *Shyft Relay Node:* a Nethermind Proof Of Authority (POA) client that synchronizes with the Shyft Network. Veriscope communicates with the Relay Node over an RPC connection (HTTP and websocket).
+* *Web Application:* a Laravel/PHP and Vue.js framework for managing trust anchor accounts, sharing KYC data over the peer network
+* *NodeJS Application:* scripts that interface the Web Application with either the Relay Node or various web3 libraries for
+cryptography functions.
+
+image::images/pattern-1.png[Alt text]
+
+== Node Installer
+The {url-github-veriscope-core-repo}[Veriscope GitHub repo^] comes with a complete installer that sets up a running installation complete with PostgreSQL database, nginx serving SSL connections with a reverse-proxy to backend services running
+NodeJS and PHP Artisan.
+
+To use the all-in-one setup script, you first need to provision a machine that can be reached from the internet on ports 80 and 443, with a DNS name that points to it.
+//TODO Add details and recommendations
+
+[NOTE]
+If you intend to synchronize the blockchain with your Nethermind node, be mindful on the potential storage disk size. E.g. 1 million blocks requires approximately 8GB of storage.
+
+[WARNING]
+Do not continue with the setup unless you have a domain (e.g. https://subdomain.domain.com) that is reachable over ports 80 and 443.

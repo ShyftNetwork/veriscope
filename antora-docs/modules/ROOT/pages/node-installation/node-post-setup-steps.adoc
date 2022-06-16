@@ -1,0 +1,185 @@
+// URLs
+:url-github-veriscope-core-repo: https://github.com/ShyftNetwork/veriscope
+:url-testnet-fedstats: https://fedstats.veriscope.network
+
+= Post Setup Steps
+:navtitle: Post Setup Steps
+
+== Load Blockchain Data
+
+Load all attestation and discovery layer data 
+
+[,shell]
+----
+node -e 'require("./blockchain-data").getAllAttestations()'
+
+node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairCreated()'
+
+node -e 'require("./blockchain-data").getTrustAnchorKeyValuePairUpdated()'
+
+node -e 'require("./blockchain-data").getTrustAnchorDataRetrievalParametersCreated()'
+
+node -e 'require("./blockchain-data").getVerifiedTrustAnchors()'
+----
+
+The above load blockchain data can be achieved in the Dashboard.  See below for more details.
+
+[NOTE]
+Check if things work as expected by proceeding to {url-testnet-fedstats}[fedstats.veriscope.network^] to see if your node is in the list and wait for the node to fully synchronize.
+
+In your terminal, use option p to confirm you have the following services running:
+
+----
+p) show daemon status
+----
+
+----
+* nethermind.service - Nethermind Ethereum Daemon
+* ta.service - Trust Anchor Dashboard
+* ta-wss.service - Trust Anchor Dashboard Websockets
+* ta-schedule.service - Trust Anchor Dashboard Schedule
+* ta-queue.service - Trust Anchor Dashboard Queue
+* ta-node-1.service - Trust Anchor Node API
+* ta-node-2.service - Trust Anchor Node Template Helper
+* nginx.service - A high performance web server and a reverse proxy server
+* postgresql.service - PostgreSQL RDBMS
+* redis-server.service - Advanced key-value store
+* horizon.service - Laravel Horizon Queue Manager
+----
+
+== Get comfortable with the Web Application
+
+Log-in in to the application with the admin account you during the set-up and navigate to the domain set in your root .env.
+
+image::images/0-sign-in.png[Alt text]
+
+=== Manage Your Organization
+
+Use this page to setup your TA account
+
+Choose "`Load TA Account`"
+
+This will load the TA account stored in
+
+[,shell]
+----
+$ cat /opt/veriscope/veriscope_ta_node/.env
+#DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
+TRUST_ANCHOR_PK=f3764....5d4
+TRUST_ANCHOR_PREFNAME="vasp"
+TRUST_ANCHOR_ACCOUNT=0x1bD....892
+WEBHOOK_CLIENT_SECRET=du7....aec
+
+HTTP="http://localhost:8545"
+WS="ws://localhost:8545"
+WEBHOOK="http://localhost:8000/webhook"
+HTTP_API_PORT=8080
+TEMPLATE_HELPER_PORT=8090
+
+CONTRACTS=/opt/veriscope/veriscope_ta_node/artifacts/
+
+#veriscope testnet
+TRUST_ANCHOR_MANAGER_CONTRACT_ADDRESS="0x43E56edA913216666DA92Bc27a874D967F3Cb206"
+TRUST_ANCHOR_STORAGE_CONTRACT_ADDRESS="0xe515c95221B8e62c2D5b9548F8a7C5e17307f766"
+TRUST_ANCHOR_EXTRA_DATA_GENERIC_CONTRACT_ADDRESS="0x7cC356A02119623A42E26d138fac925b6F5A444c"
+TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS="0xC6a080668A62F35687EDBb69B102B3a3766b51a8"
+
+#redis
+REDIS_URI=redis://127.0.0.1:6379
+LOG_LEVEL=info
+
+SIGN_MESSAGE="VERISCOPE"
+----
+
+[NOTE]
+If you need to create a new TA account, simply replace TRUST_ANCHOR_PK and TRUST_ANCHOR_ACCOUNT with a new Account and Private Key
+
+image::images/1-load-ta-account.png[Alt text]
+
+At this stage you can query if your account has been verified and has a balance.
+
+image::images/2-verified-account.png[Alt text]
+
+*ACTION: If your account is not verified, please request to have your account on boarded and verified by your Veriscope Account manager and ensure you are granted Shyft Testnet tokens before proceeding further.*
+
+Once your account has been verified, you can confirm as shown here:
+
+image::images/3-account-verified.png[Alt text]
+
+Now you can proceed with completing your account registration.
+
+Add your TA account to the Discovery Layer
+
+image::images/5-discovery-layer-registration.png[Alt text]
+
+And finally complete the form for each key in the list for "`Add Key Value Pair to Discovery Layer`".
+
+IMPORTANT: For the API_URL key, ensure you enter the domain name associated with this Web Application as configured in step 1 above:
+
+----
+VERISCOPE_SERVICE_HOST=”subdomain.domain.com”
+----
+
+E.g. https://subdomain.domain.com/kyc-template
+
+NOTE: this webapp accepts KYC requests to the route */kyc-template*.  Ensure you add the route in the API_URL value.
+
+image::images/6-API_URL.png[Alt text]
+
+=== IVMS for your Organization
+
+In this section of Manage Organization, you are provided a form to complete.  Set or Update Entity Information for IVMS.  This information is not posted to the blockchain or Discovery Layer.  It is used in the KYC Template when posting to another VASP.
+
+See xref:/IVMS-101/README.adoc[IVMS 101] for more information.
+
+image::images/ivms-form.png[Alt text]
+
+=== Manage Users
+//TODO Remove this from the web-app
+
+In this section you can create a number of users to test the transfer of KYC between your VASP and another.
+
+Choose Generate Random User.
+
+image::images/8-new-user-account.png[Alt text]
+
+NOTE: Ensure your TA account is selected in the drop down box first.
+
+When a new user account is created, the system auto generates a unique Shyft User ID and associates it with this user account.
+Also unique BTC, ETH, ZEC and XMR addresses are created and assigned to this user.
+
+NOTE: these addresses represent deposit addresses on your exchange platform.
+
+image::images/9-btc-eth-addresses.png[Alt text]
+
+NOTE: Random users include PII that satisfy the IVMS schema.
+
+For this guide we have prepared a second node (paycase) that has a user with Shyft ID, BTC and ETH deposit addresses as shown here:
+
+image::images/10-node-2-user.png[Alt text]
+
+To simulate a crypto withdrawal from your exchange you can set a WALLET Attestation by completing the following fields and entering the crypto destination address.
+
+image::images/11-wallet-attestation.png[Alt text]
+
+If there is a VASP on the network with this deposit address, they will provide you their Beneficiary PII.  In response your VASP will provide them your Originator PII.
+
+Completed KYC Templates can be found in the backoffice/kyctemplates view.
+
+image::images/12-kyc-templates.png[Alt text]
+
+You can view details in the KYC Template by choosing view.
+
+image::images/13-full-template.png[Alt text]
+
+Other views in the backoffice are the number of TAs on the network, Attestations and completed KYC Templates on your platform.
+
+image::images/14-dashboard.png[Alt text]
+
+NOTE: Each section (Verified Trust Anchors, Discovery Layers and Attestations) have a Refresh Button to enable you to download all data related.
+
+image::images/15-refresh-cards.png[Alt text]
+
+=== Conduct a transaction with another VASP
+
+*To do this, please reach out to your Veriscope Account Manager to coordinate a live transaction with another VASP on Veriscope*

@@ -1,0 +1,4 @@
+* Post attestations (i.e. an intent to transfer/withdraw funds to a particular address)
+* Listen & respond to attestations on owned (deposit) addresses
+* Become discoverable by other peers (VASPs) on the Network
+* Initate & share user KYC data between peers

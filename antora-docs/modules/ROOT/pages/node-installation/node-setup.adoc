@@ -1,0 +1,97 @@
+// URLs
+:url-github-veriscope-core-repo: https://github.com/ShyftNetwork/veriscope
+
+= Node Setup
+:navtitle: Node Setup
+
+Begin the installation by cloning the {url-github-veriscope-core-repo}[Veriscope GitHub repo^].
+
+The repo contains the following folders amongst others:
+
+* *chains/:* the Nethermind Relay Node configuration
+//TODO Please review xref:/chains/README.adoc[Chains Readme]
+* *scripts/:* the installation setup guide/sripts
+* *veriscope_ta_dashboard/:* the Veriscope Web Application (Laravel/VueJS)
+* *veriscipe_ta_node/:* the NodeJS interface between the Web Application and the Relay Node
+
+== Service User
+
+If necessary, create a new Unix account to act as the service user. Ensure the service user is in appropriate groups. The setup recipe assumes the user who invokes 'sudo' is the service user.
+
+Before continuing ensure you have a sudo user and run the following commands (e.g. for user "`forge`"):
+
+[,shell]
+----
+sudo adduser forge
+----
+
+[,shell]
+----
+sudo adduser forge syslog
+
+Adding user `forge' to group `syslog' ...
+Adding user forge to group syslog
+Done.
+----
+
+[,shell]
+----
+sudo adduser forge www-data
+----
+
+Next move the Veriscope dir to /opt
+
+[,shell]
+----
+mv veriscope /opt
+----
+
+And change the owner of /opt to forge
+
+[,shell]
+----
+sudo chown -R forge /opt
+----
+
+Set-up su (substitue) to your user
+
+[,shell]
+----
+sudo su - forge
+----
+
+Then navigate to /opt/veriscope/
+
+[,shell]
+----
+​​cd /opt/veriscope
+----
+
+== Environment Variables
+
+Next, edit the .env file in /opt/veriscope/ and add values for 
+* `VERISCOPE_SERVICE_HOST` = Your host domain
+* `VERISCOPE_COMMON_NAME` = Your VASP name (just used for local purposes)
+* `VERISCOPE_TARGET` = either `veriscope_testnet`, `fed_testnet` or `fed_mainnet`
+
+E.g. 
+
+[,shell]
+----
+# Provide a DNS name that can be used to reach your node from the Internet. Open ports 80 and 443 to it.
+VERISCOPE_SERVICE_HOST=subdomain.domain.com
+
+# Provide a common name for your organization - no Inc or Ltd needed. This is used for user interfaces only.
+VERISCOPE_COMMON_NAME=YOUR_VASP_NAME
+
+# Identify a chain to deploy to - choose from the list of directory names in chains/ - veriscope_testnet fed_testnet fed_mainnet
+VERISCOPE_TARGET=veriscope_testnet
+----
+
+Your choice of `VERISCOPE_TARGET` will install the correct smart contract artifacts hosted in the tartget chain (including correct smart contract addresses).
+//TODO see here xref:/chains/README.adoc[Chains Readme] for chain descriptions and configuration.
+// The Smart Contract ABIs are installed here:
+// $ pwd
+// /opt/veriscope/veriscope_ta_node/artifacts
+
+*Now you can run the setup script.*

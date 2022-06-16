@@ -1,7 +1,7 @@
-= Step 4: Login to Node Dashboard and submit VASP IVMS data
-:navtitle: 4) Add IVMS data
+= Step 4a: Log-in to the Veriscope web-app and complete your VASP profile (i.e. IVMS data)
+:navtitle: 4-a) Complete Profile
 
-Once the Node installation is complete and the Trust Anchor account onboarded & verified, a VASP representative should login to the Trust Anchor Dashboard and submit VASP IVMS information. This information is not posted to or stored on the Shyft Network. It will, however, be included in the IVMS template that's shared with other VASPs as part of the Travel Rule requirements.
+Once the Node installation is complete and the trust anchor account verified, a VASP representative (admin user) should log-in to the Veriscope dashboard and complete the VASP profile / IVMS data. This information is not posted to or stored on the Shyft Network. It will, however, be included in the IVMS template that's shared with other VASPs when exchanging KYC data peer-to-peer.
 
 [NOTE]
 ====
@@ -10,5 +10,5 @@ The interVASP Messaging Standard (IVMS) is a standard put forth by industry memb
 The pdf download available from https://intervasp.org/[intervasp.org] documents what information must be included when sharing KYC data between counterparties; user KYC and platform KYB.
 ====
 
-[IMPORTANT]
-The Dashboard url (i.e. Node http url) and login credentials were generated during the Node installation step.
+[NOTE]
+The dashboard url (i.e. Node http url) and admin user login credentials were generated during the Node installation step.
