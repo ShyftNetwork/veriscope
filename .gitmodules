@@ -1,7 +1,0 @@
-[submodule "docs-core"]
-    path = docs-core
-    url = git://github.com/shyft/veriscope/docs-core.git
-
-[submodule "docs-implementation-guide"]
-    path = docs-implementation-guide
-    url = git://github.com/shyft/veriscope/docs-implementation-guide.git
