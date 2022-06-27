@@ -1,2 +1,0 @@
-= Transferring Data Peer-to-Peer
-:navtitle: Transferring Data

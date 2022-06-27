@@ -1,4 +1,0 @@
-= Getting Support
-:navtitle: Support
-
-Veriscope is an open source project. Whether you are a user, developer, or node-runner with questions or feedback, please reach out at mailto:veriscope@shyft.network[veriscope@shyft.network].

@@ -1,2 +1,0 @@
-= API Reference - Shyft Network
-:navtitle: API Reference #1

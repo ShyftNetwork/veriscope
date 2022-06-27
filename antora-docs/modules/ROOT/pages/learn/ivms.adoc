@@ -1,2 +1,0 @@
-= InterVASP Messaging Standard
-:navtitle: IVMS

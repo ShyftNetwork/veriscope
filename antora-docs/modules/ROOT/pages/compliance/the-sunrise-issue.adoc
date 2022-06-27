@@ -1,2 +1,0 @@
-= How Veriscope solves for the Sunrise issue
-:navtitle: The Sunrise Issue

@@ -54,7 +54,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/1",
+							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -63,7 +63,7 @@
 								"v1",
 								"server",
 								"get-blockchain-analytics-providers-available-networks",
-								"1"
+								"{{providerId}}"
 							]
 						}
 					},
@@ -98,7 +98,8 @@
 							"query": [
 								{
 									"key": "providerId",
-									"value": "1"
+									"value": "{{providerId}}",
+									"description": "From Get Blockchain Analytics Providers"
 								},
 								{
 									"key": "network",
@@ -136,13 +137,13 @@
 						{
 							"key": "ta_account",
 							"value": "",
-							"description": "Use TA account address",
+							"description": "Use TA Account/Address",
 							"type": "text"
 						},
 						{
 							"key": "user_account",
 							"value": "",
-							"description": "Use Shyft User account",
+							"description": "Use Shyft User Account/Address",
 							"type": "text"
 						},
 						{
@@ -154,25 +155,25 @@
 						{
 							"key": "coin_blockchain",
 							"value": "",
-							"description": "Enter the coin blockchain type; e.g. BTC or ETH",
+							"description": "Enter the blockchain network: e.g. BTC, ETH",
 							"type": "text"
 						},
 						{
 							"key": "coin_token",
 							"value": "",
-							"description": "Enter the coin token type; e.g. BTC, ETH, USDC or USDT",
+							"description": "Enter the coin/token: e.g. BTC, ETH, USDC or USDT",
 							"type": "text"
 						},
 						{
 							"key": "coin_address",
 							"value": "",
-							"description": "Enter the coin address",
+							"description": "Enter the wallet address",
 							"type": "text"
 						},
 						{
 							"key": "coin_memo",
 							"value": "",
-							"description": "Enter the coin memo or destination tag (Optional)",
+							"description": "Enter a coin memo or destination tag (optional)",
 							"type": "text"
 						}
 					]
@@ -305,7 +306,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
+					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/{{ta_address_1}}",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -314,7 +315,7 @@
 						"v1",
 						"server",
 						"verify_trust_anchor",
-						"0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892"
+						"{{ta_address_1}}"
 					]
 				}
 			},
@@ -381,7 +382,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Trust Anchors Details",
+			"name": "Get Trust Anchor Details",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -396,7 +397,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{address}}",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{ta_address_1}}",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -405,7 +406,7 @@
 						"v1",
 						"server",
 						"get_trust_anchor_details",
-						"{{address}}"
+						"{{ta_address_1}}"
 					]
 				}
 			},
@@ -440,8 +441,8 @@
 					"query": [
 						{
 							"key": "ta_address",
-							"value": "",
-							"description": "Use TA account address"
+							"value": "{{ta_address_1}}",
+							"description": "Use TA Account"
 						}
 					]
 				}
@@ -449,7 +450,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Trust Anchor Account",
+			"name": "Get Your Trust Anchor Account",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -516,7 +517,7 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "use TA Account, User Account, Attestation Hash or Crypto Address"
+							"description": "Use TA Account, User Account, Attestation Hash, or Wallet Address"
 						}
 					]
 				}
@@ -550,7 +551,7 @@
 						{
 							"key": "user_account",
 							"value": "",
-							"description": "Use account_address from Create Shyft User",
+							"description": "Use account from Create Shyft User",
 							"type": "text"
 						},
 						{
@@ -581,14 +582,14 @@
 						{
 							"key": "coin_transaction_hash",
 							"value": "",
-							"description": "Coin Transaction Hash from crypto transaction (optional)",
+							"description": "Coin transaction hash from on-chain crypto transaction (optional)",
 							"type": "text",
 							"disabled": true
 						},
 						{
 							"key": "coin_transaction_value",
 							"value": "",
-							"description": "Coin Transaction Value from crypto transaction (optional)",
+							"description": "Coin transaction value from crypto transaction (optional)",
 							"type": "text",
 							"disabled": true
 						}
@@ -630,13 +631,13 @@
 						{
 							"key": "public_key",
 							"value": "",
-							"description": "Public Key in Kyc Template",
+							"description": "User public key in KYC Template",
 							"type": "text"
 						},
 						{
 							"key": "ivms_json",
 							"value": "",
-							"description": "IVMS payload to encrypt with public key",
+							"description": "IVMS payload to encrypt with user public key",
 							"type": "text"
 						}
 					]
@@ -677,13 +678,13 @@
 						{
 							"key": "private_key",
 							"value": "",
-							"description": "private key must begin with 0x",
+							"description": "NOTE: private key must begin with 0x",
 							"type": "text"
 						},
 						{
 							"key": "kyc_data",
 							"value": "",
-							"description": "encrypted data from Kyc Template",
+							"description": "Encrypted data from KYC Template",
 							"type": "text"
 						}
 					]
@@ -748,7 +749,7 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "use TA Account, User Account, Attestation Hash"
+							"description": "Use TA Account, User Account, or Attestation Hash"
 						}
 					]
 				}
@@ -937,8 +938,21 @@
 	],
 	"variable": [
 		{
-			"key": "address",
-			"value": "0x10a32419ABcfbaaae91D0e03bc8390c418E65680"
+			"key": "ta_address_1",
+			"value": ""
+		},
+		{
+			"key": "ta_address_2",
+			"value": ""
+		},
+		{
+			"key": "ta_address_3",
+			"value": ""
+		},
+		{
+			"key": "providerId",
+			"value": "1",
+			"description": "Blockchain Analytics Provider Id" 
 		}
 	]
 }

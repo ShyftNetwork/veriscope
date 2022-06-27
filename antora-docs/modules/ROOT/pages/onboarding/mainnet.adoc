@@ -1,7 +1,0 @@
-= Step 7. Request to be onboarded to Mainnet
-:navtitle: 7) Move to Mainnet
-
-Once you have successfully tested the end-to-end flow with both Veriscope and other VASPs, you can request to be onboarded to mainnet. Please reach-out to your Veriscope contact or email mailto:veriscope@shyft.network[veriscope@shyft.network].
-
-[NOTE]
-Each VASP must sign & return the **Veriscope Information Form (VIF)** before being onboarded to mainnet. This will be provided on your request to move to mainnet.
