@@ -56,7 +56,7 @@ class ContractsController extends Controller
 
           return response()->json([]);
       }
-      
+
 
       /**
       * Create Shyft User
@@ -71,7 +71,7 @@ class ContractsController extends Controller
           $data = [
             'address' => strtolower($data->get()),
             'privateKey' => $data->getPrivateKey(),
-            'publicKey'  => $data->getPublicKey(),
+            'publicKey'  => EthereumToolsUtils::privateKeyToPublicKey($data->getPrivateKey()),
           ];
 
           $message = "VERISCOPE_USER";

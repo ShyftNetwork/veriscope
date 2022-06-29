@@ -7,7 +7,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Auth;
-use App\Rules\CryptoAddress;
+use App\Rules\{CryptoAddress, CryptoPublicKey, CryptoSignature, CryptoSignatureHash};
+
 
 class CreateKycTemplateRequest extends FormRequest
 {
@@ -30,10 +31,10 @@ class CreateKycTemplateRequest extends FormRequest
     {
         return [
             'attestation_hash'      => 'required|exists:App\SmartContractAttestation,attestation_hash',
-            'user_account'          => ['required',new CryptoAddress('ETH')],
-            'user_public_key'       => 'required',
+            'user_account'          => ['required', new CryptoAddress('ETH')],
+            'user_public_key'       => ['required', new CryptoPublicKey($this->get('user_account'))],
             'user_signature'        => 'required',
-            'user_signature_hash'   => 'required'
+            'user_signature_hash'   => ['required', new CryptoSignatureHash($this->get('user_account'), $this->get('user_public_key'), $this->get('user_signature'))]
         ];
     }
 
@@ -46,7 +47,7 @@ class CreateKycTemplateRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json(['message' => $validator->errors()->first()], 400));
+        throw new HttpResponseException(response()->json(['error' => $validator->errors() ], 400));
     }
 
 }

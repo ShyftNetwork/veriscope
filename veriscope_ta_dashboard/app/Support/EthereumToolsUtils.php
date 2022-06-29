@@ -95,11 +95,15 @@ class EthereumToolsUtils
         if (self::isHex($publicKey) === false) {
             throw new InvalidArgumentException('Invalid public key format.');
         }
+
+        // Strip Zero
         $publicKey = self::stripZero($publicKey);
+
+
         if (strlen($publicKey) !== 130) {
             throw new InvalidArgumentException('Invalid public key length.');
         }
-        return '0x' . substr(self::sha3(substr(hex2bin($publicKey), 1)), 24);
+        return '0x' . mb_substr(self::sha3(mb_substr(hex2bin($publicKey), 1)), 24);
     }
 
     /**
@@ -183,9 +187,9 @@ class EthereumToolsUtils
         return [
           "hash" => "0x".$hash,
           "sig" => "0x".$sig.dechex($signature->recoveryParam),
-          'r' => '0x'.mb_substr(substr($message, 2),0, 64),
-          's' => '0x'.substr(mb_substr(substr($message, 2),64, 128),0,-2),
-          'v' => '0x'.mb_substr(substr($message, 2),128, 130),
+          'r' => '0x'.mb_substr(mb_substr($message, 2),0, 64),
+          's' => '0x'.substr(mb_substr(mb_substr($message, 2),64, 128),0,-2),
+          'v' => '0x'.mb_substr(mb_substr($message, 2),128, 130),
         ];
     }
 
@@ -215,6 +219,35 @@ class EthereumToolsUtils
     {
         return EcRecover::phpEcRecover($hex, $signed);
     }
+
+    /**
+     * Recover Public Key
+     *
+     * @param string $message_hash
+     * @param string $v
+     * @param string $r
+     * @param string $s
+     * @param int $chainId
+     * @param string $plainTextMessage
+     * @return array
+     */
+    public static function ecRecoverVRS(string $message_hash, string $v, string $r, string $s, int $chainId, string $plainTextMessage = "VERISCOPE_USER")
+    {
+
+        $message = mb_substr($message_hash,2);
+        $isVeriscopeUser  = (self::hashPersonalMessage($plainTextMessage) === $message) ? true : false;
+        try {
+          $ec = new EC('secp256k1');
+          $sign   = ["r" => mb_substr($r, 2), "s" => mb_substr($s, 2)];
+          $recid  = ord(hex2bin(mb_substr($v, 2))) - ($chainId ? ($chainId * 2 + 35) : 27);
+          $pubKey = $ec->recoverPubKey($message, $sign, $recid)->encode("hex");
+          return [ "address" => self::publicKeyToAddress($pubKey), "publicKey" => mb_substr($pubKey,2), "isVeriscopeUser" => $isVeriscopeUser ];
+        } catch (\Throwable $e) {
+          return [ "address" => false, "publicKey" => false, "isVeriscopeUser" => $isVeriscopeUser ];
+        }
+    }
+
+
 
     /**
      * Hash Personal Message
@@ -261,6 +294,21 @@ class EthereumToolsUtils
     }
 
     /**
+     * Is value uncompresed
+     *
+     * @param string $value
+     *
+     * @return bool
+     */
+    public static function makeUncompressed(string $value)
+    {
+
+        $prefix  = (strpos($value, '0x04') === 0) ? "" : "0x04";
+
+        return $prefix.$value;
+    }
+
+    /**
      * Strip Zero X
      *
      * @param string $value
@@ -276,6 +324,23 @@ class EthereumToolsUtils
         return $value;
     }
 
+
+    /**
+     * Strip Uncompressed
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function stripUncompressed(string $value)
+    {
+        $newValue = mb_substr($value, 0, 2);
+        if ($newValue  === "04") {
+          return mb_substr($value, 2);
+        } else {
+          return $value;
+        }
+    }
     /**
      * Check if value isHex
      *
@@ -294,4 +359,138 @@ class EthereumToolsUtils
     }
 
 
+    /**
+     * Concat KDF function
+     *
+     * @param string $x value of x in hex
+     * @param int $encryption_key_size
+     *
+     * @return string
+     */
+    public static function concatKDF($x, $encryption_key_size)
+    {
+        $encryption_segments = [
+            self::toInt32Bits(1),
+            self::hexToStr($x)
+        ];
+
+        $input = implode('', $encryption_segments);
+        $hash = hash('sha256', $input);
+
+        return $hash;
+    }
+
+    /**
+     * Convert an integer into a 32 bits string.
+     *
+     * @param int $value Integer to convert
+     *
+     * @return string
+     */
+    public static function toInt32Bits($value)
+    {
+        return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+    }
+
+    /**
+     * Convert an hexadecimal into string.
+     *
+     * @param string $value hex to convert
+     *
+     * @return string
+     */
+    public static function hexToStr($value)
+    {
+        $string='';
+        for ($i=0; $i < strlen($value)-1; $i+=2)
+        {
+            if ( $value[$i] == ' ') continue;
+            $string .= chr(hexdec($value[$i].$value[$i+1]));
+        }
+        return $string;
+    }
+
+    /**
+     * Encrypt Data
+     *
+     * @param string $publicKey   eth public key (append 04 at the start if not included)
+     * @param string $data       string to encrypt
+     * @param string $sharedMacData
+     *
+     * @return string
+     */
+    public static function encryptData($publicKey, $data, $sharedMacData = false){
+      $ec = new EC('secp256k1');
+      $cipher = "aes-128-ctr";
+      $publicKey = self::stripZero($publicKey);
+
+
+      $bufferData = base64_encode($data);
+      $privateKey = $ec->genKeyPair()->getPrivate();
+      $key1 = $ec->keyFromPublic($publicKey, 'hex');
+      $key2 = $ec->keyFromPrivate($privateKey);
+
+      $x = $key2->derive($key1->getPublic())->toString(16);
+      $key = self::concatKDF($x,32);
+      $ekey = mb_substr($key, 0, 32);
+      $mkey = hash("sha256",self::hexToStr(mb_substr($key, 32, 64)));
+
+
+
+      // encrypt
+      $ivlen = openssl_cipher_iv_length($cipher);
+      $iv = bin2hex(openssl_random_pseudo_bytes($ivlen));
+      $encryptedData = openssl_encrypt($data, $cipher, self::hexToStr($ekey), $options=0, self::hexToStr($iv));
+      $dataIV = $iv.bin2hex(base64_decode($encryptedData));
+      if($sharedMacData){
+        $sharedMacData = implode("", $sharedMacData);
+      }
+      $tag = hash_hmac('sha256',self::hexToStr($dataIV.$sharedMacData), self::hexToStr($mkey));
+      $result = $key2->getPublic(false,"hex").$dataIV.$tag;
+
+      return base64_encode(pack('H*',$result));
+    }
+
+    /**
+     * Decrypt Data
+     *
+     * @param string $privateKey  eth private key
+     * @param string $data       string to decrypt
+     * @param string $sharedMacData
+     *
+     * @return string
+     */
+    public static function decryptData($privateKey, $data, $sharedMacData = false){
+      $ec = new EC('secp256k1');
+      $cipher = "aes-128-ctr";
+
+      $unpackedData = implode("",unpack("H*",base64_decode($data)));
+      $publicKey = mb_substr($unpackedData,0, 130);
+      $dataIV = mb_substr($unpackedData, 130, -64);
+      $tag = mb_substr($unpackedData,-64);
+
+      $key1 = $ec->keyFromPublic($publicKey, 'hex');
+      $key2 = $ec->keyFromPrivate($privateKey);
+      $x = $key2->derive($key1->getPublic())->toString(16);
+
+      $key = self::concatKDF($x,32);
+      $ekey = mb_substr($key, 0, 32);
+      $mkey = hash("sha256",self::hexToStr(mb_substr($key, 32, 64)));
+      if($sharedMacData){
+        $sharedMacData = implode("", $sharedMacData);
+      }
+      $tag = hash_hmac('sha256',self::hexToStr($dataIV.$sharedMacData), self::hexToStr($mkey));
+
+      // decrypt data
+      $iv = mb_substr($dataIV,0, 32);
+      $encryptedData =  mb_substr($dataIV,32);
+      $result = openssl_decrypt(self::hexToStr($encryptedData), $cipher, self::hexToStr($ekey), $options=OPENSSL_RAW_DATA, self::hexToStr($iv));
+
+
+      if(openssl_error_string() !== false && openssl_error_string() !== "error:0909006C:PEM routines:get_name:no start line"){
+        throw new \Exception("Could not Decrypt data", 1);
+      }
+
+      return $result;
+    }
 }

@@ -21,7 +21,7 @@ Route::post('webhook','WebhookController@webhook_request');
 
 Route::get('webhook-post-ta-data','WebhookController@webhook_post_ta_data');
 
-Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
+Route::post('kyc-template','\App\Http\Controllers\KycTemplateV1Controller@kyc_template_v1_request');
 
 Route::post('ivms101-validate/complete','IVMS101Controller@index')->middleware('jsonschema.validate:complete');
 Route::post('ivms101-validate/beneficiary','IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
@@ -132,7 +132,6 @@ if(Config::get('backoffice.enabled')) {
         Route::get('blockchain-analytics', 'BlockchainAnalyticsController@blockchainAnalyticsSettings')->name('blockchain.analytics');
         Route::put('blockchain-analytics/update', 'BlockchainAnalyticsController@update')->name('blockchain.analytics.update');
 
-        Route::post('kyc-template','\App\Http\Controllers\KycTemplateController@kyc_template_request');
         Route::get('kyctemplates/{id}/details',       'KycTemplatesController@kyc_template_details');
 
         Route::get('constants', 'ConstantsController@index')->name('constants.index')->middleware('can:edit,App\Constant');
@@ -150,10 +149,10 @@ if(Config::get('backoffice.enabled')) {
 
         Route::get('/verified-trust-anchors', function () { return view('verifiedtrustanchors.index'); })->name('verifiedtrustanchors');
 
-        
+
         Route::get('/blockchain-analytics-addresses', function () {return view('blockchainanalyticsaddresses.index'); })->name('blockchainanalyticsaddresses');
         Route::get('/blockchain-analytics-addresses/{id}/view', 'BlockchainAnalyticsController@analytics_report');
-       
+
         Route::get('/blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@new_report')->name('new-report');
         Route::post('blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@create_report')->name('blockchain-analytics-addresses.new-report');
 

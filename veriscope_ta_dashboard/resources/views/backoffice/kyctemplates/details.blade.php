@@ -28,7 +28,62 @@ kyctemplate
       :hideSearch=true
   ></good-table>
 
-    <br><br>
+  <br>
+  <good-table url="kyc-template-data-state-machine"
+        filter="kycTemplateId|{{ $kyctemplate->id }}"
+:columns="[
+      {
+        label: 'Date',
+        field: 'date',
+      },
+      {
+        label: 'From',
+        field: 'from',
+      },
+      {
+        label: 'To',
+        field: 'to',
+      }
+    ]"
+    :hideSearch=true
+></good-table>
+<br>
+<good-table url="kyc-template-webhook-state-machine"
+      filter="kycTemplateId|{{ $kyctemplate->id }}"
+:columns="[
+    {
+      label: 'Date',
+      field: 'date',
+    },
+    {
+      label: 'From',
+      field: 'from',
+    },
+    {
+      label: 'To',
+      field: 'to',
+    }
+  ]"
+  :hideSearch=true
+></good-table>
+<br>
+<good-table url="kyc-template-ivms-state-machine"
+      filter="kycTemplateId|{{ $kyctemplate->id }}"
+:columns="[
+    {
+      label: 'Date',
+      field: 'date',
+    },
+    {
+      label: 'From',
+      field: 'from',
+    },
+    {
+      label: 'To',
+      field: 'to',
+    }
+  ]"
+  :hideSearch=true
+></good-table>
 
-  </div>
 @endsection('content')

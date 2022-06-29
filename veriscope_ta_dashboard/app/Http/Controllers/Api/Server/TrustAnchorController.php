@@ -8,7 +8,14 @@ use App\{TrustAnchor, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartCont
 use App\Http\Requests\{CreateKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest};
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Throwable\ClientException;
+use App\Support\EthereumToolsUtils;
+use Elliptic\EC;
+use kornrunner\Keccak;
+use Spatie\WebhookServer\WebhookCall;
+use Illuminate\Validation\ValidationException;
+use App\Transformers\KycTemplateTransformer;
+use App\Jobs\{DataExternalJob, DataInternalJob, DataInternalIVMSJob, DataExternalStatelessJob};
 
 class TrustAnchorController extends Controller
 {
@@ -20,7 +27,6 @@ class TrustAnchorController extends Controller
      */
       public function __construct()
       {
-          $this->helper_url = env('SHYFT_TEMPLATE_HELPER_URL');
           $this->http_api_url = env('HTTP_API_URL');
       }
 
@@ -41,7 +47,7 @@ class TrustAnchorController extends Controller
       public function refresh_all_verified_trust_anchors(Request $request)
       {
           Log::debug('TrustAnchorController refresh_all_verified_tas');
- 
+
           $url = $this->http_api_url.'/refresh-all-verified-tas?user_id=1';
           $client = new Client();
           $res = $client->request('GET', $url);
@@ -50,8 +56,8 @@ class TrustAnchorController extends Controller
             $response = json_decode($res->getBody());
             Log::debug('TrustAnchorController refresh_all_verified_trust_anchors');
             Log::debug($response);
-           
-              
+
+
           } else {
               Log::error('TrustAnchorController refresh_all_verified_trust_anchors: ' . $res->getStatusCode());
           }
@@ -64,7 +70,7 @@ class TrustAnchorController extends Controller
           Log::debug('TrustAnchorController refresh_all_discovery_layer_key_value_pairs');
 
           $input = $request->all();
-          
+
           Log::debug(print_r($input, true));
           $url = $this->http_api_url.'/refresh-all-discovery-layer-key-value-pairs?user_id=1';
           $client = new Client();
@@ -74,8 +80,8 @@ class TrustAnchorController extends Controller
             $response = json_decode($res->getBody());
             Log::debug('TrustAnchorController refresh_all_discovery_layer_key_value_pairs');
             Log::debug($response);
-           
-              
+
+
           } else {
               Log::error('TrustAnchorController refresh_all_discovery_layer_key_value_pairs: ' . $res->getStatusCode());
           }
@@ -109,7 +115,7 @@ class TrustAnchorController extends Controller
           return response()->json(['address' => $address, 'verified' => $isVerified ]);
 
       }
-      
+
       /**
       * Get Trust Anchor Account
       *
@@ -185,47 +191,6 @@ class TrustAnchorController extends Controller
 
       }
 
-      public function buildKycTemplate($kt) {
-        $kycTemplate = array("AttestationHash"=>$kt->attestation_hash,
-                        "BeneficiaryTAAddress"=>$kt->beneficiary_ta_address,
-                        "BeneficiaryTAPublicKey"=>$kt->beneficiary_ta_public_key,
-                        "BeneficiaryUserAddress"=>$kt->beneficiary_user_address,
-                        "BeneficiaryUserPublicKey"=>$kt->beneficiary_user_public_key,
-                        "BeneficiaryTASignatureHash"=>$kt->beneficiary_ta_signature_hash,
-                        "BeneficiaryTASignature"=>json_decode($kt->beneficiary_ta_signature),
-                        "BeneficiaryUserSignatureHash"=>$kt->beneficiary_user_signature_hash,
-                        "BeneficiaryUserSignature"=>json_decode($kt->beneficiary_user_signature),
-
-                        "CoinBlockchain"=>$kt->coin_blockchain,
-                        "CoinToken"=>$kt->coin_token,
-                        "CoinAddress"=>$kt->coin_address,
-                        "CoinMemo"=>$kt->coin_memo,
-                        "CoinTransactionHash"=>$kt->coin_transaction_hash,
-                        "CoinTransactionValue"=>$kt->coin_transaction_value,
-                
-                        "SenderTAAddress"=>$kt->sender_ta_address,
-                        "SenderTAPublicKey"=>$kt->sender_ta_public_key,
-                        "SenderUserAddress"=>$kt->sender_user_address,
-                        "SenderUserPublicKey"=>$kt->sender_user_public_key,
-                        "SenderTASignatureHash"=>$kt->sender_ta_signature_hash,
-                        "SenderTASignature"=>json_decode($kt->sender_ta_signature),
-                        "SenderUserSignatureHash"=>$kt->sender_user_signature_hash,
-                        "SenderUserSignature"=>json_decode($kt->sender_user_signature),
-                        "BeneficiaryKYC"=>$kt->beneficiary_kyc,
-                        "SenderKYC"=>$kt->sender_kyc,
-                        "BeneficiaryTAUrl"=>$kt->beneficiary_ta_url,
-                        "SenderTAUrl"=>$kt->sender_ta_url
-                    );
-        return json_encode($kycTemplate);
-    }
-
-      public function updateKycTemplateForState($kycTemplate, $state) {
-
-        $kts = KycTemplateState::where('state', $state)->firstOrFail();
-
-        $kycTemplate->kyc_template_state_id = $kts->id;
-        $kycTemplate->save();
-      }
       /**
       * Create KYC Template
       *
@@ -235,132 +200,253 @@ class TrustAnchorController extends Controller
       public function create_kyc_template(CreateKycTemplateRequest $request)
       {
           # Assumes TA is Beneficiary
-          $input = $request->all();
+          $attestation_hash = $request->get('attestation_hash','');
 
-          $user_account = $input['user_account'];
-          $user_public_key = $input['user_public_key'];
-          $user_signature_hash = $input['user_signature_hash'];
-          $user_signature = $input['user_signature'];
-          $ivms_encrypt = "";
-          $coin_transaction_hash = "";
-          $coin_transaction_value = "";
+          $user_account = $request->get('user_account','');
+          $user_public_key = $request->get('user_public_key','');
+          $user_signature_hash = $request->get('user_signature_hash','');
+          $user_signature = $request->get('user_signature','');
 
-          if (array_key_exists('ivms_encrypt', $input)) {
-              $ivms_encrypt = $input['ivms_encrypt'];
-          }
+          $coin_transaction_hash = $request->get('coin_transaction_hash','');
+          $coin_transaction_value = $request->get('coin_transaction_value','');
+          $ivms_encrypt = $request->get('ivms_encrypt','');
 
-          if (array_key_exists('coin_transaction_hash', $input)) {
-              $coin_transaction_hash = $input['coin_transaction_hash'];
-          }
 
-          if (array_key_exists('coin_transaction_value', $input)) {
-              $coin_transaction_value = $input['coin_transaction_value'];
-          }
+          $ivms_state_code = $request->get('ivms_state_code','');
+
 
           $ta = TrustAnchor::firstOrFail();
-
-          $attestation_hash = $input['attestation_hash'];
           $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
-
-          #check if TA account is Beneficiary or Originator
-          #if TA account in SmartContractAttestation matches TA account, TA account is originator
-          $isBeneficiary = strcasecmp($ta->account_address, $sca->ta_account);
-          Log::debug('isBeneficiary');
-          Log::debug($isBeneficiary);
           #prepare the template
           $kt = KycTemplate::firstOrCreate(['attestation_hash' => $attestation_hash]);
-
           $kt->coin_blockchain = $sca->coin_blockchain;
           $kt->coin_token = $sca->coin_token;
           $kt->coin_address = $sca->coin_address;
           $kt->coin_memo = $sca->coin_memo;
           $kt->coin_transaction_hash = $coin_transaction_hash;
           $kt->coin_transaction_value = $coin_transaction_value;
-          
           $kt->sender_ta_address = $sca->ta_account;
           $kt->sender_user_address = $sca->user_account;
-          
-          $this->updateKycTemplateForState($kt, 'ATTESTATION');
-
-          if($isBeneficiary) {
-            $kt->beneficiary_ta_address = $ta->account_address;
-            $kt->beneficiary_user_address = $user_account;
-            $kt->beneficiary_ta_public_key = $ta->public_key;
-            $this->updateKycTemplateForState($kt, 'BENEFICIARY_TA_PUBLIC_KEY');
-            $kt->beneficiary_user_public_key = $user_public_key;
-            $this->updateKycTemplateForState($kt, 'BENEFICIARY_USER_PUBLIC_KEY');
-            $kt->beneficiary_ta_signature_hash = $ta->signature_hash;
-            $kt->beneficiary_ta_signature = $ta->signature;
-            $this->updateKycTemplateForState($kt, 'BENEFICIARY_TA_SIGNATURE');
-            $kt->beneficiary_user_signature_hash = $user_signature_hash;
-            $kt->beneficiary_user_signature = $user_signature;
-            $this->updateKycTemplateForState($kt, 'BENEFICIARY_USER_SIGNATURE');
-
-            if($ivms_encrypt) {
-              $kt->beneficiary_kyc = $ivms_encrypt;
-              $this->updateKycTemplateForState($kt, 'BENEFICIARY_KYC');
-            }
-            
-            $kt->save();
-
-          }
-          else {
-            $kt->sender_ta_address = $ta->account_address;
-            $kt->sender_user_address = $user_account;
-            $kt->sender_ta_public_key = $ta->public_key;
-            $this->updateKycTemplateForState($kt, 'SENDER_TA_PUBLIC_KEY');
-            $kt->sender_user_public_key = $user_public_key;
-            $this->updateKycTemplateForState($kt, 'SENDER_USER_PUBLIC_KEY');
-            $kt->sender_ta_signature_hash = $ta->signature_hash;
-            $kt->sender_ta_signature = $ta->signature;
-            $this->updateKycTemplateForState($kt, 'SENDER_TA_SIGNATURE');
-            $kt->sender_user_signature_hash = $user_signature_hash;
-            $kt->sender_user_signature = $user_signature;
-            $this->updateKycTemplateForState($kt, 'SENDER_USER_SIGNATURE');
-            if($ivms_encrypt) {
-              $kt->sender_kyc = $ivms_encrypt;
-              $this->updateKycTemplateForState($kt, 'SENDER_KYC');
-            }
-
-            $kt->save();
-
-          }
-        
-          $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $sca->ta_account)->where('key_value_pair_name', 'API_URL')->firstOrFail();
-          $kt->sender_ta_url = $taedu->key_value_pair_value;
-
-          $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->firstOrFail();
-
-          $kt->beneficiary_ta_url = $taedu->key_value_pair_value; 
-
           $kt->save();
-          
-          if($isBeneficiary) {
-            #POST TO ORIGINATOR URL
-            $url = $kt->sender_ta_url;
-          }
-          else {
-            #POST TO BENEFICIARY URL
-            $url = $kt->beneficiary_ta_url;
-          }
 
-          Log::debug('posting url');
-          Log::debug($url);
-          
-          $kycTemplateJSON = $this->buildKycTemplate($kt);
-          
-          $client = new Client();
+
+          $trustAnchorType = $kt->getUserType();
 
           try {
-              $res = $client->request('POST', $url, [
-                  'json' => ['kycTemplate' => $kycTemplateJSON]
-              ]);
-          } catch (ClientException $e) {
-              
+
+            if($trustAnchorType === 'BENEFICIARY') {
+
+              //Transition Step 1: BE_TA_PUBLIC_KEY
+              if($kt->status()->canBe('BE_TA_PUBLIC_KEY')){
+                $kt->beneficiary_ta_address = $ta->account_address;
+                $kt->beneficiary_ta_public_key = $ta->public_key;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'BE_TA_PUBLIC_KEY');
+              }
+              //Transition Step 2: BE_TA_SIGNATURE
+              if($kt->status()->canBe('BE_TA_SIGNATURE')){
+                $kt->beneficiary_ta_signature_hash = $ta->signature_hash;
+                $kt->beneficiary_ta_signature = $ta->signature;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'BE_TA_SIGNATURE');
+              }
+
+              //Transition Step 3: BE_USER_PUBLIC_KEY
+              if($kt->status()->canBe('BE_USER_PUBLIC_KEY')){
+                $kt->beneficiary_user_address = $user_account;
+                $kt->beneficiary_user_public_key = $user_public_key;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'BE_USER_PUBLIC_KEY');
+              }
+
+              //Transition Step 4: BE_USER_SIGNATURE
+              if($kt->status()->canBe('BE_USER_SIGNATURE')){
+                $kt->beneficiary_user_signature_hash = $user_signature_hash;
+                $kt->beneficiary_user_signature = $user_signature;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'BE_USER_SIGNATURE');
+              }
+              //Transition Step 5: BE_TA_URLS
+              if($kt->status()->canBe('BE_TA_URLS')){
+                $taOriginator = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $sca->ta_account)->where('key_value_pair_name', 'API_URL')->first();
+                $taBeneficiary = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->first();
+                $kt->sender_ta_url = ($taOriginator) ? $taOriginator->key_value_pair_value : '';
+                $kt->beneficiary_ta_url = ($taBeneficiary) ? $taBeneficiary->key_value_pair_value : '';
+                $kt->save();
+                $kt->status()->transitionTo($to = 'BE_TA_URLS');
+              }
+              //Transition Step 6: BE_TA_URLS_VERIFIED
+              if($kt->status()->canBe('BE_TA_VERIFIED')){
+                $kt->status()->transitionTo($to = 'BE_TA_VERIFIED');
+              }
+
+              if (!empty($ivms_encrypt) && empty($ivms_state_code)) {
+                $kt->beneficiary_kyc = $ivms_encrypt;
+                $kt->save();
+                //Transition Step 7: BE_KYC_UPDATE
+                if($kt->status()->canBe('BE_KYC_UPDATE')) {
+                  $kt->status()->transitionTo($to = 'BE_KYC_UPDATE');
+                }
+              }
+
+              // Rollback Mechanism: If ivms_state_code is not empty
+              if (!empty($ivms_state_code) && $kt->ivms_status()->was('OR_ENC_RECEIVED')) {
+                // 0307 Temporary & 0308 Permarent
+                if($ivms_state_code == "0307" || $ivms_state_code === "0308"){
+                 $kt->status()->transitionTo($to = 'OR_KYC_REJECTED', ['or_ivms_state_code' => $ivms_state_code]);
+                }
+                // 0202 Accepted
+                if($ivms_state_code == "0202"){
+                 $kt->status()->transitionTo($to = 'OR_KYC_ACCEPTED', ['or_ivms_state_code' => $ivms_state_code]);
+                }
+              }
+
+
+
+            }
+            elseif($trustAnchorType === 'ORIGINATOR') {
+
+              //Transition Step 1: OR_TA_PUBLIC_KEY
+              if($kt->status()->canBe('OR_TA_PUBLIC_KEY')){
+                $kt->sender_ta_address = $ta->account_address;
+                $kt->sender_ta_public_key = $ta->public_key;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'OR_TA_PUBLIC_KEY');
+              }
+              //Transition Step 2: OR_TA_SIGNATURE
+              if($kt->status()->canBe('OR_TA_SIGNATURE')){
+                $kt->sender_ta_signature_hash = $ta->signature_hash;
+                $kt->sender_ta_signature = $ta->signature;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'OR_TA_SIGNATURE');
+              }
+
+              //Transition Step 3: OR_USER_PUBLIC_KEY
+              if($kt->status()->canBe('OR_USER_PUBLIC_KEY')){
+                $kt->sender_user_address = $user_account;
+                $kt->sender_user_public_key = $user_public_key;
+                $kt->save();
+                $kt->status()->transitionTo($to = 'OR_USER_PUBLIC_KEY');
+              }
+              //Transition Step 4: OR_USER_SIGNATURE
+              if($kt->status()->canBe('OR_USER_SIGNATURE')){
+                $kt->sender_user_signature_hash = $user_signature_hash;
+                $kt->sender_user_signature = $user_signature;
+                $kt->status()->transitionTo($to = 'OR_USER_SIGNATURE');
+              }
+
+              //Transition Step 5: OR_TA_URLS
+              if($kt->status()->canBe('OR_TA_URLS')){
+                $taOriginator = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $sca->ta_account)->where('key_value_pair_name', 'API_URL')->first();
+                $taBeneficiary = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $kt->beneficiary_ta_address)->where('key_value_pair_name', 'API_URL')->first();
+                $kt->sender_ta_url = ($taOriginator) ? $taOriginator->key_value_pair_value : '';
+                $kt->beneficiary_ta_url = ($taBeneficiary) ? $taBeneficiary->key_value_pair_value : '';
+                $kt->save();
+                $kt->status()->transitionTo($to = 'OR_TA_URLS');
+              }
+              //Transition Step 6: OR_TA_URLS_VERIFIED
+              if($kt->status()->canBe('OR_TA_VERIFIED')){
+                $kt->status()->transitionTo($to = 'OR_TA_VERIFIED');
+              }
+
+              if (!empty($ivms_encrypt) && empty($ivms_state_code)) {
+                $kt->sender_kyc = $ivms_encrypt;
+                $kt->save();
+                //Transition Step 7: OR_KYC_UPDATE
+                if($kt->status()->canBe('OR_KYC_UPDATE') && $kt->webhook_status()->was('OR_DATA_RECEIVED') ) {
+                  $kt->status()->transitionTo($to = 'OR_KYC_UPDATE');
+                }
+              }
+
+
+              // Rollback Mechanism: If ivms_state_code is not empty
+              if (!empty($ivms_state_code) && $kt->ivms_status()->was('BE_ENC_RECEIVED')) {
+                // 0307 Temporary & 0308 Permarent
+                if($ivms_state_code == "0307" || $ivms_state_code == "0308"){
+                  $kt->status()->transitionTo($to = 'BE_KYC_REJECTED', ['be_ivms_state_code' => $ivms_state_code]);
+                }
+                // 0202 Accepted
+                if($ivms_state_code == "0202"){
+                  $kt->status()->transitionTo($to = 'BE_KYC_ACCEPTED', ['be_ivms_state_code' => $ivms_state_code]);
+                }
+              }
+
+
+
+            }
+
+            return response()->json($kt);
+
+
+          } catch (\Throwable $throwable) {
+
+            if($throwable instanceof ValidationException){
+              return response()->json(['error' => $throwable->errors() ],400);
+            } else {
+              return response()->json(['error' => $throwable->getTrace() ],400);
+            }
+
+
           }
-          
-          return response()->json($kt);
+
       }
+
+
+      /**
+      * Retry KYC Template
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function retry_kyc_template(Request $request)
+      {
+          # Assumes TA is Beneficiary
+          $attestation_hash = $request->get('attestation_hash','');
+          $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
+          #prepare the template
+          $kt = KycTemplate::where('attestation_hash', $attestation_hash)->firstOrFail();
+          $trustAnchorType = $kt->getUserType();
+
+          try {
+
+            if($trustAnchorType === 'BENEFICIARY') {
+              //Transition Step 1: BE_DATA_FAILED
+              if($kt->webhook_status()->is('BE_DATA_FAILED') && $kt->webhook_status()->canBe('BE_DATA_SENT')){
+               DataExternalJob::dispatch($kt, 'BE_DATA');
+              }
+              //Transition Step 2: BE_KYC_FAILED
+              if($kt->webhook_status()->is('BE_KYC_FAILED') && $kt->webhook_status()->canBe('BE_KYC_SENT')){
+               DataExternalJob::dispatch($kt, 'BE_KYC');
+              }
+
+            }elseif($trustAnchorType === 'ORIGINATOR') {
+              //Transition Step 1: OR_DATA_FAILED
+              if($kt->webhook_status()->was('OR_DATA_FAILED') && $kt->webhook_status()->canBe('OR_DATA_SENT')){
+               DataExternalJob::dispatch($kt,'OR_DATA');
+              }
+              //Transition Step 2: OR_KYC_FAILED
+              if($kt->webhook_status()->is('OR_KYC_FAILED') && $kt->webhook_status()->canBe('OR_KYC_SENT')){
+               DataExternalJob::dispatch($kt,'OR_KYC');
+              }
+
+            }
+
+            return response()->json($kt);
+
+
+          } catch (\Throwable $throwable) {
+
+            if($throwable instanceof ValidationException){
+              return response()->json(['error' => $throwable->errors() ],400);
+            } else {
+              return response()->json(['error' => $throwable->getTrace() ],400);
+            }
+
+
+          }
+
+      }
+
 
       /**
       * Get KYC Templates
@@ -419,25 +505,29 @@ class TrustAnchorController extends Controller
           $ivms_json = $input['ivms_json'];
           Log::debug($public_key);
           Log::debug($ivms_json);
-          $url = $this->helper_url.'/EncryptData';
 
-          $client = new Client();
-          $res = $client->request('POST', $url, [
-              'json' => ['publicKey' => $public_key, 'kycJSON' => $ivms_json]
-          ]);
-          if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
 
-              $response = $res->getBody();
+          try {
 
-              $kycEncrypt = json_decode($response)->kycEncrypt;
-              return response()->json($kycEncrypt);
+            $result = EthereumToolsUtils::encryptData(
+                    $public_key,
+                    $ivms_json
+            );
 
-          } else {
-            Log::error('TrustAnchorController encrypt_ivms: ' . print_r($res, true));
+            return response()->json(['data' => $result], 200);
+
+
+          } catch (\Throwable $e) {
+
+            Log::error('TrustAnchorController encrypt_ivms_test: ' . print_r($e, true));
+            return response()->json(['error' => $e->getMessage()],400);
+
           }
+
+
       }
 
-      /**
+     /**
       * Decrypt IVMS
       *
       * @param  \Illuminate\Http\Request  $request
@@ -449,23 +539,26 @@ class TrustAnchorController extends Controller
           $private_key = $input['private_key'];
           $kyc_data = $input['kyc_data'];
 
-          $url = $this->helper_url.'/DecryptData';
+          try {
 
-          $client = new Client();
-          $res = $client->request('POST', $url, [
-              'json' => ['privateKey' => $private_key, 'kycData' => $kyc_data]
-          ]);
-          if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
+            $result = EthereumToolsUtils::decryptData(
+                    $private_key,
+                    $kyc_data
+            );
 
-              $response = $res->getBody();
-              $kycDecrypt = json_decode($response)->kycDecrypt;
-              return response()->json($kycDecrypt);
+            return response()->json(['data' => $result], 200);
 
-          } else {
-            Log::error('TrustAnchorController decrypt_ivms: ' . print_r($res, true));
+
+          } catch (\Throwable $e) {
+
+            Log::error('TrustAnchorController decrypt_ivms_test: ' . print_r($e, true));
+
+            return response()->json(['error' => $e->getMessage()],400);
+
           }
-      }
 
+
+      }
 
       /**
       * Recover SignatureS
@@ -475,28 +568,46 @@ class TrustAnchorController extends Controller
       */
       public function recover_signature(Request $request)
       {
-          $input = $request->all();
-          $type = $input['type'];
-          $template = json_encode($input['template']);
 
-          Log::debug($type);
-          Log::debug($template);
+        $chainId = 1;
+        $returnMessage = [];
+        $input = $request->all();
+        $type = $input['type'];
+        $template = $input['template'];
+        Log::debug($type);
+        Log::debug($template);
 
-          $url = $this->helper_url.'/TARecover';
 
-          $client = new Client();
-          $res = $client->request('POST', $url, [
-            'json' => ['kycTemplate' => $template, 'type' => $type]
-          ]);
-          if($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
+        try {
 
-              $response = $res->getBody();
-              Log::debug($response);
-              return $response;
+          $result = EthereumToolsUtils::ecRecoverVRS(
+                  $template[$type.'SignatureHash'],
+                  $template[$type.'Signature']['v'],
+                  $template[$type.'Signature']['r'],
+                  $template[$type.'Signature']['s'],
+                  $chainId
+          );
 
-          } else {
-            Log::error('TrustAnchorController recover_signature: ' . print_r($res, true));
+          if($result['publicKey'] == $template[$type.'PublicKey']){
+            $returnMessage[$type.'PublicKey'] = 'found match';
+          }else{
+            $returnMessage['PublicKey'] = 'no match for type: '.$type.' public key is'.$result['publicKey'];
           }
-      }
 
+          if($result['address'] == strtolower($template[$type.'Address'])){
+            $returnMessage[$type.'Address'] = 'found match';
+          }else{
+            $returnMessage['Address'] = 'no match for type: '.$type.' address is'.$result['address'];
+          }
+
+        } catch (\Throwable $e) {
+
+            return response()->json(['error' => $e->getMessage()],400);
+        }
+
+        return response()->json(['data' => $returnMessage], 200);
+
+
+
+      }
 }

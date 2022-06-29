@@ -444,8 +444,6 @@ class WebhookController extends Controller
 
                 $sca->save();
 
-                #trigger Kyc Template
-                app('App\Http\Controllers\KycTemplateController')->attestation($data_local['attestation_hash']);
             }
         }
 
