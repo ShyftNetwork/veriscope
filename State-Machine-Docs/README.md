@@ -1821,7 +1821,7 @@ POST
 
 **400 Bad Request**
 
-
+# Retry KYC Template:
 
 **Step Optional:** Retry KYC Template using Postman (In case a KYC template has failed due to error at the receiving VASP it can be retried using this endpoint)
 
