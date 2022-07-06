@@ -24,7 +24,7 @@
           <p class="leading-loosest">
             <a href="https://assets.website-files.com/619d6b083650f27552fb105a/61f0934cccb99e60d175387d_shyft-network-inc-whitepaper_v4.1.pdf" target="_blank">White Paper</a><br>
             <a href="https://shyftnetwork.medium.com/" target="_blank">Blog</a><br>
-            <!-- <a href="https://docs.veriscope.network" target="_blank">Docs</a> -->
+            <a href="https://docs.veriscope.network" target="_blank">Docs</a>
           </p>
         </div>
       </div>

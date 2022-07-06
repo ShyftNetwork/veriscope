@@ -14,7 +14,7 @@ class CreateUserAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'createuser:admin';
+    protected $signature = 'createuser:admin {first_name?} {last_name?} {email?} {password?}';
 
     /**
      * The console command description.
@@ -37,19 +37,19 @@ class CreateUserAdmin extends Command
     public function handle() {
 
         $first_name = $this->validate_cmd_input(function() {
-          return $this->ask('Enter first name');
+          return $this->argument('first_name') ?: $this->ask('Enter first name');
         }, ['first_name','required|string']);
 
         $last_name = $this->validate_cmd_input(function() {
-          return $this->ask('Enter last name');
+          return $this->argument('last_name') ?: $this->ask('Enter last name');
         }, ['last_name','required|string']);
 
         $email = $this->validate_cmd_input(function() {
-            return $this->ask('Enter email');
+            return $this->argument('email') ?: $this->ask('Enter email');
         }, ['email','required|string|email|max:255|unique:users']);
 
         $password = $this->validate_cmd_input(function() {
-            return $this->ask('Enter password');
+            return $this->argument('password') ?: $this->ask('Enter password');
         }, ['password','required|string|min:6']);
 
         $data = [

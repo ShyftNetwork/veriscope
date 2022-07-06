@@ -79,6 +79,167 @@ class KycTemplateController extends Controller
         ];
     }
 
+    public function kyc_template_data_state_machine(Request $request)
+    {
+
+        Log::debug('KycTemplateController kyc_template_details');
+        // get all params
+        $input = $request->all();
+        $filter = explode('|', $input['filter']);
+        $kyc_template_id = $filter[1];
+        Log::debug($kyc_template_id);
+
+        // set defaults for pagination
+        $page = !empty($input['page']) ? (int)$input['page'] : 1;
+        $perPage = !empty($input['perPage']) ? (int)$input['perPage'] : 50;
+
+        // build a users, and a paginated users collection
+
+        $kycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+        $paginatedKycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+
+        // sort logic
+        if(!empty($input['sort'])) {
+          $sort = json_decode($input['sort']);
+          if($sort->field != '' && $sort->type != '') {
+            $paginatedKycTemplates = $paginatedKycTemplates->orderBy($sort->field, $sort->type);
+          }
+        }
+
+        // apply pagination
+        if($perPage !== -1) {
+          $paginatedKycTemplates = $paginatedKycTemplates->offset(($page-1) * $perPage)->limit($perPage)->status()->history()->get();
+        } else {
+          $paginatedKycTemplates = $paginatedKycTemplates->status()->history()->get();
+        }
+
+        // add custom column for editing and verifying
+        foreach($paginatedKycTemplates as $kyc_template) {
+          $kyc_template['date'] = $kyc_template->created_at;
+          $kyc_template['to'] = $kyc_template->to;
+          $kyc_template['from'] = $kyc_template->from;
+        }
+
+        // return the current params and rows back
+        return [
+          'serverParams' => [
+            'sort' => !empty($input['sort']) ? $input['sort'] : '',
+            'page' => $page,
+            'perPage' => $perPage,
+          ],
+          'totalRecords' => $kycTemplates->count(),
+          'rows' => $paginatedKycTemplates,
+        ];
+    }
+
+
+    public function kyc_template_webhook_state_machine(Request $request)
+    {
+
+        Log::debug('KycTemplateController kyc_template_details');
+        // get all params
+        $input = $request->all();
+        $filter = explode('|', $input['filter']);
+        $kyc_template_id = $filter[1];
+        Log::debug($kyc_template_id);
+
+        // set defaults for pagination
+        $page = !empty($input['page']) ? (int)$input['page'] : 1;
+        $perPage = !empty($input['perPage']) ? (int)$input['perPage'] : 50;
+
+        // build a users, and a paginated users collection
+
+        $kycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+        $paginatedKycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+
+        // sort logic
+        if(!empty($input['sort'])) {
+          $sort = json_decode($input['sort']);
+          if($sort->field != '' && $sort->type != '') {
+            $paginatedKycTemplates = $paginatedKycTemplates->orderBy($sort->field, $sort->type);
+          }
+        }
+
+        // apply pagination
+        if($perPage !== -1) {
+          $paginatedKycTemplates = $paginatedKycTemplates->offset(($page-1) * $perPage)->limit($perPage)->webhook_status()->history()->get();
+        } else {
+          $paginatedKycTemplates = $paginatedKycTemplates->webhook_status()->history()->get();
+        }
+
+        // add custom column for editing and verifying
+        foreach($paginatedKycTemplates as $kyc_template) {
+          $kyc_template['date'] = $kyc_template->created_at;
+          $kyc_template['to'] = $kyc_template->to;
+          $kyc_template['from'] = $kyc_template->from;
+        }
+
+        // return the current params and rows back
+        return [
+          'serverParams' => [
+            'sort' => !empty($input['sort']) ? $input['sort'] : '',
+            'page' => $page,
+            'perPage' => $perPage,
+          ],
+          'totalRecords' => $kycTemplates->count(),
+          'rows' => $paginatedKycTemplates,
+        ];
+    }
+
+
+
+    public function kyc_template_ivms_state_machine(Request $request)
+    {
+
+        Log::debug('KycTemplateController kyc_template_details');
+        // get all params
+        $input = $request->all();
+        $filter = explode('|', $input['filter']);
+        $kyc_template_id = $filter[1];
+        Log::debug($kyc_template_id);
+
+        // set defaults for pagination
+        $page = !empty($input['page']) ? (int)$input['page'] : 1;
+        $perPage = !empty($input['perPage']) ? (int)$input['perPage'] : 50;
+
+        // build a users, and a paginated users collection
+
+        $kycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+        $paginatedKycTemplates =  KycTemplate::where('id', $kyc_template_id)->first();
+
+        // sort logic
+        if(!empty($input['sort'])) {
+          $sort = json_decode($input['sort']);
+          if($sort->field != '' && $sort->type != '') {
+            $paginatedKycTemplates = $paginatedKycTemplates->orderBy($sort->field, $sort->type);
+          }
+        }
+
+        // apply pagination
+        if($perPage !== -1) {
+          $paginatedKycTemplates = $paginatedKycTemplates->offset(($page-1) * $perPage)->limit($perPage)->ivms_status()->history()->get();
+        } else {
+          $paginatedKycTemplates = $paginatedKycTemplates->ivms_status()->history()->get();
+        }
+
+        // add custom column for editing and verifying
+        foreach($paginatedKycTemplates as $kyc_template) {
+          $kyc_template['date'] = $kyc_template->created_at;
+          $kyc_template['to'] = $kyc_template->to;
+          $kyc_template['from'] = $kyc_template->from;
+        }
+
+        // return the current params and rows back
+        return [
+          'serverParams' => [
+            'sort' => !empty($input['sort']) ? $input['sort'] : '',
+            'page' => $page,
+            'perPage' => $perPage,
+          ],
+          'totalRecords' => $kycTemplates->count(),
+          'rows' => $paginatedKycTemplates,
+        ];
+    }
     public function kyc_template_details(Request $request)
     {
 

@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 
-use App\SmartContractAttestation;
-use App\Observers\SmartContractAttestationObserver;
+use App\{ KycTemplate, SmartContractAttestation};
+use App\Observers\{ KycTemplateObserver, SmartContractAttestationObserver};
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Listeners\KycTemplateEventSubscriber;
+
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,7 +23,16 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-        ],
+        ]
+    ];
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        KycTemplateEventSubscriber::class,
     ];
 
     /**
@@ -32,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
     {
         //
         SmartContractAttestation::observe(SmartContractAttestationObserver::class);
+        KycTemplate::observe(KycTemplateObserver::class);
 
     }
 }

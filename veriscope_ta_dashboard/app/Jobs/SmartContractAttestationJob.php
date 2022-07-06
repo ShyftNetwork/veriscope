@@ -43,15 +43,16 @@ class SmartContractAttestationJob implements ShouldQueue
      public function handle()
     {
 
-
       $webhook_url = Constant::where('name', 'webhook_url')->first();
-
       $webhook_secret = Constant::where('name', 'webhook_secret')->first();
 
       if ( !empty($webhook_url->value) && !empty($webhook_secret->value) )
       {
-        WebhookCall::create()->url($webhook_url->value)
+        WebhookCall::create()
+        ->url($webhook_url->value)
+        ->meta(['hasState' => false])
         ->payload([
+          'eventType' => 'NEW_ATTESTATION',
           'ta_account' => $this->smartContractAttestation->ta_account,
           'jurisdiction' => $this->smartContractAttestation->jurisdiction,
           'effective_time' => $this->smartContractAttestation->effective_time,
@@ -74,9 +75,10 @@ class SmartContractAttestationJob implements ShouldQueue
         ])
         ->useSecret($webhook_secret->value)
         ->dispatch();
+        
+      } else {
+       new \Exception("Missing webhook_url or webhook_secret");
       }
-
     }
-
 
 }

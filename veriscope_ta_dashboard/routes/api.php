@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
         Route::get('get_attestations','TrustAnchorController@get_attestations');
         Route::post('create_kyc_template','TrustAnchorController@create_kyc_template');
+        Route::put('retry_kyc_template','TrustAnchorController@retry_kyc_template');
         Route::get('get_kyc_templates','TrustAnchorController@get_kyc_templates');
         Route::get('get_trust_anchor_api_url','TrustAnchorController@get_trust_anchor_api_url');
         Route::post('encrypt_ivms','TrustAnchorController@encrypt_ivms');
@@ -67,7 +68,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::resource('baProviders',   'BlockchainAnalyticsController', ['only' => ['index', 'show']]);
 
-        
+
 
         Route::get('shyft-smart-contract-events','BlockexplorerController@index');
         Route::get('smart-contract-transactions','BlockexplorerController@transactions');
@@ -84,6 +85,9 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::get('kyctemplates','KycTemplateController@index');
         Route::get('kyc-template-details','KycTemplateController@kyc_template_details');
+        Route::get('kyc-template-data-state-machine','KycTemplateController@kyc_template_data_state_machine');
+        Route::get('kyc-template-webhook-state-machine','KycTemplateController@kyc_template_webhook_state_machine');
+        Route::get('kyc-template-ivms-state-machine','KycTemplateController@kyc_template_ivms_state_machine');
 
         Route::get('trustanchors','TrustAnchorController@index');
         Route::get('trustanchor-users','TrustAnchorController@trustanchor_users');

@@ -36,8 +36,8 @@
         @elseif(Config::get('shyft.onboarding'))
           <div class="top-right links">
             <div class="links__login">
-              <!-- <span class="hidden md:inline">View Documentation Suite&nbsp;&nbsp;</span>
-              <a href="https://docs.veriscope.network">Here</a> -->
+              <span class="hidden md:inline">View Documentation Suite&nbsp;&nbsp;</span>
+              <a href="https://docs.veriscope.network">Here</a>
               <span class="hidden md:inline">Are you already a user?&nbsp;&nbsp;</span>
               <a href="{{ route('login') }}">Sign In</a>
             </div>

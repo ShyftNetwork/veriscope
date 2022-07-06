@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "77bf5184-94a1-468e-9705-67ae1c1e56a0",
+		"_postman_id": "d2b36bd3-558a-422f-bbe8-e861bd619094",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -611,6 +611,55 @@
 			"response": []
 		},
 		{
+			"name": "Retry KYC Template",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "attestation_hash",
+							"value": "",
+							"description": "Attestation Hash from attestation",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/retry_kyc_template",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"retry_kyc_template"
+					],
+					"query": [
+						{
+							"key": "attestation_hash",
+							"value": null,
+							"description": "Attestation Hash from attestation",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Encrypt IVMS",
 			"request": {
 				"auth": {
@@ -937,22 +986,5 @@
 		}
 	],
 	"variable": [
-		{
-			"key": "ta_address_1",
-			"value": ""
-		},
-		{
-			"key": "ta_address_2",
-			"value": ""
-		},
-		{
-			"key": "ta_address_3",
-			"value": ""
-		},
-		{
-			"key": "providerId",
-			"value": "1",
-			"description": "Blockchain Analytics Provider Id" 
-		}
 	]
 }
