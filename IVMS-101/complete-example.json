@@ -1,0 +1,140 @@
+{
+  "originator": {
+    "originatorPersons": [
+      {
+        "naturalPerson": {
+          "name": {
+            "nameIdentifier": [
+              {
+                "primaryIdentifier": "Satoshi",
+                "secondaryIdentifier": "Nakamoto",
+                "nameIdentifierType": "LEGL"
+              }
+            ]
+          },
+          "geographicAddress": [
+            {
+              "addressType": "GEOG",
+              "streetName": "Potential Street",
+              "buildingNumber": "123",
+              "buildingName": "Cheese Hut",
+              "postcode": "91361",
+              "townName": "Thousand Oaks",
+              "countrySubDivision": "California",
+              "country": "US"
+            }
+          ],
+          "nationalIdentification": {
+            "nationalIdentifier": "024181096",
+            "nationalIdentifierType": "RAID",
+            "registrationAuthority": "RA000589"
+          },
+          "customerIdentification": "0xA3a8C1C840A8C2049472065b2664E01E0e8A8b67",
+          "dateAndPlaceOfBirth": {
+            "dateOfBirth": "1986-11-21",
+            "placeOfBirth": "New York City"
+          },
+          "countryOfResidence": "US"
+        }
+      }
+    ],
+    "accountNumber": [
+      "1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v"
+    ]
+  },
+  "beneficiary": {
+    "beneficiaryPersons": [
+      {
+        "legalPerson": {
+          "name": {
+            "nameIdentifier": [
+              {
+                "legalPersonName": "Paycase Inc",
+                "legalPersonNameIdentifierType": "LEGL"
+              }
+            ]
+          },
+          "geographicAddress": [
+            {
+              "addressType": "GEOG",
+              "streetName": "Potential Street",
+              "buildingNumber": "123",
+              "buildingName": "Townhouse",
+              "postcode": "M4B 1B3",
+              "townName": "Toronto",
+              "countrySubDivision": "Ontario",
+              "country": "CA"
+            }
+          ],
+          "nationalIdentification": {
+            "nationalIdentifier": "335800HXPOIUDJ9T5R34",
+            "nationalIdentifierType": "LEIX"
+          },
+          "customerIdentification": "0x3E9181d09E56AdEF3bbc8BAb664Ce6B268Bf6e62",
+          "countryOfRegistration": "CA"
+        }
+      }
+    ],
+    "accountNumber": [
+      "1BVMFfPXJy2TY1x6wm8gow3N5Amw4Etm5h"
+    ]
+  },
+  "originatingVASP": {
+    "legalPerson": {
+      "name": {
+        "nameIdentifier": [
+          {
+            "legalPersonName": "VASP A",
+            "legalPersonNameIdentifierType": "LEGL"
+          }
+        ]
+      },
+      "geographicAddress": [
+        {
+          "addressType": "GEOG",
+          "streetName": "Potential Street",
+          "buildingNumber": "123",
+          "buildingName": "Suite 2B",
+          "postcode": "10001",
+          "townName": "New York City",
+          "countrySubDivision": "NY",
+          "country": "US"
+        }
+      ],
+      "nationalIdentification": {
+        "nationalIdentifier": "335800HXPOIUDJ9T5R34",
+        "nationalIdentifierType": "LEIX"
+      },
+      "customerIdentification": "0xE844664fAb49B9115F1f43eefaB09F2d1D1852e4"
+    }
+  },
+  "beneficiaryVASP": {
+    "legalPerson": {
+      "name": {
+        "nameIdentifier": [
+          {
+            "legalPersonName": "VASP B",
+            "legalPersonNameIdentifierType": "LEGL"
+          }
+        ]
+      },
+      "geographicAddress": [
+        {
+          "addressType": "GEOG",
+          "streetName": "Potential Street",
+          "buildingNumber": "123",
+          "buildingName": "Suite 1E",
+          "postcode": "94016",
+          "townName": "San Francisco",
+          "countrySubDivision": "CA",
+          "country": "US"
+        }
+      ],
+      "nationalIdentification": {
+        "nationalIdentifier": "335800HXPOIUDJ9T5R34",
+        "nationalIdentifierType": "LEIX"
+      },
+      "customerIdentification": "0x4c4033629f9A93B69E4f00Da405a70BbC313f626"
+    }
+  }
+}
