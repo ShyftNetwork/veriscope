@@ -75,11 +75,10 @@ class SmartContractAttestationJob implements ShouldQueue
         ])
         ->useSecret($webhook_secret->value)
         ->dispatch();
-      }
-
-    } else {
+        
+      } else {
        new \Exception("Missing webhook_url or webhook_secret");
+      }
     }
-
 
 }
