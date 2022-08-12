@@ -877,27 +877,31 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug(data);
     });
 
-    TrustAnchorExtraData_Unique.on("EVT_setValidationForKeyValuePairData",  (_trustAnchorAddress, _keyValuePairName, _validatorAddress, event) => {
-            logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
-            data = {};
-            data['transactionHash'] = event.transactionHash;
-            data['blockNumber'] = event.blockNumber;
-            data['event'] = "EVT_setValidationForKeyValuePairData";
-            data['returnValues'] = {};
+    //ONLY AVAILABLE ON SHYFT MAINNET
+    if(TrustAnchorExtraData_Unique.address == "0xEA64A26723C779dEE63ba3Fbc1021b87e9E71568") {
+        TrustAnchorExtraData_Unique.on("EVT_setValidationForKeyValuePairData",  (_trustAnchorAddress, _keyValuePairName, _validatorAddress, event) => {
+              logger.debug("event EVT_setTrustAnchorKeyValuePairUpdated");
+              data = {};
+              data['transactionHash'] = event.transactionHash;
+              data['blockNumber'] = event.blockNumber;
+              data['event'] = "EVT_setValidationForKeyValuePairData";
+              data['returnValues'] = {};
 
-            data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
-            data['returnValues']['_keyValuePairName'] = _keyValuePairName;
-            data['returnValues']['_validatorAddress'] = _validatorAddress;
+              data['returnValues']['_trustAnchorAddress'] = _trustAnchorAddress;
+              data['returnValues']['_keyValuePairName'] = _keyValuePairName;
+              data['returnValues']['_validatorAddress'] = _validatorAddress;
 
 
-            var obj = {
-                message: "taedu-event",
-                data: data
-            };
-            utility.sendWebhookMessage(obj);
+              var obj = {
+                  message: "taedu-event",
+                  data: data
+              };
+              utility.sendWebhookMessage(obj);
 
-            logger.debug(data);
-    });
+              logger.debug(data);
+      });
+    }
+    
 
     TrustAnchorManager.on("EVT_verifyTrustAnchor",  (trustAnchorAddress, event) => {
             logger.debug("event EVT_verifyTrustAnchor");
