@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('decrypt_ivms','TrustAnchorController@decrypt_ivms');
         Route::post('recover_signature','TrustAnchorController@recover_signature');
 
+        Route::delete('delete_sandbox_templates','TrustAnchorController@delete_sandbox_templates');
+
         /* Blockchain analytics api methods */
 
         Route::get('get-blockchain-analytics-providers', 'BlockchainAnalyticsApiController@get_ba_providers');

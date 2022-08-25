@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\{ KycTemplate };
+use App\{ KycTemplate, SandboxTrustAnchorUserCryptoAddress };
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -51,18 +51,30 @@ class DataExternalJob implements ShouldQueue
     {
       $url  = (substr($this->invokedMethod, 0, 2) === 'BE') ? $this->model->sender_ta_url : $this->model->beneficiary_ta_url;
       $kycTemplateJSON = fractal()->item($this->model)->transformWith(new KycTemplateTransformer())->toArray();
+      $test = SandboxTrustAnchorUserCryptoAddress::where('crypto_type',$this->model->coin_token)->where('crypto_address','ILIKE', $this->model->coin_address);
+      // If transaction is a test transaction then automate auto-reply and set webhook to received
+      if ($test->exists()) {
+        app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($this->invokedMethod,$this->model->attestation_hash, $test->first());
 
-      WebhookCall::create()
-      ->url($url)
-      ->meta(['invokedMethod' => $this->invokedMethod, 'hasState' => true])
-      ->payload(["kycTemplate" => $kycTemplateJSON['data']])
-      ->doNotSign()
-      ->dispatch();
+        $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
+        $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_RECEIVED");
 
-      Log::debug('getUserType');
-      Log::debug($this->model->webhook_status);
+      } else {
 
-      $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
+        WebhookCall::create()
+        ->url($url)
+        ->meta(['invokedMethod' => $this->invokedMethod, 'hasState' => true])
+        ->payload([
+          "eventType" => $this->invokedMethod,
+          "kycTemplate" => $kycTemplateJSON['data']
+        ])
+        ->doNotSign()
+        ->dispatch();
+
+        $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
+
+      }
+
 
     }
 

@@ -32,7 +32,7 @@ class AddIvmsToTrustAnchorUsersTable extends Migration
             $table->text('date_of_birth')->nullable();
             $table->text('place_of_birth')->nullable();
             $table->text('country_of_residence')->nullable();
-            
+
         });
     }
 
