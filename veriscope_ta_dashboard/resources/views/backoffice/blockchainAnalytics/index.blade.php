@@ -38,7 +38,7 @@ constants
         <div class="w-full lg:w-1/4 my-8 lg:my-12 lg:mx-4">
           <button class="btn btn-primary" type="submit"><i class="fa fa-btn fa-user"></i> Update</button>
         </div>
-        <a class="lg:mx-4" href="{{ url('/backoffice/users') }}"><strong>Cancel</strong></a>
+        <a class="lg:mx-4" href="{{ url('/backoffice/blockchain-analytics-addresses') }}"><strong>Cancel</strong></a>
       </div>
     </div>
   </div>

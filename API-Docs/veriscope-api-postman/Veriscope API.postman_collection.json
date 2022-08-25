@@ -54,7 +54,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/",
+							"raw": "{{baseUrl}}/api/v1/server/get-blockchain-analytics-providers-available-networks/1",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -63,7 +63,7 @@
 								"v1",
 								"server",
 								"get-blockchain-analytics-providers-available-networks",
-								"{{providerId}}"
+								"1"
 							]
 						}
 					},
@@ -137,13 +137,13 @@
 						{
 							"key": "ta_account",
 							"value": "",
-							"description": "Use TA Account/Address",
+							"description": "Use TA account address",
 							"type": "text"
 						},
 						{
 							"key": "user_account",
 							"value": "",
-							"description": "Use Shyft User Account/Address",
+							"description": "Use Shyft User account",
 							"type": "text"
 						},
 						{
@@ -155,25 +155,25 @@
 						{
 							"key": "coin_blockchain",
 							"value": "",
-							"description": "Enter the blockchain network: e.g. BTC, ETH",
+							"description": "Enter the coin blockchain type; e.g. BTC or ETH",
 							"type": "text"
 						},
 						{
 							"key": "coin_token",
 							"value": "",
-							"description": "Enter the coin/token: e.g. BTC, ETH, USDC or USDT",
+							"description": "Enter the coin token type; e.g. BTC, ETH, USDC or USDT",
 							"type": "text"
 						},
 						{
 							"key": "coin_address",
 							"value": "",
-							"description": "Enter the wallet address",
+							"description": "Enter the coin address",
 							"type": "text"
 						},
 						{
 							"key": "coin_memo",
 							"value": "",
-							"description": "Enter a coin memo or destination tag (optional)",
+							"description": "Enter the coin memo or destination tag (Optional)",
 							"type": "text"
 						}
 					]
@@ -306,7 +306,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/{{ta_address_1}}",
+					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -315,7 +315,7 @@
 						"v1",
 						"server",
 						"verify_trust_anchor",
-						"{{ta_address_1}}"
+						"0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892"
 					]
 				}
 			},
@@ -382,7 +382,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Trust Anchor Details",
+			"name": "Get Trust Anchors Details",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -397,7 +397,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{ta_address_1}}",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{address}}",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -406,7 +406,7 @@
 						"v1",
 						"server",
 						"get_trust_anchor_details",
-						"{{ta_address_1}}"
+						"{{address}}"
 					]
 				}
 			},
@@ -441,8 +441,8 @@
 					"query": [
 						{
 							"key": "ta_address",
-							"value": "{{ta_address_1}}",
-							"description": "Use TA Account"
+							"value": "",
+							"description": "Use TA account address"
 						}
 					]
 				}
@@ -450,7 +450,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Your Trust Anchor Account",
+			"name": "Get Trust Anchor Account",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -517,7 +517,7 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "Use TA Account, User Account, Attestation Hash, or Wallet Address"
+							"description": "use TA Account, User Account, Attestation Hash or Crypto Address"
 						}
 					]
 				}
@@ -551,7 +551,7 @@
 						{
 							"key": "user_account",
 							"value": "",
-							"description": "Use account from Create Shyft User",
+							"description": "Use account_address from Create Shyft User",
 							"type": "text"
 						},
 						{
@@ -580,16 +580,23 @@
 							"disabled": true
 						},
 						{
+							"key": "ivms_state_code",
+							"value": "",
+							"description": "Accept or reject VASPs request",
+							"type": "text",
+							"disabled": true
+						},
+						{
 							"key": "coin_transaction_hash",
 							"value": "",
-							"description": "Coin transaction hash from on-chain crypto transaction (optional)",
+							"description": "Coin Transaction Hash from crypto transaction (optional)",
 							"type": "text",
 							"disabled": true
 						},
 						{
 							"key": "coin_transaction_value",
 							"value": "",
-							"description": "Coin transaction value from crypto transaction (optional)",
+							"description": "Coin Transaction Value from crypto transaction (optional)",
 							"type": "text",
 							"disabled": true
 						}
@@ -680,13 +687,13 @@
 						{
 							"key": "public_key",
 							"value": "",
-							"description": "User public key in KYC Template",
+							"description": "Public Key in Kyc Template",
 							"type": "text"
 						},
 						{
 							"key": "ivms_json",
 							"value": "",
-							"description": "IVMS payload to encrypt with user public key",
+							"description": "IVMS payload to encrypt with public key",
 							"type": "text"
 						}
 					]
@@ -727,13 +734,13 @@
 						{
 							"key": "private_key",
 							"value": "",
-							"description": "NOTE: private key must begin with 0x",
+							"description": "private key must begin with 0x",
 							"type": "text"
 						},
 						{
 							"key": "kyc_data",
 							"value": "",
-							"description": "Encrypted data from KYC Template",
+							"description": "encrypted data from Kyc Template",
 							"type": "text"
 						}
 					]
@@ -798,7 +805,7 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "Use TA Account, User Account, or Attestation Hash"
+							"description": "use TA Account, User Account, Attestation Hash"
 						}
 					]
 				}

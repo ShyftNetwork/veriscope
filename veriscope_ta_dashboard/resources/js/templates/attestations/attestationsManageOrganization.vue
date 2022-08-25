@@ -310,96 +310,11 @@
                 <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_get_balance_result}}</strong></p>
             </div>
         </div>
-        <div class="my-4 lg">
-            <div class="flex flex-wrap items-center">
-                <h2>05. Register Jurisdication</h2>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_ta_account"
-                        label="TA Account"
-                        placeholder="Choose the TA Account"                        
-                        name="attestation_ta_account"
-                        :options=taAccountsData
-                        label-to-show="ta_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_ta_account')"
-                        required
-                    ></select-input> 
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_jurisdiction"
-                        label="Jurisdiction"
-                        placeholder="Choose The Jurisdiction"                        
-                        name="attestation_jurisdiction"
-                        :options=taCountryData
-                        label-to-show="name"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_jurisdiction')"
-                        required
-                    ></select-input> 
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3 my-8">
-                    <simple-button class="min-w-full"
-                        :on-click=taRegisterJurisdiction
-                        >
-                        
-                        Register Jurisdication
-                    </simple-button>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_register_jurisdiction_result}}</strong></p>
-            </div>
-        </div>
         <br/>
-        <!-- 06 Setup Discovery Layer for Data Transfer -->
+        <!-- 05 Add Key Value Pair to Discovery Layer -->
         <div class="my-4 lg">
             <div class="flex flex-wrap items-center">
-                <h2>06. Setup Discovery Layer for Data Transfer</h2>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Choose TA Account for Discovery Layer</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_ta_account"
-                        label="TA Account"
-                        placeholder="Choose the TA Account"                        
-                        name="attestation_ta_account"
-                        :options=taAccountsData
-                        label-to-show="ta_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_ta_account')"
-                        required
-                    ></select-input> 
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3 my-8">
-                    <simple-button class="min-w-full"
-                        :on-click=taSetUniqueAddress
-                        >
-                        
-                        Set TA Unique Address
-                    </simple-button>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_set_unique_address_result}}</strong></p>
-            </div>
-        </div>
-        <!-- 07 Add Key Value Pair to Discovery Layer -->
-        <div class="my-4 lg">
-            <div class="flex flex-wrap items-center">
-                <h2>07. Add Key Value Pair to Discovery Layer</h2>
+                <h2>05. Add Key Value Pair to Discovery Layer</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <p>Choose TA Account for Discovery Layer</p>
@@ -467,7 +382,6 @@
                 <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_set_key_value_pair_result}}</strong></p>
             </div>
         </div>
-        <br/>
     </div>
 </template>
 <script>
@@ -491,12 +405,9 @@
         CREATE_TA_ACCOUNT,
         TA_SAVE_IVMS,
         TA_IS_VERIFIED,
-        TA_GET_BALANCE, 
-        TA_REGISTER_JURISDICTION,
-        TA_SET_UNIQUE_ADDRESS,
-        TA_SET_KEY_VALUE_PAIR,
+        TA_GET_BALANCE,
         TA_GET_TAS,
-        TA_GET_UNIQUE_ADDRESS,
+        TA_SET_KEY_VALUE_PAIR,          
         TA_GET_DISCOVERY_LAYER_KEYS,
         
         
@@ -603,8 +514,6 @@
                     attestations.form,
                 ta_create_account_result: ({ attestations }) =>
                     attestations.ta_temp_account,
-                ta_register_jurisdiction_result: ({ attestations }) =>
-                    attestations.taRegisterJurisdictionOptions[attestations.taRegisterJurisdictionData],
                 taCountryData: ({ attestations }) =>
                     attestations.taCountryData,
                 ta_is_verified_data_result: ({ attestations }) =>
@@ -625,13 +534,8 @@
                     attestations.showTaIsVerifiedData,
                 show_ta_get_balance_result: ({ attestations }) =>
                     attestations.showTaGetBalanceResult,
-                ta_set_unique_address_result: ({ attestations }) =>
-                    attestations.taSetUniqueAddressOptions[attestations.taSetUniqueAddressData], 
-                ta_get_unique_address_result: ({ attestations }) =>
-                    attestations.taGetUniqueAddressData,
                 ta_set_key_value_pair_result: ({ attestations }) =>
                     attestations.taSetKeyValuePairData
-                    
             }),
         },
         /**
@@ -663,23 +567,6 @@
                     console.log(response);
                 });
             },
-            taRegisterJurisdiction() {
-                this[TA_REGISTER_JURISDICTION]().then(response => {
-                    console.log(response);
-                });
-            },
-            taSetUniqueAddress() {
-                this[TA_SET_UNIQUE_ADDRESS]().then(response => {
-                    console.log('assign tam address to tas');
-                    console.log(response);
-                });
-            },
-            taGetUniqueAddress() {
-                this[TA_GET_UNIQUE_ADDRESS]().then(response => {
-                    console.log('get generic address from tam');
-                    console.log(response);
-                });
-            },
             taSetKeyValuePair() {
                 this[TA_SET_KEY_VALUE_PAIR]().then(response => {
                     console.log('ta set key value pair');
@@ -694,11 +581,8 @@
                 TA_SAVE_IVMS,
                 TA_IS_VERIFIED,
                 TA_GET_BALANCE,
-                TA_REGISTER_JURISDICTION,
-                TA_GET_TAS,
-                TA_SET_UNIQUE_ADDRESS,
-                TA_SET_KEY_VALUE_PAIR,
-                TA_GET_UNIQUE_ADDRESS,                
+                TA_GET_TAS,    
+                TA_SET_KEY_VALUE_PAIR,          
                 TA_GET_DISCOVERY_LAYER_KEYS,
             ]),
 

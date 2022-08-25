@@ -96,31 +96,21 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('contracts/trust-anchor/{id}/create-ta-account', 'ContractsController@create_ta_account');
         Route::post('contracts/trust-anchor/{id}/ta-save-ivms', 'ContractsController@ta_save_ivms');
         Route::post('contracts/trust-anchor/{id}/ta-is-verified', 'ContractsController@ta_is_verified');
-        Route::post('contracts/trust-anchor/{id}/ta-set-jurisdiction', 'ContractsController@ta_set_jurisdiction');
 
         Route::post('contracts/trust-anchor/{id}/ta-create-user', 'ContractsController@ta_create_user');
-        Route::post('contracts/trust-anchor/{id}/ta-create-random-users', 'ContractsController@ta_create_random_users');
-        Route::post('contracts/trust-anchor/{id}/ta-set-v3-attestation', 'ContractsController@ta_set_v3_attestation');
         Route::post('contracts/trust-anchor/{id}/ta-get-balance', 'ContractsController@ta_get_balance');
 
-        Route::post('contracts/trust-anchor/{id}/ta-set-unique-address', 'ContractsController@ta_set_unique_address');
-        Route::post('contracts/trust-anchor/{id}/ta-get-unique-address', 'ContractsController@ta_get_unique_address');
-
-        Route::post('contracts/trust-anchor/{id}/ta-set-key-value-pair', 'ContractsController@ta_set_key_value_pair');
         Route::get('contracts/trust-anchor/{id}/ta-get-discovery-layer-keys', 'ContractsController@ta_get_discovery_layer_keys');
-        Route::post('contracts/trust-anchor/{id}/ta-request-tokens', 'ContractsController@ta_request_tokens');
-        Route::post('contracts/trust-anchor/{id}/ta-get-user-attestations', 'ContractsController@ta_get_user_attestations');
+
         Route::post('contracts/trust-anchor/{id}/ta-get-attestation-components-in-array', 'ContractsController@ta_get_attestation_components_in_array');
 
         Route::get('contracts/trust-anchor/{id}/ta-get-trust-anchors', 'ContractsController@ta_get_trust_anchors');
-        Route::post('contracts/trust-anchor/{id}/ta-get-trust-anchor-users', 'ContractsController@ta_get_trust_anchor_users');
         Route::post('contracts/trust-anchor/{id}/ta-assign-crypto-address', 'ContractsController@ta_assign_crypto_address');
+        Route::post('contracts/trust-anchor/{id}/ta-set-key-value-pair', 'ContractsController@ta_set_key_value_pair');
 
         Route::get('contracts/trust-anchor/{id}/ta-get-user-wallet-addresses', 'ContractsController@ta_get_user_wallet_addresses');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-users', 'ContractsController@ta_get_all_users');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-attestations', 'ContractsController@ta_get_all_attestations');
-
-        Route::post('contracts/trust-anchor/{id}/ta-register-jurisdiction', 'ContractsController@ta_register_jurisdiction');
 
         Route::get('contracts/trust-anchor/{id}/refresh-all-attestations', 'ContractsController@refresh_all_attestations');
         Route::get('contracts/trust-anchor/{id}/refresh-all-discovery-layer-key-value-pairs', 'ContractsController@refresh_all_discovery_layer_key_value_pairs');

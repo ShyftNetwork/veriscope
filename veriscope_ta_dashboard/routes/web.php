@@ -75,13 +75,11 @@ if(config('shyft.onboarding')) {
             Route::get('attestations', 'Auth\AttestationController@attestations')->name('attestations');
 
             Route::get('attestations/manage-organization', 'Auth\AttestationController@manage_organization')->name('manage-organization');
-            Route::get('attestations/manage-users', 'Auth\AttestationController@manage_users')->name('manage-users');
             Route::get('attestations/vasp-manager', 'Auth\AttestationController@vasp_manager')->name('vasp-manager');
             Route::get('attestations/fatf-travel-rule-reports', 'Auth\AttestationController@fatf_travel_rule_reports')->name('fatf-travel-rule-reports');
             Route::get('attestations/coalition', 'Auth\AttestationController@coalition')->name('coalition');
             Route::get('attestations/trust-anchor-setup', 'Auth\AttestationController@trust_anchor_setup')->name('trust_anchor_setup');
             Route::get('attestations/new', 'Auth\AttestationController@new')->name('new');
-            Route::get('attestations/admin', 'Auth\AttestationController@admin')->name('admin');
             Route::get('attestations/attestation-logs', 'Auth\AttestationController@attestation_logs')->name('attestation_logs');
 
             Route::get('password/manage', function () {

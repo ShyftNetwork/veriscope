@@ -59,15 +59,10 @@ class WebhookController extends Controller
 
         Log::debug($data);
 
-        if ($data['message'] === 'ta-set-unique-address') {
-            broadcast(new ContractsInstantiate($data));
-        }
-        if ($data['message'] === 'ta-get-unique-address') {
-            broadcast(new ContractsInstantiate($data));
-        }
         if ($data['message'] === 'ta-set-key-value-pair') {
             broadcast(new ContractsInstantiate($data));
         }
+
         if ($data['message'] === 'tas-event') {
             $event = new SmartContractEvent();
             $event->event_type = 'tas-event';
@@ -259,9 +254,7 @@ class WebhookController extends Controller
 
             broadcast(new ShyftSmartContractEvent($data));
         }
-        if ($data['message'] === 'ta-set-jurisdiction') {
-            broadcast(new ContractsInstantiate($data));
-        }
+
         if ($data['message'] === 'ta-create-user') {
             $eloquent_encryption = new EloquentEncryption();
 
@@ -360,23 +353,10 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
 
-        if ($data['message'] === 'ta-register-jurisdiction') {
-            broadcast(new ContractsInstantiate($data));
-        }
-
-        if ($data['message'] === 'ta-register-jurisdiction-error') {
-            broadcast(new ContractsInstantiate($data));
-        }
-
         if ($data['message'] === 'ta-get-balance') {
             broadcast(new ContractsInstantiate($data));
         }
-        if ($data['message'] === 'ta-request-tokens') {
-            broadcast(new ContractsInstantiate($data));
-        }
-        if ($data['message'] === 'ta-get-user-attestations') {
-            broadcast(new ContractsInstantiate($data));
-        }
+
         if ($data['message'] === 'refresh-all-attestations') {
             broadcast(new ContractsInstantiate($data));
         }

@@ -27,11 +27,6 @@
               <div class="md:flex-grow">
                 {{ Form::check(1, 'remember', __('Remember Me'), 1, old('remember'), false) }}
               </div>
-              <div class="md:text-right">
-                  <a class="btn--link whitespace-no-wrap" href="{{ route('password.request') }}">
-                      {{ __('Forgot Your Password?') }}
-                  </a>
-              </div>
           </div>
       </form>
     </div>

@@ -10,8 +10,6 @@ import {
 // Import essential route based Components
 import attestationsBase from '../templates/attestations/attestationsBase';
 import attestationsManageOrganization from '../templates/attestations/attestationsManageOrganization';
-import attestationsManageUsers from '../templates/attestations/attestationsManageUsers';
-import attestationsAdmin from '../templates/attestations/attestationsAdmin';
 
 // Define a routes array
 const routes = [
@@ -25,16 +23,6 @@ const routes = [
                 path: 'manage-organization',
                 name: 'manage-organization',
                 component: attestationsManageOrganization
-            },
-            {
-                path: 'manage-users',
-                name: 'manage-users',
-                component: attestationsManageUsers
-            },
-            {
-                path: 'admin',
-                name: 'admin',
-                component: attestationsAdmin
             }
         ],
     },

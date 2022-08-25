@@ -182,91 +182,16 @@ app.get('/ta-get-balance', (req, res) => {
     res.sendStatus(201);
 });
 
-
-
-// eg: ta-register-jurisdiction?user_id=1&account_address=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5&jurisdiction=1
-/* {
-  nonce: 9,
-  gasPrice: BigNumber { _hex: '0x77359400', _isBigNumber: true },
-  gasLimit: BigNumber { _hex: '0x67e6', _isBigNumber: true },
-  to: '0xA858de9D43e6D1e3595c7f7127c89a87Bc634227',
-  value: BigNumber { _hex: '0x00', _isBigNumber: true },
-  data: '0x68878cde0000000000000000000000000000000000000000000000000000000000000001',
-  chainId: 1337,
-  v: 2710,
-  r: '0x0f7490152cf05a465fd4816090d7f9d449bb91a28d1abb46965632b99f83ab53',
-  s: '0x5850eebac5e6cd77d7369cade119afea05a597aa45e5f4b8b820dd1c185dfa19',
-  from: '0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5',
-  hash: '0xac220119fec47c3a064bd7e4b50db7029a19782a1bff2a3808c63720eb79de94',
-  wait: [Function]
-}
-*/
-app.get('/ta-register-jurisdiction', (req, res) => {
-    var user_id = req.param('user_id');
-    var account_address = req.param('account_address');
-    var jurisdiction = req.param('jurisdiction');
-    utility.taRegisterJurisdiction(user_id, account_address, jurisdiction);
-    res.sendStatus(201);
-});
-
-
-
-/*
-trust anchor set unique address
-request: GET
-response:
-{
-"request":"ta-set-unique-address",
-"result":{"nonce":0,"gasPrice":{"type":"BigNumber","hex":"0x04a817c800"},"gasLimit":{"type":"BigNumber","hex":"0xaf98"},"to":"0x209CC29E6e6fcC4a1eBD050308A7d2BaEEa0D806","value":{"type":"BigNumber","hex":"0x00"},"data":"0xd26d983a0000000000000000000000008e8e3c0680ca4d2e9922fa002de0b0433fbf9e4d","chainId":120852482,"v":241705000,"r":"0xdff93849721847452a3e219fa2b19d8fb5ad0dc7849ebf25e1ce9e12b3f7358b","s":"0x2b89ae3e97e139d31ef130afdddffd04e31178fd1bf1285e06ba8a4a2afe8940","from":"0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6","hash":"0xeb935ae4b767de635a92688a2364a10a086cb598cf992807a1ee9f8f5dc6296f"}
-}
-*/
-
-// eg: /ta-set-unique-address
-
-app.get('/ta-set-unique-address', (req, res) => {
-  var user_id = req.param('user_id');
-  var account = req.param('account');
-  utility.taSetUniqueAddress(user_id, account);
-  res.sendStatus(201);
-});
-
-
-
-
-/*
-trust anchor get unique address
-request: GET
-response:
-{
-"request":"ta-get-unique-address",
-"result":"0x8e8E3c0680cA4d2e9922fA002dE0b0433fbf9E4D"
-}
-*/
-
-// eg: /ta-get-unique-address/0xb8866C168a432E4c0AfD6507e86FA4c12cF5f6f6
-
-app.get('/ta-get-unique-address/:account', (req, res) => {
-
-    var account = req.params.account;
-    utility.trustAnchorGetUniqueAddress(account);
-    res.sendStatus(201);
-});
-
-
-
-
 // eg: ta-set-key-value-pair?user_id=1&account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5&ta_key_name=ENTITY&ta_key_value=Abc%20Inc.
 
 app.get('/ta-set-key-value-pair', (req, res) => {
-    var user_id = req.param('user_id');
-    var account = req.param('account');
-    var key_name = req.param('ta_key_name');
-    var key_value = req.param('ta_key_value');
-    utility.taSetKeyValuePair(user_id, account, key_name, key_value);
-    res.sendStatus(201);
+  var user_id = req.param('user_id');
+  var account = req.param('account');
+  var key_name = req.param('ta_key_name');
+  var key_value = req.param('ta_key_value');
+  utility.taSetKeyValuePair(user_id, account, key_name, key_value);
+  res.sendStatus(201);
 });
-
-
 
 /*
 ta get number of key value pairs
@@ -462,16 +387,6 @@ app.get('/ta-set-v3-attestation', (req, res) => {
 
     res.sendStatus(201);
 });
-
-// eg: ta-get-user-attestations?user_id=1&account=0x447832bc6303C87A7C7C0E3894a5C6848Aa24877
-
-app.get('/ta-get-user-attestations', (req, res) => {
-  var user_id = req.param('user_id');
-  var account = req.param('account');
-  utility.taGetAttestationKeccakArrayForIdentifiedAddress(user_id, account);
-  res.sendStatus(201);
-});
-
 
 // eg: ta-get-attestation-components-in-array?user_id=1&account=0xA155C75C8F5Dd250aB15e061ff6Ecc678374b380&index=1
 

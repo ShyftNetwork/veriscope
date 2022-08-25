@@ -101,7 +101,11 @@ class ContractsController extends Controller
 
           $input = $request->all();
           $user = User::find($id);
-  
+          
+          if(count($input) == 0){
+            $input['account'] = 'noSelect';
+          }
+
           $account = $input['account'];
           Log::debug(print_r($input, true));
           $url = $this->helper_url.'/ta-is-verified?user_id='.$id.'&account='.$account;
@@ -116,33 +120,6 @@ class ContractsController extends Controller
               
           } else {
               Log::error('ContractsController ta_is_verified: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
-
-      public function ta_set_jurisdiction(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_set_jurisdiction');
-
-          $input = $request->all();
-          $user = User::find($id);
-
-          $ta_jurisdiction = $input['ta_jurisdiction'];
-          $account = $input['account'];
-          Log::debug(print_r($input, true));
-          $url = $this->helper_url.'/ta-set-jurisdiction?user_id='.$id.'&account='.$account.'&ta_jurisdiction='.$ta_jurisdiction;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_set_jurisdiction');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_set_jurisdiction: ' . $res->getStatusCode());
           }
 
           return response()->json([]);
@@ -183,180 +160,16 @@ class ContractsController extends Controller
           return response()->json([]);
       }
 
-      public function ta_create_random_users(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_create_random_users');
-
-          $input = $request->all();
-
-          $user = User::findOrFail($id);
-
-          $ta = TrustAnchor::where('id', $input['trust_anchor_account']['id'])->first();
-          $input['trust_anchor_id'] = $ta->id;
-
-          $path = '../app/SqlDumps/fake_users.csv';
-          $handle = fopen($path, "r");
-          $primaryIdentifiers = array();
-          $secondaryIdentifiers = array();
-          $nameIdentifierTypes = array();
-          $addressTypes = array();
-          $streetNames = array();
-          $buildingNumbers = array();
-          $postcodes = array();
-          $townNames = array();
-          $countrySubDivisions = array();
-          $countrys = array();
-          $nationalIdentifiers = array();
-          $nationalIdentifierTypes = array();
-          $countryOfIssues = array();
-          $registrationAuthoritys = array();
-          $dateOfBirths = array();
-          $placeOfBirths = array();
-          $countryOfResidences = array();
-
-          while ($csvLine = fgetcsv($handle, 1000, ",")) {
-            $primaryIdentifier = $csvLine[0];
-            array_push($primaryIdentifiers, $primaryIdentifier);
-            $secondaryIdentifier = $csvLine[1];
-            array_push($secondaryIdentifiers, $secondaryIdentifier);
-            $nameIdentifierType = $csvLine[2];
-            array_push($nameIdentifierTypes, $nameIdentifierType);
-            $addressType = $csvLine[3];
-            array_push($addressTypes, $addressType);
-            $streetName = $csvLine[4];
-            array_push($streetNames, $streetName);
-            $buildingNumber = $csvLine[5];
-            array_push($buildingNumbers, $buildingNumber);
-            $postcode = $csvLine[6];
-            array_push($postcodes, $postcode);
-            $townName = $csvLine[7];
-            array_push($townNames, $townName);
-            $countrySubDivision = $csvLine[8];
-            array_push($countrySubDivisions, $countrySubDivision);
-            $country = $csvLine[9];
-            array_push($countrys, $country);
-            $nationalIdentifier = $csvLine[10];
-            array_push($nationalIdentifiers, $nationalIdentifier);
-            $nationalIdentifierType = $csvLine[11];
-            array_push($nationalIdentifierTypes, $nationalIdentifierType);
-            $countryOfIssue = $csvLine[12];
-            array_push($countryOfIssues, $countryOfIssue);
-            $registrationAuthority = $csvLine[13];
-            array_push($registrationAuthoritys, $registrationAuthority);
-            $dateOfBirth = $csvLine[14];
-            array_push($dateOfBirths, $dateOfBirth);
-            $placeOfBirth = $csvLine[15];
-            array_push($placeOfBirths, $placeOfBirth);
-            $countryOfResidence = $csvLine[16];
-            array_push($countryOfResidences, $countryOfResidence);
-              
-          }
-
-          $length = count($primaryIdentifiers);
-          
-
-          $index = rand(0, $length);
-       
-          $full_name = $primaryIdentifiers[$index]. ' ' .$secondaryIdentifiers[$index];
-          Log::debug(print_r($full_name, true));
-
-          $input['trust_anchor_id'] = $ta->id;
-          $input['prefname'] = $full_name;
-          $input['primary_identifier'] = $primaryIdentifiers[$index];
-          $input['secondary_identifier'] = $secondaryIdentifiers[$index];
-          $input['name_identifier_type'] = $nameIdentifierTypes[$index];
-          $input['address_type'] = $addressTypes[$index];
-          $input['street_name'] = $streetNames[$index];
-          $input['building_number'] = $buildingNumbers[$index];
-          $input['postcode'] = $postcodes[$index];
-          $input['town_name'] = $townNames[$index];
-          $input['country_sub_division'] = $countrySubDivisions[$index];
-          $input['country'] = $countrys[$index];
-          $input['national_identifier'] = $nationalIdentifiers[$index];
-          $input['national_identifier_type'] = $nationalIdentifierTypes[$index];
-          $input['country_of_issue'] = $countryOfIssues[$index];
-          $input['registration_authority'] = $registrationAuthoritys[$index];
-          $input['date_of_birth'] = $dateOfBirths[$index];
-          $input['place_of_birth'] = $placeOfBirths[$index];
-          $input['country_of_residence'] = $countryOfResidences[$index];
-
-          $tau = new TrustAnchorUser($input);
-          $tau->save();
-
-          $ta_user_id = $tau->id;
-          $ta->trustAnchorUser()->save($tau);
-
-          $prefname = $input['prefname'];
-          $password = $input['prefname'];
-
-          Log::debug(print_r($input, true));
-          $url = $this->helper_url.'/ta-create-user?user_id='.$id.'&ta_user_id='.$ta_user_id.'&prefname='.$prefname.'&password='.$password;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_create_user');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_create_user: ' . $res->getStatusCode());
-          }
-
-          
-
-          return response()->json([]);
-      }
-
-      public function ta_set_v3_attestation(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_set_v3_attestation');
-
-          $input = $request->all();
-          Log::debug(print_r($input, true));
-
-          $user = User::find($id);
-
-          $attestation_type = $input['attestation_type'];
-          $user_account = $input['user_account'];
-          $ta_account = $input['ta_account']['account_address'];
-
-          $jurisdiction = $input['jurisdiction'];
-          $effective_time = $input['effective_time'];
-          $expiry_time = $input['expiry_time'];
-
-          $coin_blockchain = $input['coin_blockchain'];
-          $coin_token = $input['coin_token'];
-          $coin_address = $input['coin_address'];
-          $coin_memo = $input['coin_memo'];
-          
-          $url = $this->helper_url.'/ta-set-v3-attestation?attestation_type='.$attestation_type.'&user_id='.$id.'&user_account='.$user_account.'&jurisdiction='.$jurisdiction.'&effective_time='.$effective_time.'&expiry_time='.$expiry_time.'&coin_blockchain='.$coin_blockchain.'&coin_token='.$coin_token.'&coin_address='.$coin_address.'&coin_memo='.$coin_memo.'&ta_account='.$ta_account;
-
-          Log::debug($url);
-          
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_set_v3_attestation');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_set_v3_attestation: ' . $res->getStatusCode());
-          }
-          (new BlockchainAnalyticsController($input, $user));
-          return response()->json([]);
-      }
-
       public function ta_get_balance(Request $request, $id)
       {
           Log::debug('ContractsController ta_get_balance');
 
           $input = $request->all();
           $user = User::find($id);
+
+          if(count($input) == 0){
+            $input['account'] = 'noSelect';
+          }
 
           $account = $input['account'];
         
@@ -378,32 +191,6 @@ class ContractsController extends Controller
           return response()->json([]);
       }
 
-      public function ta_set_unique_address(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_set_unique_address');
-
-          $input = $request->all();
-          $user = User::find($id);
-
-          $account = $input['account'];
-
-          $url = $this->helper_url.'/ta-set-unique-address?user_id='.$id.'&account='.$account;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController tam_set_unique_address');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController tam_set_unique_address: ' . $res->getStatusCode());
-          }
-      
-          return response()->json([]);
-      }
-
       public function ta_get_discovery_layer_keys(Request $request, $id)
       {
           Log::debug('ContractsController ta_get_discovery_layer_keys');
@@ -414,117 +201,6 @@ class ContractsController extends Controller
 
             
           return response()->json($keys);
-      } 
-
-      public function ta_set_key_value_pair(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_set_key_value_pair');
-
-          $input = $request->all();
-          $user = User::find($id);
-
-          $account = $input['account'];
-          $ta_key_name = $input['ta_key_name'];
-          $ta_key_value = $input['ta_key_value'];
-
-          $url = $this->helper_url.'/ta-set-key-value-pair?user_id='.$id.'&account='.$account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_set_key_value_pair');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_set_key_value_pair: ' . $res->getStatusCode());
-          }
-      
-          return response()->json([]);
-      }
-
-      public function ta_get_unique_address(Request $request, $id)
-      {
-          Log::debug('ContractsController tam_get_unique_address');
-
-          $input = $request->all();
-
-          $user = User::find($id);
-
-          $from_account = $input['from_account'];
-          $to_account = $input['to_account'];
-
-          $url = $this->helper_url.'/ta-get-unique-address?user_id='.$id.'&from_account='.$from_account.'&to_account='.$to_account;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_get_unique_address');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_get_unique_address: ' . $res->getStatusCode());
-          }
-      
-          return response()->json([]);
-      }
-
-      public function ta_request_tokens(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_request_tokens');
-
-          $input = $request->all();
-          $user = User::find($id);
-
-          $account = $input['account'];
-          $amount = $input['amount'];
-        
-          Log::debug(print_r($input, true));
-          $url = $this->helper_url.'/ta-request-tokens?user_id='.$id.'&account='.$account.'&amount='.$amount;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_request_tokens');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_request_tokens: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
-
-      public function ta_get_user_attestations(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_get_user_attestations');
-
-          $input = $request->all();
-          $user = User::find($id);
-
-          $account = $input['account'];
-        
-          Log::debug(print_r($input, true));
-          $url = $this->helper_url.'/ta-get-user-attestations?user_id='.$id.'&account='.$account;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_get_user_attestations');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_get_user_attestations: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
       }
 
       public function ta_get_attestation_components_in_array(Request $request, $id)
@@ -571,7 +247,35 @@ class ContractsController extends Controller
           }
             
           return response()->json($trust_anchors);
-      } 
+      }
+      
+      public function ta_set_key_value_pair(Request $request, $id)
+      {
+          Log::debug('ContractsController ta_set_key_value_pair');
+
+          $input = $request->all();
+          $user = User::find($id);
+
+          $account = $input['account'];
+          $ta_key_name = $input['ta_key_name'];
+          $ta_key_value = $input['ta_key_value'];
+
+          $url = $this->helper_url.'/ta-set-key-value-pair?user_id='.$id.'&account='.$account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if($res->getStatusCode() == 200) {
+
+            $response = json_decode($res->getBody());
+            Log::debug('ContractsController ta_set_key_value_pair');
+            Log::debug($response);
+
+
+          } else {
+              Log::error('ContractsController ta_set_key_value_pair: ' . $res->getStatusCode());
+          }
+
+          return response()->json([]);
+      }
 
       public function ta_get_trust_anchor_users(Request $request, $id)
       {
@@ -665,35 +369,6 @@ class ContractsController extends Controller
               
           }
           return response()->json($list);
-      }
-
-      public function ta_register_jurisdiction(Request $request, $id)
-      {
-          Log::debug('ContractsController ta_register_jurisdiction');
-
-          $user = User::findOrFail($id);
-          
-          $input = $request->all();
-          $input['user_id'] = $id;
-          $account_address = $input['account_address'];
-          $jurisdiction = $input['jurisdiction'];
-
-          $url = $this->helper_url.'/ta-register-jurisdiction?user_id='.$id.'&account_address='.$account_address.'&jurisdiction='.$jurisdiction;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_register_jurisdiction');
-            Log::debug($response);
-           
-              
-          } else {
-              Log::error('ContractsController ta_register_jurisdiction: ' . $res->getStatusCode());
-          }
-
-          return response()->json();
-
       }
 
       public function ta_get_all_attestations(Request $request, $id)
