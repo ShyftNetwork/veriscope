@@ -56,6 +56,9 @@ class BlockchainAnalyticsController extends Controller
             
             $provider->enabled = isset($input[$provider->id . '_enabled']) ? $input[$provider->id . '_enabled'] : '0';
             $provider->key = $input[$provider->id . '_key'];
+            if ($provider->secret_key_exists) {
+                $provider->secret_key = $input[$provider->id . '_secret_key'];
+            }
             $provider->save();
         }
 
