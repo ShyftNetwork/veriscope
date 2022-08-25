@@ -69,7 +69,7 @@ function sendWebhookMessage(obj) {
         logger.debug('sendWebsocket success');
         logger.debug(`statusCode: ${res.statusCode}`)
         logger.debug(res)
-        resolve(obj)
+        resolve({...obj, response: res})
       })
       .catch((error) => {
         logger.error('sendWebsocket error');
@@ -94,41 +94,51 @@ function getAllAttestations(user_id) {
 
     var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_STORAGE_CONTRACT_ADDRESS);
 
+    let lastEventObj = await sendWebhookMessage({ message: "get-latest-block-event", data: {type: 'attestations'} });
+    let latestBlock = lastEventObj.response.data.data ? lastEventObj.response.data.data.block_number : 0
+    let blockToSave = latestBlock
     myContract.getPastEvents('EVT_setAttestation', {
-      fromBlock: 0,
+      fromBlock: latestBlock,
       toBlock: "latest",
     }, async function (error, events) {
-
+        console.log(events.length)
 
         for (const [i, event] of events.entries()) {
-          event['type'] = convertComponentsFromHex(event['returnValues']['_publicData_0']);
-          event['document'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
-          event['document_decrypt'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
+          try {
 
-          event['memo'] = convertComponentsFromHex(event['returnValues']['_availabilityAddressEncrypted']);
+            
+            event['type'] = convertComponentsFromHex(event['returnValues']['_publicData_0']);
+            event['document'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
+            event['document_decrypt'] = convertComponentsFromHex(event['returnValues']['_documentsMatrixEncrypted_0']);
 
-          var obj = {
-            message: "tas-event",
-            data: event
-          };
+            event['memo'] = convertComponentsFromHex(event['returnValues']['_availabilityAddressEncrypted']);
+            blockToSave = event.blockNumber > blockToSave ? event.blockNumber : blockToSave
 
-          logger.debug(obj);
-          await sendWebhookMessage(obj);
-          await sendWebhookMessage({
-            user_id,
-            message: "refresh-all-attestations",
-            data: {
-              completed: false,
-              message: `Loaded ${i} of ${events.length} attestations`
-            }
-          });
+            var obj = {
+              message: "tas-event",
+              data: event
+            };
+        
+            await sendWebhookMessage(obj);
+            await sendWebhookMessage({
+              user_id,
+              message: "refresh-all-attestations",
+              data: {
+                completed: false,
+                message: `Loaded ${i} of ${events.length} attestations`
+              }
+            });
+          } catch(e) {
+              console.log('error', e)
+          }
         }
       
       sendWebhookMessage({
         user_id,
         message: "refresh-all-attestations",
         data: {
-          completed: true
+          completed: true,
+          latestBlock: blockToSave
         }
       });
     })
@@ -138,12 +148,80 @@ function getAllAttestations(user_id) {
   })();
 }
 
-function chunkArray(array, chunkSize) {
-  return Array.from({
-      length: Math.ceil(array.length / chunkSize)
-    },
-    (_, index) => array.slice(index * chunkSize, (index + 1) * chunkSize)
-  );
+
+
+/*
+Refresh Trust Anchor key value pairs created, updated and pair data
+*/
+
+// node -e 'require("./blockchain-data").refreshTrustAnchorKeyValuePairs()'
+
+
+module.exports.refreshTrustAnchorKeyValuePairs = async function  (user_id = null) {
+
+    const contractsPayload = [{
+      name: 'EVT_setTrustAnchorKeyValuePairCreated',
+      initialMessage: 'Getting discovery layers...',
+      loadingMessage: 'discovery layers'
+    },{
+      name: 'EVT_setTrustAnchorKeyValuePairUpdated',
+      initialMessage: 'Getting updated value pairs...',
+      loadingMessage: 'updated discovery layers'
+    }]
+    
+    let source = fs.readFileSync(process.env.CONTRACTS+'TrustAnchorExtraData_Unique.json');
+  
+    let contracts = JSON.parse(source);
+  
+    var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS);
+    
+    let lastEventObj = await sendWebhookMessage({ message: "get-latest-block-event", data: {type: 'discoveryLayers'} });
+    let latestBlock = lastEventObj.response.data.data ? lastEventObj.response.data.data.block_number : 0
+    let blockToSave = latestBlock
+
+    for (let contract of contractsPayload) {
+      try {
+        await sendWebhookMessage({
+          user_id,
+          message: "refresh-all-discovery-layer-key-value-pairs",
+          data: {
+            completed: false,
+            message: contract.initialMessage
+          }
+        });
+        if (myContract.getPastEvents(contract.name)) {
+          let events = await myContract.getPastEvents(contract.name, {fromBlock: latestBlock,toBlock: "latest"})
+          for (const [i, event] of events.entries()) {
+            logger.debug(event);
+            blockToSave = event.blockNumber > blockToSave ? event.blockNumber : blockToSave
+            var obj = { message: "taedu-event", data: event };
+            await sendWebhookMessage(obj);
+            await sendWebhookMessage({
+              user_id,
+              message: "refresh-all-discovery-layer-key-value-pairs",
+              data: {
+                completed: false,
+                message: `Loaded ${i} of ${events.length} ${contract.loadingMessage}`
+              }
+            });
+          }
+        }
+      } catch(e) {
+        
+      }
+      
+    }
+    sendWebhookMessage({
+      user_id,
+      message: "refresh-all-discovery-layer-key-value-pairs",
+      data: {
+        completed: true,
+        latestBlock: blockToSave
+      }
+    });
+    logger.debug('refreshTrustAnchorKeyValuePairs result');
+    logger.debug();
+ 
 }
 /*
 EVT_setTrustAnchorKeyValuePairCreated
@@ -299,14 +377,19 @@ function getVerifiedTrustAnchors(user_id) {
 
     var myContract = new web3.eth.Contract(contracts.abi, process.env.TRUST_ANCHOR_MANAGER_CONTRACT_ADDRESS);
 
+    let lastEventObj = await sendWebhookMessage({ message: "get-latest-block-event", data: {type: 'trustAnchors'} });
+    let latestBlock = lastEventObj.response.data.data ? lastEventObj.response.data.data.block_number : 0
+    let blockToSave = latestBlock
+
     myContract.getPastEvents('EVT_verifyTrustAnchor', {
-       fromBlock: 0,
+       fromBlock: latestBlock,
        toBlock: "latest",
     }, async function(error, events){
 
       
         for (const [i, event] of events.entries()) {
           logger.debug(event);
+          blockToSave = event.blockNumber > blockToSave ? event.blockNumber : blockToSave
 
           var obj = { message: "tam-event", data: event };
           await sendWebhookMessage(obj);
@@ -325,7 +408,8 @@ function getVerifiedTrustAnchors(user_id) {
         user_id,
         message: "refresh-all-verified-tas",
         data: {
-          completed: true
+          completed: true,
+          latestBlock: blockToSave
         }
       });
 

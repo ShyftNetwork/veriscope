@@ -21,6 +21,10 @@
       {
         label: 'Account Address',
         field: 'account_address',
+      },
+      {
+        label: 'Block number',
+        field: 'block_number',
       }
     ]"
     :hideSearch=false

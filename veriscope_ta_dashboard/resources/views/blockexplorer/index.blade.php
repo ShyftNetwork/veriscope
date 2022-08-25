@@ -27,6 +27,12 @@
         field: 'created_at',
       },
       {
+        label: 'Block number',
+        field: 'block_number',
+        html: false,
+        sortable: true,
+      },
+      {
         label: 'Transaction Hash',
         field: 'transaction_hash',
       },

@@ -88,6 +88,29 @@ class TrustAnchorController extends Controller
 
           return response()->json([]);
       }
+
+
+      public function refresh_all_attestations(Request $request)
+      {
+          Log::debug('TrustAnchorController refresh_all_attestations');
+
+          
+          $url = $this->http_api_url.'/refresh-all-attestations?user_id=1';
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if($res->getStatusCode() == 200) {
+
+            $response = json_decode($res->getBody());
+            Log::debug('TrustAnchorController refresh_all_attestations');
+            Log::debug($response);
+           
+              
+          } else {
+              Log::error('TrustAnchorController refresh_all_attestations: ' . $res->getStatusCode());
+          }
+
+          return response()->json([]);
+      }
       /**
       * Get Trust Anchor Details
       *
@@ -110,9 +133,9 @@ class TrustAnchorController extends Controller
       */
       public function verify_trust_anchor(Request $request, $address)
       {
-          $isVerified = VerifiedTrustAnchor::where('account_address', $address)->exists();
+          $trustAnchor = VerifiedTrustAnchor::where('account_address', $address)->first();
 
-          return response()->json(['address' => $address, 'verified' => $isVerified ]);
+          return response()->json(['address' => $address, 'verified' => isset($trustAnchor), 'block_number' => isset($trustAnchor) ? $trustAnchor['block_number'] : null   ]);
 
       }
 

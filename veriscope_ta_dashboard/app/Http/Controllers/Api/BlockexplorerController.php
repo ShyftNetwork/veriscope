@@ -292,7 +292,9 @@ class BlockexplorerController extends Controller
 
                     ['field' => 'Is Managed', 'data' => $result['is_managed']],
                     ['field' => 'Attestation Hash', 'data'  => $result['attestation_hash']],
-                    ['field' => 'Transaction Hash', 'data'  => $result['transaction_hash']]
+                    ['field' => 'Transaction Hash', 'data'  => $result['transaction_hash']],
+
+                    ['field' => 'Block number', 'data'  => $result['block_number']]
 
                   ];
 

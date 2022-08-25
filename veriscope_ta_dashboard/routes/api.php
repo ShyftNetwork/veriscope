@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
         Route::get('refresh_all_verified_trust_anchors','TrustAnchorController@refresh_all_verified_trust_anchors');
         Route::get('refresh_all_discovery_layer_key_value_pairs', 'TrustAnchorController@refresh_all_discovery_layer_key_value_pairs');
+        Route::get('refresh_all_attestations', 'TrustAnchorController@refresh_all_attestations');
 
         # for KYC Template
         Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
@@ -51,6 +52,12 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get-blockchain-analytics-providers', 'BlockchainAnalyticsApiController@get_ba_providers');
         Route::get('get-blockchain-analytics-providers-available-networks/{id}', 'BlockchainAnalyticsApiController@get_ba_providers_available_networks');
         Route::post('generate-blockchain-analytics-report', 'BlockchainAnalyticsApiController@get_ba_report');
+
+        /* Events api methods */
+
+        Route::get('get-latest-block-events', 'BlockEventsController@getBlockEvents');
+        Route::post('edit-latest-block-event/{id}', 'BlockEventsController@editBlockEvent');
+
 
     });
 
