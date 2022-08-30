@@ -662,56 +662,39 @@ module.exports =   {
           this.sendWebhookMessage(obj);
       }
     },
-    taGetAttestationKeccakArrayForIdentifiedAddress: async function(user_id, account) {
-      result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
-      logger.debug('getAttestationKeccakArrayForIdentifiedAddress result');
-      logger.debug(result);
-      var list = [];
-      for(var i = 0; i < result.length; i++) {
-        var dict = {hash: result[i]};
-        list.push(dict);
-      }
-      var obj = { user_id: user_id, message: "ta-get-user-attestations", data: list };
-      this.sendWebhookMessage(obj);
-    },
     getIsTrustAnchorVerified: async function (user_id, account) {
 
-        result = await TrustAnchorManager.isTrustAnchorVerified(account);
+        var obj = { user_id: user_id, message: "ta-is-verified", data: '' };
 
-        logger.debug('isTrustAnchorVerified result');
-        logger.debug(result);
+        if(account == 'noSelect'){
+            obj.data = 'noSelect';
+        }else{
+            result = await TrustAnchorManager.isTrustAnchorVerified(account);
 
-        var obj = { user_id: user_id, message: "ta-is-verified", data: result };
+            logger.debug('isTrustAnchorVerified result');
+            logger.debug(result);
+    
+            obj.data = result;
+        }
         this.sendWebhookMessage(obj);
     },
     taGetBalance: async function (user_id, account) {
-        result = await web3.eth.getBalance(account);
-        logger.debug('getBalance result');
-        logger.debug(result);
 
-        var obj = { user_id: user_id, message: "ta-get-balance", data: result };
-        this.sendWebhookMessage(obj);
-    },
-    taRegisterJurisdiction: async function (user_id, account_address, jurisdiction) {
+        var obj = { user_id: user_id, message: "ta-get-balance", data: '' };
 
-        try {
-          result = await TrustAnchorManager.setupTrustAnchorJurisdiction(jurisdiction);
-          logger.debug('setupTrustAnchorJurisdiction result');
-          logger.debug(result);
-
-          var value = result['value'].toNumber();
-          logger.debug(value);
-          var obj = { user_id: user_id, message: "ta-register-jurisdiction", data: value };
-          this.sendWebhookMessage(obj);
-        } catch(error) {
-          logger.error("caught error");
-          logger.error(error.message);
-          var list = {message: error.message};
-          var obj = { user_id: user_id, message: "ta-register-jurisdiction-error", data: list };
-          this.sendWebhookMessage(obj);
+        if(account == 'noSelect'){
+            obj.data = 'noSelect';
+        } else {
+            result = await web3.eth.getBalance(account);
+            logger.debug('getBalance result');
+            logger.debug(result);
+    
+            obj.data = result;
         }
 
+        this.sendWebhookMessage(obj);
     },
+
     taGetTrustAnchorJurisdiction: async function(user_id, account_address) {
           result = await TrustAnchorManager.getTrustAnchorJurisdiction(account_address);
           logger.debug('getTrustAnchorJurisdiction result');
@@ -724,14 +707,6 @@ module.exports =   {
 
     },
 
-    trustAnchorGetUniqueAddress: async function(account) {
-        result = await TrustAnchorManager.getUniqueTrustAnchorExtraDataAddress(account);
-        logger.debug('getUniqueTrustAnchorExtraDataAddress result');
-        logger.debug(result);
-
-        var obj = {request: 'ta-get-unique-address', result: result};
-        this.sendWebhookMessage(obj);
-    },
     taSetKeyValuePair: async function(user_id, account, key_name, key_value) {
         result = await TrustAnchorExtraData_Unique.setTrustAnchorKeyValuePair(key_name, key_value);
         logger.debug('setTrustAnchorKeyValuePair result');
@@ -741,15 +716,7 @@ module.exports =   {
         var obj = { user_id: user_id, message: "ta-set-key-value-pair", data: value };
         this.sendWebhookMessage(obj);
     },
-    taSetUniqueAddress: async function (user_id, account) {
-        result = await TrustAnchorManager.setUniqueTrustAnchorExtraDataAddress(process.env.TRUST_ANCHOR_EXTRA_DATA_UNIQUE_CONTRACT_ADDRESS)
-        logger.debug('setUniqueTrustAnchorExtraDataAddress result');
-        logger.debug(result);
-        var value = result['value'].toNumber();
-        logger.debug(value);
-        var obj = { user_id: user_id, message: "ta-set-unique-address", data: value };
-        this.sendWebhookMessage(obj);
-    },
+
     trustAnchorGetNumberOfKeyValuePairs: async function (account) {
         result = await TrustAnchorExtraData_Unique.getTrustAnchorNumberOfKeyValuePairs(account);
         logger.debug('getTrustAnchorNumberOfKeyValuePairs result');

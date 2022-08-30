@@ -16,44 +16,14 @@ import {
     TA_GET_BALANCE_SUCCESS,
     TA_GET_BALANCE_FAIL,
     //KEEP
-    TA_REGISTER_JURISDICTION,
-    TA_REGISTER_JURISDICTION_SUCCESS,
-    TA_REGISTER_JURISDICTION_FAIL,
-    //KEEP
-    TA_SET_UNIQUE_ADDRESS,
-    TA_SET_UNIQUE_ADDRESS_SUCCESS,
-    TA_SET_UNIQUE_ADDRESS_FAIL,
-    //KEEP
     TA_SET_KEY_VALUE_PAIR,
     TA_SET_KEY_VALUE_PAIR_SUCCESS,
     TA_SET_KEY_VALUE_PAIR_FAIL,
 
-    TA_SET_JURISDICTION,
-    TA_SET_JURISDICTION_SUCCESS,
-    TA_SET_JURISDICTION_FAIL,
     TA_CREATE_USER,
     TA_CREATE_USER_SUCCESS,
     TA_CREATE_USER_FAIL,
 
-    TA_CREATE_RANDOM_USERS,
-    TA_CREATE_RANDOM_USERS_SUCCESS,
-    TA_CREATE_RANDOM_USERS_FAIL,
-
-    TA_SET_ATTESTATION,
-    TA_SET_ATTESTATION_SUCCESS,
-    TA_SET_ATTESTATION_FAIL,
-
-
-
-
-    TA_GET_UNIQUE_ADDRESS,
-    TA_GET_UNIQUE_ADDRESS_SUCCESS,
-    TA_GET_UNIQUE_ADDRESS_FAIL,
-
-
-    TA_GET_USER_ATTESTATIONS,
-    TA_GET_USER_ATTESTATIONS_SUCCESS,
-    TA_GET_USER_ATTESTATIONS_FAIL,
     TA_GET_ATTESTATION_COMPONENTS,
     TA_GET_ATTESTATION_COMPONENTS_SUCCESS,
     TA_GET_ATTESTATION_COMPONENTS_FAIL,
@@ -69,10 +39,6 @@ import {
     TA_GET_TAS,
     TA_GET_TAS_SUCCESS,
     TA_GET_TAS_FAIL,
-
-    TA_GET_USERS,
-    TA_GET_USERS_SUCCESS,
-    TA_GET_USERS_FAIL,
 
     TA_ASSIGN_CRYPTO_ADDRESS,
     TA_ASSIGN_CRYPTO_ADDRESS_SUCCESS,
@@ -128,33 +94,6 @@ export const actions = {
             });
     },
 
-
-    [TA_REGISTER_JURISDICTION]({
-        commit,
-        getters,
-        state
-    }) {
-        console.log('actions TA_REGISTER_JURISDICTION');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        var p = {
-            "account_address": state.form.attestation_ta_account.account_address,
-            "jurisdiction": state.form.attestation_jurisdiction.id
-        };
-        console.log(p);
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-register-jurisdiction`, p)
-            .then(response => {
-
-                state.taRegisterJurisdictionData = "Please Wait....";
-
-                return response;
-            })
-            .catch(error => {
-                commit(TA_REGISTER_JURISDICTION_FAIL);
-            });
-    },
-
     [TA_SAVE_IVMS]({ commit, dispatch, getters, state }) {
         console.log('actions TA_SAVE_IVMS');
         console.log('state');
@@ -202,30 +141,6 @@ export const actions = {
             });
     },
 
-    [TA_SET_JURISDICTION]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_SET_JURISDICTION');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        var p = {
-            "ta_jurisdiction": state.form.ta_jurisdiction,
-            "account": state.ta_temp_account
-        };
-        console.log(p);
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-jurisdiction`, p)
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-
-                commit(TA_SET_JURISDICTION_FAIL);
-            });
-    },
-
     [TA_CREATE_USER]({
         commit,
         getters,
@@ -254,85 +169,6 @@ export const actions = {
             });
     },
 
-    [TA_CREATE_RANDOM_USERS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_CREATE_RANDOM_USERS');
-        console.log('state');
-        console.log(state);
-        var p = {
-            "trust_anchor_account": state.form.attestation_ta_account
-        };
-        console.log('payload');
-        console.log(p);
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-create-random-users`, p)
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-                commit(TA_CREATE_RANDOM_USERS_FAIL);
-            });
-    },
-
-    [TA_SET_ATTESTATION]({
-        commit,
-        dispatch,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_SET_ATTESTATION');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        console.log(payload);
-
-        var p = {};
-        if (payload["type"] == 'WALLET') {
-
-            state.taSetWalletAttestationHashData = '';
-            state.taSetWalletAttestationData = 1;
-            state.taSetWalletAttestationError = null;
-
-            state.showTaSetWalletAttestationResult = 'block';
-
-            p = {
-                "attestation_type": 'WALLET',
-                "user_account": state.form.attestation_user.account_address,
-                "jurisdiction": state.form.attestation_jurisdiction.id,
-                "effective_time": '',
-                "expiry_time": '',
-                "coin_blockchain": state.form.user_coin_blockchain,
-                "coin_token": state.form.user_coin_token,
-                "coin_address": state.form.user_coin_address,
-                "coin_memo": state.form.user_coin_memo,
-                "ta_account": state.form.attestation_ta_account,
-            };
-        } else {
-            p = {
-                "attestation_user": state.form.attestation_user_account,
-                "jurisdiction": state.form.attestation_jurisdiction.id,
-                "effective_time": state.form.attestation_effective_date,
-                "expiry_time": state.form.attestation_expiry_date,
-                "public_data": state.form.attestation_public_data.type,
-                "documents_matrix_encrypted": state.form.attestation_document_matrix,
-                "availability_address_encrypted": state.form.attestation_kyc_data.date_name,
-                "ta_account": state.form.attestation_ta_account,
-            };
-        }
-        console.log(p);
-  
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-v3-attestation`, p)
-            .then(response => {
-                dispatch('taGetUsers');
-                return response;
-            })
-            .catch(error => {
-                commit(TA_SET_ATTESTATION_FAIL);
-            });
-    },
-
     [TA_GET_BALANCE]({
         commit,
         getters,
@@ -353,84 +189,6 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_GET_BALANCE_FAIL);
-            });
-    },
-
-    [TA_SET_UNIQUE_ADDRESS]({
-        commit,
-        getters,
-        state
-    }) {
-
-        var p = {
-            "account": state.form.attestation_ta_account.account_address
-        };
-        console.log(p);
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-unique-address/`, p)
-            .then(({
-                data
-            }) => {
-                console.log('TA_SET_UNIQUE_ADDRESS response');
-                return data;
-            })
-            .catch((error) => {
-                commit(TA_SET_UNIQUE_ADDRESS_FAIL);
-            });
-    },
-    [TA_GET_UNIQUE_ADDRESS]({
-        commit,
-        getters,
-        state
-    }) {
-
-        var p = {
-            "from_account": state.form.attestation_ta_account.account_address,
-            "to_account": state.form.ta_unique_account
-        };
-        console.log(p);
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-unique-address/`, p)
-            .then(({
-                data
-            }) => {
-                console.log('TA_GET_UNIQUE_ADDRESS response');
-                return data;
-            })
-            .catch((error) => {
-                commit(TA_GET_UNIQUE_ADDRESS_FAIL);
-            });
-    },
-
-    [TA_GET_USER_ATTESTATIONS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_GET_USER_ATTESTATIONS');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        console.log(payload);
-        var p = {};
-        if (payload.account_address) {
-            p = {
-                "account": payload.account_address
-            };
-        } else {
-            p = {
-                "account": state.form.ta_user_address
-            };
-        }
-
-        console.log(p);
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-user-attestations`, p)
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-                commit(TA_GET_USER_ATTESTATIONS_FAIL);
             });
     },
 
@@ -475,31 +233,6 @@ export const actions = {
             })
             .catch((response) => {
                 commit(TA_GET_TAS_FAIL);
-            });
-    },
-
-    [TA_GET_USERS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_GET_TA_USERS');
-        console.log(state.form.attestation_ta_account);
-
-        var p = {
-            "trust_anchor_id": state.form.attestation_ta_account.id
-        };
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-trust-anchor-users`, p)
-            .then(({
-                data
-            }) => {
-                console.log('actions TA_GET_USERS');
-                console.log(data);
-                commit(TA_GET_USERS_SUCCESS, data);
-                return data;
-            })
-            .catch((response) => {
-                commit(TA_GET_USERS_FAIL);
             });
     },
 

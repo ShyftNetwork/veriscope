@@ -16,41 +16,18 @@ import {
     TA_GET_BALANCE_SUCCESS,
     TA_GET_BALANCE_FAIL,
     //KEEP
-    TA_REGISTER_JURISDICTION_SUCCESS,
-    TA_REGISTER_JURISDICTION_FAIL,
-    //KEEP
-    TA_SET_UNIQUE_ADDRESS_SUCCESS,
-    TA_SET_UNIQUE_ADDRESS_FAIL,
-    //KEEP
     TA_SET_KEY_VALUE_PAIR_SUCCESS,
     TA_SET_KEY_VALUE_PAIR_FAIL,
-
-    TA_SET_JURISDICTION_SUCCESS,
-    TA_SET_JURISDICTION_FAIL,
 
     TA_EVENT_SUCCESS,
     TA_CREATE_USER_SUCCESS,
     TA_CREATE_USER_FAIL,
 
-    TA_CREATE_RANDOM_USERS_SUCCESS,
-    TA_CREATE_RANDOM_USERS_FAIL,
-
-    TA_SET_ATTESTATION_SUCCESS,
-    TA_SET_ATTESTATION_FAIL,
-
-    TA_GET_UNIQUE_ADDRESS_SUCCESS,
-    TA_GET_UNIQUE_ADDRESS_FAIL,
-
-    TA_GET_USER_ATTESTATIONS_SUCCESS,
-    TA_GET_USER_ATTESTATIONS_FAIL,
     TA_GET_ATTESTATION_COMPONENTS_SUCCESS,
     TA_GET_ATTESTATION_COMPONENTS_FAIL,
 
     TA_GET_TAS_SUCCESS,
     TA_GET_TAS_FAIL,
-
-    TA_GET_USERS_SUCCESS,
-    TA_GET_USERS_FAIL,
 
     TA_LOAD_COUNTRIES_SUCCESS,
     TA_LOAD_COUNTRIES_FAIL,
@@ -127,18 +104,6 @@ export const mutations = {
         console.log(state);
     },
 
-    [TA_REGISTER_JURISDICTION_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_REGISTER_JURISDICTION_SUCCESS');
-        console.log(state);
-        state.taRegisterJurisdictionData = payload;
-
-
-    },
-    [TA_REGISTER_JURISDICTION_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_REGISTER_JURISDICTION_FAIL');
-        console.log(state);
-    },
-
     [TA_SAVE_IVMS_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_SAVE_IVMS_SUCCESS');
         console.log(state);
@@ -171,18 +136,6 @@ export const mutations = {
         console.log(state.taEventData);
     },
 
-    [TA_SET_JURISDICTION_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_SET_JURISDICTION_SUCCESS');
-        console.log(state);
-        state.taSetJurisdictionData = payload;
-        console.log(state.taSetJurisdictionData);
-    },
-
-    [TA_SET_JURISDICTION_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_SET_JURISDICTION_FAIL');
-        console.log(state);
-    },
-
     [TA_CREATE_USER_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_CREATE_USER_SUCCESS');
         console.log(state);
@@ -197,66 +150,6 @@ export const mutations = {
         console.log(state);
     },
 
-    [TA_CREATE_RANDOM_USERS_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_CREATE_RANDOM_USERS_SUCCESS');
-        console.log(state);
-        console.log(payload);
-        // state.ta_user_accounts.push(payload);
-        // state.ta_temp_user = payload['account'];
-        // state.form.attestation_user_account = payload['account'];
-        // state.showTaCreateUserResult = 'block';
-    },
-
-    [TA_CREATE_RANDOM_USERS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_CREATE_RANDOM_USERS_FAIL');
-        console.log(state);
-    },
-
-
-    [TA_SET_ATTESTATION_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_SET_ATTESTATION_SUCCESS');
-        console.log(state);
-
-
-        if(payload['attestation_type'] === 'KYC') {
-            state.taSetKycAttestationData = parseInt(payload['result']) + 2;
-            state.taSetKycAttestationHashData = payload['hash'];
-            state.showTaSetKycAttestationResult = 'block';
-            state.showTaSetKycAttestationHash = 'block';
-            state.showTaSetKycAttestationError = 'none';
-
-        }
-        else if(payload['attestation_type'] === 'WALLET') {
-            state.taSetWalletAttestationData = parseInt(payload['result']) + 2;
-            state.taSetWalletAttestationHashData = payload['hash'];
-            state.showFatfButton = 'block';
-
-            state.showTaSetWalletAttestationError = 'none';
-            state.showTaSetWalletAttestationResult = 'block';
-            state.showTaSetWalletAttestationHash = 'block';
-        }
-
-    },
-
-    [TA_SET_ATTESTATION_FAIL] (state, payload={}) {
-        console.log('mutations TA_SET_ATTESTATION_FAIL');
-        console.log(payload);
-        console.log(state);
-        if(payload['attestation_type'] === 'KYC') {
-            state.taSetKycAttestationError = payload['message'];
-            state.showTaSetKycAttestationError = 'block';
-            state.showTaSetKycAttestationResult = 'none';
-            state.showTaSetKycAttestationHash = 'none';
-        }
-        else if(payload['attestation_type'] === 'WALLET') {
-            state.taSetWalletAttestationError = payload['message'];
-            state.showTaSetWalletAttestationError = 'block';
-            state.showTaSetWalletAttestationResult = 'none';
-            state.showTaSetWalletAttestationHash = 'none';
-        }
-
-    },
-
     [TA_GET_BALANCE_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_GET_BALANCE_SUCCESS');
         console.log(state);
@@ -269,68 +162,23 @@ export const mutations = {
         console.log(state);
     },
 
-    /**
-     * Called when user information successfully saved
-     * @param {object} state
-     */
-    [TA_SET_UNIQUE_ADDRESS_SUCCESS] (state, payload=[]) {
-        console.log('TA_SET_UNIQUE_ADDRESS_SUCCESS mutations');
-        console.log('TA_SET_UNIQUE_ADDRESS_SUCCESS state');
+    [TA_SET_KEY_VALUE_PAIR_SUCCESS] (state, payload=[]) {
+        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS mutations');
+        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS state');
         console.log(state);
-        console.log('TA_SET_UNIQUE_ADDRESS_SUCCESS payload');
+        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS payload');
         console.log(payload);
         // if(!Array.isArray(payload)) return;
-        state.taSetUniqueAddressData = payload;
-        console.log('state.taSetUniqueAddressData');
-        console.log(state.taSetUniqueAddressData);
+        state.taSetKeyValuePairData = payload;
+        console.log('state.taSetKeyValuePairData');
+        console.log(state.taSetKeyValuePairData);
     },
-    /**
-     * Called when user information fails saving
-     * @param {object} state
-     */
-    [TA_SET_UNIQUE_ADDRESS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('TA_SET_UNIQUE_ADDRESS_FAIL mutations');
+
+    [TA_SET_KEY_VALUE_PAIR_FAIL] (state, { message='', errors=[] } = {}) {
+        console.log('TA_SET_KEY_VALUE_PAIR_FAIL mutations');
         console.log(state);
         console.log(message);
         console.log(errors);
-    },
-
-     /**
-     * Called when user information successfully saved
-     * @param {object} state
-     */
-    [TA_GET_UNIQUE_ADDRESS_SUCCESS] (state, payload=[]) {
-        console.log('TA_GET_UNIQUE_ADDRESS_SUCCESS mutations');
-        console.log('TA_GET_UNIQUE_ADDRESS_SUCCESS state');
-        console.log(state);
-        console.log('TA_GET_UNIQUE_ADDRESS_SUCCESS payload');
-        console.log(payload);
-        // if(!Array.isArray(payload)) return;
-        state.taGetUniqueAddressData = payload;
-        console.log('state.taGetUniqueAddressData');
-        console.log(state.taGetUniqueAddressData);
-    },
-    /**
-     * Called when user information fails saving
-     * @param {object} state
-     */
-    [TA_GET_UNIQUE_ADDRESS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('TA_GET_UNIQUE_ADDRESS_FAIL mutations');
-        console.log(state);
-        console.log(message);
-        console.log(errors);
-    },
-
-    [TA_GET_USER_ATTESTATIONS_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_GET_USER_ATTESTATIONS_SUCCESS');
-        console.log(state);
-        console.log(payload);
-        state.taGetUserAttestationsData = payload;
-    },
-
-    [TA_GET_USER_ATTESTATIONS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_GET_USER_ATTESTATIONS_FAIL');
-        console.log(state);
     },
 
     [TA_GET_ATTESTATION_COMPONENTS_SUCCESS] (state, payload=[]) {
@@ -365,18 +213,6 @@ export const mutations = {
 
     [TA_GET_DISCOVERY_LAYER_KEYS_FAIL] (state, { message='', errors=[] } = {}) {
         console.log('mutations TA_GET_DISCOVERY_LAYER_KEYS_FAIL');
-        console.log(state);
-    },
-
-    [TA_GET_USERS_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_GET_TA_USERS_SUCCESS');
-        console.log(state);
-        state.getTaUsersData = payload;
-
-    },
-
-    [TA_GET_USERS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_GET_TA_USERS_FAIL');
         console.log(state);
     },
 
@@ -465,24 +301,5 @@ export const mutations = {
     [TA_GET_ALL_ATTESTATIONS_FAIL] (state) {
         //TODO: Might want to commit error
         console.log('TA_GET_ALL_ATTESTATIONS_FAIL failed to load');
-    },
-
-    [TA_SET_KEY_VALUE_PAIR_SUCCESS] (state, payload=[]) {
-        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS mutations');
-        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS state');
-        console.log(state);
-        console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS payload');
-        console.log(payload);
-        // if(!Array.isArray(payload)) return;
-        state.taSetKeyValuePairData = payload;
-        console.log('state.taSetKeyValuePairData');
-        console.log(state.taSetKeyValuePairData);
-    },
-
-    [TA_SET_KEY_VALUE_PAIR_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('TA_SET_KEY_VALUE_PAIR_FAIL mutations');
-        console.log(state);
-        console.log(message);
-        console.log(errors);
     },
 };

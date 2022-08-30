@@ -11,11 +11,6 @@ export const CREATE_TA_ACCOUNT = 'createTaAccount';
 export const CREATE_TA_ACCOUNT_SUCCESS = 'createTaAccountSuccess';
 export const CREATE_TA_ACCOUNT_FAIL = 'createTaAccountFail';
 
-
-export const TA_REGISTER_JURISDICTION = 'taRegisterJurisdiction';
-export const TA_REGISTER_JURISDICTION_SUCCESS = 'taRegisterJurisdictionSuccess';
-export const TA_REGISTER_JURISDICTION_FAIL = 'taRegisterJurisdictionFail';
-
 export const TA_SAVE_IVMS = 'taSaveIvms';
 export const TA_SAVE_IVMS_SUCCESS = 'taSaveIvmsSuccess';
 export const TA_SAVE_IVMS_FAIL = 'taSaveIvmsFail';
@@ -26,29 +21,13 @@ export const TA_IS_VERIFIED_FAIL = 'taIsVerifiedFail';
 
 export const TA_EVENT_SUCCESS = 'taEventSuccess';
 
-export const TA_SET_JURISDICTION = 'taSetJurisdiction';
-export const TA_SET_JURISDICTION_SUCCESS = 'taSetJurisdictionSuccess';
-export const TA_SET_JURISDICTION_FAIL = 'taSetJurisdictionFail';
-
 export const TA_CREATE_USER = 'taCreateUser';
 export const TA_CREATE_USER_SUCCESS = 'taCreateUserSuccess';
 export const TA_CREATE_USER_FAIL = 'taCreateUserFail';
 
-export const TA_CREATE_RANDOM_USERS = 'taCreateRandomUsers';
-export const TA_CREATE_RANDOM_USERS_SUCCESS = 'taCreateRandomUsersSuccess';
-export const TA_CREATE_RANDOM_USERS_FAIL = 'taCreateRandomUsersFail';
-
-export const TA_SET_ATTESTATION = 'taSetAttestation';
-export const TA_SET_ATTESTATION_SUCCESS = 'taSetAttestationSuccess';
-export const TA_SET_ATTESTATION_FAIL = 'taSetAttestationFail';
-
 export const TA_GET_BALANCE = 'taGetBalance';
 export const TA_GET_BALANCE_SUCCESS = 'taGetBalanceSuccess';
 export const TA_GET_BALANCE_FAIL = 'taGetBalanceFail';
-
-export const TA_GET_USER_ATTESTATIONS = 'taGetUserAttestations';
-export const TA_GET_USER_ATTESTATIONS_SUCCESS = 'taGetUserAttestationsSuccess';
-export const TA_GET_USER_ATTESTATIONS_FAIL = 'taGetUserAttestationsFail';
 
 export const TA_GET_ATTESTATION_COMPONENTS = 'taGetAttestationComponents';
 export const TA_GET_ATTESTATION_COMPONENTS_SUCCESS = 'taGetAttestationComponentsSuccess';
@@ -57,10 +36,6 @@ export const TA_GET_ATTESTATION_COMPONENTS_FAIL = 'taGetAttestationComponentsFai
 export const TA_GET_TAS = 'taGetTas';
 export const TA_GET_TAS_SUCCESS = 'taGetTasSuccess';
 export const TA_GET_TAS_FAIL = 'taGetTasFail';
-
-export const TA_GET_USERS = 'taGetUsers';
-export const TA_GET_USERS_SUCCESS = 'taGetUsersSuccess';
-export const TA_GET_USERS_FAIL = 'taGetUsersFail';
 
 export const TA_LOAD_COUNTRIES = 'taLoadCountries';
 export const TA_LOAD_COUNTRIES_SUCCESS = 'taLoadCountriesSuccess';
@@ -85,14 +60,6 @@ export const TA_GET_USER_WALLET_ADDRESSES_FAIL = 'taGetUserWalletAddressesFail';
 export const TA_GET_ALL_ATTESTATIONS = 'taGetAllAttestations';
 export const TA_GET_ALL_ATTESTATIONS_SUCCESS = 'taGetAllAttestationsSuccess';
 export const TA_GET_ALL_ATTESTATIONS_FAIL = 'taGetAllAttestationsFail';
-
-export const TA_SET_UNIQUE_ADDRESS = 'taSetUniqueAddress';
-export const TA_SET_UNIQUE_ADDRESS_SUCCESS = 'taSetUniqueAddressSuccess';
-export const TA_SET_UNIQUE_ADDRESS_FAIL = 'taSetUniqueAddressFail';
-
-export const TA_GET_UNIQUE_ADDRESS = 'taGetUniqueAddress';
-export const TA_GET_UNIQUE_ADDRESS_SUCCESS = 'taGetUniqueAddressSuccess';
-export const TA_GET_UNIQUE_ADDRESS_FAIL = 'taGetUniqueAddressFail';
 
 export const TA_SET_KEY_VALUE_PAIR = 'taSetKeyValuePair';
 export const TA_SET_KEY_VALUE_PAIR_SUCCESS = 'taSetKeyValuePairSuccess';

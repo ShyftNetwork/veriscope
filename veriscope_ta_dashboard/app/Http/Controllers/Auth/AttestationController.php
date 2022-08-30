@@ -67,11 +67,6 @@ class AttestationController extends Controller
   {
       return response()->view('.auth.attestations');
   }
-  
-  public function admin()
-  {
-      return response()->view('.auth.attestations');
-  }
 
   public function attestation_logs()
   {

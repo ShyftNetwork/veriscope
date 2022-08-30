@@ -16,7 +16,7 @@ class VerifiedTrustAnchor extends Model
      */
     protected $searchable = ['account_address'];
 
-      protected $fillable = ['account_address'];
+    protected $fillable = ['account_address'];
     /**
      * The attributes that are mass searchable.
      *
