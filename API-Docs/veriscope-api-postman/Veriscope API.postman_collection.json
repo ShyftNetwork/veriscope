@@ -225,7 +225,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
+							"raw": "{{baseUrl}}/api/v1/server/get-latest-block-events",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -233,7 +233,7 @@
 								"api",
 								"v1",
 								"server",
-								"refresh_all_discovery_layer_key_value_pairs"
+								"get-latest-block-events"
 							]
 						}
 					},
@@ -547,7 +547,7 @@
 					"query": [
 						{
 							"key": "ta_address",
-							"value": "",
+							"value": "{{address}}",
 							"description": "Use TA account address"
 						}
 					]

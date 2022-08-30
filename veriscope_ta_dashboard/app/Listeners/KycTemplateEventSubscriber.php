@@ -107,7 +107,7 @@ class KycTemplateEventSubscriber implements ShouldQueue
 
 
       $events->listen(
-          'Spatie\WebhookServer\Events\WebhookCallFailedEvent',
+          'Spatie\WebhookServer\Events\FinalWebhookCallFailedEvent',
           [KycTemplateEventSubscriber::class, 'handleFinalFailed']
       );
 
