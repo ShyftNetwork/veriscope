@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 
 use Spatie\WebhookServer\WebhookCall;
-use App\{ SmartContractAttestation };
+use App\{ SmartContractAttestation, SandboxTrustAnchorUserCryptoAddress };
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -48,10 +48,8 @@ class SmartContractAttestationJob implements ShouldQueue
 
       if ( !empty($webhook_url->value) && !empty($webhook_secret->value) )
       {
-        WebhookCall::create()
-        ->url($webhook_url->value)
-        ->meta(['hasState' => false])
-        ->payload([
+
+        $payload = [
           'eventType' => 'NEW_ATTESTATION',
           'ta_account' => $this->smartContractAttestation->ta_account,
           'jurisdiction' => $this->smartContractAttestation->jurisdiction,
@@ -72,12 +70,23 @@ class SmartContractAttestationJob implements ShouldQueue
           'coin_token' => $this->smartContractAttestation->coin_token,
           'coin_address' => $this->smartContractAttestation->coin_address,
           'coin_memo' => $this->smartContractAttestation->coin_memo
-        ])
+        ];
+
+        $test = SandboxTrustAnchorUserCryptoAddress::where('crypto_type',$this->smartContractAttestation->coin_token)->where('crypto_address','ILIKE', $this->smartContractAttestation->coin_address);
+        // If transaction is a test transaction then automate auto-reply
+        if ($test->exists()) {
+          app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($payload['eventType'],$payload['attestation_hash'], $test->first());
+        }
+
+        WebhookCall::create()
+        ->url($webhook_url->value)
+        ->meta(['hasState' => false])
+        ->payload($payload)
         ->useSecret($webhook_secret->value)
         ->dispatch();
-        
+
       } else {
-       new \Exception("Missing webhook_url or webhook_secret");
+         new \Exception("Missing webhook_url or webhook_secret");
       }
     }
 

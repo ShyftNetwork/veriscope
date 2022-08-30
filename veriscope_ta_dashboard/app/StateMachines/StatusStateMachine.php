@@ -240,6 +240,7 @@ class StatusStateMachine extends StateMachine
     public function afterTransitionHooks(): array
     {
         return [
+
             'BE_TA_VERIFIED' => [
                 function ($from, $model) {
 

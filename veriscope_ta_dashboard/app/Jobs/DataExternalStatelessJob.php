@@ -59,7 +59,11 @@ class DataExternalStatelessJob implements ShouldQueue
       WebhookCall::create()
       ->url($url)
       ->meta(['invokedMethod' => $this->invokedMethod, 'hasState' => false])
-      ->payload(["kycStateMachine" => ["code" => $this->model->status()->getCustomProperty($who.'_ivms_state_code') ], "kycTemplate" => $kycTemplateJSON['data']])
+      ->payload([
+        "eventType" => $this->invokedMethod,
+        "kycStateMachine" => ["code" => $this->model->status()->getCustomProperty($who.'_ivms_state_code') ],
+        "kycTemplate" => $kycTemplateJSON['data']
+      ])
       ->doNotSign()
       ->dispatch();
 

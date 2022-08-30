@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Server;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{TrustAnchor, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState};
+use App\{TrustAnchor, SandboxTrustAnchorUserCryptoAddress, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState};
 use App\Http\Requests\{CreateKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest};
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
@@ -16,6 +16,7 @@ use Spatie\WebhookServer\WebhookCall;
 use Illuminate\Validation\ValidationException;
 use App\Transformers\KycTemplateTransformer;
 use App\Jobs\{DataExternalJob, DataInternalJob, DataInternalIVMSJob, DataExternalStatelessJob};
+use Illuminate\Support\Facades\DB;
 
 class TrustAnchorController extends Controller
 {
@@ -28,6 +29,25 @@ class TrustAnchorController extends Controller
       public function __construct()
       {
           $this->http_api_url = env('HTTP_API_URL');
+      }
+
+      /**
+      * Delete all sandbox templates
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function delete_sandbox_templates(Request $request)
+      {
+          $staucas = SandboxTrustAnchorUserCryptoAddress::all();
+          foreach ($staucas as $stauca) {
+              $kts = KycTemplate::where('coin_address','ILIKE',$stauca->crypto_address)->where('coin_token','ILIKE',$stauca->crypto_type)->get();
+              foreach ($kts as $kt) {
+                 DB::table('state_histories')->where('model_id', '=', $kt->id)->where('model_type', '=','App\KycTemplate')->delete();
+                 DB::table('kyc_templates')->where('id', '=', $kt->id)->delete();
+              }
+          }
+          return response()->json([]);
       }
 
       /**
@@ -237,6 +257,9 @@ class TrustAnchorController extends Controller
 
           $ivms_state_code = $request->get('ivms_state_code','');
 
+          #Sanbox Automated Response For test_vars
+          $test_vars = $request->get('test_vars','ivms_state_code=0202');
+
 
           $ta = TrustAnchor::firstOrFail();
           $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
@@ -250,6 +273,7 @@ class TrustAnchorController extends Controller
           $kt->coin_transaction_value = $coin_transaction_value;
           $kt->sender_ta_address = $sca->ta_account;
           $kt->sender_user_address = $sca->user_account;
+          $kt->test_vars = $test_vars;
           $kt->save();
 
 

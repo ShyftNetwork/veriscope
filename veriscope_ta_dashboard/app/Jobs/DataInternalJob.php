@@ -57,17 +57,19 @@ class DataInternalJob implements ShouldQueue
 
       if ( !empty($webhook_url->value) && !empty($webhook_secret->value) )
       {
-        WebhookCall::create()
-        ->url($webhook_url->value)
-        ->meta(['invokedMethod' => $this->invokedMethod, 'hasState' => true])
-        ->payload([
-          "eventType" => $this->invokedMethod,
-          "kycTemplate" => $kycTemplateJSON['data']
-        ])
-        ->useSecret($webhook_secret->value)
-        ->dispatch();
+          // If transaction is a test transaction then automate auto-reply and set webhook to received
 
-        $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
+          WebhookCall::create()
+          ->url($webhook_url->value)
+          ->meta(['invokedMethod' => $this->invokedMethod, 'hasState' => true])
+          ->payload([
+            "eventType" => $this->invokedMethod,
+            "kycTemplate" => $kycTemplateJSON['data']
+          ])
+          ->useSecret($webhook_secret->value)
+          ->dispatch();
+
+          $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
 
       } else {
          new \Exception("Missing webhook_url or webhook_secret");
