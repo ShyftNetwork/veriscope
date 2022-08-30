@@ -66,7 +66,7 @@ class BlockchainAnalyticsApiController extends Controller
     {
         $input = $request->all();
 
-        $provider = BlockchainAnalyticsProvider::where('id', $input['providerId'])->first();
+        $provider = BlockchainAnalyticsProvider::where('id', $input['provider_id'])->first();
         if (!$provider) return response()->json("No such provider", 400);
 
         $network = BlockchainAnalyticsSupportedNetworks::where('blockchain_analytics_provider_id', $provider->id)->where('ticker', $input['network'])->first();
@@ -94,7 +94,11 @@ class BlockchainAnalyticsApiController extends Controller
             $response = $this->chainalysisRequest($input['address'],  $network, $api_key);
             if (isset($response[0]['cluster']['name'])) $custodian = $response[0]['cluster']['name'];
             $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
-        }
+        } else if ($provider->name == 'Elliptic') {
+            $response = $this->ellipticRequest($input['address'],  $network, $api_key, $provider->secret_key);
+            if (isset($response['cluster_entities'][0])) $custodian = $response['cluster_entities'][0]['name'];
+            $inertedObject = $this->save_response_to_db($provider->id, $network->ticker, $input['address'], $custodian, $response, $response['statusCode'] );
+        }   
 
         return response()->json($inertedObject);
     }
@@ -239,6 +243,49 @@ class BlockchainAnalyticsApiController extends Controller
                     'Accept' => 'application/json'
                 ],
                 'body' => json_encode([$payload])
+            ]);
+            
+            $jsonResponse = json_decode($response->getBody(), true);
+            $jsonResponse['statusCode'] = 200;
+            return $jsonResponse;
+        } catch (ClientException $e) {  
+            $response = $e->getResponse();           
+            $jsonResponse = json_decode((string) $response->getBody(), true);
+            $jsonResponse['statusCode'] = $response->getStatusCode();
+            return $jsonResponse;
+        };
+    }
+
+    function ellipticRequest($address, $network, $api_key, $secret_key) {
+
+        $payload = [];
+        $payload['subject']['asset'] = strtoupper($network['ticker']);
+        $payload['subject']['blockchain'] = $network['request_name'];
+        $payload['subject']['type'] = "address";
+        $payload['subject']['hash'] = $address;
+        $payload['type'] = "wallet_exposure";
+        $payload['customer_reference'] = "string";
+
+
+        $time_of_request = (int)(microtime(true)*1000);
+        $json = json_encode($payload);
+
+        $ctx = hash_init('sha256', HASH_HMAC, base64_decode($secret_key));
+        $request_text = $time_of_request . 'POST' . '/v2/wallet/synchronous' . $json;
+        hash_update($ctx, $request_text);
+        $signature = base64_encode(hex2bin(hash_final($ctx)));
+
+        try {
+            $client = new Client();
+            $response = $client->request('POST', 'https://aml-api.elliptic.co/v2/wallet/synchronous', [
+                'headers' => [
+                    'x-access-key' => $api_key,
+                    'x-access-sign' => $signature,
+                    'x-access-timestamp' => $time_of_request,
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json'
+                ],
+                'body' => $json
             ]);
             
             $jsonResponse = json_decode($response->getBody(), true);

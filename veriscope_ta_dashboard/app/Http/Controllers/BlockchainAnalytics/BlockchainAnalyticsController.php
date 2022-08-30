@@ -6,7 +6,7 @@ use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\BlockchainAnalyticsProvider;
-use App\Http\Controllers\BlockchainAnalytics\{CoinfirmAnalyticsController, CrystalBlockchainAnalyticsController, MerkleScienceAnalyticsController, ChainalysisController};
+use App\Http\Controllers\BlockchainAnalytics\{CoinfirmAnalyticsController, CrystalBlockchainAnalyticsController, MerkleScienceAnalyticsController, ChainalysisController, EllipticAnalyticsController};
 
 class BlockchainAnalyticsController extends Controller {
     /**
@@ -50,6 +50,15 @@ class BlockchainAnalyticsController extends Controller {
                         if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Chainalysis') {
                             Log::debug('Chainalysis init');
                             (new ChainalysisController($data, $provider->key, $user));
+                        }
+                    }
+                }
+
+                if ($provider->id == 5 && $provider->key) {
+                    if (!$user || $provider['enabled'] == '1')  {
+                        if (!isset($data['ba_provider']) || $data['ba_provider']['name'] == 'Elliptic') {
+                            Log::debug('Elliptic init');
+                            (new EllipticAnalyticsController($data, $provider->key, $user, $provider->secret_key));
                         }
                     }
                 }

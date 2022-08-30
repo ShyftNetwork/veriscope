@@ -21,8 +21,13 @@ constants
             </div>
             <div class="w-1/2 text-sm pl-8">
               <div class="form-control pt-0 mb-0">
-                <input id="{{ $provider->name }}_key" type="text" name="{{ $provider->id}}_key" value="{{ $provider->key }}" requried="" />
+                <input placeholder='Api key' id="{{ $provider->name }}_key" type="text" name="{{ $provider->id}}_key" value="{{ $provider->key }}" requried="" />
               </div>
+              @if($provider->secret_key_exists == true)   
+                <div class="form-control pt-2 mb-0">
+                <input placeholder='Secret key' id="{{ $provider->name }}_secret_key" type="text" name="{{ $provider->id}}_secret_key" value="{{ $provider->secret_key }}" requried="" />
+                </div>
+                @endif
             </div>
             <div class="my-4 border-b border-hairline w-full"></div>
           </div>
