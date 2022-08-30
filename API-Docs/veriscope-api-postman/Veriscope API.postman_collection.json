@@ -117,6 +117,172 @@
 			]
 		},
 		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Refresh All Verified Trust Anchors",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/refresh_all_verified_trust_anchors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"refresh_all_verified_trust_anchors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh All Discovery Layer Key Value Pairs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"refresh_all_discovery_layer_key_value_pairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh All Attestations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"refresh_all_discovery_layer_key_value_pairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get latest block event numbers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"refresh_all_discovery_layer_key_value_pairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit latest block event number",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "block_number",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/server/edit-latest-block-event/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"server",
+								"edit-latest-block-event",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Set V3 Attestation",
 			"request": {
 				"auth": {
@@ -261,36 +427,6 @@
 			"response": []
 		},
 		{
-			"name": "Get Verified Trust Anchors",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_verified_trust_anchors",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"server",
-						"get_verified_trust_anchors"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Is Trust Anchor Verified",
 			"request": {
 				"auth": {
@@ -322,7 +458,7 @@
 			"response": []
 		},
 		{
-			"name": "Refresh All Verified Trust Anchors",
+			"name": "Get Verified Trust Anchors",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -337,7 +473,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/refresh_all_verified_trust_anchors",
+					"raw": "{{baseUrl}}/api/v1/server/get_verified_trust_anchors",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -345,37 +481,7 @@
 						"api",
 						"v1",
 						"server",
-						"refresh_all_verified_trust_anchors"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Refresh All Discovery Layer Key Value Pairs",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"server",
-						"refresh_all_discovery_layer_key_value_pairs"
+						"get_verified_trust_anchors"
 					]
 				}
 			},

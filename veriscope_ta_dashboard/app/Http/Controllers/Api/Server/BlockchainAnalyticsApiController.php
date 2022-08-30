@@ -11,6 +11,7 @@ use App\{Country,BlockchainAnalyticsProvider, BlockchainAnalyticsSupportedNetwor
 use kornrunner\Ethereum\Address;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
+use App\Http\Requests\{GetBAReportRequest};
 
 class BlockchainAnalyticsApiController extends Controller
 {
@@ -62,15 +63,14 @@ class BlockchainAnalyticsApiController extends Controller
       * @return \Illuminate\Http\Response
       */
 
-    public function get_ba_report(Request $request)
+    public function get_ba_report(GetBAReportRequest $request)
     {
         $input = $request->all();
 
         $provider = BlockchainAnalyticsProvider::where('id', $input['provider_id'])->first();
         if (!$provider) return response()->json("No such provider", 400);
 
-        $network = BlockchainAnalyticsSupportedNetworks::where('blockchain_analytics_provider_id', $provider->id)->where('ticker', $input['network'])->first();
-        if (!$network) return response()->json("No such network", 400);
+        $network = BlockchainAnalyticsSupportedNetworks::where('blockchain_analytics_provider_id', $provider->id)->where('ticker', $input['network'])->firstOrFail();
 
         $response = [];
         $inertedObject = [];

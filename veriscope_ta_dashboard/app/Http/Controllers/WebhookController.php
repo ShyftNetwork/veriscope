@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
-use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, TrustAnchorExtraDataUniqueValidation};
+use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, TrustAnchorExtraDataUniqueValidation, LatestBlockEvents};
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
@@ -94,7 +94,7 @@ class WebhookController extends Controller
 
                 $type = $data_local['type'];
 
-                $attestation = new SmartContractAttestation();
+                $attestation = SmartContractAttestation::firstOrCreate(['transaction_hash' => $_data['transactionHash']]);
                 $attestation->ta_account = $msg_sender_address;
                 $attestation->jurisdiction = $jurisdiction;
                 $attestation->effective_time = $_data['returnValues']['_effectiveTime'];
@@ -104,8 +104,8 @@ class WebhookController extends Controller
                 $attestation->availability_address_encrypted = $availability_address_encrypted;
                 $attestation->is_managed = $_data['returnValues']['_isManaged'];
                 $attestation->attestation_hash = $attestation_hash;
-                $attestation->transaction_hash = $_data['transactionHash'];
                 $attestation->user_account = $identified_address;
+                $attestation->block_number = $data['data']['blockNumber'];;
 
                 $attestation->save();
 
@@ -145,6 +145,7 @@ class WebhookController extends Controller
                 $account_address = $returnValues['trustAnchorAddress'];
                 
                 $ta = VerifiedTrustAnchor::firstOrCreate(['account_address' => $account_address]);
+                $ta->block_number =  $data['data']['blockNumber'];
                 $ta->save();
             }
 
@@ -378,12 +379,22 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'refresh-all-attestations') {
+            if ($data['data']['completed'] === true) {
+                LatestBlockEvents::where('type','attestations')->update(['block_number'=>$data['data']['latestBlock']]);
+            }
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'refresh-all-discovery-layer-key-value-pairs') {
+            if ($data['data']['completed'] === true) {
+                LatestBlockEvents::where('type','discoveryLayers')->update(['block_number'=>$data['data']['latestBlock']]);
+            }
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'refresh-all-verified-tas') {
+            if ($data['data']['completed'] === true) {
+                LatestBlockEvents::where('type','trustAnchors')->update(['block_number'=>$data['data']['latestBlock']]);
+            }
+            
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'get-validation-for-key-value-pair-data') {
@@ -482,6 +493,14 @@ class WebhookController extends Controller
             }
 
 
+        }
+        if ($data['message'] === 'get-latest-block-event') {
+            Log::debug('get-latest-block-event');
+            Log::debug(print_r($data, true));
+
+            $latestBlockEvent = LatestBlockEvents::where('type', $data['data']['type'])->first();
+
+            return response()->json(['message' => 'success', 'data' => $latestBlockEvent], 200);
         }
 
         return response()->json(['message' => 'success'], 200);

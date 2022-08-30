@@ -9,7 +9,8 @@ const {
   getTrustAnchorKeyValuePairCreated,
   getTrustAnchorKeyValuePairUpdated,
   getVerifiedTrustAnchors,
-  getValidationForKeyValuePairData
+  getValidationForKeyValuePairData,
+  refreshTrustAnchorKeyValuePairs
 } = require('./blockchain-data')
 
 const ethers = require("ethers");
@@ -606,9 +607,7 @@ params:
 
 app.get('/refresh-all-discovery-layer-key-value-pairs', (req, res) => {
   var user_id = req.param('user_id');
-  refreshAllDiscoveryLayerKeyValuePairs(user_id);
-  refreshAllDiscoveryLayerKeyValuePairsUpdated(user_id);
-  refreshValidationsForKeyValuePairData(user_id);
+  refreshTrustAnchorKeyValuePairs(user_id);
   res.sendStatus(201);
 });
 
@@ -779,6 +778,7 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
             logger.debug("event EVT_setAttestation");
             data = {};
             data['transactionHash'] = event.transactionHash;
+            data['blockNumber'] = event.blockNumber;
             data['event'] = "EVT_setAttestation";
             data['returnValues'] = {};
 
