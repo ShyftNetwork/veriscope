@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "27ac4f65-bf33-45c7-bd28-0439098ffa7c",
+		"_postman_id": "e51192b5-e64b-4d73-bd12-b954647a6996",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "4586988"
+		"_exporter_id": "17461168"
 	},
 	"item": [
 		{
@@ -195,7 +195,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
+							"raw": "{{baseUrl}}/api/v1/server/refresh_all_attestations",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -203,7 +203,7 @@
 								"api",
 								"v1",
 								"server",
-								"refresh_all_discovery_layer_key_value_pairs"
+								"refresh_all_attestations"
 							]
 						}
 					},
@@ -534,7 +534,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_address=",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_address={{address}}",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -793,7 +793,7 @@
 					"query": [
 						{
 							"key": "attestation_hash",
-							"value": null,
+							"value": "",
 							"description": "Attestation Hash from attestation",
 							"disabled": true
 						}
@@ -1127,7 +1127,5 @@
 				]
 			}
 		}
-	],
-	"variable": [
 	]
 }
