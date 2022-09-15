@@ -14,7 +14,7 @@ fi
 
 # Check location of install
 cd $INSTALL_ROOT
-if [ $? -ne 0 ]; then 
+if [ $? -ne 0 ]; then
 	echo "$INSTALL_ROOT not found"
 	exit 1
 fi
@@ -70,12 +70,19 @@ esac
 cp -n chains/$VERISCOPE_TARGET/ta-node-env veriscope_ta_node/.env
 
 
+if [ -z "$(logname)" ]
+then
+SERVICE_USER=serviceuser
+else
 SERVICE_USER=$(logname)
+fi
+
+
 CERTFILE=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/fullchain.pem
 CERTKEY=/etc/letsencrypt/live/$VERISCOPE_SERVICE_HOST/privkey.pem
 SHARED_SECRET=
 
-NETHERMIND_DEST=/opt/nm/
+NETHERMIND_DEST=/opt/nm
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
 NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.12.4/nethermind-linux-amd64-1.12.4-1c8b669-20220113.zip"
 NETHERMIND_RPC="http://localhost:8545"
@@ -139,6 +146,8 @@ function create_postgres_trustanchor_db {
 }
 
 function refresh_dependencies() {
+  apt-get -y  update
+  apt-get install -y software-properties-common curl sudo wget build-essential systemd netcat
 	add-apt-repository >/dev/null -yn ppa:ondrej/php
 	add-apt-repository >/dev/null -yn ppa:ondrej/nginx
 	# nodesource's script does an apt update
@@ -167,6 +176,11 @@ function refresh_dependencies() {
 	fi
 	php composer-setup.php --install-dir="/usr/local/bin/" --filename=composer --2
 	rm composer-setup.php
+
+  if [ $SERVICE_USER == "serviceuser" ]; then
+   chown -R $SERVICE_USER /opt/veriscope/
+  fi
+
 
 	cp scripts/ntpdate /etc/cron.daily/
 	cp scripts/journald /etc/cron.daily/
@@ -241,12 +255,17 @@ function install_or_update_nethermind() {
 		}' >  $NETHERMIND_CFG
 	fi
 
-	echo "Restarting nethermind..."
-	chown -R $SERVICE_USER:$SERVICE_USER /opt/nm/
-	systemctl restart nethermind
+	      echo "Restarting nethermind...."
+        if [ $SERVICE_USER == "serviceuser" ]; then
+         chown -R $SERVICE_USER /opt/nm/
+        else
+         chown -R $SERVICE_USER:$SERVICE_USER /opt/nm/
+        fi
+
+        systemctl restart nethermind
 }
 
-# explore automatic SSL cert renewal 
+# explore automatic SSL cert renewal
 function setup_or_renew_ssl {
 	systemctl stop nginx
 	certbot certonly -n --agree-tos   --register-unsafely-without-email --standalone --preferred-challenges http   -d $VERISCOPE_SERVICE_HOST || { echo "Certbot failed to get a certificate"; exit 1; }
@@ -258,7 +277,7 @@ function setup_or_renew_ssl {
 	systemctl restart nginx
 }
 
-# after SSL step. ONLY ONCE. If re-run same info should be set 
+# after SSL step. ONLY ONCE. If re-run same info should be set
 function setup_nginx {
 	sed -i "s/user .*;/user $SERVICE_USER www-data;/g" /etc/nginx/nginx.conf
 
@@ -334,13 +353,14 @@ function setup_nginx {
 	} ' >$NGINX_CFG
 
 	systemctl enable nginx
+	systemctl restart php8.0-fpm
 	systemctl restart nginx
 }
 
 # should be able to run this multiple times.
 # first time is install.
 # second time onwards it is considered an update operation
-# Should copy the source (ensure .env is not overwritten), npm install, 
+# Should copy the source (ensure .env is not overwritten), npm install,
 function install_or_update_nodejs {
 	echo "Updating node.js application & restarting"
 	chown -R $SERVICE_USER $INSTALL_ROOT/veriscope_ta_node
@@ -367,7 +387,7 @@ function install_or_update_nodejs {
 
 	systemctl restart ta-node-1
 	systemctl restart ta-node-2
-	
+
 	# this also does a restart of ta-node-1 ta-node-2
 	regenerate_webhook_secret;
 }
@@ -399,7 +419,7 @@ function install_or_update_laravel {
 	su $SERVICE_USER -c "php artisan encrypt:generate"
 	su $SERVICE_USER -c "php artisan passportenv:link"
 	# ONLY ONCE. SHOULD not run on update
-	
+
 	chgrp -R www-data ./
 	chmod -R 0770 ./storage
 	chmod -R g+s ./
@@ -423,7 +443,7 @@ function install_or_update_laravel {
 	echo "Restarting PHP-based services..."
 	systemctl enable ta-schedule
 	systemctl enable ta-wss
-	systemctl enable ta 
+	systemctl enable ta
 	systemctl restart ta-schedule
 	systemctl restart ta-wss
 	systemctl restart ta
@@ -459,7 +479,7 @@ function refresh_static_nodes() {
 
 	systemctl restart nethermind
 	CONNRESULT=1     # nc returns 1 if connection fails
-	while [ $CONNRESULT -eq 1 ];  do 
+	while [ $CONNRESULT -eq 1 ];  do
 		echo "?" | nc >/dev/null localhost 8545
 		CONNRESULT=$?
 	done
@@ -495,7 +515,7 @@ function install_horizon() {
 	su $SERVICE_USER -c "php artisan migrate"
 	popd >/dev/null
 
-	pushd >/dev/null $INSTALL_ROOT/ 
+	pushd >/dev/null $INSTALL_ROOT/
 	if ! test -s "/etc/systemd/system/horizon.service"; then
 		echo "Deploying systemd service definitions: horizon"
 		cp scripts/horizon.service /etc/systemd/system/
