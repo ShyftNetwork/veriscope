@@ -17,6 +17,5 @@ class DatabaseSeeder extends Seeder
         $this->call(KycTemplateStatesTableSeeder::class);
         $this->call(CryptoWalletTypesTableSeeder::class);
         $this->call(CryptoWalletAddressesTableSeeder::class);
-        $this->call(DiscoveryLayerKeysTableSeeder::class);
     }
 }

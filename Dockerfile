@@ -27,5 +27,4 @@ RUN adduser \
 COPY ./ /opt/veriscope
 
 RUN chmod +x /opt/veriscope/scripts/setup-vasp.sh
-
 EXPOSE 80 443

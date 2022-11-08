@@ -6,7 +6,7 @@ use Asantibanez\LaravelEloquentStateMachines\StateMachines\StateMachine;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Validation\Rule;
-use App\Rules\{CryptoAddress, CryptoAddressType, CryptoPublicKey, CryptoSignature, CryptoSignatureHash};
+use App\Rules\{CryptoAddress, CryptoAddressType, CryptoPublicKey, CryptoSignature, CryptoSignatureHash, CryptoProofVerification};
 use Spatie\WebhookServer\WebhookCall;
 use App\Transformers\KycTemplateTransformer;
 use App\{KycTemplate, Constant, TrustAnchor, SmartContractAttestation};
@@ -28,10 +28,12 @@ class StatusStateMachine extends StateMachine
           'BE_TA_PUBLIC_KEY' => ['BE_TA_SIGNATURE'],
           'BE_TA_SIGNATURE' => ['BE_USER_PUBLIC_KEY'],
           'BE_USER_PUBLIC_KEY' => ['BE_USER_SIGNATURE'],
-          'BE_USER_SIGNATURE' => ['BE_TA_URLS'],
+          'BE_USER_SIGNATURE'  => ['BE_CRYPTO_PROOF_VERIFIED','BE_CRYPTO_PROOF_NOT_INSTALLED','BE_CRYPTO_PROOF_NOT_PROVIDED'],
+          'BE_CRYPTO_PROOF_NOT_INSTALLED' => ['BE_TA_URLS'],
+          'BE_CRYPTO_PROOF_NOT_PROVIDED' => ['BE_TA_URLS'],
+          'BE_CRYPTO_PROOF_VERIFIED' => ['BE_TA_URLS'],
           'BE_TA_URLS' => ['BE_TA_VERIFIED'],
           'BE_TA_VERIFIED' => [ 'OR_TA_PUBLIC_KEY'],
-
           'OR_TA_PUBLIC_KEY' => ['OR_TA_SIGNATURE'],
           'OR_TA_SIGNATURE' => ['OR_USER_PUBLIC_KEY'],
           'OR_USER_PUBLIC_KEY' => ['OR_USER_SIGNATURE'],
@@ -98,7 +100,16 @@ class StatusStateMachine extends StateMachine
             ]);
         }
 
-        if ($from === 'BE_USER_SIGNATURE' && $to === 'BE_TA_URLS') {
+        if ($from === 'BE_USER_SIGNATURE' && $to === 'BE_CRYPTO_PROOF_VERIFIED') {
+            return ValidatorFacade::make([
+                'beneficiary_user_address_crypto_proof' => $model->beneficiary_user_address_crypto_proof,
+            ], [
+                'beneficiary_user_address_crypto_proof' => [new CryptoProofVerification($model->coin_address, $model->beneficiary_ta_public_key)]
+            ]);
+        }
+
+
+        if ($from === 'BE_CRYPTO_PROOF_VERIFIED' && $to === 'BE_TA_URLS') {
             return ValidatorFacade::make([
                 'sender_ta_url' => $model->sender_ta_url,
                 'beneficiary_ta_url' => $model->beneficiary_ta_url,
@@ -117,8 +128,6 @@ class StatusStateMachine extends StateMachine
               'sender_ta_address' => ['required', 'iexists:verified_trust_anchors,account_address' ],
             ]);
         }
-
-
 
 
 
@@ -165,7 +174,6 @@ class StatusStateMachine extends StateMachine
                 'sender_user_signature' => ['required']
             ]);
         }
-
 
         if ($from === 'OR_USER_SIGNATURE' && $to === 'OR_TA_URLS') {
             return ValidatorFacade::make([

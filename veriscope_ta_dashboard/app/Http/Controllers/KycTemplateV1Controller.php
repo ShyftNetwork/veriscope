@@ -26,6 +26,12 @@ class KycTemplateV1Controller extends Controller
         $this->messageJSON = "VERISCOPE";
     }
 
+    public function kyc_template_version()
+    {
+      $versionFile = json_decode(Storage::disk('local')->get('version.json'));
+      echo "Veriscope version for " . $_SERVER['SERVER_NAME'] . " is '" . "<span style='color:red;font-weight: bold;'>" . $versionFile->veriscopeVersion . "</span>" . "'";
+    }
+
     public function kyc_template_v1_reply($eventType, $attestation_hash, $test)
     {
       #prepare the template
@@ -57,6 +63,7 @@ class KycTemplateV1Controller extends Controller
             $kt->beneficiary_user_public_key = $test->SandboxTrustAnchorUser->public_key;
             $kt->beneficiary_user_signature_hash = $test->SandboxTrustAnchorUser->signature_hash;
             $kt->beneficiary_user_signature = $test->SandboxTrustAnchorUser->signature;
+            $kt->beneficiary_user_address_crypto_proof = $test->crypto_proof;
             $kycTemplateJSON = fractal()->item($kt)->transformWith(new KycTemplateTransformer())->toArray();
 
             WebhookCall::create()
@@ -82,6 +89,7 @@ class KycTemplateV1Controller extends Controller
           $kt->sender_user_public_key = $test->SandboxTrustAnchorUser->public_key;
           $kt->sender_user_signature_hash = $test->SandboxTrustAnchorUser->signature_hash;
           $kt->sender_user_signature = $test->SandboxTrustAnchorUser->signature;
+
           $kycTemplateJSON = fractal()->item($kt)->transformWith(new KycTemplateTransformer())->toArray();
 
           WebhookCall::create()
@@ -115,6 +123,7 @@ class KycTemplateV1Controller extends Controller
           $kt->beneficiary_user_public_key = $test->SandboxTrustAnchorUser->public_key;
           $kt->beneficiary_user_signature_hash = $test->SandboxTrustAnchorUser->signature_hash;
           $kt->beneficiary_user_signature = $test->SandboxTrustAnchorUser->signature;
+          $kt->beneficiary_user_address_crypto_proof = $test->crypto_proof;
           $kt->beneficiary_kyc = EthereumToolsUtils::encryptData($kt->sender_user_public_key,"{'name': 'test user'}");
           $kycTemplateJSON = fractal()->item($kt)->transformWith(new KycTemplateTransformer())->toArray();
 
@@ -254,6 +263,25 @@ class KycTemplateV1Controller extends Controller
            $kt->status()->transitionTo($to = 'BE_USER_SIGNATURE');
          }
 
+
+         //Transition Step 4a: BE_CRYPTO_PROOF_VERIFIED
+         if($kt->status()->canBe('BE_CRYPTO_PROOF_VERIFIED')){
+
+           $json_encode = ($kycTemplateDecode['BeneficiaryUserAddressCryptoProof']) ? json_encode($kycTemplateDecode['BeneficiaryUserAddressCryptoProof']) : null;
+           $kt->beneficiary_user_address_crypto_proof = $json_encode;
+           $kt->save();
+           // BE_CRYPTO_PROOF_NOT_PROVIDED
+           if (empty($json_encode) || $json_encode === null) {
+               $kt->status()->transitionTo($to = 'BE_CRYPTO_PROOF_NOT_PROVIDED');
+            }
+           // BE_CRYPTO_PROOF_VERIFIED
+           else {
+              $kt->status()->transitionTo($to = 'BE_CRYPTO_PROOF_VERIFIED');
+           }
+
+         }
+
+
          //Transition Step 5: BE_TA_URLS
          if($kt->status()->canBe('BE_TA_URLS')){
            $taOriginator = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $sca->ta_account)->where('key_value_pair_name', 'API_URL')->first();
@@ -271,7 +299,7 @@ class KycTemplateV1Controller extends Controller
          }
 
          //Transition Step 7: BE_KYC_UPDATE
-         if($kt->status()->canBe('BE_KYC_UPDATE') && !empty($kycTemplateDecode['BeneficiaryKYC']) && !$kt->status()->was('BE_KYC_ACCEPTED') ){
+         if(empty($kycStateMachineDecode) && $kt->status()->canBe('BE_KYC_UPDATE') && !empty($kycTemplateDecode['BeneficiaryKYC']) && !$kt->status()->was('BE_KYC_ACCEPTED') ){
            $kt->beneficiary_kyc = $kycTemplateDecode['BeneficiaryKYC'];
            $kt->save();
            $kt->status()->transitionTo($to = 'BE_KYC_UPDATE');
@@ -335,7 +363,7 @@ class KycTemplateV1Controller extends Controller
 
 
           //Transition Step 9: OR_KYC_UPDATE
-          if($kt->status()->canBe('OR_KYC_UPDATE') && !empty($kycTemplateDecode['SenderKYC']) && !$kt->status()->was('OR_KYC_ACCEPTED') ){
+          if(empty($kycStateMachineDecode) && $kt->status()->canBe('OR_KYC_UPDATE') && !empty($kycTemplateDecode['SenderKYC']) && !$kt->status()->was('OR_KYC_ACCEPTED') ){
             $kt->sender_kyc = $kycTemplateDecode['SenderKYC'];
             $kt->save();
             $kt->status()->transitionTo($to = 'OR_KYC_UPDATE');
