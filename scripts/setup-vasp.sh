@@ -158,7 +158,7 @@ function refresh_dependencies() {
 
 	DEBIAN_FRONTEND=noninteractive apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-gmp php8.0-redis php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
 	apt-get install -y protobuf-compiler libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
-    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk python3-pip \
     libharfbuzz-dev libfribidi-dev libxcb1-dev
   git config --global url."https://github.com/".insteadOf git@github.com:
 	git config --global url."https://".insteadOf git://
