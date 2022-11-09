@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e51192b5-e64b-4d73-bd12-b954647a6996",
+		"_postman_id": "5050b4da-2e62-44d5-aaa6-41c98c3909a5",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17461168"
@@ -679,6 +679,13 @@
 							"type": "text"
 						},
 						{
+							"key": "coin_address_crypto_proof",
+							"value": "",
+							"description": "Coin address crypto proof for the oVASP to validate",
+							"type": "text",
+							"disabled": true
+						},
+						{
 							"key": "ivms_encrypt",
 							"value": "",
 							"description": "Use data generated from Encrypt IVMS",
@@ -718,6 +725,59 @@
 						"v1",
 						"server",
 						"create_kyc_template"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Crypto Proof",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "trust_anchor_pubkey",
+							"value": "",
+							"description": "TA account public key",
+							"type": "text"
+						},
+						{
+							"key": "coin_address",
+							"value": "",
+							"description": "Enter the coin address",
+							"type": "text"
+						},
+						{
+							"key": "coin_address_crypto_proof",
+							"value": "",
+							"description": "Enter the coin address crypto proof",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/validate_crypto_proof",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"validate_crypto_proof"
 					]
 				}
 			},
@@ -1099,6 +1159,23 @@
 						"v1",
 						"server",
 						"recover_signature"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Veriscope Version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/veriscope-version",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"veriscope-version"
 					]
 				}
 			},

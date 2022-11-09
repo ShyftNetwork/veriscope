@@ -48,7 +48,8 @@
         "spatie/laravel-webhook-server": "^3.1",
         "msztorc/laravel-env": "^1.2",
         "spatie/laravel-fractal": "^6.0",
-        "abagayev/laravel-migration-shortcuts": "*"
+        "abagayev/laravel-migration-shortcuts": "*",
+        "nelexa/zip": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

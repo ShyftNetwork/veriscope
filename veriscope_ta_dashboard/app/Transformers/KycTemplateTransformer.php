@@ -26,6 +26,8 @@ class KycTemplateTransformer extends TransformerAbstract
         'BeneficiaryTASignature' => json_decode($kt->beneficiary_ta_signature),
         'BeneficiaryUserSignatureHash' => $kt->beneficiary_user_signature_hash,
         'BeneficiaryUserSignature' => json_decode($kt->beneficiary_user_signature),
+        'BeneficiaryUserAddressCryptoProof' => json_decode($kt->beneficiary_user_address_crypto_proof),
+        'BeneficiaryUserAddressCryptoProofStatus' => $kt->beneficiary_user_address_crypto_proof_status,
         'CoinBlockchain' => $kt->coin_blockchain,
         'CoinToken' => $kt->coin_token,
         'CoinAddress' => $kt->coin_address,

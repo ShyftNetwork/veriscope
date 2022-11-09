@@ -61,6 +61,12 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('edit-latest-block-event/{id}', 'BlockEventsController@editBlockEvent');
 
 
+        /* Validate Crypto Proof */
+
+        Route::post('validate_crypto_proof','TrustAnchorController@validate_crypto_proof');
+
+
+
     });
 
     Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {

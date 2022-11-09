@@ -19,13 +19,14 @@ Auth::routes();
 
 Route::post('webhook','WebhookController@webhook_request');
 
-Route::get('webhook-post-ta-data','WebhookController@webhook_post_ta_data');
+Route::get('webhook-post-ta-data', 'WebhookController@webhook_post_ta_data');
 
-Route::post('kyc-template','\App\Http\Controllers\KycTemplateV1Controller@kyc_template_v1_request');
+Route::post('kyc-template', '\App\Http\Controllers\KycTemplateV1Controller@kyc_template_v1_request');
+Route::get('veriscope-version', '\App\Http\Controllers\KycTemplateV1Controller@kyc_template_version');
 
-Route::post('ivms101-validate/complete','IVMS101Controller@index')->middleware('jsonschema.validate:complete');
-Route::post('ivms101-validate/beneficiary','IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
-Route::post('ivms101-validate/originator','IVMS101Controller@index')->middleware('jsonschema.validate:originator');
+Route::post('ivms101-validate/complete', 'IVMS101Controller@index')->middleware('jsonschema.validate:complete');
+Route::post('ivms101-validate/beneficiary', 'IVMS101Controller@index')->middleware('jsonschema.validate:beneficiary');
+Route::post('ivms101-validate/originator', 'IVMS101Controller@index')->middleware('jsonschema.validate:originator');
 
 Route::get('errors/suspended', function () { return view('errors.suspended'); })->name('suspended');
 Route::get('errors/terminated', function () { return view('errors.terminated'); })->name('terminated');

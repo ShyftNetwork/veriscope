@@ -12,16 +12,18 @@ use App\{SmartContractAttestation, TrustAnchor};
 class KycTemplate extends Model
 {
 
-   	use Searchable;
+    use Searchable;
 
     use HasStateMachines;
 
 
     protected $fillable = ['attestation_hash'];
 
+    protected $hidden = ['sender_user_address_crypto_proof','sender_user_address_crypto_proof_status'];
+
     protected $searchable = ['attestation_hash', 'beneficiary_ta_address', 'sender_ta_address', 'beneficiary_user_address', 'sender_user_address'];
 
-		public $stateMachines = [
+    public $stateMachines = [
         'status' => StatusStateMachine::class,
         'webhook_status' => WebhookStatusStateMachine::class,
         'ivms_status' => IvmsStatusStateMachine::class
@@ -34,7 +36,7 @@ class KycTemplate extends Model
       try {
         $ta = TrustAnchor::firstOrFail();
         $sca = SmartContractAttestation::where('attestation_hash', $this->attestation_hash)->firstOrFail();
-        
+
         if (strcasecmp($ta->account_address, $sca->ta_account) != 0)  {
            return 'BENEFICIARY';
         } else {

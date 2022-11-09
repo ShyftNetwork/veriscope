@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\{TrustAnchor, SandboxTrustAnchorUserCryptoAddress, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState};
-use App\Http\Requests\{CreateKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest};
+use App\Http\Requests\{CreateKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest, CryptoProofRequest};
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Throwable\ClientException;
@@ -17,6 +17,7 @@ use Illuminate\Validation\ValidationException;
 use App\Transformers\KycTemplateTransformer;
 use App\Jobs\{DataExternalJob, DataInternalJob, DataInternalIVMSJob, DataExternalStatelessJob};
 use Illuminate\Support\Facades\DB;
+use App\Rules\CryptoProofVerification;
 
 class TrustAnchorController extends Controller
 {
@@ -114,7 +115,7 @@ class TrustAnchorController extends Controller
       {
           Log::debug('TrustAnchorController refresh_all_attestations');
 
-          
+
           $url = $this->http_api_url.'/refresh-all-attestations?user_id=1';
           $client = new Client();
           $res = $client->request('GET', $url);
@@ -123,8 +124,8 @@ class TrustAnchorController extends Controller
             $response = json_decode($res->getBody());
             Log::debug('TrustAnchorController refresh_all_attestations');
             Log::debug($response);
-           
-              
+
+
           } else {
               Log::error('TrustAnchorController refresh_all_attestations: ' . $res->getStatusCode());
           }
@@ -249,10 +250,13 @@ class TrustAnchorController extends Controller
           $user_public_key = $request->get('user_public_key','');
           $user_signature_hash = $request->get('user_signature_hash','');
           $user_signature = $request->get('user_signature','');
+          $coin_address_crypto_proof = $request->get('coin_address_crypto_proof','');
 
           $coin_transaction_hash = $request->get('coin_transaction_hash','');
           $coin_transaction_value = $request->get('coin_transaction_value','');
           $ivms_encrypt = $request->get('ivms_encrypt','');
+
+
 
 
           $ivms_state_code = $request->get('ivms_state_code','');
@@ -313,6 +317,25 @@ class TrustAnchorController extends Controller
                 $kt->save();
                 $kt->status()->transitionTo($to = 'BE_USER_SIGNATURE');
               }
+
+              if($kt->status()->canBe('BE_CRYPTO_PROOF_VERIFIED')){
+                $kt->beneficiary_user_address_crypto_proof = $coin_address_crypto_proof;
+                $kt->save();
+                // BE_CRYPTO_PROOF_NOT_INSTALLED
+                if (!file_exists("/opt/veriscope/veriscope_addressproof/test.py")) {
+                  $kt->status()->transitionTo($to = 'BE_CRYPTO_PROOF_NOT_INSTALLED');
+                }
+                // BE_CRYPTO_PROOF_NOT_PROVIDED
+                elseif (empty($coin_address_crypto_proof)) {
+                  $kt->status()->transitionTo($to = 'BE_CRYPTO_PROOF_NOT_PROVIDED');
+                }
+                // BE_CRYPTO_PROOF_VERIFIED
+                else {
+                  $kt->status()->transitionTo($to = 'BE_CRYPTO_PROOF_VERIFIED');
+                }
+              }
+
+
               //Transition Step 5: BE_TA_URLS
               if($kt->status()->canBe('BE_TA_URLS')){
                 $taOriginator = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $sca->ta_account)->where('key_value_pair_name', 'API_URL')->first();
@@ -606,6 +629,19 @@ class TrustAnchorController extends Controller
 
 
       }
+
+
+      /**
+       * Validate Crypto Proof
+       *
+       * @param  \Illuminate\Http\Request  $request
+       * @return \Illuminate\Http\Response
+       */
+      public function validate_crypto_proof(CryptoProofRequest $request)
+      {
+          return response()->json(['ok'],200);
+      }
+
 
       /**
       * Recover SignatureS

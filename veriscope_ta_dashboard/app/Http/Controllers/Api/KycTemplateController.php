@@ -272,6 +272,8 @@ class KycTemplateController extends Controller
                     ['field' => 'Beneficiary TA Signature', 'data'  => $result['beneficiary_ta_signature']],
                     ['field' => 'Beneficiary User Signature Hash', 'data'  => $result['beneficiary_user_signature_hash']],
                     ['field' => 'Beneficiary User Signature', 'data'  => $result['beneficiary_user_signature']],
+                    ['field' => 'Beneficiary Proof', 'data'  => $result['beneficiary_user_address_crypto_proof']],
+                    ['field' => 'Beneficiary Proof Status', 'data'  => $result['beneficiary_user_address_crypto_proof_status']],
                     ['field' => 'Sender TA Address', 'data'  => $result['sender_ta_address']],
                     ['field' => 'Sender User Address', 'data'  => $result['sender_user_address']],
                     ['field' => 'Sender TA Public Key', 'data' => $result['sender_ta_public_key']],

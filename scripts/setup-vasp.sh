@@ -4,7 +4,8 @@ set -e
 VERISCOPE_SERVICE_HOST="${VERISCOPE_SERVICE_HOST:=unset}"
 VERISCOPE_COMMON_NAME="${VERISCOPE_COMMON_NAME:=unset}"
 VERISCOPE_TARGET="${VERISCOPE_TARGET:=unset}"
-INSTALL_ROOT="${VERISCOPE_INSTALL_ROOT:=/opt/veriscope}"
+# INSTALL_ROOT="${VERISCOPE_INSTALL_ROOT:=/opt/veriscope}"
+INSTALL_ROOT="/opt/veriscope"
 
 # Check script is run with sudo
 if [[ $EUID -ne 0 ]]; then
@@ -156,6 +157,11 @@ function refresh_dependencies() {
 	DEBIAN_FRONTEND=noninteractive apt -y upgrade
 
 	DEBIAN_FRONTEND=noninteractive apt-get -qq -y -o Acquire::https::AllowRedirect=false install  vim git libsnappy-dev libc6-dev libc6 unzip make jq ntpdate moreutils php8.0-fpm php8.0-dom php8.0-zip php8.0-mbstring php8.0-curl php8.0-dom php8.0-gd php8.0-imagick php8.0-pgsql php8.0-gmp php8.0-redis php8.0-mbstring nodejs build-essential postgresql nginx pwgen certbot
+	apt-get install -y protobuf-compiler libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
+    libharfbuzz-dev libfribidi-dev libxcb1-dev
+  git config --global url."https://github.com/".insteadOf git@github.com:
+	git config --global url."https://".insteadOf git://
 	pg_ctlcluster 12 main start
 	if ! command -v wscat; then
 		npm install -g wscat
@@ -500,6 +506,12 @@ function create_admin() {
 	popd >/dev/null
 }
 
+function install_addressproof() {
+	pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
+	su $SERVICE_USER -c "php artisan download:addressproof"
+	popd >/dev/null
+}
+
 function install_passport_client_env(){
 	pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
 	su $SERVICE_USER -c "php artisan passportenv:link"
@@ -593,6 +605,7 @@ function menu() {
 13) Install Redis server
 14) Install Passport Client Environment Variables
 15) Install Horizon
+16) Install Address Proofs
 i) Install Everything
 p) show daemon status
 w) restart all services
@@ -617,6 +630,7 @@ Choose what to do: "
 		13) install_redis; menu ;;
 		14) install_passport_client_env; menu ;;
 		15) install_horizon; menu ;;
+		16) install_addressproof; menu ;;
 		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel ; install_horizon ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
