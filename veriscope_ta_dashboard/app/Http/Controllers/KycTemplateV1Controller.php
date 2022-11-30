@@ -124,7 +124,8 @@ class KycTemplateV1Controller extends Controller
           $kt->beneficiary_user_signature_hash = $test->SandboxTrustAnchorUser->signature_hash;
           $kt->beneficiary_user_signature = $test->SandboxTrustAnchorUser->signature;
           $kt->beneficiary_user_address_crypto_proof = $test->crypto_proof;
-          $kt->beneficiary_kyc = EthereumToolsUtils::encryptData($kt->sender_user_public_key,"{'name': 'test user'}");
+          $beneficiaryJson = Storage::disk('local')->get('ivms_sandbox_PCF_as_beneficiaryVASP.json');
+          $kt->beneficiary_kyc = EthereumToolsUtils::encryptData($kt->sender_user_public_key, $beneficiaryJson);
           $kycTemplateJSON = fractal()->item($kt)->transformWith(new KycTemplateTransformer())->toArray();
 
           WebhookCall::create()
@@ -167,7 +168,8 @@ class KycTemplateV1Controller extends Controller
         if($trustAnchorType === 'BENEFICIARY' && $test->SandboxTrustAnchorUser->SandboxTrustAnchor->ta_account_type === 'ORIGINATOR'){
 
           $kt = KycTemplate::where(['attestation_hash' => $attestation_hash])->firstOrFail();
-          $kt->sender_kyc = EthereumToolsUtils::encryptData($kt->beneficiary_user_public_key,"{'name': 'test user'}");
+          $orginatorJson = Storage::disk('local')->get('ivms_sandbox_Paycase_as_originatingVASP.json');
+          $kt->sender_kyc = EthereumToolsUtils::encryptData($kt->beneficiary_user_public_key, $orginatorJson);
           $kycTemplateJSON = fractal()->item($kt)->transformWith(new KycTemplateTransformer())->toArray();
           WebhookCall::create()
           ->url($url)

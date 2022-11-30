@@ -64,8 +64,10 @@ class ContractsController extends Controller
 
           if ($input['legal_person_name'])
             $ta->legal_person_name = $input['legal_person_name'];
+
           if ($input['legal_person_name_identifier_type'])
             $ta->legal_person_name_identifier_type = $input['legal_person_name_identifier_type'];
+
           if ($input['address_type'])
             $ta->address_type = $input['address_type'];
 
@@ -89,6 +91,27 @@ class ContractsController extends Controller
 
           if ($input['country'])
             $ta->country = $input['country'];
+          
+          if ($input['department'])
+            $ta->department = $input['department'];
+
+          if ($input['sub_department'])
+            $ta->sub_department = $input['sub_department'];
+
+          if ($input['floor'])
+            $ta->floor = $input['floor'];
+
+          if ($input['room'])
+            $ta->room = $input['room'];
+
+          if ($input['town_location_name'])
+            $ta->town_location_name = $input['town_location_name'];
+
+          if ($input['district_name'])
+            $ta->district_name = $input['district_name'];
+
+          if ($input['address_line'])
+            $ta->address_line = $input['address_line'];  
 
           $ta->save();
 

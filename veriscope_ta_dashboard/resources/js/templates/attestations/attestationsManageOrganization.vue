@@ -228,6 +228,136 @@
                     ></simple-input>
                 </div>
             </div>
+
+
+            <b>Department</b>
+            <br/>
+            <i>Division of organisation or building.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_department"
+                        placeholder="Department Code"
+                        name="ivms_department"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_department')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+
+            <b>Sub Department</b>
+            <br/>
+            <i>Sub-division of organisation or building.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_sub_department"
+                        placeholder="Sub Department"
+                        name="ivms_sub_department"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_sub_department')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Floor</b>
+            <br/>
+            <i>Floor or storey within a building.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_floor"
+                        placeholder="Floor Code"
+                        name="ivms_floor"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_floor')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Room</b>
+            <br/>
+            <i>Building room number.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_room"
+                        placeholder="Room Code"
+                        name="ivms_room"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_room')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Town Location Name</b>
+            <br/>
+            <i>Specific location name within the town.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_town_location_name"
+                        placeholder="Town Location Name Code"
+                        name="ivms_town_location_name"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_town_location_name')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>District Name</b>
+            <br/>
+            <i>Region within a country sub-division.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_district_name"
+                        placeholder="District Name"
+                        name="ivms_district_name"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_district_name')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Address Line</b>
+            <br/>
+            <i>Specific address, as defined by postal services, presented in free format text.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="ivms_address_line"
+                        placeholder="Address Line"
+                        name="ivms_address_line"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_address_line')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3 my-8">
                     <simple-button class="min-w-full"
@@ -236,6 +366,9 @@
                         Set or Update Entity IVMS
                     </simple-button>
                 </div>
+            </div>
+            <div class="flex flex-wrap items-center" :style="{ display:show_updated_ivms_data_result }">
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{updated_ivms_data_result}}</strong></p>
             </div>
         </div>
         <!-- 03. Is Trust Anchor Verified? -->
@@ -378,7 +511,7 @@
                     </simple-button>
                 </div>
             </div>
-            <div class="flex flex-wrap items-center">
+            <div class="flex flex-wrap items-center" :style="{ display:show_key_value_pair_result }">
                 <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_set_key_value_pair_result}}</strong></p>
             </div>
         </div>
@@ -503,6 +636,13 @@
                 'form.ivms_town_name',
                 'form.ivms_country_sub_division',
                 'form.ivms_country',
+                'form.ivms_department',
+                'form.ivms_sub_department',
+                'form.ivms_floor',
+                'form.ivms_room',
+                'form.ivms_town_location_name',
+                'form.ivms_district_name',
+                'form.ivms_address_line',
             ]),
             // Access globabl getters
             ...mapGetters([
@@ -518,6 +658,8 @@
                     attestations.taCountryData,
                 ta_is_verified_data_result: ({ attestations }) =>
                     attestations.taIsVerifiedData,
+                updated_ivms_data_result: ({ attestations }) =>
+                    attestations.updatedIvmsData,
                 ta_get_balance_result: ({ attestations }) =>
                     attestations.taGetBalanceData,
                 ta_account_rows: ({ attestations }) =>
@@ -532,10 +674,14 @@
                     attestations.showTaCreateAccount,
                 show_ta_is_verified_data_result: ({ attestations }) =>
                     attestations.showTaIsVerifiedData,
+                show_updated_ivms_data_result: ({ attestations }) =>
+                    attestations.showUpdatedIvmsData,
                 show_ta_get_balance_result: ({ attestations }) =>
                     attestations.showTaGetBalanceResult,
                 ta_set_key_value_pair_result: ({ attestations }) =>
-                    attestations.taSetKeyValuePairData
+                    attestations.taSetKeyValuePairData,
+                show_key_value_pair_result: ({ attestations }) =>
+                    attestations.showKeyValuePairResult,
             }),
         },
         /**
