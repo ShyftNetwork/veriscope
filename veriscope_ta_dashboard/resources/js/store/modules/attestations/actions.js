@@ -110,12 +110,19 @@ export const actions = {
                 "town_name": state.form.ivms_town_name,
                 "country_sub_division": state.form.ivms_country_sub_division,
                 "country": state.form.ivms_country,
+                "department": state.form.ivms_department,
+                "sub_department": state.form.ivms_sub_department,
+                "floor": state.form.ivms_floor,
+                "room": state.form.ivms_room,
+                "town_location_name": state.form.ivms_town_location_name,
+                "district_name": state.form.ivms_district_name,
+                "address_line": state.form.ivms_address_line,
                 };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-save-ivms`, p)
             .then(response => {
                 console.log(response);
-                dispatch('createTaAccount');
+                commit(TA_SAVE_IVMS_SUCCESS);
                 return response;
             })
             .catch(error => {

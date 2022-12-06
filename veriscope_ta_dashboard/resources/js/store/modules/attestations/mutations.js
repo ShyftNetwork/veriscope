@@ -107,7 +107,10 @@ export const mutations = {
     [TA_SAVE_IVMS_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_SAVE_IVMS_SUCCESS');
         console.log(state);
+        state.updatedIvmsData = 'Update Success';
         console.log(payload);
+
+        state.showUpdatedIvmsData = 'block';
 
     },
 
@@ -169,7 +172,8 @@ export const mutations = {
         console.log('TA_SET_KEY_VALUE_PAIR_SUCCESS payload');
         console.log(payload);
         // if(!Array.isArray(payload)) return;
-        state.taSetKeyValuePairData = payload;
+        state.taSetKeyValuePairData = 'Success';
+        state.showKeyValuePairResult = 'block';
         console.log('state.taSetKeyValuePairData');
         console.log(state.taSetKeyValuePairData);
     },
