@@ -1,1 +1,1 @@
-https://docs.veriscope.network/docs-core/network-reference/chains-and-smart-contracts.html
+https://docs.veriscope.network/docs/main/network-reference/chains-and-smart-contracts.html
