@@ -1,4 +1,6 @@
-**Veriscope Compatibility License Condition v.1**
+Veriscope Compatibility License Condition v.1
+=============================================
+
 The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition (“**Compatibility Condition**”).
 
 Without limiting other conditions in the License, the grant of rights under the License will not include, and the License does not grant to you, the right to make or create Incompatible Developments or to use the Software in connection with Incompatible Developments. In addition, by obtaining a copy of the Software, you agree not to use the Software to make or create Incompatible Developments or to otherwise use the Software in connection with Incompatible Developments.
@@ -6,9 +8,11 @@ Without limiting other conditions in the License, the grant of rights under the 
 “**Incompatible Developments**” means any work derived from or incorporating the Software, including any modification or customization of the Software or any part of the Software, that is not compatible with: the Software as licensed to you under the License, the travel rule solution implemented by the Software, or the protocols used by or implemented in the Software. 
 
 Any license notice or attribution required by the License must also include this Compatibility Condition notice. If you contribute to the Software, you agree to license such contributions under the License, subject to this Compatibility Condition.
+
 Software: Veriscope (GitHub - ShyftNetwork/veriscope)
 
 License: Apache 2.0
+
 Licensor: Shyft Network Inc. and contributors.
 
 
