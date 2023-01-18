@@ -55,11 +55,7 @@
           <li id="sub-dashboard"><img src="/images/nav-icons/dashboard.svg" width="20" height="20"> <a href="{{ route('backoffice.dashboard') }}">Dashboard</a></li>
           <li id="sub-users"><a href="{{ route('horizon.index') }}" target="_blank">Horizon</a></li>
           <li id="sub-users"><a href="{{ route('arena.auth') }}" target="_blank">Arena</a></li>
-          <li id="sub-users"><a href="{{ route('token.index') }}">API Tokens</a></li>
           <li id="sub-users"><img src="/images/nav-icons/users.svg" width="20" height="20"> <a href="{{ route('kyctemplates.index') }}">Kyc Templates</a></li>
-          @can('edit', \App\Constant::class)
-            <li id="sub-constants"><img src="/images/nav-icons/constants.svg" width="20" height="20"> <a href="{{ route('constants.index') }}">Constants</a></li>
-          @endcan
         @endif
       @else
         @if(Config::get('backoffice.enabled') && Auth::user()->inGroup('admin'))
@@ -67,8 +63,7 @@
         @endif
         @if(Config::get('shyft.onboarding'))
           <li id="sub-trust-anchor-setup"><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="{{ route('manage-organization') }}">Trust Anchor Admin</a></li>
-          <li id="sub-settings"><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="{{ route('settings') }}">Account Settings</a></li>
-
+          <li id="sub-settings"><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="{{ route('settings') }}">Settings</a></li>
         @endif
       @endif
       <li><img src="/images/nav-icons/sign-out.svg" width="20" height="20" alt="Sign Out"> <a href="{{ route('logout') }}">Sign Out</a></li>
