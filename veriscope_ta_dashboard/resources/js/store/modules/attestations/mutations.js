@@ -220,7 +220,27 @@ export const mutations = {
     [TA_GET_TAS_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_GET_TAS_SUCCESS');
         console.log(state);
+
         state.getTasData = payload;
+        var stateFormData = payload[0];
+
+        state.form.ivms_legal_person_name = stateFormData.legal_person_name;
+        state.form.ivms_legal_person_name_identifier_type = stateFormData.legal_person_name_identifier_type;
+        state.form.ivms_address_type = stateFormData.address_type;
+        state.form.ivms_street_name = stateFormData.street_name;
+        state.form.ivms_building_number = stateFormData.building_number;
+        state.form.ivms_building_name = stateFormData.building_name;
+        state.form.ivms_postcode = stateFormData.postcode;
+        state.form.ivms_town_name = stateFormData.town_name;
+        state.form.ivms_country_sub_division = stateFormData.country_sub_division;
+        state.form.ivms_country = stateFormData.country;
+        state.form.ivms_department = stateFormData.department;
+        state.form.ivms_sub_department = stateFormData.sub_department;
+        state.form.ivms_floor = stateFormData.floor;
+        state.form.ivms_room = stateFormData.room;
+        state.form.ivms_town_location_name = stateFormData.town_location_name;
+        state.form.ivms_district_name = stateFormData.district_name;
+        state.form.ivms_address_line = stateFormData.address_line;
 
     },
 

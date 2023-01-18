@@ -75,7 +75,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_legal_person_name"
+                        v-model="formData.ivms_legal_person_name"
                         placeholder="Legal Person Name"
                         name="ivms_legal_person_name"
                         v-validate="'required'"
@@ -92,7 +92,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_legal_person_name_identifier_type"
+                        v-model="formData.ivms_legal_person_name_identifier_type"
                         placeholder="Legal Person Name Identifier Type"
                         name="ivms_legal_person_name_identifier_type"
                         v-validate="'required'"
@@ -109,7 +109,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_address_type"
+                        v-model="formData.ivms_address_type"
                         placeholder="Address Type (HOME, BIZZ, GEOG)"
                         name="ivms_address_type"
                         v-validate="'required'"
@@ -126,7 +126,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_street_name"
+                        v-model="formData.ivms_street_name"
                         placeholder="Street Name"
                         name="ivms_street_name"
                         v-validate="'required'"
@@ -143,7 +143,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_building_number"
+                        v-model="formData.ivms_building_number"
                         placeholder="Building Number"
                         name="ivms_building_number"
                         v-validate="'required'"
@@ -160,7 +160,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_building_name"
+                        v-model="formData.ivms_building_name"
                         placeholder="Building Name"
                         name="ivms_building_name"
                         v-validate="'required'"
@@ -177,7 +177,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_postcode"
+                        v-model="formData.ivms_postcode"
                         placeholder="Postcode"
                         name="ivms_postcode"
                         v-validate="'required'"
@@ -194,7 +194,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_town_name"
+                        v-model="formData.ivms_town_name"
                         placeholder="Town Name"
                         name="ivms_town_name"
                         v-validate="'required'"
@@ -211,7 +211,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_country_sub_division"
+                        v-model="formData.ivms_country_sub_division"
                         placeholder="Country Sub Division"
                         name="ivms_country_sub_division"
                         v-validate="'required'"
@@ -228,7 +228,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_country"
+                        v-model="formData.ivms_country"
                         placeholder="Country Code"
                         name="ivms_country"
                         v-validate="'required'"
@@ -247,7 +247,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_department"
+                        v-model="formData.ivms_department"
                         placeholder="Department Code"
                         name="ivms_department"
                         v-validate="'required'"
@@ -266,7 +266,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_sub_department"
+                        v-model="formData.ivms_sub_department"
                         placeholder="Sub Department"
                         name="ivms_sub_department"
                         v-validate="'required'"
@@ -284,7 +284,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_floor"
+                        v-model="formData.ivms_floor"
                         placeholder="Floor Code"
                         name="ivms_floor"
                         v-validate="'required'"
@@ -302,7 +302,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_room"
+                        v-model="formData.ivms_room"
                         placeholder="Room Code"
                         name="ivms_room"
                         v-validate="'required'"
@@ -320,7 +320,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_town_location_name"
+                        v-model="formData.ivms_town_location_name"
                         placeholder="Town Location Name Code"
                         name="ivms_town_location_name"
                         v-validate="'required'"
@@ -338,7 +338,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_district_name"
+                        v-model="formData.ivms_district_name"
                         placeholder="District Name"
                         name="ivms_district_name"
                         v-validate="'required'"
@@ -356,7 +356,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_address_line"
+                        v-model="formData.ivms_address_line"
                         placeholder="Address Line"
                         name="ivms_address_line"
                         v-validate="'required'"
@@ -567,7 +567,7 @@
             return {
                 ta_account_columns:[],
                 totalRecords: 0,
-                ta_ivms_columns:[],
+                ta_ivms_columns:[]
             }
         },
         created() {
@@ -601,6 +601,7 @@
          */
         mounted() {
             this[COMPLETE_ROUTE](this.$route.name);
+            
             this.ta_account_columns =  [
                     {label: 'TA Prefname', field: 'ta_prefname'},
                     {label: 'TA Account', field: 'account_address'},
@@ -608,6 +609,7 @@
                     {label: 'TA Signature', field: 'signature'},
                     {label: 'TA Signature Hash', field: 'signature_hash'},
                 ];
+            
             this.ta_account_rows = [];
             this.ta_ivms_columns =  [
                     {label: 'Legal Person Name', field: 'legal_person_name'},
@@ -620,6 +622,13 @@
                     {label: 'Town Name', field: 'town_name'},
                     {label: 'Country Sub Division', field: 'country_sub_division'},
                     {label: 'Country', field: 'country'},
+                    {label: 'Department', field: 'department'},
+                    {label: 'Sub Department', field: 'sub_department'},
+                    {label: 'Floor', field: 'floor'},
+                    {label: 'Room', field: 'room'},
+                    {label: 'Town Location Name', field: 'town_location_name'},
+                    {label: 'District Name', field: 'district_name'},
+                    {label: 'Address Line', field: 'address_line'},
                 ];
             this.ta_ivms_rows = [];
         },
