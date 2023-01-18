@@ -44,7 +44,34 @@ class BlockchainAnalyticsController extends Controller
     }
     
     public function blockchainAnalyticsSettings() {
-        $providers = BlockchainAnalyticsProvider::orderBy('id')->get();
+
+        $providers = BlockchainAnalyticsProvider::orderBy('id')->get()->toArray();
+        $blockchain_urls = config('blockchain_analytics_url');
+
+        foreach($providers as $index => $value){
+            switch($value['name']){
+                case 'Crystal':
+                    $providers[$index]['url'] = $blockchain_urls['crystal_url'];
+                break;
+
+                case 'Merkle Science':
+                    $providers[$index]['url'] = $blockchain_urls['merkle_science_url'];
+                break;
+
+                case 'Coinfirm':
+                    $providers[$index]['url'] = $blockchain_urls['coinfirm_url'];
+                break;
+
+                case 'Chainalysis':
+                    $providers[$index]['url'] = $blockchain_urls['chainalysis_url'];
+                break;
+
+                case 'Elliptic':
+                    $providers[$index]['url'] = $blockchain_urls['elliptic_url'];
+                break;
+            }
+        }
+
         return view('.backoffice.blockchainAnalytics.index', ['providers' => $providers]);
     }
 

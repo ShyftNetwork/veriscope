@@ -15,17 +15,17 @@ constants
 
           @foreach($providers as $provider)
           <div class="flex flex-wrap">
-            <div class="flex-grow text-sm pt-2"><strong>{{ $provider->name }}:</strong></div>
+            <div class="flex-grow text-sm pt-2"><h3>{{ $provider['name'] }}</h3><strong>API endpoint</strong>: POST {{ $provider['url'] }}</div>
             <div class="w-1/4 text-sm pl-8">
-              {{ Form::check(1, $provider->id . '_enabled', 'Enabled', true, $provider->enabled) }}
+              {{ Form::check(1, $provider['id'] . '_enabled', 'Enabled', true, $provider['enabled']) }}
             </div>
-            <div class="w-1/2 text-sm pl-8">
-              <div class="form-control pt-0 mb-0">
-                <input placeholder='Api key' id="{{ $provider->name }}_key" type="text" name="{{ $provider->id}}_key" value="{{ $provider->key }}" requried="" />
+            <div class="w-1/2 text-sm">
+              <div class="form-control">
+                <input placeholder='Api key' id="{{ $provider['name'] }}_key" type="text" name="{{ $provider['id']}}_key" value="{{ $provider['key'] }}" requried="" />
               </div>
-              @if($provider->secret_key_exists == true)   
+              @if($provider['secret_key_exists'] == true)   
                 <div class="form-control pt-2 mb-0">
-                <input placeholder='Secret key' id="{{ $provider->name }}_secret_key" type="text" name="{{ $provider->id}}_secret_key" value="{{ $provider->secret_key }}" requried="" />
+                <input placeholder='Secret key' id="{{ $provider['name'] }}_secret_key" type="text" name="{{ $provider['id']}}_secret_key" value="{{ $provider['secret_key'] }}" requried="" />
                 </div>
                 @endif
             </div>
