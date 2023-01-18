@@ -147,6 +147,8 @@ export default {
         showTaSetWalletAttestationHash: 'none',
         showTaSetWalletAttestationError: 'none',
         taSetKeyValuePairData: '',
+        showExportIVMSFailedData: 'none',
+        exportIVMSFailedData: 'Server busy please contact your administrator.',
 
     },
     getters: {

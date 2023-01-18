@@ -4,6 +4,14 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS,
     CREATE_TA_ACCOUNT_FAIL,
     //KEEP
+    EXPORT_OVASP_IVMS,
+    EXPORT_OVASP_IVMS_SUCCESS,
+    EXPORT_OVASP_IVMS_FAIL,
+    //KEEP
+    EXPORT_BVASP_IVMS,
+    EXPORT_BVASP_IVMS_SUCCESS,
+    EXPORT_BVASP_IVMS_FAIL,
+    //KEEP
     TA_SAVE_IVMS,
     TA_SAVE_IVMS_SUCCESS,
     TA_SAVE_IVMS_FAIL,
@@ -127,6 +135,32 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_SAVE_IVMS_FAIL);
+            });
+    },
+
+    [EXPORT_OVASP_IVMS]({ commit, dispatch, getters, state }) {
+        console.log('actions EXPORT_OVASP_IVMS');
+
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/oVASP`)
+            .then(response => {
+                console.log(response);
+                return response;
+            })
+            .catch(error => {
+                commit(EXPORT_OVASP_IVMS_FAIL);
+            });
+    },
+
+    [EXPORT_BVASP_IVMS]({ commit, dispatch, getters, state }) {
+        console.log('actions EXPORT_BVASP_IVMS');
+
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/bVASP`)
+            .then(response => {
+                console.log(response);
+                return response;
+            })
+            .catch(error => {
+                commit(EXPORT_BVASP_IVMS_FAIL);
             });
     },
 

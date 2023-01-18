@@ -271,6 +271,177 @@ class ContractsController extends Controller
             
           return response()->json($trust_anchors);
       }
+
+      function ivms_data_check($value) {
+
+        $result = 'None';
+
+        if($value != '' && !empty($value)) {
+          $result = $value;
+        }
+        return $result;
+      }
+
+      public function export_ivms_data(Request $request, $id)
+      {
+          Log::debug('ContractsController export_ivms_data');
+
+          $user = User::findOrFail($id);
+          $role = 'beneficiaryVASP';
+          $mockData = "'beneficiary':{'beneficiaryPersons':[{'naturalPerson':{'name':{'nameIdentifier':[{'primaryIdentifier':'Felix','secondaryIdentifier':'Bailey','nameIdentifierType':'LEGL'}]},'geographicAddress':[{'addressType':'HOME','streetName':'Potential Street','townLocationName':'Brooklyn','districtName':'Brooklyn','buildingNumber':'123','buildingName':'Cheese Hut','postcode':'91361','townName':'Thousand Oaks','countrySubDivision':'California','country':'US'}],'customerIdentification':'0xA3a8C1C840A8C2049472065b2664E01E0e8A8b67','dateAndPlaceOfBirth':{'dateOfBirth':'1984-01-14','placeOfBirth':'Estonia'},'countryOfResidence':'CA'}}],'accountNumber':['0xb532cCA105f966a76C3826451818b55fB2190933']},";
+          
+          $trust_anchors = TrustAnchor::where('user_id', $id)->first()->toArray();
+
+          foreach($trust_anchors as $index => $value){
+
+            switch($index){
+
+              case 'legal_person_name':
+
+                $legalPersonName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'legal_person_name_identifier_type':
+
+                $legalPersonNameIdentifierType = $this->ivms_data_check($value);
+
+              break;
+
+              case 'address_type':
+
+                $addressType = $this->ivms_data_check($value);
+
+              break;
+
+              case 'department':
+
+                $department = $this->ivms_data_check($value);
+
+              break;
+
+              case 'sub_department':
+
+                $subDepartment = $this->ivms_data_check($value);
+
+              break;
+
+              case 'street_name':
+
+                $streetName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'building_number':
+
+                $buildingNumber = $this->ivms_data_check($value);
+
+              break;
+
+              case 'building_name':
+
+                $buildingName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'floor':
+
+                $floor = $this->ivms_data_check($value);
+
+              break;
+
+              case 'room':
+
+                $room = $this->ivms_data_check($value);
+
+              break;
+
+              case 'postcode':
+
+                $postcode = $this->ivms_data_check($value);
+
+              break;
+
+              case 'town_location_name':
+
+                $townLocationName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'district_name':
+
+                $districtName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'country_sub_division':
+
+                $countrySubDivision = $this->ivms_data_check($value);
+
+              break;
+
+              case 'address_line':
+
+                $addressLine = $this->ivms_data_check($value);
+
+              break;
+
+              case 'country':
+
+                $country = $this->ivms_data_check($value);
+
+              break;
+
+              case 'town_name':
+
+                $townName = $this->ivms_data_check($value);
+
+              break;
+
+              case 'postbox':
+
+                $postbox = $this->ivms_data_check($value);
+
+              break;
+
+              case 'customer_identification':
+
+                $customerIdentification = $this->ivms_data_check($value);
+
+              break;
+
+              case 'national_identifier':
+
+                $nationalIdentifier = $this->ivms_data_check($value);
+
+              break;
+
+              case 'national_identifier_type':
+
+                $nationalIdentifierType = $this->ivms_data_check($value);
+
+              break;
+
+              case 'country_of_registration':
+
+                $countryOfRegistration = $this->ivms_data_check($value);
+
+              break;
+            }
+          }
+
+          if($request->type == 'oVASP') {
+            $role = 'originatingVASP';
+            $mockData = "'originator':{'originatorPersons':[{'naturalPerson':{'name':{'nameIdentifier':[{'primaryIdentifier':'Dora','secondaryIdentifier':'Carlson','nameIdentifierType':'LEGL'}]},'geographicAddress':[{'addressType':'HOME','streetName':'Potential Street','townLocationName':'Brooklyn','districtName':'Brooklyn','buildingNumber':'123','buildingName':'Cheese Hut','postcode':'91361','townName':'Thousand Oaks','countrySubDivision':'California','country':'US'}],'nationalIdentification':{'nationalIdentifier':'024181096','nationalIdentifierType':'RAID','registrationAuthority':'RA000589'},'customerIdentification':'0xA3a8C1C840A8C2049472065b2664E01E0e8A8b67','dateAndPlaceOfBirth':{'dateOfBirth':'1986-11-21','placeOfBirth':'New York City'},'countryOfResidence':'US'}}],'accountNumber':['0xDF122a5c1d5ddE991E2FDC5a5743B30F2a34EA6e']},";
+          }
+
+          $data = "{" . $mockData . "'$role':{'legalPerson':{'name':{'nameIdentifier':[{'legalPersonName':'$legalPersonName','legalPersonNameIdentifierType':'$legalPersonNameIdentifierType'}]},'geographicAddress':[{'addressType':'$addressType','department':'$department','subDepartment':'$subDepartment','streetName':'$streetName','buildingNumber':'$buildingNumber','buildingName':'$buildingName','floor':'$floor','room':'$room','postBox':'$postbox','postcode':'$postcode','townName':'$townName','townLocationName':'$townLocationName','districtName':'$districtName','countrySubDivision':'$countrySubDivision','addressLine':'$addressLine','country':'$country'}],'customerIdentification':'$customerIdentification','nationalIdentification':{'nationalIdentifier':'$nationalIdentifier','nationalIdentifierType':'$nationalIdentifierType'},'countryOfRegistration':'$countryOfRegistration'}}}";
+          $data = str_replace("'", '"', $data);
+          
+          Log::debug('ContractsController export_ivms_data id ' . $id);
+
+          return response()->json($data);
+      }
       
       public function ta_set_key_value_pair(Request $request, $id)
       {

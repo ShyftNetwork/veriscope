@@ -49,6 +49,17 @@
                 :totalRows="totalRecords"
                 url="ta-accounts"
                 ></good-table>
+                <div class="w-full my-8">
+                    <simple-button :on-click=exportOVASP>
+                        Export Originating VASP IVMS
+                    </simple-button>
+                    <simple-button :on-click=exportBVASP>
+                        Export Beneficiary VASP IVMS
+                    </simple-button>
+                </div>
+                <div class="flex flex-wrap items-center" :style="{ display:show_export_IVMS_data_result }">
+                    <p class="md:flex md:items-center"><strong class="mr-2" style="color:red;">{{export_IVMS_failed_data}}</strong></p>
+                </div>
             </div>
             <br/>
         </div>
@@ -542,6 +553,8 @@
         TA_GET_TAS,
         TA_SET_KEY_VALUE_PAIR,          
         TA_GET_DISCOVERY_LAYER_KEYS,
+        EXPORT_OVASP_IVMS,
+        EXPORT_BVASP_IVMS,
         
         
     } from '../../store/mutation-types';
@@ -682,6 +695,10 @@
                     attestations.taSetKeyValuePairData,
                 show_key_value_pair_result: ({ attestations }) =>
                     attestations.showKeyValuePairResult,
+                show_export_IVMS_data_result: ({ attestations }) =>
+                    attestations.showExportIVMSFailedData,
+                export_IVMS_failed_data: ({ attestations }) =>
+                    attestations.exportIVMSFailedData,
             }),
         },
         /**
@@ -719,6 +736,30 @@
                     console.log(response);
                 });
             },
+            /**
+             * export IVMS data
+             */
+             exportOVASP(){
+                this[EXPORT_OVASP_IVMS]().then(response => {
+                    console.log('exportOVASP');
+                    let blob = new Blob([response.data], { type: 'application/json' })
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'originatingVASP.json'
+                    link.click()
+                });
+             },
+
+             exportBVASP(){
+                this[EXPORT_BVASP_IVMS]().then(response => {
+                    console.log('exportBVASP');
+                    let blob = new Blob([response.data], { type: 'application/json' })
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'BeneficiaryVASP.json'
+                    link.click()
+                });
+             },
     
             // Pull in required action methods
             ...mapActions([
@@ -730,6 +771,8 @@
                 TA_GET_TAS,    
                 TA_SET_KEY_VALUE_PAIR,          
                 TA_GET_DISCOVERY_LAYER_KEYS,
+                EXPORT_OVASP_IVMS,
+                EXPORT_BVASP_IVMS
             ]),
 
             // Pull in required mutations

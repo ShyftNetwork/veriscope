@@ -10,6 +10,9 @@ import {
     TA_SAVE_IVMS_SUCCESS,
     TA_SAVE_IVMS_FAIL,
     //KEEP
+    EXPORT_OVASP_IVMS_FAIL,
+    EXPORT_BVASP_IVMS_FAIL,
+    //KEEP
     TA_IS_VERIFIED_SUCCESS,
     TA_IS_VERIFIED_FAIL,
     //KEEP
@@ -111,6 +114,24 @@ export const mutations = {
         console.log(payload);
 
         state.showUpdatedIvmsData = 'block';
+
+    },
+
+    [EXPORT_OVASP_IVMS_FAIL] (state, payload=[]) {
+        console.log('mutations EXPORT_OVASP_IVMS_FAIL');
+        console.log('state');
+        console.log(state);
+
+        state.showExportIVMSFailedData = 'block';
+
+    },
+
+    [EXPORT_BVASP_IVMS_FAIL] (state, payload=[]) {
+        console.log('mutations EXPORT_BVASP_IVMS_FAIL');
+        console.log('state');
+        console.log(state);
+
+        state.showExportIVMSFailedData = 'block';
 
     },
 
