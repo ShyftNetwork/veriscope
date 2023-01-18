@@ -220,7 +220,7 @@ class ContractsController extends Controller
 
           $user = User::findOrFail($id);
           
-          $keys = DiscoveryLayerKey::get(['id', 'key']);
+          $keys = DiscoveryLayerKey::orderBy('key', 'ASC')->get(['id', 'key']);
 
             
           return response()->json($keys);
