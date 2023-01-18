@@ -125,6 +125,11 @@ export const actions = {
                 "town_location_name": state.form.ivms_town_location_name,
                 "district_name": state.form.ivms_district_name,
                 "address_line": state.form.ivms_address_line,
+                "postbox": state.form.ivms_postbox,
+                "customer_identification": state.form.ivms_customer_identification,
+                "national_identifier": state.form.ivms_national_identifier,
+                "national_identifier_type": state.form.ivms_national_identifier_type,
+                "country_of_registration": state.form.ivms_country_of_registration,
                 };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-save-ivms`, p)

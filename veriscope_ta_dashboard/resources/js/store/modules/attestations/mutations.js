@@ -241,6 +241,11 @@ export const mutations = {
         state.form.ivms_town_location_name = stateFormData.town_location_name;
         state.form.ivms_district_name = stateFormData.district_name;
         state.form.ivms_address_line = stateFormData.address_line;
+        state.form.ivms_postbox = stateFormData.postbox;
+        state.form.ivms_customer_identification = stateFormData.customer_identification;
+        state.form.ivms_national_identifier = stateFormData.national_identifier;
+        state.form.ivms_national_identifier_type = stateFormData.national_identifier_type;
+        state.form.ivms_country_of_registration = stateFormData.country_of_registration;
 
     },
 

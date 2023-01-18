@@ -368,6 +368,96 @@
                 </div>
             </div>
 
+            <b>Postbox</b>
+            <br/>
+            <i>Numbered box in a post office, assigned to a person or organisation, where letters are kept until called for.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_postbox"
+                        placeholder="Postbox"
+                        name="ivms_postbox"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_postbox')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Customer Identification</b>
+            <br/>
+            <i>A distinct identifier that uniquely identifies the person to the institution in context.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_customer_identification"
+                        placeholder="Customer Identification"
+                        name="ivms_customer_identification"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_customer_identification')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>National Identifier</b>
+            <br/>
+            <i>An identifier issued by an appropriate issuing authority.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_national_identifier"
+                        placeholder="National Identifier"
+                        name="ivms_national_identifier"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_national_identifier')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>National Identifier Type</b>
+            <br/>
+            <i>A legal person must have a value for nationalIdentifierType of either ‘RAID’ or ‘MISC’ or ‘LEIX’ or ‘TXID’.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_national_identifier_type"
+                        placeholder="National Identifier Type"
+                        name="ivms_national_identifier_type"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_national_identifier_type')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Country Of Registration</b>
+            <br/>
+            <i>The country in which the legal person is registered.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_country_of_registration"
+                        placeholder="Country Of Registration"
+                        name="ivms_country_of_registration"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_country_of_registration')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
 
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3 my-8">
@@ -629,6 +719,11 @@
                     {label: 'Town Location Name', field: 'town_location_name'},
                     {label: 'District Name', field: 'district_name'},
                     {label: 'Address Line', field: 'address_line'},
+                    {label: 'Postbox', field: 'postbox'},
+                    {label: 'Customer Identification', field: 'customer_identification'},
+                    {label: 'National Identifier', field: 'national_identifier'},
+                    {label: 'National Identifier Type', field: 'national_identifier_type'},
+                    {label: 'Country Of Registration', field: 'country_of_registration'},
                 ];
             this.ta_ivms_rows = [];
         },
@@ -665,6 +760,11 @@
                 'form.ivms_town_location_name',
                 'form.ivms_district_name',
                 'form.ivms_address_line',
+                'form.ivms_postbox',
+                'form.ivms_customer_identification',
+                'form.ivms_national_identifier',
+                'form.ivms_national_identifier_type',
+                'form.ivms_country_of_registration',
             ]),
             // Access globabl getters
             ...mapGetters([
