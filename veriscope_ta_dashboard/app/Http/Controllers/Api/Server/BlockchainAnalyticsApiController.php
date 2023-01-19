@@ -157,7 +157,7 @@ class BlockchainAnalyticsApiController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->request('POST', 'https://apiexpert.crystalblockchain.com/monitor/tx/add', [
+            $response = $client->request('POST', config('blockchain_analytics_url.crystal_url'), [
                 'headers' => [
                     'X-Auth-Apikey' => $api_key,
                     'Content-Type' => 'application/json'
@@ -184,7 +184,7 @@ class BlockchainAnalyticsApiController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->request('POST', 'https://demo.api.merklescience.com/api/v3/addresses/', [
+            $response = $client->request('POST', config('blockchain_analytics_url.merkle_science_url'), [
                 'headers' => [
                     'X-API-KEY' => $api_key,
                     'Content-Type' => 'application/json',
@@ -208,7 +208,7 @@ class BlockchainAnalyticsApiController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->request('GET', 'https://api.coinfirm.com/v3/reports/aml/full/' . $address . '?v=2', [
+            $response = $client->request('GET', config('blockchain_analytics_url.coinfirm_url') . $address . '?v=2', [
                 'headers' => [
                     'authorization' => 'Bearer ' . $api_key,
                     'Content-Type' => 'application/json',
@@ -236,7 +236,7 @@ class BlockchainAnalyticsApiController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->request('POST', 'https://api.chainalysis.com/api/kyt/v1/users/veriscope/withdrawaladdresses', [
+            $response = $client->request('POST', config('blockchain_analytics_url.chainalysis_url'), [
                 'headers' => [
                     'Token' => $api_key,
                     'Content-Type' => 'application/json',
@@ -277,7 +277,7 @@ class BlockchainAnalyticsApiController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->request('POST', 'https://aml-api.elliptic.co/v2/wallet/synchronous', [
+            $response = $client->request('POST', config('blockchain_analytics_url.elliptic_url'), [
                 'headers' => [
                     'x-access-key' => $api_key,
                     'x-access-sign' => $signature,
