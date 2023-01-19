@@ -4,6 +4,14 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS,
     CREATE_TA_ACCOUNT_FAIL,
     //KEEP
+    EXPORT_OVASP_IVMS,
+    EXPORT_OVASP_IVMS_SUCCESS,
+    EXPORT_OVASP_IVMS_FAIL,
+    //KEEP
+    EXPORT_BVASP_IVMS,
+    EXPORT_BVASP_IVMS_SUCCESS,
+    EXPORT_BVASP_IVMS_FAIL,
+    //KEEP
     TA_SAVE_IVMS,
     TA_SAVE_IVMS_SUCCESS,
     TA_SAVE_IVMS_FAIL,
@@ -117,6 +125,11 @@ export const actions = {
                 "town_location_name": state.form.ivms_town_location_name,
                 "district_name": state.form.ivms_district_name,
                 "address_line": state.form.ivms_address_line,
+                "postbox": state.form.ivms_postbox,
+                "customer_identification": state.form.ivms_customer_identification,
+                "national_identifier": state.form.ivms_national_identifier,
+                "national_identifier_type": state.form.ivms_national_identifier_type,
+                "country_of_registration": state.form.ivms_country_of_registration,
                 };
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-save-ivms`, p)
@@ -127,6 +140,32 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_SAVE_IVMS_FAIL);
+            });
+    },
+
+    [EXPORT_OVASP_IVMS]({ commit, dispatch, getters, state }) {
+        console.log('actions EXPORT_OVASP_IVMS');
+
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/oVASP`)
+            .then(response => {
+                console.log(response);
+                return response;
+            })
+            .catch(error => {
+                commit(EXPORT_OVASP_IVMS_FAIL);
+            });
+    },
+
+    [EXPORT_BVASP_IVMS]({ commit, dispatch, getters, state }) {
+        console.log('actions EXPORT_BVASP_IVMS');
+
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/bVASP`)
+            .then(response => {
+                console.log(response);
+                return response;
+            })
+            .catch(error => {
+                commit(EXPORT_BVASP_IVMS_FAIL);
             });
     },
 

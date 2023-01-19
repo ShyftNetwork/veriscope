@@ -44,7 +44,7 @@ class MerkleScienceAnalyticsController extends Controller {
 
         try {
             $client = new Client();
-            $response = $client->request('POST', 'https://demo.api.merklescience.com/api/v3/addresses/', [
+            $response = $client->request('POST', 'https://api.merklescience.com/api/v3/addresses/', [
                 'headers' => [
                     'X-API-KEY' => $api_key,
                     'Content-Type' => 'application/json',

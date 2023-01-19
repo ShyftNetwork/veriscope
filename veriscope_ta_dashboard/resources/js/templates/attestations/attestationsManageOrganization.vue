@@ -49,6 +49,17 @@
                 :totalRows="totalRecords"
                 url="ta-accounts"
                 ></good-table>
+                <div class="w-full my-8">
+                    <simple-button :on-click=exportOVASP>
+                        Export Originating VASP IVMS
+                    </simple-button>
+                    <simple-button :on-click=exportBVASP>
+                        Export Beneficiary VASP IVMS
+                    </simple-button>
+                </div>
+                <div class="flex flex-wrap items-center" :style="{ display:show_export_IVMS_data_result }">
+                    <p class="md:flex md:items-center"><strong class="mr-2" style="color:red;">{{export_IVMS_failed_data}}</strong></p>
+                </div>
             </div>
             <br/>
         </div>
@@ -64,7 +75,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_legal_person_name"
+                        v-model="formData.ivms_legal_person_name"
                         placeholder="Legal Person Name"
                         name="ivms_legal_person_name"
                         v-validate="'required'"
@@ -81,7 +92,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_legal_person_name_identifier_type"
+                        v-model="formData.ivms_legal_person_name_identifier_type"
                         placeholder="Legal Person Name Identifier Type"
                         name="ivms_legal_person_name_identifier_type"
                         v-validate="'required'"
@@ -98,7 +109,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_address_type"
+                        v-model="formData.ivms_address_type"
                         placeholder="Address Type (HOME, BIZZ, GEOG)"
                         name="ivms_address_type"
                         v-validate="'required'"
@@ -115,7 +126,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_street_name"
+                        v-model="formData.ivms_street_name"
                         placeholder="Street Name"
                         name="ivms_street_name"
                         v-validate="'required'"
@@ -132,7 +143,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_building_number"
+                        v-model="formData.ivms_building_number"
                         placeholder="Building Number"
                         name="ivms_building_number"
                         v-validate="'required'"
@@ -149,7 +160,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_building_name"
+                        v-model="formData.ivms_building_name"
                         placeholder="Building Name"
                         name="ivms_building_name"
                         v-validate="'required'"
@@ -166,7 +177,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_postcode"
+                        v-model="formData.ivms_postcode"
                         placeholder="Postcode"
                         name="ivms_postcode"
                         v-validate="'required'"
@@ -183,7 +194,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_town_name"
+                        v-model="formData.ivms_town_name"
                         placeholder="Town Name"
                         name="ivms_town_name"
                         v-validate="'required'"
@@ -200,7 +211,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_country_sub_division"
+                        v-model="formData.ivms_country_sub_division"
                         placeholder="Country Sub Division"
                         name="ivms_country_sub_division"
                         v-validate="'required'"
@@ -217,7 +228,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_country"
+                        v-model="formData.ivms_country"
                         placeholder="Country Code"
                         name="ivms_country"
                         v-validate="'required'"
@@ -236,7 +247,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_department"
+                        v-model="formData.ivms_department"
                         placeholder="Department Code"
                         name="ivms_department"
                         v-validate="'required'"
@@ -255,7 +266,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_sub_department"
+                        v-model="formData.ivms_sub_department"
                         placeholder="Sub Department"
                         name="ivms_sub_department"
                         v-validate="'required'"
@@ -273,7 +284,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_floor"
+                        v-model="formData.ivms_floor"
                         placeholder="Floor Code"
                         name="ivms_floor"
                         v-validate="'required'"
@@ -291,7 +302,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_room"
+                        v-model="formData.ivms_room"
                         placeholder="Room Code"
                         name="ivms_room"
                         v-validate="'required'"
@@ -309,7 +320,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_town_location_name"
+                        v-model="formData.ivms_town_location_name"
                         placeholder="Town Location Name Code"
                         name="ivms_town_location_name"
                         v-validate="'required'"
@@ -327,7 +338,7 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_district_name"
+                        v-model="formData.ivms_district_name"
                         placeholder="District Name"
                         name="ivms_district_name"
                         v-validate="'required'"
@@ -345,11 +356,101 @@
             <div class="flex flex-wrap items-center">
                 <div class="w-full lg:w-1/3">
                     <simple-input
-                        v-model="ivms_address_line"
+                        v-model="formData.ivms_address_line"
                         placeholder="Address Line"
                         name="ivms_address_line"
                         v-validate="'required'"
                         :error="errors.first('ivms_address_line')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Postbox</b>
+            <br/>
+            <i>Numbered box in a post office, assigned to a person or organisation, where letters are kept until called for.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_postbox"
+                        placeholder="Postbox"
+                        name="ivms_postbox"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_postbox')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Customer Identification</b>
+            <br/>
+            <i>A distinct identifier that uniquely identifies the person to the institution in context.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_customer_identification"
+                        placeholder="Customer Identification"
+                        name="ivms_customer_identification"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_customer_identification')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>National Identifier</b>
+            <br/>
+            <i>An identifier issued by an appropriate issuing authority.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_national_identifier"
+                        placeholder="National Identifier"
+                        name="ivms_national_identifier"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_national_identifier')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>National Identifier Type</b>
+            <br/>
+            <i>A legal person must have a value for nationalIdentifierType of either ‘RAID’ or ‘MISC’ or ‘LEIX’ or ‘TXID’.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_national_identifier_type"
+                        placeholder="National Identifier Type"
+                        name="ivms_national_identifier_type"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_national_identifier_type')"
+                        required
+                        disabled
+                        style="padding-top:5px"
+                    ></simple-input>
+                </div>
+            </div>
+
+            <b>Country Of Registration</b>
+            <br/>
+            <i>The country in which the legal person is registered.</i>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <simple-input
+                        v-model="formData.ivms_country_of_registration"
+                        placeholder="Country Of Registration"
+                        name="ivms_country_of_registration"
+                        v-validate="'required'"
+                        :error="errors.first('ivms_country_of_registration')"
                         required
                         disabled
                         style="padding-top:5px"
@@ -542,6 +643,8 @@
         TA_GET_TAS,
         TA_SET_KEY_VALUE_PAIR,          
         TA_GET_DISCOVERY_LAYER_KEYS,
+        EXPORT_OVASP_IVMS,
+        EXPORT_BVASP_IVMS,
         
         
     } from '../../store/mutation-types';
@@ -554,7 +657,7 @@
             return {
                 ta_account_columns:[],
                 totalRecords: 0,
-                ta_ivms_columns:[],
+                ta_ivms_columns:[]
             }
         },
         created() {
@@ -588,6 +691,7 @@
          */
         mounted() {
             this[COMPLETE_ROUTE](this.$route.name);
+            
             this.ta_account_columns =  [
                     {label: 'TA Prefname', field: 'ta_prefname'},
                     {label: 'TA Account', field: 'account_address'},
@@ -595,6 +699,7 @@
                     {label: 'TA Signature', field: 'signature'},
                     {label: 'TA Signature Hash', field: 'signature_hash'},
                 ];
+            
             this.ta_account_rows = [];
             this.ta_ivms_columns =  [
                     {label: 'Legal Person Name', field: 'legal_person_name'},
@@ -607,6 +712,18 @@
                     {label: 'Town Name', field: 'town_name'},
                     {label: 'Country Sub Division', field: 'country_sub_division'},
                     {label: 'Country', field: 'country'},
+                    {label: 'Department', field: 'department'},
+                    {label: 'Sub Department', field: 'sub_department'},
+                    {label: 'Floor', field: 'floor'},
+                    {label: 'Room', field: 'room'},
+                    {label: 'Town Location Name', field: 'town_location_name'},
+                    {label: 'District Name', field: 'district_name'},
+                    {label: 'Address Line', field: 'address_line'},
+                    {label: 'Postbox', field: 'postbox'},
+                    {label: 'Customer Identification', field: 'customer_identification'},
+                    {label: 'National Identifier', field: 'national_identifier'},
+                    {label: 'National Identifier Type', field: 'national_identifier_type'},
+                    {label: 'Country Of Registration', field: 'country_of_registration'},
                 ];
             this.ta_ivms_rows = [];
         },
@@ -643,6 +760,11 @@
                 'form.ivms_town_location_name',
                 'form.ivms_district_name',
                 'form.ivms_address_line',
+                'form.ivms_postbox',
+                'form.ivms_customer_identification',
+                'form.ivms_national_identifier',
+                'form.ivms_national_identifier_type',
+                'form.ivms_country_of_registration',
             ]),
             // Access globabl getters
             ...mapGetters([
@@ -682,6 +804,10 @@
                     attestations.taSetKeyValuePairData,
                 show_key_value_pair_result: ({ attestations }) =>
                     attestations.showKeyValuePairResult,
+                show_export_IVMS_data_result: ({ attestations }) =>
+                    attestations.showExportIVMSFailedData,
+                export_IVMS_failed_data: ({ attestations }) =>
+                    attestations.exportIVMSFailedData,
             }),
         },
         /**
@@ -719,6 +845,30 @@
                     console.log(response);
                 });
             },
+            /**
+             * export IVMS data
+             */
+             exportOVASP(){
+                this[EXPORT_OVASP_IVMS]().then(response => {
+                    console.log('exportOVASP');
+                    let blob = new Blob([response.data], { type: 'application/json' })
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'originatingVASP.json'
+                    link.click()
+                });
+             },
+
+             exportBVASP(){
+                this[EXPORT_BVASP_IVMS]().then(response => {
+                    console.log('exportBVASP');
+                    let blob = new Blob([response.data], { type: 'application/json' })
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'BeneficiaryVASP.json'
+                    link.click()
+                });
+             },
     
             // Pull in required action methods
             ...mapActions([
@@ -730,6 +880,8 @@
                 TA_GET_TAS,    
                 TA_SET_KEY_VALUE_PAIR,          
                 TA_GET_DISCOVERY_LAYER_KEYS,
+                EXPORT_OVASP_IVMS,
+                EXPORT_BVASP_IVMS
             ]),
 
             // Pull in required mutations
