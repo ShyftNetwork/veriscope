@@ -111,7 +111,22 @@ class ContractsController extends Controller
             $ta->district_name = $input['district_name'];
 
           if ($input['address_line'])
-            $ta->address_line = $input['address_line'];  
+            $ta->address_line = $input['address_line'];
+            
+          if ($input['postbox'])
+            $ta->postbox = $input['postbox'];
+
+          if ($input['customer_identification'])
+            $ta->customer_identification = $input['customer_identification'];
+
+          if ($input['national_identifier'])
+            $ta->national_identifier = $input['national_identifier'];
+
+          if ($input['national_identifier_type'])
+            $ta->national_identifier_type = $input['national_identifier_type'];
+
+          if ($input['country_of_registration'])
+            $ta->country_of_registration = $input['country_of_registration'];
 
           $ta->save();
 
@@ -220,7 +235,7 @@ class ContractsController extends Controller
 
           $user = User::findOrFail($id);
           
-          $keys = DiscoveryLayerKey::get(['id', 'key']);
+          $keys = DiscoveryLayerKey::orderBy('key', 'ASC')->get(['id', 'key']);
 
             
           return response()->json($keys);

@@ -59,6 +59,11 @@ export default {
             ivms_town_location_name: '',
             ivms_district_name: '',
             ivms_address_line: '',
+            ivms_postbox: '',
+            ivms_customer_identification: '',
+            ivms_national_identifier: '',
+            ivms_national_identifier_type: '',
+            ivms_country_of_registration: '',
   
         },
         genderData: [
@@ -147,6 +152,8 @@ export default {
         showTaSetWalletAttestationHash: 'none',
         showTaSetWalletAttestationError: 'none',
         taSetKeyValuePairData: '',
+        showExportIVMSFailedData: 'none',
+        exportIVMSFailedData: 'Server busy please contact your administrator.',
 
     },
     getters: {
