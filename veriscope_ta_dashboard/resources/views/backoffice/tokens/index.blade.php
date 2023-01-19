@@ -10,7 +10,7 @@ tokens
         <h1 class="h2">
           API Tokens
         </h1>
-        <a href="tokens/create" class="btn btn-primary">Create Token</a>
+        <a href="{{route('token.create')}}" class="btn btn-primary">Create Token</a>
 
       </div>
   </div>

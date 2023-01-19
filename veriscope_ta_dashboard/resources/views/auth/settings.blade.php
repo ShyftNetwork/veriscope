@@ -14,33 +14,20 @@ settings
     <div class="self-center w-full max-w-sm">
       <div class="flex flex-wrap">
         <div class="flex-grow">
-          <strong>Your Email Address:</strong><br>
-          {{ Auth::user()->email }}
+          <strong>User Settings</strong><br>
+          <a href="{{ route('account-settings') }}"><span class="hidden md:inline">Set Email/Password/2Fa</span><span class="inline md:hidden">Edit</span></a>
         </div>
-        <div class="text-right">
-          <a href="{{ route('email.manage') }}"><span class="hidden md:inline">Change My Email</span><span class="inline md:hidden">Edit</span></a>
-        </div>
+
         <div class="w-full bg-gray my-8 h-hairline"></div>
         <div class="flex-grow">
-          <strong>Your Password:</strong><br>
-          ••••••••••••••••
+          <strong>Webhook Url</strong><br>
+          <a href="{{ route('constants.index') }}"><span class="hidden md:inline">Manage Webhook</span><span class="inline md:hidden">Edit</span></a>
         </div>
-        <div class="text-right">
-          <a href="{{ route('password.manage') }}"><span class="hidden md:inline">Update My Password</span><span class="inline md:hidden">Edit</span></a>
-        </div>
+
         <div class="w-full bg-gray my-8 h-hairline"></div>
         <div class="flex-grow">
-          <strong>2-Factor Authentication</strong><br>
-          @if(!(Auth::user()->passwordSecurity()->exists() && Auth::user()->passwordSecurity->google2fa_enable==1))
-            Authentication is currently disabled.
-          @endif
-        </div>
-        <div class="text-right">
-          @if(Auth::user()->passwordSecurity()->exists() && Auth::user()->passwordSecurity->google2fa_enable==1)
-            <a href="/2fa">Authentication Settings</a>
-          @else
-            <a href="/2fa">Enable Authentication</a>
-          @endif
+          <strong>API Tokens</strong><br>
+          <a href="{{ route('token.index') }}"><span class="hidden md:inline">Manage Your API tokens</span><span class="inline md:hidden">Edit</span></a>
         </div>
 
       </div>

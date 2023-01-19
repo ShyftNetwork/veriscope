@@ -7,7 +7,7 @@ constants
   {{ Form::open(['route' => ['constants.update'], "method" => "put", "enctype" => "multipart/form-data", "class" => "form-horizontal"]) }}
   <div class="section">
     <div class="container py-12">
-      <h1 class="px-8 md:px-12 md:pt-12 h2">{{ __('Portal Settings') }}</h1>
+      <h1 class="px-8 md:px-12 md:pt-12 h2">{{ __('Webhook Settings') }}</h1>
 
       <div class="md:flex">
         <div class="md:w-1/2 p-8 pb-2 md:pt-2 md:pb-12 md:px-12">
@@ -45,7 +45,7 @@ constants
         <div class="w-full lg:w-1/4 my-8 lg:my-12 lg:mx-4">
           <button class="btn btn-primary" type="submit"><i class="fa fa-btn fa-user"></i> Update</button>
         </div>
-        <a class="lg:mx-4" href="{{ url('/backoffice') }}"><strong>Cancel</strong></a>
+        <a class="lg:mx-4" href="{{ route('settings') }}"><strong>Cancel</strong></a>
       </div>
     </div>
   </div>

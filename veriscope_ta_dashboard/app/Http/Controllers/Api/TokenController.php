@@ -79,7 +79,7 @@ class TokenController extends Controller
         foreach($paginatedTokens as $token) {
 
           $token['show'] = '<a data-id="'.$token->accessToken.'" onClick="copyToken(this);" class="btn btn--alt btn--sm">Copy Token</a> ';
-          $token['revoke'] = '<a href="/backoffice/tokens/revoke/'.$token->id.'" class="btn btn--alt btn--sm">Delete</a> ';
+          $token['revoke'] = '<a href="/dashboard/tokens/revoke/'.$token->id.'" class="btn btn--alt btn--sm">Delete</a> ';
 
         }
 

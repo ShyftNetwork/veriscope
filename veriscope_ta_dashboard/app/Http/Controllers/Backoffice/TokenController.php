@@ -47,7 +47,7 @@ class TokenController extends Controller
         Session::flash('flash_message', 'Successfully created token');
         Session::flash('flash_type', 'success');
 
-        return redirect('backoffice/tokens');
+        return redirect('dashboard/tokens');
 
     }
 
@@ -64,7 +64,7 @@ class TokenController extends Controller
           Session::flash('flash_type', 'error');
         }
 
-        return redirect('backoffice/tokens');
+        return redirect('dashboard/tokens');
     }
 
 }

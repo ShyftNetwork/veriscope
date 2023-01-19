@@ -95,6 +95,12 @@ if(config('shyft.onboarding')) {
         Route::group(['prefix' => 'dashboard'], function() {
             Route::get('', function () { return view('auth.welcome'); })->name('welcome');
             Route::get('settings', function () { return view('auth.settings');})->name('settings');
+            Route::get('account/settings', function () { return view('auth.account-settings');})->name('account-settings');
+            Route::get('tokens', '\App\Http\Controllers\Backoffice\TokenController@index')->name('token.index');
+            Route::get('tokens/create', '\App\Http\Controllers\Backoffice\TokenController@create')->name('token.create');
+            Route::get('tokens/revoke/{id}', '\App\Http\Controllers\Backoffice\TokenController@revoke')->name('token.revoke');
+            Route::get('constants', '\App\Http\Controllers\Backoffice\ConstantsController@index')->name('constants.index')->middleware('can:edit,App\Constant');
+            Route::put('constants/update', '\App\Http\Controllers\Backoffice\ConstantsController@update')->name('constants.update')->middleware('can:edit,App\Constant');
         });
 
     });
@@ -122,19 +128,12 @@ if(Config::get('backoffice.enabled')) {
 
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
 
-        Route::get('tokens', '\App\Http\Controllers\Backoffice\TokenController@index')->name('token.index');
-        Route::get('tokens/create', '\App\Http\Controllers\Backoffice\TokenController@create')->name('token.create');
-        Route::get('tokens/revoke/{id}', '\App\Http\Controllers\Backoffice\TokenController@revoke')->name('token.revoke');
-
         Route::get('arena_auth', '\App\Http\Controllers\Backoffice\DashboardController@arena_auth')->name('arena.auth');
 
         Route::get('blockchain-analytics', 'BlockchainAnalyticsController@blockchainAnalyticsSettings')->name('blockchain.analytics');
         Route::put('blockchain-analytics/update', 'BlockchainAnalyticsController@update')->name('blockchain.analytics.update');
 
         Route::get('kyctemplates/{id}/details',       'KycTemplatesController@kyc_template_details');
-
-        Route::get('constants', 'ConstantsController@index')->name('constants.index')->middleware('can:edit,App\Constant');
-        Route::put('constants/update', 'ConstantsController@update')->name('constants.update')->middleware('can:edit,App\Constant');
 
         Route::get('/blockexplorer', function () { return view('blockexplorer.index'); })->name('blockexplorer');
         Route::get('/blockexplorer/transaction/{id}/view',       'BlockExplorerController@view');
@@ -148,10 +147,8 @@ if(Config::get('backoffice.enabled')) {
 
         Route::get('/verified-trust-anchors', function () { return view('verifiedtrustanchors.index'); })->name('verifiedtrustanchors');
 
-
         Route::get('/blockchain-analytics-addresses', function () {return view('blockchainanalyticsaddresses.index'); })->name('blockchainanalyticsaddresses');
         Route::get('/blockchain-analytics-addresses/{id}/view', 'BlockchainAnalyticsController@analytics_report');
-
         Route::get('/blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@new_report')->name('new-report');
         Route::post('blockchain-analytics-addresses/new-report', 'BlockchainAnalyticsController@create_report')->name('blockchain-analytics-addresses.new-report');
 
