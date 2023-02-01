@@ -32,9 +32,7 @@ import {
     TA_CREATE_USER_SUCCESS,
     TA_CREATE_USER_FAIL,
 
-    TA_GET_ATTESTATION_COMPONENTS,
-    TA_GET_ATTESTATION_COMPONENTS_SUCCESS,
-    TA_GET_ATTESTATION_COMPONENTS_FAIL,
+
     TA_LOAD_COUNTRIES,
     TA_LOAD_COUNTRIES_SUCCESS,
     TA_LOAD_COUNTRIES_FAIL,
@@ -62,12 +60,8 @@ import {
 
     TA_GET_DISCOVERY_LAYER_KEYS,
     TA_GET_DISCOVERY_LAYER_KEYS_SUCCESS,
-    TA_GET_DISCOVERY_LAYER_KEYS_FAIL,
+    TA_GET_DISCOVERY_LAYER_KEYS_FAIL
 
-
-    REFRESH_ALL_ATTESTATIONS,
-    REFRESH_ALL_DISCOVERY_LAYERS,
-    REFRESH_ALL_VERIFIED_TAS
 } from '../../mutation-types';
 
 export const actions = {
@@ -235,31 +229,6 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_GET_BALANCE_FAIL);
-            });
-    },
-
-    [TA_GET_ATTESTATION_COMPONENTS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_GET_ATTESTATION_COMPONENTS');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        console.log(payload);
-        var p = {
-            "account": state.form.attestation_user.account_address,
-            "index": payload - 1
-        };
-        console.log(p);
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-attestation-components-in-array`, p)
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-                commit(TA_GET_ATTESTATION_COMPONENTS_FAIL);
             });
     },
 
@@ -448,38 +417,6 @@ export const actions = {
             .catch((response) => {
                 commit(TA_GET_DISCOVERY_LAYER_KEYS_FAIL);
             });
-    },
+    }
 
-    [REFRESH_ALL_ATTESTATIONS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-attestations`)
-            .then(response => {
-                return response;
-            })
-    },
-
-    [REFRESH_ALL_DISCOVERY_LAYERS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-discovery-layer-key-value-pairs`)
-            .then(response => {
-                return response;
-            })
-    },
-
-    [REFRESH_ALL_VERIFIED_TAS]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        return axios.get(`contracts/trust-anchor/${getters.UID}/refresh-all-verified-tas`)
-            .then(response => {
-                return response;
-            })
-    },
 };

@@ -12,9 +12,6 @@
           </h1>
         </div>
     </div>
-    <simple-button :on-click=callRefreshAllAttestations>
-        Refresh All Attestations
-    </simple-button>
     <good-table url="shyft-smart-contract-events"
     ref="attestationsTable"
     :columns="[

@@ -37,9 +37,6 @@ import {
   LOAD_BA_PROVIDERS_NETWORKS,
   CREATE_BA_REPORT,
   CREATE_BA_REPORT_SUCCESS,
-  REFRESH_ALL_ATTESTATIONS,
-  REFRESH_ALL_DISCOVERY_LAYERS,
-  REFRESH_ALL_VERIFIED_TAS,
   ATTESTATIONS_SOCKET_CONNECTION_SUCCESS
 } from './store/mutation-types';
 
@@ -89,36 +86,6 @@ if (document.getElementById('backoffice')) {
 
       Echo.private(`user.${userId}`)
       .listen('ContractsInstantiate', (event) => {
-
-          if (event.data.message == 'refresh-all-attestations') {
-            if (!event.data.data.completed) {
-              this.loading = true
-              if (event.data.data.message) this.loadingMessage = event.data.data.message
-            } else {
-              app.$refs.attestationsTable.loadItems()
-              this.loading = false
-            }
-          }
-
-          if (event.data.message == 'refresh-all-discovery-layer-key-value-pairs') {
-            if (!event.data.data.completed) {
-              this.loading = true
-              if (event.data.data.message) this.loadingMessage = event.data.data.message
-            } else {
-              app.$refs.discoveryLayerTable.loadItems()
-              this.loading = false
-            }
-          }
-
-          if (event.data.message == 'refresh-all-verified-tas') {
-            if (!event.data.data.completed) {
-              this.loading = true
-              if (event.data.data.message) this.loadingMessage = event.data.data.message
-            } else {
-              app.$refs.verifiedTATable.loadItems()
-              this.loading = false
-            }
-          }
 
           if (event.data.message == 'report-created') {
             this.ba_provider_report = `/backoffice/blockchain-analytics-addresses/${event.data.report_id}/view`
@@ -209,10 +176,7 @@ if (document.getElementById('backoffice')) {
           UPDATE_USER,
           LOAD_BA_PROVIDERS,
           LOAD_BA_PROVIDERS_NETWORKS,
-          CREATE_BA_REPORT,
-          REFRESH_ALL_ATTESTATIONS,
-          REFRESH_ALL_DISCOVERY_LAYERS,
-          REFRESH_ALL_VERIFIED_TAS
+          CREATE_BA_REPORT
       ]),
       ...mapMutations([
         SUBMIT_ERROR_MESSAGE_CLEAR,
@@ -235,23 +199,6 @@ if (document.getElementById('backoffice')) {
             txUrlEditButton=`<a href="${tx_edit_url}" class="btn btn--sm">Edit</a>`;
           }
           return `${txUrlViewButton} ${txUrlEditButton}`;
-        },
-
-        // get all attestations
-        callRefreshAllAttestations: function() {
-          this[REFRESH_ALL_ATTESTATIONS]()
-        },
-
-        // get all disovery layers
-
-        callRefreshAllDiscoveryLayers: function() {
-         this[REFRESH_ALL_DISCOVERY_LAYERS]()
-        },
-
-        // get all verified TAs
-
-        callRefreshAllVerifiedTAs: function() {
-          this[REFRESH_ALL_VERIFIED_TAS]()
         },
 
 

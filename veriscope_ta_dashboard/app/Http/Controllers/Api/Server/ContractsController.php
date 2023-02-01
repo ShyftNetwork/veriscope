@@ -13,71 +13,68 @@ use App\Support\EthereumToolsUtils;
 
 class ContractsController extends Controller
 {
-
       /**
      * Create a new controller instance.
      *
      * @return void
      */
-      public function __construct()
-      {
-          $this->helper_url = env('HTTP_API_URL');
-      }
+    public function __construct()
+    {
+        $this->helper_url = env('HTTP_API_URL');
+    }
 
-      /**
-      * Create action for new entity
-      *
-      * @param  App\Http\Requests\SetV3AttestationRequest $request
-      * @return \Illuminate\Http\Response
-      */
+    /**
+    * Create action for new entity
+    *
+    * @param  App\Http\Requests\SetV3AttestationRequest $request
+    * @return \Illuminate\Http\Response
+    */
 
-      public function ta_set_v3_attestation(SetV3AttestationRequest $request)
-      {
+    public function ta_set_v3_attestation(SetV3AttestationRequest $request)
+    {
+        $input = $request->all();
 
-          $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
 
-          $input['user_id'] = auth()->user()->id;
+        $queryString = http_build_query($input);
 
-          $queryString = http_build_query($input);
+        $url = $this->helper_url.'/ta-set-v3-attestation?'.$queryString;
 
-          $url = $this->helper_url.'/ta-set-v3-attestation?'.$queryString;
+        Log::debug($url);
 
-          Log::debug($url);
-
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
+        $client = new Client();
+        $res = $client->request('GET', $url);
+        if ($res->getStatusCode() == 200) {
             $response = json_decode($res->getBody());
             Log::debug('ContractsController ta_set_v3_attestation');
             Log::debug($response);
-          } else {
+        } else {
             Log::error('ContractsController ta_set_v3_attestation: ' . $res->getStatusCode());
-          }
+        }
 
-          return response()->json([]);
-      }
+        return response()->json([]);
+    }
 
 
-      /**
-      * Create Shyft User
-      *
-      * @param  \Illuminate\Http\Request  $request
-      * @return \Illuminate\Http\Response
-      */
-      public function create_shyft_user(Request $request)
-      {
-
-          $data = new Address();
-          $data = [
+    /**
+    * Create Shyft User
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function create_shyft_user(Request $request)
+    {
+        $data = new Address();
+        $data = [
             'address' => strtolower($data->get()),
             'privateKey' => $data->getPrivateKey(),
             'publicKey'  => EthereumToolsUtils::privateKeyToPublicKey($data->getPrivateKey()),
           ];
 
-          $message = "VERISCOPE_USER";
-          $signed_message = EthereumToolsUtils::personalSign( $data['privateKey'], $message, 1);
+        $message = "VERISCOPE_USER";
+        $signed_message = EthereumToolsUtils::personalSign($data['privateKey'], $message, 1);
 
-          return response()->json([
+        return response()->json([
             'account_address' => "0x".$data['address'],
             'private_key' => $data['privateKey'],
             'public_key' => $data['publicKey'],
@@ -89,20 +86,18 @@ class ContractsController extends Controller
               'v' => $signed_message["v"]
             ]
           ]);
-      }
+    }
 
-      /**
-      * Get all jurisdictions
-      *
-      * @param  \Illuminate\Http\Request  $request
-      * @return \Illuminate\Http\Response
-      */
-      public function get_jurisdictions(Request $request)
-      {
+    /**
+    * Get all jurisdictions
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function get_jurisdictions(Request $request)
+    {
+        $data = Country::select('id', 'sortname', 'name', 'created_at', 'updated_at')->get();
 
-          $data = Country::select('id','sortname', 'name','created_at','updated_at')->get();
-
-          return response()->json($data);
-      }
-
+        return response()->json($data);
+    }
 }
