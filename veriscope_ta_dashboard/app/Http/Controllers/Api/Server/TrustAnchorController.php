@@ -65,73 +65,7 @@ class TrustAnchorController extends Controller
           return response()->json($trust_anchors);
       }
 
-      public function refresh_all_verified_trust_anchors(Request $request)
-      {
-          Log::debug('TrustAnchorController refresh_all_verified_tas');
 
-          $url = $this->http_api_url.'/refresh-all-verified-tas?user_id=1';
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('TrustAnchorController refresh_all_verified_trust_anchors');
-            Log::debug($response);
-
-
-          } else {
-              Log::error('TrustAnchorController refresh_all_verified_trust_anchors: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
-
-      public function refresh_all_discovery_layer_key_value_pairs(Request $request)
-      {
-          Log::debug('TrustAnchorController refresh_all_discovery_layer_key_value_pairs');
-
-          $input = $request->all();
-
-          Log::debug(print_r($input, true));
-          $url = $this->http_api_url.'/refresh-all-discovery-layer-key-value-pairs?user_id=1';
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('TrustAnchorController refresh_all_discovery_layer_key_value_pairs');
-            Log::debug($response);
-
-
-          } else {
-              Log::error('TrustAnchorController refresh_all_discovery_layer_key_value_pairs: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
-
-
-      public function refresh_all_attestations(Request $request)
-      {
-          Log::debug('TrustAnchorController refresh_all_attestations');
-
-
-          $url = $this->http_api_url.'/refresh-all-attestations?user_id=1';
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if($res->getStatusCode() == 200) {
-
-            $response = json_decode($res->getBody());
-            Log::debug('TrustAnchorController refresh_all_attestations');
-            Log::debug($response);
-
-
-          } else {
-              Log::error('TrustAnchorController refresh_all_attestations: ' . $res->getStatusCode());
-          }
-
-          return response()->json([]);
-      }
       /**
       * Get Trust Anchor Details
       *

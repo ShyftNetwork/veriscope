@@ -12,9 +12,6 @@
           </h1>
         </div>
     </div>
-    <simple-button :on-click=callRefreshAllVerifiedTAs>
-        Refresh All Verified Trust Anchors
-    </simple-button>
     <good-table url="verified-trust-anchors"
     ref="verifiedTATable"
     :columns="[

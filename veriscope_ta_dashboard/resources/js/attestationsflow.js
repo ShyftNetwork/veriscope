@@ -17,8 +17,6 @@ import {
     TA_SET_KEY_VALUE_PAIR_SUCCESS,//KEEP
     TA_EVENT_SUCCESS,
     TA_CREATE_USER_SUCCESS,
-    TA_GET_ATTESTATION_COMPONENTS_SUCCESS,
-
 } from './store/mutation-types';
 
 Vue.use(VeeValidate);
@@ -85,10 +83,6 @@ if (document.getElementById('attestations')) {
                             showInfo = balance + ' SHFT';
                         }
                         store.commit(TA_GET_BALANCE_SUCCESS, showInfo);
-                    }
-                    else if (event.data.message == 'ta-get-attestation-components-in-array') {
-                        console.log('message is ta-get-attestation-components-in-array');
-                        store.commit(TA_GET_ATTESTATION_COMPONENTS_SUCCESS, event.data.data);
                     }
                     else if (event.data.message == 'ta-set-key-value-pair') {
                         console.log('message is ta-set-key-value-pair');

@@ -4,8 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Events\{ContractsInstantiate, ShyftSmartContractEvent};
-use App\{User, TrustAnchor,TrustAnchorUser, TrustAnchorUserAttestation, SmartContractEvent, TrustAnchorSetAttestationEvent, TrustAnchorAssociationCrypto, TrustAnchorUserCryptoAddress, SmartContractTransaction, SmartContractAttestation, Country, CryptoWalletAddress, CryptoWalletType, TrustAnchorExtraData, TrustAnchorExtraDataUnique, VerifiedTrustAnchor, TrustAnchorExtraDataUniqueValidation, LatestBlockEvents};
+use App\Events\ContractsInstantiate;
+use App\Events\ShyftSmartContractEvent;
+use App\User;
+use App\TrustAnchor;
+use App\TrustAnchorUser;
+use App\TrustAnchorUserAttestation;
+use App\SmartContractEvent;
+use App\TrustAnchorSetAttestationEvent;
+use App\TrustAnchorAssociationCrypto;
+use App\TrustAnchorUserCryptoAddress;
+use App\SmartContractTransaction;
+use App\SmartContractAttestation;
+use App\Country;
+use App\CryptoWalletAddress;
+use App\CryptoWalletType;
+use App\TrustAnchorExtraData;
+use App\TrustAnchorExtraDataUnique;
+use App\VerifiedTrustAnchor;
+use App\TrustAnchorExtraDataUniqueValidation;
+use App\LatestBlockEvents;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
@@ -23,9 +41,10 @@ class WebhookController extends Controller
         $this->helper_url = env('HTTP_API_URL');
     }
 
-    function Hex2String($hex){
+    public function Hex2String($hex)
+    {
         $string='';
-        for ($i=2; $i < strlen($hex)-1; $i+=2){
+        for ($i=2; $i < strlen($hex)-1; $i+=2) {
             $string .= chr(hexdec($hex[$i].$hex[$i+1]));
         }
         return $string;
@@ -46,7 +65,6 @@ class WebhookController extends Controller
      */
     public function webhook_request(Request $request)
     {
-
         Log::debug('WebhookController webhook_request');
 
         $input = $request->all();
@@ -76,7 +94,7 @@ class WebhookController extends Controller
             $event->save();
 
             $data_local = $data['data'];
-            if($data_local['event'] === 'EVT_setAttestation') {
+            if ($data_local['event'] === 'EVT_setAttestation') {
                 $returnValues = $data_local['returnValues'];
                 $msg_sender_address = $returnValues['msg_sender'];
                 $attestation_hash = $returnValues['attestationKeccak'];
@@ -100,26 +118,31 @@ class WebhookController extends Controller
                 $attestation->is_managed = $_data['returnValues']['_isManaged'];
                 $attestation->attestation_hash = $attestation_hash;
                 $attestation->user_account = $identified_address;
-                $attestation->block_number = $data['data']['blockNumber'];;
+                $attestation->block_number = $data['data']['blockNumber'];
+                ;
+
+
+                $tracedata = $data_local['traceValues'];
+
+
+                $attestation->public_data = $tracedata['public_data'];
+                $attestation->public_data_decoded = $tracedata['public_data_decoded'];
+
+                $attestation->documents_matrix_encrypted = $tracedata['documents_matrix_encrypted'];
+                $attestation->documents_matrix_encrypted_decoded = $tracedata['documents_matrix_encrypted_decoded'];
+
+                $attestation->availability_address_encrypted = $tracedata['availability_address_encrypted'];
+                $attestation->availability_address_encrypted_decoded = $tracedata['availability_address_encrypted_decoded'];
+
+                $attestation->version_code = $tracedata['version_code'];
+                $attestation->coin_blockchain = $tracedata['coin_blockchain'];
+                $attestation->coin_token = $tracedata['coin_token'];
+                $attestation->coin_address = $tracedata['coin_address'];
+                $attestation->coin_memo = $tracedata['coin_memo'];
+
+
 
                 $attestation->save();
-
-                $url = $this->helper_url.'/ta-get-attestation-components?attestation_hash='.$attestation_hash;
-                Log::debug('WebhookController EVT_setAttestation url');
-                Log::debug($url);
-
-                $client = new Client();
-                $res = $client->request('GET', $url);
-                if($res->getStatusCode() == 200) {
-
-                    $response = json_decode($res->getBody());
-                    Log::debug('WebhookController EVT_setAttestation ta-get-attestation-components');
-                    Log::debug($response);
-
-
-                } else {
-                    Log::error('WebhookController EVT_setAttestation ta-get-attestation-components: ' . $res->getStatusCode());
-                }
             }
 
             broadcast(new ShyftSmartContractEvent($data));
@@ -135,12 +158,12 @@ class WebhookController extends Controller
             $event->save();
 
             $data_local = $data['data'];
-            if($data_local['event'] === 'EVT_verifyTrustAnchor') {
+            if ($data_local['event'] === 'EVT_verifyTrustAnchor') {
                 $returnValues = $data_local['returnValues'];
                 $account_address = $returnValues['trustAnchorAddress'];
-                
+
                 $ta = VerifiedTrustAnchor::firstOrCreate(['account_address' => $account_address]);
-                $ta->block_number =  $data['data']['blockNumber'];
+                $ta->block_number =  $data_local['blockNumber'];
                 $ta->save();
             }
 
@@ -218,7 +241,7 @@ class WebhookController extends Controller
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairCreated") {
                 $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
-                if($extra_data->block_number < $data_local['blockNumber']) {
+                if ($extra_data->block_number < $data_local['blockNumber']) {
                     $extra_data->transaction_hash = $data_local['transactionHash'];
                     $extra_data->block_number = $data_local['blockNumber'];
                     $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
@@ -229,10 +252,9 @@ class WebhookController extends Controller
             }
 
             if ($data_local['event'] === "EVT_setTrustAnchorKeyValuePairUpdated") {
-
                 $extra_data = TrustAnchorExtraDataUnique::firstOrNew(['key_value_pair_name' => $data_local['returnValues']['_keyValuePairName'], 'trust_anchor_address' => $data_local['returnValues']['_trustAnchorAddress']]);
 
-                if($extra_data->block_number < $data_local['blockNumber']) {
+                if ($extra_data->block_number < $data_local['blockNumber']) {
                     $extra_data->transaction_hash = $data_local['transactionHash'];
                     $extra_data->block_number = $data_local['blockNumber'];
                     $extra_data->trust_anchor_address = $data_local['returnValues']['_trustAnchorAddress'];
@@ -243,7 +265,6 @@ class WebhookController extends Controller
             }
 
             if ($data_local['event'] === "EVT_setValidationForKeyValuePairData") {
-
                 $extra_data = TrustAnchorExtraDataUniqueValidation::firstOrNew(['transaction_hash' => $data_local['transactionHash']]);
 
                 $extra_data->transaction_hash = $data_local['transactionHash'];
@@ -262,7 +283,7 @@ class WebhookController extends Controller
             $trust_anchor_user_id = $data['ta_user_id'];
             $tau = TrustAnchorUser::findOrFail($trust_anchor_user_id);
             $tau->account_address = $data['data']['account']['address'];
-            
+
             $private_key = $data['data']['account']['private_key'];
             $encrypted = $eloquent_encryption->encrypt($private_key);
             $tau->private_key_encrypt = bin2hex($encrypted);
@@ -319,17 +340,16 @@ class WebhookController extends Controller
             $private_key = $moneroAccount['private_key'];
             $encrypted = $eloquent_encryption->encrypt($private_key);
             $cwa->private_key_encrypt = bin2hex($encrypted);
-            
+
             $cwa->trust_anchor_user_id = $tau->id;
             $cwa->trust_anchor_id = $tau->trust_anchor_id;
             $cwa->crypto_wallet_type_id = CryptoWalletType::where('wallet_type', 'XMR')->first()->id;
             $cwa->save();
-            
+
             $data['data']['account'] = $tau->account_address;
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-set-attestation') {
-
             $result = $data['data'];
 
             $ta = TrustAnchor::where('account_address', $result['ta_address'])->first();
@@ -347,7 +367,6 @@ class WebhookController extends Controller
             $tau->trustAnchorUserAttestation()->save($taua);
 
             broadcast(new ContractsInstantiate($data));
-
         }
 
         if ($data['message'] === 'ta-set-attestation-error') {
@@ -358,101 +377,22 @@ class WebhookController extends Controller
             broadcast(new ContractsInstantiate($data));
         }
 
-        if ($data['message'] === 'refresh-all-attestations') {
-            if ($data['data']['completed'] === true) {
-                LatestBlockEvents::where('type','attestations')->update(['block_number'=>$data['data']['latestBlock']]);
-            }
-            broadcast(new ContractsInstantiate($data));
-        }
-        if ($data['message'] === 'refresh-all-discovery-layer-key-value-pairs') {
-            if ($data['data']['completed'] === true) {
-                LatestBlockEvents::where('type','discoveryLayers')->update(['block_number'=>$data['data']['latestBlock']]);
-            }
-            broadcast(new ContractsInstantiate($data));
-        }
-        if ($data['message'] === 'refresh-all-verified-tas') {
-            if ($data['data']['completed'] === true) {
-                LatestBlockEvents::where('type','trustAnchors')->update(['block_number'=>$data['data']['latestBlock']]);
-            }
-            
-            broadcast(new ContractsInstantiate($data));
-        }
         if ($data['message'] === 'get-validation-for-key-value-pair-data') {
             broadcast(new ContractsInstantiate($data));
         }
-        if ($data['message'] === 'ta-get-attestation-components-in-array') {
-            Log::debug('ta-get-attestation-components-in-array');
-            Log::debug(print_r($data, true));
-            $result = $data['data'][0];
-            $list = [['field' => 'TA Address', 'data'  => $result['trustAnchorAddress']],
-                    ['field' => 'User Address', 'data'  => $result['user_address']],
-                    ['field' => 'Jurisdiction', 'data' => $result['jurisdiction']],
-                    ['field' => 'Version Code', 'data'  => $result['version_code']],
-                    ['field' => 'Coin Blockchain', 'data'  => $result['coin_blockchain']],
-                    ['field' => 'Coin Token', 'data'  => $result['coin_token']],
-                    ['field' => 'Coin Address', 'data'  => $result['coin_address']],
-                    ['field' => 'Coin Memo', 'data'  => $result['coin_memo']],
-                    ['field' => 'Public Data', 'data'  => $result['public_data']],
-                    ['field' => 'Public Data Decoded', 'data'  => $result['public_data_decoded']],
-                    ['field' => 'Documents Matrix Encrypted', 'data'  => $result['documents_matrix_encrypted']],
-                    ['field' => 'Documents Matrix Encrypted Decoded', 'data'  => $result['documents_matrix_encrypted_decoded']],
-                    ['field' => 'Availability Address Encrypted', 'data'  => $result['availability_address_encrypted']],
-                    ['field' => 'Availability Address Encrypted Decoded', 'data'  => $result['availability_address_encrypted_decoded']]];
-                    
-            $data['data'] = $list;
-            broadcast(new ContractsInstantiate($data));
-        }
 
-        if ($data['message'] === 'ta-get-attestation-components') {
-            Log::debug('ta-get-attestation-components');
-            Log::debug(print_r($data, true));
-
-            $data_local = $data['data'];
-            Log::debug(print_r($data_local, true));
-
-            if ($data_local['type'] == 'WALLET') {
-
-                $crypto_address = $data_local['coin_address'];
-                Log::debug('crypto_address');
-                Log::debug($crypto_address);
-
-                $sca = SmartContractAttestation::where('attestation_hash', $data_local['attestation_hash'])->first();
-               
-                $sca->public_data = $data_local['public_data'];
-                $sca->public_data_decoded = $data_local['public_data_decoded'];
-
-                $sca->documents_matrix_encrypted = $data_local['documents_matrix_encrypted'];
-                $sca->documents_matrix_encrypted_decoded = $data_local['documents_matrix_encrypted_decoded'];
-
-                $sca->availability_address_encrypted = $data_local['availability_address_encrypted'];
-                $sca->availability_address_encrypted_decoded = $data_local['availability_address_encrypted_decoded'];
-
-                $sca->version_code = $data_local['version_code'];
-                $sca->coin_blockchain = $data_local['coin_blockchain'];
-                $sca->coin_token = $data_local['coin_token'];
-                $sca->coin_address = $data_local['coin_address'];
-                $sca->coin_memo = $data_local['coin_memo'];
-
-                $sca->save();
-
-            }
-        }
 
 
         if ($data['message'] === 'smart-contract-transaction') {
-
-
             Log::debug(print_r($data, true));
 
             $result = $data['data'];
 
             $transaction = SmartContractTransaction::firstOrNew(['transaction_hash' => $result['transaction']]);
             $transaction->save();
-
         }
 
         if ($data['message'] === 'get-smart-contract-transaction') {
-
             Log::debug('get-smart-contract-transaction');
             Log::debug(print_r($data, true));
             $result = $data['data'];
@@ -471,8 +411,6 @@ class WebhookController extends Controller
 
                 $transaction->save();
             }
-
-
         }
         if ($data['message'] === 'get-latest-block-event') {
             Log::debug('get-latest-block-event');

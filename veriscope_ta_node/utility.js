@@ -126,6 +126,9 @@ module.exports =   {
       }
 
     },
+    contractInterface: function(contract) {
+      return new ethers.utils.Interface(contract.abi);
+    },
     unpackCryptoAddress: function (decodeDocumentMatrix) {
       return ethers.utils.toUtf8String(decodeDocumentMatrix.data);
     },
@@ -253,7 +256,7 @@ module.exports =   {
         let dict = {"bitsMatrix" : documentMatrixBignum, "versionCode" : versionCode, "documentMatrixDataBytes" : documentMatrixDataBytes};
 
         return {"bitsMatrix" : documentMatrixBignum, "versionCode" : versionCode, "documentMatrixDataBytes" : documentMatrixDataBytes};
-    },       
+    },
     decodeTravelRuleV3Template: function (_documentMatrixData) {
 
         let hexlifiedData = ethers.utils.hexlify(_documentMatrixData);
@@ -352,6 +355,17 @@ module.exports =   {
         logger.error('sendWebsocket error');
         logger.error(error)
       });
+    },
+    sendWebhookMessageAsync: function (obj) {
+
+      const instance = axios.create();
+
+      instance.defaults.headers.common['X-WEBHOOK-TOKEN'] = webhookClientSecret;
+
+      return  instance.post(webhookUrl, {
+        obj: obj
+      });
+
     },
     createMoneroAccount: async function () {
 
@@ -516,13 +530,13 @@ module.exports =   {
             dict['document'] = documentsMatrixEncrypted;
             dict['memo'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']);
 
-            
+
             dict['version_code'] = versionCode;
             dict['coin_blockchain'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']).trim();
             dict['coin_token'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']).trim();;
             dict['coin_address'] = documentsMatrixEncrypted;
             dict['coin_memo'] = this.convertComponentsFromHex(result['publicData']);
-            
+
             dict['trustAnchorAddress'] = result['trustAnchorAddress'];
             dict['attestation_hash'] = attestation_hash;
 
@@ -540,8 +554,8 @@ module.exports =   {
 
             var obj = {message: 'ta-get-attestation-components', data: dict};
             this.sendWebhookMessage(obj);
-        } 
-        
+        }
+
     },
     trustAnchorGetAttestationArrayForUserAccount: async function(account){
        result = await TrustAnchorStorage.getAttestationKeccakArrayForIdentifiedAddress(account);
@@ -551,116 +565,86 @@ module.exports =   {
        var obj = {request: 'ta-get-attestation-array-for-user-account', result: result};
        this.sendWebhookMessage(obj);
     },
-    taGetAttestationComponentsInKeccakArray: async function (user_id, account, index) {
+    taGetAttestationComponents: function (data,attestation_hash,trustAnchorAddress) {
 
-      result = await TrustAnchorStorage.getAttestationComponentsInKeccakArray(account, index);
-      logger.debug('getGraphConstructableAttestationInKeccakArray result');
-
-      var list = [];
-
-      var documentsMatrixEncrypted = this.convertComponentsFromHex(result['documentsMatrixEncrypted']);
-      logger.debug('documentsMatrixEncrypted');
-      logger.debug(documentsMatrixEncrypted);
-
+      var obj;
+      var documentsMatrixEncrypted = this.convertComponentsFromHex(data._documentsMatrixEncrypted);
       var decodedDocument = this.decodeDocument(documentsMatrixEncrypted);
-      logger.debug('decodedDocument');
-      logger.debug(decodedDocument);
-
       var versionCode = decodedDocument.versionCode;
-      logger.debug('versionCode');
-      logger.debug(versionCode);
-      
+
       if (versionCode == 3) {
           var encryptedData = decodedDocument.encryptedData;
-          logger.debug('encryptedData');
-          logger.debug(encryptedData);
-
           var decodedDocumentMatrixInPlace = this.decodeDocumentMatrixInPlace(decodedDocument);
-          logger.debug('decodedDocumentMatrixInPlace');
-          logger.debug(decodedDocumentMatrixInPlace);
-
           var documentMatrixDataBytes = Object.values(decodedDocumentMatrixInPlace);
-          logger.debug('documentMatrixDataBytes');
-          logger.debug(documentMatrixDataBytes);
 
           var travelRuleV3Template = this.decodeTravelRuleV3Template(documentMatrixDataBytes);
-          logger.debug('travelRuleV3Template');
-          logger.debug(travelRuleV3Template);
-
           var coinAddress = travelRuleV3Template.coinAddress;
-          logger.debug('coinAddress');
-          logger.debug(coinAddress);
+
 
           var coinType = travelRuleV3Template.coinType;
-          logger.debug('coinType');
-          logger.debug(coinType);
           var temp = coinType.split("_");
           var coinBlockchain = temp[0];
-          logger.debug('coinBlockchain');
-          logger.debug(coinBlockchain);
           var coinToken = temp[1];
-          logger.debug('coinToken');
-          logger.debug(coinToken);
 
           var dict = {};
           dict['type'] = 'WALLET';
-          dict['user_address'] = account;
-          dict['jurisdiction'] = result['jurisdiction'];
-
           dict['version_code'] = versionCode;
           dict['coin_blockchain'] = coinBlockchain;
           dict['coin_token'] = coinToken;
           dict['coin_address'] = coinAddress;
-          dict['coin_memo'] = this.convertComponentsFromHex(result['publicData']);
+          dict['trustAnchorAddress'] = trustAnchorAddress;
+          dict['attestation_hash'] = attestation_hash;
 
-          dict['trustAnchorAddress'] = result['trustAnchorAddress'];
+          dict['public_data'] = data._publicData;
+          dict['public_data_decoded'] = this.convertComponentsFromHex(data._documentsMatrixEncrypted);
+          dict['coin_memo'] = this.convertComponentsFromHex(data._publicData);
 
-          dict['public_data'] = result['publicData'];
-          dict['public_data_decoded'] = this.convertComponentsFromHex(result['publicData']);
-          
+          dict['documents_matrix_encrypted'] = data._documentsMatrixEncrypted;
+          dict['documents_matrix_encrypted_decoded'] = this.convertComponentsFromHex(data._documentsMatrixEncrypted);
 
-          dict['documents_matrix_encrypted'] = result['documentsMatrixEncrypted'];
-          dict['documents_matrix_encrypted_decoded'] = this.convertComponentsFromHex(result['documentsMatrixEncrypted']);
+          dict['availability_address_encrypted'] = data._availabilityAddressEncrypted;
+          dict['availability_address_encrypted_decoded'] = this.convertComponentsFromHex(data._availabilityAddressEncrypted).trim();
 
-          dict['availability_address_encrypted'] = result['availabilityAddressEncrypted'];
-          dict['availability_address_encrypted_decoded'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']);
+          console.log('taGetAttestationComponents');
+          console.log(dict);
 
-          logger.debug(dict);
-          list.push(dict);
-          var obj = { user_id: user_id, message: "ta-get-attestation-components-in-array", data: list };
-          this.sendWebhookMessage(obj);
+          obj = {message: 'ta-get-attestation-components', data: dict};
 
       } else if (versionCode == 2) {
           documentsMatrixEncrypted = this.unpackDocumentsMatrixEncrypted(documentsMatrixEncrypted);
-
           var dict = {};
-          
           dict['type'] = 'WALLET';
-          dict['user_address'] = account;
-          dict['jurisdiction'] = result['jurisdiction'];
+          dict['document'] = documentsMatrixEncrypted;
+          dict['memo'] = this.convertComponentsFromHex(data._availabilityAddressEncrypted).trim();
+
 
           dict['version_code'] = versionCode;
-          dict['coin_blockchain'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']).trim();
-          dict['coin_token'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']).trim();;
+          dict['coin_blockchain'] = this.convertComponentsFromHex(data._availabilityAddressEncrypted).trim();
+          dict['coin_token'] = this.convertComponentsFromHex(data._availabilityAddressEncrypted).trim();;
           dict['coin_address'] = documentsMatrixEncrypted;
-          dict['coin_memo'] = this.convertComponentsFromHex(result['publicData']);
+          dict['coin_memo'] = this.convertComponentsFromHex(data._publicData);
 
-          dict['trustAnchorAddress'] = result['trustAnchorAddress'];
+          dict['trustAnchorAddress'] = trustAnchorAddress;
+          dict['attestation_hash'] = attestation_hash;
 
-          dict['public_data'] = result['publicData'];
-          dict['public_data_decoded'] = this.convertComponentsFromHex(result['publicData']);
+          dict['public_data'] = data._publicData;
+          dict['public_data_decoded'] = this.convertComponentsFromHex(data._publicData);
 
-          dict['documents_matrix_encrypted'] = result['documentsMatrixEncrypted'];
-          dict['documents_matrix_encrypted_decoded'] = this.convertComponentsFromHex(result['documentsMatrixEncrypted']);
+          dict['documents_matrix_encrypted'] = data._documentsMatrixEncrypted;
+          dict['documents_matrix_encrypted_decoded'] = this.convertComponentsFromHex(data._documentsMatrixEncrypted);
 
-          dict['availability_address_encrypted'] = result['availabilityAddressEncrypted'];
-          dict['availability_address_encrypted_decoded'] = this.convertComponentsFromHex(result['availabilityAddressEncrypted']);
-          
-          logger.debug(dict);
-          list.push(dict);
-          var obj = { user_id: user_id, message: "ta-get-attestation-components-in-array", data: list };
-          this.sendWebhookMessage(obj);
+          dict['availability_address_encrypted'] = data._availabilityAddressEncrypted;
+          dict['availability_address_encrypted_decoded'] = this.convertComponentsFromHex(data._availabilityAddressEncrypted).trim();
+
+          console.log('taGetAttestationComponents');
+          console.log(dict);
+
+          obj = {message: 'ta-get-attestation-components', data: dict};
+
       }
+
+      return obj;
+
     },
     getIsTrustAnchorVerified: async function (user_id, account) {
 
@@ -673,7 +657,7 @@ module.exports =   {
 
             logger.debug('isTrustAnchorVerified result');
             logger.debug(result);
-    
+
             obj.data = result;
         }
         this.sendWebhookMessage(obj);
@@ -688,7 +672,7 @@ module.exports =   {
             result = await web3.eth.getBalance(account);
             logger.debug('getBalance result');
             logger.debug(result);
-    
+
             obj.data = result;
         }
 

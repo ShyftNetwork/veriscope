@@ -37,10 +37,6 @@ export const TA_GET_BALANCE = 'taGetBalance';
 export const TA_GET_BALANCE_SUCCESS = 'taGetBalanceSuccess';
 export const TA_GET_BALANCE_FAIL = 'taGetBalanceFail';
 
-export const TA_GET_ATTESTATION_COMPONENTS = 'taGetAttestationComponents';
-export const TA_GET_ATTESTATION_COMPONENTS_SUCCESS = 'taGetAttestationComponentsSuccess';
-export const TA_GET_ATTESTATION_COMPONENTS_FAIL = 'taGetAttestationComponentsFail';
-
 export const TA_GET_TAS = 'taGetTas';
 export const TA_GET_TAS_SUCCESS = 'taGetTasSuccess';
 export const TA_GET_TAS_FAIL = 'taGetTasFail';
@@ -118,7 +114,7 @@ export const SET_UI_COUNTRY = 'setUICountry';
 export const SET_UI_STATE = 'setUIState';
 
 /**
- * Blockchain analytics providers 
+ * Blockchain analytics providers
  */
 
 export const LOAD_BA_PROVIDERS = 'loadBAProviders';
@@ -140,10 +136,4 @@ export const LOAD_BA_PROVIDERS_FAIL = 'loadBAProvidersFail';
  export const CREATE_BA_REPORT_SUCCESS = 'createBAReportSuccess'
  export const CREATE_BA_REPORT_FAIL = 'createBAReportFail'
 
- /**
- * Update blockchain data
- */
 
-export const REFRESH_ALL_ATTESTATIONS = 'refreshAllAttestations'
-export const REFRESH_ALL_DISCOVERY_LAYERS = 'refreshAllDiscoveryLayers'
-export const REFRESH_ALL_VERIFIED_TAS = 'refreshAllVerifiedTAs'

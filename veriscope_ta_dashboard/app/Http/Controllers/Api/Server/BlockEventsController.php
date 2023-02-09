@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\{LatestBlockEvents};
 use App\Http\Requests\{EditLatestBlockEventNumberRequest};
+use GuzzleHttp\Client;
 
 
 class BlockEventsController extends Controller
@@ -19,7 +20,7 @@ class BlockEventsController extends Controller
      */
       public function __construct()
       {
-
+        $this->http_api_url = env('HTTP_API_URL');
       }
 
 
@@ -36,12 +37,28 @@ class BlockEventsController extends Controller
           return response()->json($data);
       }
 
+      public function getRefreshEventSync(Request $request)
+      {
+
+        $startBlock = $request->input('startBlock', 0);
+        $url = $this->http_api_url.'/refresh_event_sync?startBlock='.$startBlock;
+        $client = new Client();
+        $res = $client->request('GET', $url);
+        if($res->getStatusCode() == 200) {
+          response()->json(['status' => 'success']);
+
+        } else {
+          response()->json(['status' => 'fail']);
+        }
+
+      }
+
       public function editBlockEvent(EditLatestBlockEventNumberRequest $request, $id)
       {
           $input = $request->all();
 
           $event = LatestBlockEvents::where('id', $id)->firstOrFail();
-        
+
           $event->block_number = (int) $input['block_number'];
           $event->save();
           return response()->json($event);

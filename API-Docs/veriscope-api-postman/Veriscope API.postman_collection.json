@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "5050b4da-2e62-44d5-aaa6-41c98c3909a5",
+		"_postman_id": "3932e996-1489-4c02-8958-eaebffa597d6",
 		"name": "Veriscope API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17461168"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -120,7 +119,7 @@
 			"name": "Events",
 			"item": [
 				{
-					"name": "Refresh All Verified Trust Anchors",
+					"name": "Refresh Event Sync",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -135,7 +134,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/refresh_all_verified_trust_anchors",
+							"raw": "{{baseUrl}}/api/v1/server/refresh_event_sync?startBlock=0",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -143,138 +142,13 @@
 								"api",
 								"v1",
 								"server",
-								"refresh_all_verified_trust_anchors"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Refresh All Discovery Layer Key Value Pairs",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/refresh_all_discovery_layer_key_value_pairs",
-							"host": [
-								"{{baseUrl}}"
+								"refresh_event_sync"
 							],
-							"path": [
-								"api",
-								"v1",
-								"server",
-								"refresh_all_discovery_layer_key_value_pairs"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Refresh All Attestations",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"query": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"key": "startBlock",
+									"value": "0"
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/refresh_all_attestations",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"server",
-								"refresh_all_attestations"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get latest block event numbers",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/get-latest-block-events",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"server",
-								"get-latest-block-events"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit latest block event number",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "block_number",
-									"value": "2",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/edit-latest-block-event/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"server",
-								"edit-latest-block-event",
-								"1"
 							]
 						}
 					},

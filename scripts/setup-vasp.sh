@@ -85,7 +85,7 @@ SHARED_SECRET=
 
 NETHERMIND_DEST=/opt/nm
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
-NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.12.4/nethermind-linux-amd64-1.12.4-1c8b669-20220113.zip"
+NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.15.0/nethermind-linux-amd64-1.15.0-2b70876-20221228.zip"
 NETHERMIND_RPC="http://localhost:8545"
 
 NGINX_CFG=/etc/nginx/sites-enabled/ta-dashboard.conf
@@ -235,22 +235,35 @@ function install_or_update_nethermind() {
 				"ChainSpecPath": "shyftchainspec.json",
 				"BaseDbPath": "nethermind_db/vasp",
 				"LogFileName": "/var/log/nethermind.log",
-				"StaticNodesPath": "static-nodes.json"
+				"StaticNodesPath": "static-nodes.json",
+				"DiscoveryEnabled": true,
+	                        "PeerManagerEnabled": true
 			},
-				"Network": {
+			"Network": {
 				"DiscoveryPort": 30303,
-				"P2PPort": 30303
+				"P2PPort": 30303,
+				"OnlyStaticPeers": false,
+                                "StaticPeers": null
 			},
-				"JsonRpc": {
+			"JsonRpc": {
 				"Enabled": true,
 				"Host": "0.0.0.0",
 				"Port": 8545,
-				"EnabledModules": ["Admin","Net", "Eth", "Trace","Parity", "Web3", "Debug","Subscribe"]
+				"EnabledModules": ["Eth", "Parity", "Subscribe", "Trace", "TxPool", "Web3", "Personal", "Proof", "Net", "Health", "Rpc"]
 			},
 			"Aura": {
 				"ForceSealing": true,
 				"AllowAuRaPrivateChains": true
 			},
+		        "HealthChecks": {
+                                "Enabled": true,
+	                        "UIEnabled": false,
+	                        "PollingInterval": 10,
+	                        "Slug": "/health"
+                        },
+			"Pruning": {
+                                "Enabled": false
+                        },
 			"EthStats": {
 				"Enabled": true,
 				"Contact": "not-yet",

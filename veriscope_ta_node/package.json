@@ -26,6 +26,9 @@
     "secp256k1": "^4.0.2",
     "web3": "^1.2.6",
     "web3-eth-abi": "^1.2.6",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "@0xhamachi/ethereum-events": "^0.1.1",
+    "fastq": "^1.13.0",
+    "underscore": "^1.13.6"
   }
 }

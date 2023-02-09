@@ -33,7 +33,9 @@ const arenaConfig = Arena({
     {name: "taSetAttestation",hostId: "main",url: REDIS_URI},
     {name: "taSetAttestationStatusCheck",hostId: "main",url: REDIS_URI},
     {name: "taEmptyTransaction",hostId: "main", url: REDIS_URI},
-    {name: "taEmptyTransactionStatusCheck",hostId: "main", url: REDIS_URI}
+    {name: "taEmptyTransactionStatusCheck",hostId: "main", url: REDIS_URI},
+    {name: "taTraceAndParseTransaction",hostId: "main", url: REDIS_URI},
+    {name: "taWebhookSend",hostId: "main", url: REDIS_URI}
   ]
 },
 {
@@ -47,7 +49,9 @@ var service = {
     taSetAttestation: new Queue('taSetAttestation', REDIS_URI),
     taSetAttestationStatusCheck: new Queue('taSetAttestationStatusCheck', REDIS_URI),
     taEmptyTransaction: new Queue('taEmptyTransaction', REDIS_URI),
-    taEmptyTransactionStatusCheck: new Queue('taEmptyTransactionStatusCheck', REDIS_URI)
+    taEmptyTransactionStatusCheck: new Queue('taEmptyTransactionStatusCheck', REDIS_URI),
+    taTraceAndParseTransaction: new Queue('taTraceAndParseTransaction', REDIS_URI),
+    taWebhookSend: new Queue('taWebhookSend', REDIS_URI)
   },
   arena: arenaConfig,
   redis: redis,
@@ -58,5 +62,7 @@ service.queue.taSetAttestation.process(1, path.join(__dirname,'..','processors/t
 service.queue.taSetAttestationStatusCheck.process(1, path.join(__dirname,'..','processors/taSetAttestationStatusCheck.js'));
 service.queue.taEmptyTransaction.process(1, path.join(__dirname,'..','processors/taEmptyTransaction.js'));
 service.queue.taEmptyTransactionStatusCheck.process(1, path.join(__dirname,'..','processors/taEmptyTransactionStatusCheck.js'));
+service.queue.taTraceAndParseTransaction.process(1, path.join(__dirname,'..','processors/taTraceAndParseTransaction.js'));
+service.queue.taWebhookSend.process(1, path.join(__dirname,'..','processors/taWebhookSend.js'));
 
 module.exports = service;

@@ -32,9 +32,7 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_verified_trust_anchors','TrustAnchorController@get_verified_trust_anchors');
         Route::get('verify_trust_anchor/{address}','TrustAnchorController@verify_trust_anchor');
         Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
-        Route::get('refresh_all_verified_trust_anchors','TrustAnchorController@refresh_all_verified_trust_anchors');
         Route::get('refresh_all_discovery_layer_key_value_pairs', 'TrustAnchorController@refresh_all_discovery_layer_key_value_pairs');
-        Route::get('refresh_all_attestations', 'TrustAnchorController@refresh_all_attestations');
 
         # for KYC Template
         Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
@@ -56,6 +54,8 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('generate-blockchain-analytics-report', 'BlockchainAnalyticsApiController@get_ba_report');
 
         /* Events api methods */
+
+        Route::get('refresh_event_sync', 'BlockEventsController@getRefreshEventSync');
 
         Route::get('get-latest-block-events', 'BlockEventsController@getBlockEvents');
         Route::post('edit-latest-block-event/{id}', 'BlockEventsController@editBlockEvent');
@@ -119,7 +119,6 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::get('contracts/trust-anchor/{id}/ta-get-discovery-layer-keys', 'ContractsController@ta_get_discovery_layer_keys');
 
-        Route::post('contracts/trust-anchor/{id}/ta-get-attestation-components-in-array', 'ContractsController@ta_get_attestation_components_in_array');
 
         Route::get('contracts/trust-anchor/{id}/ta-get-trust-anchors', 'ContractsController@ta_get_trust_anchors');
         Route::post('contracts/trust-anchor/{id}/ta-assign-crypto-address', 'ContractsController@ta_assign_crypto_address');
@@ -128,10 +127,6 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('contracts/trust-anchor/{id}/ta-get-user-wallet-addresses', 'ContractsController@ta_get_user_wallet_addresses');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-users', 'ContractsController@ta_get_all_users');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-attestations', 'ContractsController@ta_get_all_attestations');
-
-        Route::get('contracts/trust-anchor/{id}/refresh-all-attestations', 'ContractsController@refresh_all_attestations');
-        Route::get('contracts/trust-anchor/{id}/refresh-all-discovery-layer-key-value-pairs', 'ContractsController@refresh_all_discovery_layer_key_value_pairs');
-        Route::get('contracts/trust-anchor/{id}/refresh-all-verified-tas', 'ContractsController@refresh_all_verified_tas');
 
     });
 });

@@ -26,8 +26,6 @@ import {
     TA_CREATE_USER_SUCCESS,
     TA_CREATE_USER_FAIL,
 
-    TA_GET_ATTESTATION_COMPONENTS_SUCCESS,
-    TA_GET_ATTESTATION_COMPONENTS_FAIL,
 
     TA_GET_TAS_SUCCESS,
     TA_GET_TAS_FAIL,
@@ -204,17 +202,6 @@ export const mutations = {
         console.log(state);
         console.log(message);
         console.log(errors);
-    },
-
-    [TA_GET_ATTESTATION_COMPONENTS_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_GET_ATTESTATION_COMPONENTS_SUCCESS');
-        console.log(state);
-        state.taGetAttestationComponentsData = payload;
-    },
-
-    [TA_GET_ATTESTATION_COMPONENTS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_GET_ATTESTATION_COMPONENTS_FAIL');
-        console.log(state);
     },
 
     [TA_GET_TAS_SUCCESS] (state, payload=[]) {
