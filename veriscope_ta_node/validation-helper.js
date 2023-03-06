@@ -11,8 +11,8 @@ let provider = new ethers.providers.JsonRpcProvider(process.env.HTTP);
 let customWsProvider = new ethers.providers.WebSocketProvider(process.env.WS);
 
 
-let trustAnchorWallet = new ethers.Wallet(process.env.TRUST_ANCHOR_PK, provider);
-let trustAnchorAccount = process.env.TRUST_ANCHOR_ACCOUNT;
+let trustAnchorWallet = new ethers.Wallet(((process.env.TRUST_ANCHOR_PK).split(','))[0], provider);
+let trustAnchorAccount = ((process.env.TRUST_ANCHOR_ACCOUNT).split(','))[0];
 
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
 

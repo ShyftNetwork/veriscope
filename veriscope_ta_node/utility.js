@@ -11,6 +11,7 @@ const bitgo_utxo_lib = require('bitgo-utxo-lib');
 const monerojs = require("monero-javascript");
 const winston = require('winston');
 const dotenv = require('dotenv');
+const _ = require('underscore');
 dotenv.config();
 const Keyv = require('keyv');
 const keyv = new Keyv(process.env.REDIS_URI);
@@ -27,8 +28,8 @@ const coinTypeLength = 32;
 const coinAddressHexLengthLength = 2;
 
 let provider = new ethers.providers.JsonRpcProvider(process.env.HTTP);
-let trustAnchorWallet = new ethers.Wallet(process.env.TRUST_ANCHOR_PK, provider);
-let trustAnchorAccount = process.env.TRUST_ANCHOR_ACCOUNT;
+let trustAnchorWallet = new ethers.Wallet(((process.env.TRUST_ANCHOR_PK).split(','))[0], provider);
+let trustAnchorAccount = ((process.env.TRUST_ANCHOR_ACCOUNT).split(','))[0];
 
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
 
@@ -692,7 +693,27 @@ module.exports =   {
     },
 
     taSetKeyValuePair: async function(user_id, account, key_name, key_value) {
-        result = await TrustAnchorExtraData_Unique.setTrustAnchorKeyValuePair(key_name, key_value);
+
+        let result = 'none';
+
+        //get ta private key
+        let taPk  = _.first(_.filter(process.env.TRUST_ANCHOR_PK.split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === account.toUpperCase()) { return  v; } }));
+        //put your address private key
+        let signer = new ethers.Wallet(taPk, provider);
+        //reconfig your contract connect with a new signer
+        let TrustAnchorExtraData_UniqueWithAccount = TrustAnchorExtraData_Unique.connect(signer);
+        try{
+            result = await TrustAnchorExtraData_UniqueWithAccount.setTrustAnchorKeyValuePair(key_name, key_value);
+        }catch(e){
+            logger.error('setTrustAnchorKeyValuePair error , account : ' + taPk);
+        }
+
+        if (result == 'none') {
+            var obj = { user_id: user_id, message: "ta-set-key-value-pair", data: 'fail' };
+            this.sendWebhookMessage(obj);
+            return;
+        }
+
         logger.debug('setTrustAnchorKeyValuePair result');
         logger.debug(result);
         var value = result['value'].toNumber();
@@ -727,10 +748,15 @@ module.exports =   {
         this.sendWebhookMessage(obj);
     },
     taSetAttestation: async function (attestation_type, user_id, user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed, ta_address) {
-
-          let nonceCount = await keyv.get('nonceCount');
-
-          result = await TrustAnchorStorage.setAttestation(
+          //get ta private key
+          let taPk  = _.first(_.filter(process.env.TRUST_ANCHOR_PK.split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === ta_address.toUpperCase()) { return  v; } }));
+          //put your address private key
+          let signer = new ethers.Wallet(taPk, provider);
+          let addr   = await signer.getAddress();
+          let nonceCount = await keyv.get(`nonceCount_${addr}`);
+          //reconfig your contract connect with a new signer
+          let TrustAnchorStorageWithAccount = TrustAnchorStorage.connect(signer);
+          result = await TrustAnchorStorageWithAccount.setAttestation(
             user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed,
             { nonce: nonceCount}
           );
@@ -747,7 +773,7 @@ module.exports =   {
           logger.debug(result);
           var obj = { user_id: user_id, message: "ta-set-attestation", data: result};
           //set nonceCount
-          await keyv.set('nonceCount', nonceCount+1);
+          await keyv.set(`nonceCount_${addr}`, nonceCount+1);
 
           return obj;
     },
@@ -761,18 +787,21 @@ module.exports =   {
         this.sendWebhookMessage(obj);
 
     },
-    createEmpyTransaction: async function (nonce, chainId) {
+    createEmpyTransaction: async function (ta_address, nonce, chainId) {
 
       let tx = {
-        to: trustAnchorAccount,
+        to: ta_address,
         value: ethers.utils.parseEther("0.00"),
         chainId: chainId,
         nonce: nonce
       };
 
+      //get ta private key
+      let taPk  = _.first(_.filter(process.env.TRUST_ANCHOR_PK.split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === ta_address.toUpperCase()) { return  v; } }));
+      //put your address private key
+      let signer = new ethers.Wallet(taPk, provider);
       // Signing a transaction
-      let signedTX = await trustAnchorWallet.signTransaction(tx);
-
+      let signedTX = await signer.signTransaction(tx);
       // Sending ether
       let result = await provider.sendTransaction(tx);
 

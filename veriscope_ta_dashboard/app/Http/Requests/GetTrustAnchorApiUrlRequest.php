@@ -29,7 +29,7 @@ class GetTrustAnchorApiUrlRequest extends FormRequest
     public function rules()
     {
         return [
-            'ta_address'      => ['required',new CryptoAddress('ETH')]
+            'ta_account'      => ['required',new CryptoAddress('ETH')]
         ];
     }
 

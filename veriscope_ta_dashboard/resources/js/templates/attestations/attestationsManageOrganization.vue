@@ -1,11 +1,11 @@
 <template>
     <div class="container p-6 py-24 md:py-48 xl:pr-72">
         <page-intro
-            title="Manage Your Organization"
+            title="VASP Profile"
         ></page-intro>
         <!-- 01. Create a new trust anchor account -->
         <div class="flex flex-wrap items-center">
-                <h2>01. Load trust anchor (TA) account</h2>
+                <h2 id="toTA">01. Load trust anchor (TA) account</h2>
         </div>
         <div class="flex flex-wrap items-center">
             <div class="w-full lg:w-1/3 my-8">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="flex flex-wrap items-center" :style="{ display:show_ta_create_account }">
-            <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">TA Account Address is: {{ta_create_account_result}}</strong></p>
+            <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">TA Info: {{ta_create_account_result}}</strong></p>
         </div>
         <div class="my-4 lg">
             <!-- 00. TA List -->
@@ -35,8 +35,85 @@
             </div>
             <br/>
         </div>
+        <br/>
+
+        <!-- 02. Is Trust Anchor Verified? -->
         <div class="my-4 lg">
-            <!-- 00. TA IVMS List -->
+            <div class="flex flex-wrap items-center">
+                <h2 id="toTAststus">02. Is Trust Anchor Verified?</h2>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <select-input
+                        v-model="attestation_ta_account"
+                        label="TA Account"
+                        placeholder="Choose the TA Account"                        
+                        name="attestation_ta_account"
+                        :options=taAccountsData
+                        label-to-show="ta_prefname"
+                        v-validate="'required'"
+                        :error="errors.first('attestation_ta_account')"
+                        required
+                    ></select-input> 
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3 my-8">
+                    <simple-button class="min-w-full"
+                        :on-click=taIsVerified
+                        >
+                        
+                        Is Verified?
+                    </simple-button>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center" :style="{ display:show_ta_is_verified_data_result }">
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_is_verified_data_result}}</strong></p>
+            </div>
+        </div>
+
+         <!-- 03. Get Shyft Tokens Balance -->
+        <br/>
+        <div class="my-4 lg">
+            <div class="flex flex-wrap items-center">
+                <h2 id="toTAtoken">03. Get Shyft Tokens Balance</h2>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <p>Get Shyft Tokens Balance for TA Account</p>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <select-input
+                        v-model="attestation_ta_account"
+                        label="TA Account"
+                        placeholder="Choose the TA Account"                        
+                        name="attestation_ta_account"
+                        :options=taAccountsData
+                        label-to-show="ta_prefname"
+                        v-validate="'required'"
+                        :error="errors.first('attestation_ta_account')"
+                        required
+                    ></select-input> 
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3 my-4">
+                    <simple-button class="min-w-full"
+                        :on-click=taGetBalance
+                        >
+                        
+                        Get Balance
+                    </simple-button>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center" :style="{ display:show_ta_get_balance_result }">
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_get_balance_result}}</strong></p>
+            </div>
+        </div>
+        <br/>
+
+        <div class="my-4 lg">
+            <!-- 04. TA IVMS List -->
             <div class="my-4 lg">
                 <div class="flex flex-wrap items-center">
                     <strong class="mb-3 text-charcoal">IVMS for your Organization</strong>
@@ -49,6 +126,21 @@
                 :totalRows="totalRecords"
                 url="ta-accounts"
                 ></good-table>
+                <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/3">
+                    <select-input
+                        v-model="attestation_ta_account"
+                        label="TA Account"
+                        placeholder="Choose the TA Account"                        
+                        name="attestation_ta_account"
+                        :options=taAccountsData
+                        label-to-show="ta_prefname"
+                        v-validate="'required'"
+                        :error="errors.first('attestation_ta_account')"
+                        required
+                    ></select-input> 
+                </div>
+                </div>
                 <div class="w-full my-8">
                     <simple-button :on-click=exportOVASP>
                         Export Originating VASP IVMS
@@ -61,13 +153,25 @@
                     <p class="md:flex md:items-center"><strong class="mr-2" style="color:red;">{{export_IVMS_failed_data}}</strong></p>
                 </div>
             </div>
-            <br/>
         </div>
         <br/>
-        <!-- 02. Save Entity Information for IVMS -->
+        <!-- 04-1. Save Entity Information for IVMS -->
         <div class="my-4 lg">
             <div class="flex flex-wrap items-center">
-                <h2>02. Set or Update Entity Information for IVMS</h2>
+                <h2 id="toIVMStable">04. Set or Update Entity Information for IVMS</h2>
+            </div>
+            <div class="w-full lg:w-1/3">
+                <select-input
+                    v-model="attestation_ta_account"
+                    label="TA Account"
+                    placeholder="Choose the TA Account"                        
+                    name="attestation_ta_account"
+                    :options=taAccountsData
+                    label-to-show="ta_prefname"
+                    v-validate="'required'"
+                    :error="errors.first('attestation_ta_account')"
+                    required
+                ></select-input> 
             </div>
             <b>Legal Person Name</b>
             <br/>
@@ -472,83 +576,12 @@
                 <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{updated_ivms_data_result}}</strong></p>
             </div>
         </div>
-        <!-- 03. Is Trust Anchor Verified? -->
-        <div class="my-4 lg">
-            <div class="flex flex-wrap items-center">
-                <h2>03. Is Trust Anchor Verified?</h2>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_ta_account"
-                        label="TA Account"
-                        placeholder="Choose the TA Account"                        
-                        name="attestation_ta_account"
-                        :options=taAccountsData
-                        label-to-show="ta_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_ta_account')"
-                        required
-                    ></select-input> 
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3 my-8">
-                    <simple-button class="min-w-full"
-                        :on-click=taIsVerified
-                        >
-                        
-                        Is Verified?
-                    </simple-button>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center" :style="{ display:show_ta_is_verified_data_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_is_verified_data_result}}</strong></p>
-            </div>
-        </div>
-         <!-- 04. Get Shyft Tokens Balance -->
         <br/>
-        <div class="my-4 lg">
-            <div class="flex flex-wrap items-center">
-                <h2>04. Get Shyft Tokens Balance</h2>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <p>Get Shyft Tokens Balance for TA Account</p>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3">
-                    <select-input
-                        v-model="attestation_ta_account"
-                        label="TA Account"
-                        placeholder="Choose the TA Account"                        
-                        name="attestation_ta_account"
-                        :options=taAccountsData
-                        label-to-show="ta_prefname"
-                        v-validate="'required'"
-                        :error="errors.first('attestation_ta_account')"
-                        required
-                    ></select-input> 
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center">
-                <div class="w-full lg:w-1/3 my-4">
-                    <simple-button class="min-w-full"
-                        :on-click=taGetBalance
-                        >
-                        
-                        Get Balance
-                    </simple-button>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center" :style="{ display:show_ta_get_balance_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_get_balance_result}}</strong></p>
-            </div>
-        </div>
-        <br/>
+
         <!-- 05 Add Key Value Pair to Discovery Layer -->
         <div class="my-4 lg">
             <div class="flex flex-wrap items-center">
-                <h2>05. Add Key Value Pair to Discovery Layer</h2>
+                <h2 id="toKeyValues">05. Add Key Value Pair to Discovery Layer</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <p>Choose TA Account for Discovery Layer</p>
@@ -637,6 +670,7 @@
         COMPLETE_ROUTE,
         TA_LOAD_COUNTRIES,
         CREATE_TA_ACCOUNT,
+        FRESH_IVMS,
         TA_SAVE_IVMS,
         TA_IS_VERIFIED,
         TA_GET_BALANCE,
@@ -657,7 +691,8 @@
             return {
                 ta_account_columns:[],
                 totalRecords: 0,
-                ta_ivms_columns:[]
+                ta_ivms_columns:[],
+                attestation_ta_account: ""
             }
         },
         created() {
@@ -702,6 +737,7 @@
             
             this.ta_account_rows = [];
             this.ta_ivms_columns =  [
+                    {label: 'TA Prefname', field: 'ta_prefname'},
                     {label: 'Legal Person Name', field: 'legal_person_name'},
                     {label: 'Legal Person Name Identifier Type', field: 'legal_person_name_identifier_type'},
                     {label: 'Address Type', field: 'address_type'},
@@ -810,6 +846,12 @@
                     attestations.exportIVMSFailedData,
             }),
         },
+
+        watch: {
+                attestation_ta_account(newValue, oldValue) {
+                this.freshIVMSDefault(newValue);
+            }
+        },
         /**
          * methods object
          * Methods that are not cached based on state.
@@ -819,6 +861,11 @@
             /**
              * Used to submit entire form payload to API
              */
+            freshIVMSDefault(value) {
+                this[FRESH_IVMS](value).then(response => {
+                    console.log(response);
+                });
+            },
             createTaAccount() {
                 this[CREATE_TA_ACCOUNT]().then(response => {
                     console.log(response);
@@ -874,6 +921,7 @@
             ...mapActions([
                 TA_LOAD_COUNTRIES,
                 CREATE_TA_ACCOUNT,
+                FRESH_IVMS,
                 TA_SAVE_IVMS,
                 TA_IS_VERIFIED,
                 TA_GET_BALANCE,
@@ -905,4 +953,12 @@
         }
 
     };
+
+    $(function() {
+    $('a[href*=#]').on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top - 150}, 500, 'linear');
+    });
+    });
+
 </script>

@@ -54,7 +54,7 @@ class DataExternalJob implements ShouldQueue
       $test = SandboxTrustAnchorUserCryptoAddress::where('crypto_type',$this->model->coin_token)->where('crypto_address','ILIKE', $this->model->coin_address);
       // If transaction is a test transaction then automate auto-reply and set webhook to received
       if ($test->exists()) {
-        app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($this->invokedMethod,$this->model->attestation_hash, $test->first());
+        app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($this->invokedMethod,$this->model->attestation_hash, $test->first(), $this->model->system_ta_account);
 
         $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_SENT");
         $this->model->webhook_status()->transitionTo($to = "{$this->invokedMethod}_RECEIVED");

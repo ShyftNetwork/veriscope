@@ -119,7 +119,7 @@ class WebhookController extends Controller
                 $attestation->attestation_hash = $attestation_hash;
                 $attestation->user_account = $identified_address;
                 $attestation->block_number = $data['data']['blockNumber'];
-                ;
+
 
 
                 $tracedata = $data_local['traceValues'];
@@ -172,28 +172,37 @@ class WebhookController extends Controller
 
         if ($data['message'] === 'create-new-user-account') {
 
-            // var obj = { user_id: user_id, message: "create-new-user-account", data: data };
-            $input['user_id'] = $data['user_id'];
+            if ($data['data'] == 'missingData') {
+                broadcast(new ContractsInstantiate($data));
+                return;
+            }
 
-            $ta = TrustAnchor::firstOrCreate(['user_id' => $input['user_id']]);
+            $userID = $data['user_id'];
+            $newAccountList = array_column((array_column($data['data'], 'account')), 'address');
+            $deleteResult = TrustAnchor::whereNotIn('account_address', $newAccountList)->delete();
 
-            $account = $data['data']['account'];
-            $ta->ta_prefname = $account['prefname'];
-            $ta->account_address = $account['address'];
+            foreach ($data['data'] as $index => $value) {
+                $accountAddress = $value['account']['address'];
+                $eloquent_encryption = new EloquentEncryption();
+                $encrypted = $eloquent_encryption->encrypt($value['account']['private_key']);
+                $privateKeyEncrypt = bin2hex($encrypted);
 
-            $private_key = $account['private_key'];
-            $eloquent_encryption = new EloquentEncryption();
-            $encrypted = $eloquent_encryption->encrypt($private_key);
-            $ta->private_key_encrypt = bin2hex($encrypted);
-            $ta->signature_hash = $account['signature_hash']['SignatureHash'];
-            $ta->signature = $account['signature_hash']['Signature'];
-            $ta->public_key = $account['public_key'];
-            $ta->save();
+                $ta = TrustAnchor::updateOrCreate([
+                    'account_address' => $accountAddress
+                ], [
+                    'user_id' => $userID,
+                    'ta_prefname' => $value['account']['prefname'],
+                    'account_address' => $accountAddress,
+                    'private_key_encrypt' => $privateKeyEncrypt,
+                    'signature_hash' => $value['account']['signature_hash']['SignatureHash'],
+                    'signature' => json_encode($value['account']['signature_hash']['Signature']),
+                    'public_key' => $value['account']['public_key'],
+                ]);
 
-            $user = User::findOrFail($input['user_id']);
-            $user->trustAnchor()->save($ta);
+                $user = User::findOrFail($userID);
+                $user->trustAnchor()->save($ta);
+            }
 
-            $data['data'] = $ta;
             broadcast(new ContractsInstantiate($data));
         }
         if ($data['message'] === 'ta-is-verified') {

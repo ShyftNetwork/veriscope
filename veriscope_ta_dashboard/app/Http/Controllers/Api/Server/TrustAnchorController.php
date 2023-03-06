@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\{TrustAnchor, SandboxTrustAnchorUserCryptoAddress, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState};
-use App\Http\Requests\{CreateKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest, CryptoProofRequest};
+use App\Http\Requests\{CreateKycTemplateRequest, RetryKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest, CryptoProofRequest, SetTAKeyValuePairRequest};
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Throwable\ClientException;
@@ -72,10 +72,10 @@ class TrustAnchorController extends Controller
       * @param  \Illuminate\Http\Request  $request
       * @return \Illuminate\Http\Response
       */
-      public function get_trust_anchor_details(Request $request, $address)
+      public function get_trust_anchor_details(Request $request, $ta_account)
       {
 
-          $trust_anchor_details = TrustAnchorExtraDataUnique::where('trust_anchor_address', $address)->get();
+          $trust_anchor_details = TrustAnchorExtraDataUnique::where('trust_anchor_address', $ta_account)->get();
 
           return response()->json($trust_anchor_details);
       }
@@ -86,11 +86,11 @@ class TrustAnchorController extends Controller
       * @param  \Illuminate\Http\Request  $request
       * @return \Illuminate\Http\Response
       */
-      public function verify_trust_anchor(Request $request, $address)
+      public function verify_trust_anchor(Request $request, $ta_account)
       {
-          $trustAnchor = VerifiedTrustAnchor::where('account_address', $address)->first();
+          $trustAnchor = VerifiedTrustAnchor::where('account_address', $ta_account)->first();
 
-          return response()->json(['address' => $address, 'verified' => isset($trustAnchor), 'block_number' => isset($trustAnchor) ? $trustAnchor['block_number'] : null   ]);
+          return response()->json(['address' => $ta_account, 'verified' => isset($trustAnchor), 'block_number' => isset($trustAnchor) ? $trustAnchor['block_number'] : null   ]);
 
       }
 
@@ -103,9 +103,9 @@ class TrustAnchorController extends Controller
       public function get_trust_anchor_api_url(GetTrustAnchorApiUrlRequest $request)
       {
           $input = $request->all();
-          $ta_address = $input['ta_address'];
+          $ta_account = $input['ta_account'];
 
-          $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $ta_address)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->first();
+          $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', $ta_account)->where('key_value_pair_name', 'API_URL')->orderBy('block_number', 'DESC')->first();
 
           return response()->json($taedu);
 
@@ -117,13 +117,59 @@ class TrustAnchorController extends Controller
       * @param  \Illuminate\Http\Request  $request
       * @return \Illuminate\Http\Response
       */
-      public function get_trust_anchor_account(Request $request)
+      public function get_trust_anchor_accounts(Request $request)
       {
-          $ta = TrustAnchor::first();
+          $ta = TrustAnchor::all()->toArray();
 
           return response()->json($ta);
+      }
+
+
+
+      /**
+      * Set Trust Anchor Account Key Value Pair
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function set_ta_key_value_pair(SetTAKeyValuePairRequest $request)
+      {
+
+
+          $input = $request->all();
+
+          $ta_account = $input['ta_account'];
+          $ta_key_name = $input['name'];
+          $ta_key_value = $input['value'];
+
+          $url = $this->http_api_url.'/ta-set-key-value-pair?user_id=1&account='.$ta_account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if ($res->getStatusCode() == 200) {
+              return response()->json([]);
+          } else {
+              return response()->json([],400);
+          }
 
       }
+
+
+      /**
+      * Get Trust Anchor Account Key Value Pair
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function get_ta_key_value_pairs(Request $request, $ta_account)
+      {
+
+
+          $trust_anchor_details = TrustAnchorExtraDataUnique::where('trust_anchor_address', $ta_account)->get();
+
+          return response()->json($trust_anchor_details);
+
+      }
+
 
       /**
       * Get Trust Anchor Attestations
@@ -179,30 +225,31 @@ class TrustAnchorController extends Controller
       {
           # Assumes TA is Beneficiary
           $attestation_hash = $request->get('attestation_hash','');
-
           $user_account = $request->get('user_account','');
           $user_public_key = $request->get('user_public_key','');
           $user_signature_hash = $request->get('user_signature_hash','');
           $user_signature = $request->get('user_signature','');
           $coin_address_crypto_proof = $request->get('coin_address_crypto_proof','');
-
           $coin_transaction_hash = $request->get('coin_transaction_hash','');
           $coin_transaction_value = $request->get('coin_transaction_value','');
           $ivms_encrypt = $request->get('ivms_encrypt','');
-
+          $ta_account   = $request->get('ta_account','');
 
 
 
           $ivms_state_code = $request->get('ivms_state_code','');
-
           #Sanbox Automated Response For test_vars
           $test_vars = $request->get('test_vars','ivms_state_code=0202');
 
 
-          $ta = TrustAnchor::firstOrFail();
+          $ta = TrustAnchor::where('account_address', $ta_account)->firstOrFail();
           $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
+
+          $owner = (strcasecmp($ta->account_address, $sca->ta_account) != 0) ? 'BENEFICIARY' : 'ORIGINATOR';
+
+
           #prepare the template
-          $kt = KycTemplate::firstOrCreate(['attestation_hash' => $attestation_hash]);
+          $kt = KycTemplate::firstOrCreate(['attestation_hash' => $attestation_hash, 'owner' => $owner, 'system_ta_account' => $ta->account_address]);
           $kt->coin_blockchain = $sca->coin_blockchain;
           $kt->coin_token = $sca->coin_token;
           $kt->coin_address = $sca->coin_address;
@@ -402,13 +449,16 @@ class TrustAnchorController extends Controller
       * @param  \Illuminate\Http\Request  $request
       * @return \Illuminate\Http\Response
       */
-      public function retry_kyc_template(Request $request)
+      public function retry_kyc_template(RetryKycTemplateRequest $request)
       {
           # Assumes TA is Beneficiary
           $attestation_hash = $request->get('attestation_hash','');
           $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
+          $ta_account   = $request->get('ta_account','');
+          $ta = TrustAnchor::where('account_address', $ta_account)->firstOrFail();
+
           #prepare the template
-          $kt = KycTemplate::where('attestation_hash', $attestation_hash)->firstOrFail();
+          $kt = KycTemplate::where(['attestation_hash' => $attestation_hash, 'system_ta_account' => $ta->account_address])->firstOrFail();
           $trustAnchorType = $kt->getUserType();
 
           try {

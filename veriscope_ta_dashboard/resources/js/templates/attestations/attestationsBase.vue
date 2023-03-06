@@ -1,12 +1,21 @@
 <template>
     <div>
         <div class="step-wizard">
-            <div class="step-wizard__step" 
-                :class="{ 
-                    'step-wizard__step--complete': completedRoutes.includes('attestations-manage-organization'),
-                    'step-wizard__step--active': currentRoute === 'attestations-manage-organization' 
-                }"
-            ><a href="manage-organization">Manage Organization<span class="hidden xl:inline"></span></a></div>
+            <div class="step-wizard__step">
+                <a href="#toTA">Trust Anchor Account<span class="hidden xl:inline"></span></a>
+            </div>
+            <div class="step-wizard__step">
+                <a href="#toTAststus">Verification Status<span class="hidden xl:inline"></span></a>
+            </div>
+            <div class="step-wizard__step">
+                <a href="#toTAtoken">Token Balance<span class="hidden xl:inline"></span></a>
+            </div>
+            <div class="step-wizard__step">
+                <a href="#toIVMStable">IVMS data<span class="hidden xl:inline"></span></a>
+            </div>
+            <div class="step-wizard__step" >
+                <a href="#toKeyValues">On-chain Data<span class="hidden xl:inline"></span></a>
+            </div>
         </div>
         <div class="step-wizard-progress md:invisible" :style="{ width:percentageComplete }"></div>
         <transition name="fade">

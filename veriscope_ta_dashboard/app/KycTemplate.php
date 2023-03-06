@@ -17,7 +17,7 @@ class KycTemplate extends Model
     use HasStateMachines;
 
 
-    protected $fillable = ['attestation_hash'];
+    protected $fillable = ['attestation_hash','system_ta_account','owner'];
 
     protected $hidden = ['sender_user_address_crypto_proof','sender_user_address_crypto_proof_status'];
 
@@ -32,20 +32,7 @@ class KycTemplate extends Model
 
     function getUserType()
     {
-
-      try {
-        $ta = TrustAnchor::firstOrFail();
-        $sca = SmartContractAttestation::where('attestation_hash', $this->attestation_hash)->firstOrFail();
-
-        if (strcasecmp($ta->account_address, $sca->ta_account) != 0)  {
-           return 'BENEFICIARY';
-        } else {
-           return 'ORIGINATOR';
-        }
-      } catch (\Throwable $e) {
-        return false;
-      }
-
+        return $this->owner;
     }
 
 }

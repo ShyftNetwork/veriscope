@@ -11,6 +11,10 @@ export const CREATE_TA_ACCOUNT = 'createTaAccount';
 export const CREATE_TA_ACCOUNT_SUCCESS = 'createTaAccountSuccess';
 export const CREATE_TA_ACCOUNT_FAIL = 'createTaAccountFail';
 
+export const FRESH_IVMS = 'freshIVMS';
+export const FRESH_IVMS_SUCCESS = 'freshIVMSSuccess';
+export const FRESH_IVMS_FAIL = 'freshIVMSFail';
+
 export const EXPORT_OVASP_IVMS = 'exportOVASPIVMS';
 export const EXPORT_OVASP_IVMS_SUCCESS = 'exportOVASPIVMSSuccess';
 export const EXPORT_OVASP_IVMS_FAIL = 'exportOVASPIVMSFail';

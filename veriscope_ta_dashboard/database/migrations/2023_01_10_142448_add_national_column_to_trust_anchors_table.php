@@ -14,11 +14,11 @@ class AddNationalColumnToTrustAnchorsTable extends Migration
     public function up()
     {
         Schema::table('trust_anchors', function (Blueprint $table) {
-            $table->text('postbox')->nullable()->after('address_line');
-            $table->text('customer_identification')->nullable()->after('postbox');
-            $table->text('national_identifier')->nullable()->after('customer_identification');
-            $table->text('national_identifier_type')->nullable()->after('national_identifier');
-            $table->text('country_of_registration')->nullable()->after('national_identifier_type');
+            $table->text('postbox')->nullable();
+            $table->text('customer_identification')->nullable();
+            $table->text('national_identifier')->nullable();
+            $table->text('national_identifier_type')->nullable();
+            $table->text('country_of_registration')->nullable();
         });
     }
 

@@ -4,6 +4,10 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS,
     CREATE_TA_ACCOUNT_FAIL,
     //KEEP
+    FRESH_IVMS,
+    FRESH_IVMS_SUCCESS,
+    FRESH_IVMS_FAIL,
+    //KEEP
     EXPORT_OVASP_IVMS,
     EXPORT_OVASP_IVMS_SUCCESS,
     EXPORT_OVASP_IVMS_FAIL,
@@ -96,12 +100,19 @@ export const actions = {
             });
     },
 
+    [FRESH_IVMS]({ commit, dispatch, getters, state }, postValue) {
+        console.log('actions FRESH_IVMS');
+        commit(FRESH_IVMS_SUCCESS, postValue);
+        return 'actions FRESH_IVMS finished';
+    },
+
     [TA_SAVE_IVMS]({ commit, dispatch, getters, state }) {
         console.log('actions TA_SAVE_IVMS');
         console.log('state');
         console.log(state);
         console.log('payload');
         var p = {
+                "account": state.form.attestation_ta_account.account_address,
                 "legal_person_name": state.form.ivms_legal_person_name,
                 "legal_person_name_identifier_type": state.form.ivms_legal_person_name_identifier_type,
                 "address_type": state.form.ivms_address_type,
@@ -139,8 +150,10 @@ export const actions = {
 
     [EXPORT_OVASP_IVMS]({ commit, dispatch, getters, state }) {
         console.log('actions EXPORT_OVASP_IVMS');
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/oVASP`)
+        var p = {
+            "account": state.form.attestation_ta_account.account_address
+        };
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/oVASP`, p)
             .then(response => {
                 console.log(response);
                 return response;
@@ -152,8 +165,10 @@ export const actions = {
 
     [EXPORT_BVASP_IVMS]({ commit, dispatch, getters, state }) {
         console.log('actions EXPORT_BVASP_IVMS');
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/bVASP`)
+        var p = {
+            "account": state.form.attestation_ta_account.account_address
+        };
+        return axios.post(`contracts/trust-anchor/${getters.UID}/export-ivms-data/bVASP`, p)
             .then(response => {
                 console.log(response);
                 return response;

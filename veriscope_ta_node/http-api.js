@@ -63,8 +63,8 @@ let provider = new ethers.providers.JsonRpcProvider(process.env.HTTP);
 let customWsProvider = new ethers.providers.WebSocketProvider(process.env.WS);
 
 
-let trustAnchorWallet = new ethers.Wallet(process.env.TRUST_ANCHOR_PK, provider);
-let trustAnchorAccount = process.env.TRUST_ANCHOR_ACCOUNT;
+let trustAnchorWallet = new ethers.Wallet(((process.env.TRUST_ANCHOR_PK).split(','))[0], provider);
+let trustAnchorAccount = (((process.env.TRUST_ANCHOR_ACCOUNT)).split(','))[0];
 
 let web3 = new Web3(new Web3.providers.HttpProvider(testNetHttpUrl));
 
@@ -173,7 +173,7 @@ const contracts = [{
 
 const options = {
   pollInterval: 1000, // period between polls in milliseconds (default: 13000)
-  confirmations: 2, // n° of confirmation blocks (default: 12)
+  confirmations: 1, // n° of confirmation blocks (default: 12)
   chunkSize: 10000, // n° of blocks to fetch at a time (default: 10000)
   concurrency: 10, // maximum n° of concurrent web3 requests (default: 10)
   backoff: 1000 // retry backoff in milliseconds (default: 1000)
@@ -345,51 +345,78 @@ app.get('/refresh_event_sync', async (req, res) => {
 // eg: create-new-user-account?user_id=1
 
 app.get('/create-new-user-account', (req, res) => {
+
   var user_id = req.param('user_id');
+  var TRUST_ANCHOR_PK = (process.env.TRUST_ANCHOR_PK).split(',');
+  var TRUST_ANCHOR_ACCOUNT = (process.env.TRUST_ANCHOR_ACCOUNT).split(',');
+  var TRUST_ANCHOR_PREFNAME = ((process.env.TRUST_ANCHOR_PREFNAME).replace(/"/g, '')).split(',');
 
-  var TRUST_ANCHOR_PREFNAME = process.env.TRUST_ANCHOR_PREFNAME;
-  var TRUST_ANCHOR_ACCOUNT = process.env.TRUST_ANCHOR_ACCOUNT;
-  var TRUST_ANCHOR_PK = process.env.TRUST_ANCHOR_PK;
+  var accountDataLength = TRUST_ANCHOR_ACCOUNT.length;
+  var preDataLength = TRUST_ANCHOR_PREFNAME.length;
+  var pkDataLength = TRUST_ANCHOR_PK.length;
+  var dataResult = {};
 
-  var ta_sign_template = utility.TASign(process.env.SIGN_MESSAGE + "_TA", TRUST_ANCHOR_PK);
-  var ta_public_key = utility.GetEthPublicKey(TRUST_ANCHOR_PK);
+  if (accountDataLength == preDataLength && accountDataLength == pkDataLength) {
 
-  var account_logger = {
-    prefname: TRUST_ANCHOR_PREFNAME,
-    address: TRUST_ANCHOR_ACCOUNT,
-    private_key: "xxxxxxxxxx",
-    public_key: ta_public_key,
-    signature_hash: ta_sign_template
-  };
-  var data_logger = {
-    account: account_logger
-  };
-  var obj_logger = {
-    user_id: user_id,
-    message: "create-new-user-account",
-    data: data_logger
-  };
+    for(var theNumber = 0 ; theNumber < accountDataLength ; theNumber++){
+      var ta_sign_template = utility.TASign(process.env.SIGN_MESSAGE + "_TA", TRUST_ANCHOR_PK[theNumber]);
+      var ta_public_key = utility.GetEthPublicKey(TRUST_ANCHOR_PK[theNumber]);
 
-  var account = {
-    prefname: TRUST_ANCHOR_PREFNAME,
-    address: TRUST_ANCHOR_ACCOUNT,
-    private_key: TRUST_ANCHOR_PK,
-    public_key: ta_public_key,
-    signature_hash: ta_sign_template
-  };
-  var data = {
-    account: account
-  };
-  var obj = {
-    user_id: user_id,
-    message: "create-new-user-account",
-    data: data
-  };
+      var account_logger = {
+        prefname: TRUST_ANCHOR_PREFNAME[theNumber],
+        address: TRUST_ANCHOR_ACCOUNT[theNumber],
+        private_key: "xxxxxxxxxx",
+        public_key: ta_public_key,
+        signature_hash: ta_sign_template
+      };
 
-  logger.debug(obj_logger);
-  utility.sendWebhookMessage(obj);
+      var data_logger = {
+        account: account_logger
+      };
 
-  res.sendStatus(201);
+      var obj_logger = {
+        user_id: user_id,
+        message: "create-new-user-account",
+        data: data_logger
+      };
+
+      var account = {
+        prefname: TRUST_ANCHOR_PREFNAME[theNumber],
+        address: TRUST_ANCHOR_ACCOUNT[theNumber],
+        private_key: TRUST_ANCHOR_PK[theNumber],
+        public_key: ta_public_key,
+        signature_hash: ta_sign_template
+      };
+
+      var data = {
+        account: account
+      };
+
+      dataResult[theNumber] = data;
+    }
+
+    var obj = {
+      user_id: user_id,
+      message: "create-new-user-account",
+      // data: data
+      data : dataResult
+    };
+
+    logger.debug(obj_logger);
+    utility.sendWebhookMessage(obj);
+
+    res.sendStatus(200);
+
+  } else {
+    var obj = {
+      user_id: user_id,
+      message: "create-new-user-account",
+      data : 'missingData'
+    };
+
+    utility.sendWebhookMessage(obj);
+    res.sendStatus(202);
+  }
 
 });
 
@@ -738,13 +765,13 @@ keyv.on('error', (err) => {
 
 
 app.listen(httpPort, async () => {
-
   await keyv.clear();
-
-  let nonceCount = await trustAnchorWallet.getTransactionCount();
-  //set nonceCount
-  await keyv.set('nonceCount', nonceCount);
-
+  _.each(process.env.TRUST_ANCHOR_PKS.split(","), async  function(pk)  {
+    let signer = new ethers.Wallet(pk, provider);
+    let addr   = await signer.getAddress();
+    nonceCount = await signer.getTransactionCount();
+    await keyv.set(`nonceCount_${addr}`, nonceCount);
+   });
   logger.debug('listening on ' + httpPort);
 });
 

@@ -219,42 +219,13 @@ class StatusStateMachine extends StateMachine
 
 
 
-
-    static function isBeneficary($value)
-    {
-
-      try {
-        $ta = TrustAnchor::firstOrFail();
-        $sca = SmartContractAttestation::where('attestation_hash', $value)->firstOrFail();
-        Log::debug('ta->account_address');
-        Log::debug($ta->account_address);
-
-        Log::debug('sca->ta_account');
-        Log::debug($sca->ta_account);
-
-        if (strcasecmp($ta->account_address, $sca->ta_account) != 0)  {
-           return true;
-        } else {
-           return false;
-        }
-
-
-      } catch (\Throwable $e) {
-
-        return false;
-      }
-
-    }
     public function afterTransitionHooks(): array
     {
         return [
 
             'BE_TA_VERIFIED' => [
                 function ($from, $model) {
-
                   $type = $model->getUserType();
-                  Log::debug('getUserType');
-                  Log::debug($type);
                   // If BE_TA_VERIFIED and this state is happening on the benificiary end
                   if($type === 'BENEFICIARY'){
                       // Invoke DataExternalJob('Beneficiary')
@@ -268,8 +239,6 @@ class StatusStateMachine extends StateMachine
             'OR_TA_VERIFIED' => [
                 function ($from, $model) {
                   $type = $model->getUserType();
-                  Log::debug('getUserType');
-                  Log::debug($type);
                   // If OR_TA_VERIFIED and this state is happening on the benificiary end
                   if($type === 'BENEFICIARY'){
                     // Invoke New DataInternalJob('Beneficiary')
@@ -284,8 +253,6 @@ class StatusStateMachine extends StateMachine
             'BE_KYC_UPDATE' => [
               function ($from, $model) {
                $type = $model->getUserType();
-               Log::debug('getUserType');
-               Log::debug($type);
                // If BE_KYC_UPDATE and this state is happening on the benificiary end
                if($type === 'BENEFICIARY' && $model->webhook_status()->canBe('BE_KYC_SENT') ){
                 // Invoke DataExternalJob('Beneficiary')
@@ -299,8 +266,6 @@ class StatusStateMachine extends StateMachine
             'OR_KYC_UPDATE' => [
               function ($from, $model) {
               $type = $model->getUserType();
-              Log::debug('getUserType');
-              Log::debug($type);
               // If OR_KYC_UPDATE and this state is happening on the originator end
               if($type === 'ORIGINATOR' && $model->webhook_status()->canBe('OR_KYC_SENT') ){
                 // Invoke DataExternalJob('Orignator')
@@ -314,8 +279,7 @@ class StatusStateMachine extends StateMachine
             'OR_KYC_ACCEPTED' => [
               function ($from, $model) {
               $type = $model->getUserType();
-              Log::debug('getUserType');
-              Log::debug($type);
+
               if($type === 'BENEFICIARY' && $model->ivms_status()->was('OR_ENC_RECEIVED') ){
                 DataExternalStatelessJob::dispatch($model, 'OR_KYC_ACCEPTED');
               } elseif ($type === 'ORIGINATOR') {
@@ -327,8 +291,6 @@ class StatusStateMachine extends StateMachine
            'OR_KYC_REJECTED' => [
               function ($from, $model) {
               $type = $model->getUserType();
-              Log::debug('getUserType');
-              Log::debug($type);
               if($type === 'BENEFICIARY' && $model->ivms_status()->was('OR_ENC_RECEIVED') ){
                 DataExternalStatelessJob::dispatch($model, 'OR_KYC_REJECTED');
               } elseif($type === 'ORIGINATOR') {
@@ -343,8 +305,6 @@ class StatusStateMachine extends StateMachine
            'BE_KYC_ACCEPTED' => [
              function ($from, $model) {
              $type = $model->getUserType();
-             Log::debug('getUserType');
-             Log::debug($type);
              if($type === 'ORIGINATOR' && $model->ivms_status()->was('BE_ENC_RECEIVED') ){
                DataExternalStatelessJob::dispatch($model, 'BE_KYC_ACCEPTED');
              } elseif($type === 'BENEFICIARY') {
@@ -356,8 +316,6 @@ class StatusStateMachine extends StateMachine
            'BE_KYC_REJECTED' => [
               function ($from, $model) {
               $type = $model->getUserType();
-              Log::debug('getUserType');
-              Log::debug($type);
               if($type === 'ORIGINATOR' && $model->ivms_status()->was('BE_ENC_RECEIVED') ){
                 DataExternalStatelessJob::dispatch($model, 'BE_KYC_REJECTED');
               } elseif($type === 'BENEFICIARY') {

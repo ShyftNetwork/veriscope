@@ -12,9 +12,11 @@ import {
 
     ATTESTATIONS_SOCKET_CONNECTION_SUCCESS,
     CREATE_TA_ACCOUNT_SUCCESS, //KEEP
+    CREATE_TA_ACCOUNT_FAIL,
     TA_IS_VERIFIED_SUCCESS, //KEEP
     TA_GET_BALANCE_SUCCESS, //KEEP
     TA_SET_KEY_VALUE_PAIR_SUCCESS,//KEEP
+    TA_SET_KEY_VALUE_PAIR_FAIL,
     TA_EVENT_SUCCESS,
     TA_CREATE_USER_SUCCESS,
 } from './store/mutation-types';
@@ -48,7 +50,11 @@ if (document.getElementById('attestations')) {
                     console.log(event);
                     if (event.data.message == 'create-new-user-account') {
                         console.log('message is create-new-user-account');
-                        store.commit(CREATE_TA_ACCOUNT_SUCCESS, event.data.data);
+                        if (event.data.data == 'missingData') {
+                            store.commit(CREATE_TA_ACCOUNT_FAIL, 'Please check your veriscope_ta_node/.env , there\'re ta data missing.');
+                        } else {
+                            store.commit(CREATE_TA_ACCOUNT_SUCCESS, event.data.data);
+                        }
                     }
                     else if (event.data.message == 'ta-is-verified') {
                         console.log('message is ta-is-verified');
@@ -86,7 +92,11 @@ if (document.getElementById('attestations')) {
                     }
                     else if (event.data.message == 'ta-set-key-value-pair') {
                         console.log('message is ta-set-key-value-pair');
-                        store.commit(TA_SET_KEY_VALUE_PAIR_SUCCESS, event.data.data);
+                        if (event.data.data == 'fail') {
+                            store.commit(TA_SET_KEY_VALUE_PAIR_FAIL);
+                        }else{
+                            store.commit(TA_SET_KEY_VALUE_PAIR_SUCCESS, event.data.data);
+                        }
                     }
 
             });
