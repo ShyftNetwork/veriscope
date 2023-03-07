@@ -19,14 +19,17 @@ class KycTemplateEventSubscriber implements ShouldQueue
 
         $attestation_hash = $event->payload['kycTemplate']['AttestationHash'];
         $invokedMethod = $event->meta['invokedMethod'] ? $event->meta['invokedMethod'] : false;
+        $owner = (substr($invokedMethod, 0, 2) === 'BE') ?  'BENEFICIARY': 'ORIGINATOR';
 
         if($attestation_hash){
 
           try {
-            $kt = KycTemplate::where('attestation_hash', $attestation_hash)->firstOrFail();
+            $kt = KycTemplate::where([
+              'attestation_hash' =>  $attestation_hash,
+              'owner' => $owner
+            ])
+            ->firstOrFail();
 
-            Log::debug('invokedMethod');
-            Log::debug($invokedMethod);
 
             if (strpos($invokedMethod, 'ENC') !== false) {
               Log::debug('ENC');
@@ -61,15 +64,20 @@ class KycTemplateEventSubscriber implements ShouldQueue
       $attestation_hash = $event->payload['kycTemplate']['AttestationHash'];
       $invokedMethod = $event->meta['invokedMethod'] ? $event->meta['invokedMethod'] : false;
 
+      if (strpos($invokedMethod, 'ENC') !== false) {
+        $owner = (substr($invokedMethod, 0, 2) === 'BE') ?  'ORIGINATOR': 'BENEFICIARY';
+      } else{
+        $owner = (substr($invokedMethod, 0, 2) === 'BE') ?  'BENEFICIARY': 'ORIGINATOR';
+      }
+
       if($attestation_hash){
 
         try {
-          $kt = KycTemplate::where('attestation_hash', $attestation_hash)->firstOrFail();
-
-
-          Log::debug('invokedMethod');
-          Log::debug($invokedMethod);
-
+          $kt = KycTemplate::where([
+            'attestation_hash' =>  $attestation_hash,
+            'owner' => $owner
+          ])
+          ->firstOrFail();
 
 
           if (strpos($invokedMethod, 'ENC') !== false) {

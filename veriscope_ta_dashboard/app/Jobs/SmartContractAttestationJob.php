@@ -75,7 +75,7 @@ class SmartContractAttestationJob implements ShouldQueue
         $test = SandboxTrustAnchorUserCryptoAddress::where('crypto_type',$this->smartContractAttestation->coin_token)->where('crypto_address','ILIKE', $this->smartContractAttestation->coin_address);
         // If transaction is a test transaction then automate auto-reply
         if ($test->exists()) {
-          app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($payload['eventType'],$payload['attestation_hash'], $test->first());
+          app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($payload['eventType'],$payload['attestation_hash'], $test->first(), $payload['ta_account']);
         }
 
         WebhookCall::create()

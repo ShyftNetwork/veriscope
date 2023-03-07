@@ -32,15 +32,17 @@ class KycTemplateV1Controller extends Controller
       echo "Veriscope version for " . $_SERVER['SERVER_NAME'] . " is '" . "<span style='color:red;font-weight: bold;'>" . $versionFile->veriscopeVersion . "</span>" . "'";
     }
 
-    public function kyc_template_v1_reply($eventType, $attestation_hash, $test)
+    public function kyc_template_v1_reply($eventType, $attestation_hash, $test, $ta_account)
     {
       #prepare the template
-      $ta = TrustAnchor::firstOrFail();
+      $ta = TrustAnchor::where('account_address', $ta_account)->firstOrFail();
       $taedu = TrustAnchorExtraDataUnique::where('trust_anchor_address', 'ILIKE', $ta->account_address)->where('key_value_pair_name', 'API_URL')->first();
       $url   = $taedu->key_value_pair_value;
       $sca = SmartContractAttestation::where('attestation_hash', $attestation_hash)->firstOrFail();
       $kt = new KycTemplate;
       $kt->attestation_hash = $attestation_hash;
+      $kt->system_ta_account = $ta->account_address;
+      $kt->owner = (substr($eventType, 0, 2) === 'BE') ? 'BENEFICIARY' : 'ORIGINATOR';
       $trustAnchorType = $kt->getUserType();
 
       switch ($eventType) {
@@ -141,6 +143,7 @@ class KycTemplateV1Controller extends Controller
         }
         break;
         case 'OR_KYC':
+
         //If trustAnchorType is ORIGINATOR and address is linked to ta_account_address which has  ta_account_type as BENEFICIARY
         if($trustAnchorType === 'ORIGINATOR' && $test->SandboxTrustAnchorUser->SandboxTrustAnchor->ta_account_type === 'BENEFICIARY'){
           $kt = KycTemplate::where(['attestation_hash' => $attestation_hash])->firstOrFail();
@@ -217,7 +220,22 @@ class KycTemplateV1Controller extends Controller
 
          #prepare the template
          $sca = SmartContractAttestation::where('attestation_hash', $kycTemplateDecode['AttestationHash'])->firstOrFail();
-         $kt = KycTemplate::firstOrCreate(['attestation_hash' => $kycTemplateDecode['AttestationHash'] ]);
+
+         // event type
+         $eventType =  $request->get('eventType','');
+
+         if (!empty($kycStateMachineDecode)) {
+          $owner = (substr($eventType, 0, 2) === 'BE') ? 'BENEFICIARY' : 'ORIGINATOR';
+         } else {
+          $owner = (substr($eventType, 0, 2) === 'BE') ? 'ORIGINATOR' : 'BENEFICIARY';
+         }
+
+
+         // get trust anchor type
+         $ta_account = ($owner  === 'ORIGINATOR') ? $sca->ta_account : $kycTemplateDecode['BeneficiaryTAAddress'];
+
+         #prepare the template
+         $kt = KycTemplate::firstOrCreate(['attestation_hash' => $kycTemplateDecode['AttestationHash'], 'owner' => $owner, 'system_ta_account' => $ta_account]);
 
          $kt->coin_blockchain = $sca->coin_blockchain;
          $kt->coin_token = $sca->coin_token;

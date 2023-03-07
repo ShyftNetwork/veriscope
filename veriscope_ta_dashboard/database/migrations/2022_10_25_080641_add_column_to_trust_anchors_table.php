@@ -14,13 +14,13 @@ class AddColumnToTrustAnchorsTable extends Migration
     public function up()
     {
         Schema::table('trust_anchors', function (Blueprint $table) {
-            $table->text('department')->nullable()->after('country');
-            $table->text('sub_department')->nullable()->after('department');
-            $table->text('floor')->nullable()->after('sub_department');
-            $table->text('room')->nullable()->after('floor');
-            $table->text('town_location_name')->nullable()->after('room');
-            $table->text('district_name')->nullable()->after('town_location_name');
-            $table->text('address_line')->nullable()->after('district_name');
+            $table->text('department')->nullable();
+            $table->text('sub_department')->nullable();
+            $table->text('floor')->nullable();
+            $table->text('room')->nullable();
+            $table->text('town_location_name')->nullable();
+            $table->text('district_name')->nullable();
+            $table->text('address_line')->nullable();
         });
     }
 

@@ -7,6 +7,9 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS,
     CREATE_TA_ACCOUNT_FAIL,
     //KEEP
+    FRESH_IVMS_SUCCESS,
+    FRESH_IVMS_FAIL,
+    //KEEP
     TA_SAVE_IVMS_SUCCESS,
     TA_SAVE_IVMS_FAIL,
     //KEEP
@@ -94,15 +97,45 @@ export const mutations = {
         // state.ta_accounts.push(payload);
         state.ta_temp_account = payload['account_address'];
         state.showTaCreateAccount = 'block';
+        window.location.reload();
 
     },
     /**
      * Called when user information fails saving
      * @param {object} state
      */
-    [CREATE_TA_ACCOUNT_FAIL] (state, { message='', errors=[] } = {}) {
+     [CREATE_TA_ACCOUNT_FAIL] (state, payload=[], { message='', errors=[] } = {}) {
         console.log('mutations CREATE_TA_ACCOUNT_FAIL');
         console.log(state);
+        state.ta_temp_account = payload;
+        state.showTaCreateAccount = 'block';
+    },
+
+    [FRESH_IVMS_SUCCESS] (state, payload=[]) {
+        console.log('mutations FRESH_IVMS_SUCCESS');
+        state.form.attestation_ta_account = payload;
+        state.form.ivms_legal_person_name = state.form.attestation_ta_account.legal_person_name;
+        state.form.ivms_legal_person_name_identifier_type = state.form.attestation_ta_account.legal_person_name_identifier_type;
+        state.form.ivms_address_type = state.form.attestation_ta_account.address_type;
+        state.form.ivms_street_name = state.form.attestation_ta_account.street_name;
+        state.form.ivms_building_number = state.form.attestation_ta_account.building_number;
+        state.form.ivms_building_name = state.form.attestation_ta_account.building_name;
+        state.form.ivms_postcode = state.form.attestation_ta_account.postcode;
+        state.form.ivms_town_name = state.form.attestation_ta_account.town_name;
+        state.form.ivms_country_sub_division = state.form.attestation_ta_account.country_sub_division;
+        state.form.ivms_country = state.form.attestation_ta_account.country;
+        state.form.ivms_department = state.form.attestation_ta_account.department;
+        state.form.ivms_sub_department = state.form.attestation_ta_account.sub_department;
+        state.form.ivms_floor = state.form.attestation_ta_account.floor;
+        state.form.ivms_room = state.form.attestation_ta_account.room;
+        state.form.ivms_town_location_name = state.form.attestation_ta_account.town_location_name;
+        state.form.ivms_district_name = state.form.attestation_ta_account.district_name;
+        state.form.ivms_address_line = state.form.attestation_ta_account.address_line;
+        state.form.ivms_postbox = state.form.attestation_ta_account.postbox;
+        state.form.ivms_customer_identification = state.form.attestation_ta_account.customer_identification;
+        state.form.ivms_national_identifier = state.form.attestation_ta_account.national_identifier;
+        state.form.ivms_national_identifier_type = state.form.attestation_ta_account.national_identifier_type;
+        state.form.ivms_country_of_registration = state.form.attestation_ta_account.country_of_registration;
     },
 
     [TA_SAVE_IVMS_SUCCESS] (state, payload=[]) {
@@ -112,6 +145,7 @@ export const mutations = {
         console.log(payload);
 
         state.showUpdatedIvmsData = 'block';
+        window.location.reload();
 
     },
 
@@ -136,6 +170,8 @@ export const mutations = {
     [TA_SAVE_IVMS_FAIL] (state, { message='', errors=[] } = {}) {
         console.log('mutations TA_SAVE_IVMS_FAIL');
         console.log(state);
+        state.updatedIvmsData = 'Server busy or TA account not selected.';
+        state.showUpdatedIvmsData = 'block';
     },
 
     [TA_IS_VERIFIED_SUCCESS] (state, payload=[]) {
@@ -199,9 +235,8 @@ export const mutations = {
 
     [TA_SET_KEY_VALUE_PAIR_FAIL] (state, { message='', errors=[] } = {}) {
         console.log('TA_SET_KEY_VALUE_PAIR_FAIL mutations');
-        console.log(state);
-        console.log(message);
-        console.log(errors);
+        state.taSetKeyValuePairData = 'Selected TA Account not verified yet.';
+        state.showKeyValuePairResult = 'block';
     },
 
     [TA_GET_TAS_SUCCESS] (state, payload=[]) {
@@ -209,31 +244,6 @@ export const mutations = {
         console.log(state);
 
         state.getTasData = payload;
-        var stateFormData = payload[0];
-
-        state.form.ivms_legal_person_name = stateFormData.legal_person_name;
-        state.form.ivms_legal_person_name_identifier_type = stateFormData.legal_person_name_identifier_type;
-        state.form.ivms_address_type = stateFormData.address_type;
-        state.form.ivms_street_name = stateFormData.street_name;
-        state.form.ivms_building_number = stateFormData.building_number;
-        state.form.ivms_building_name = stateFormData.building_name;
-        state.form.ivms_postcode = stateFormData.postcode;
-        state.form.ivms_town_name = stateFormData.town_name;
-        state.form.ivms_country_sub_division = stateFormData.country_sub_division;
-        state.form.ivms_country = stateFormData.country;
-        state.form.ivms_department = stateFormData.department;
-        state.form.ivms_sub_department = stateFormData.sub_department;
-        state.form.ivms_floor = stateFormData.floor;
-        state.form.ivms_room = stateFormData.room;
-        state.form.ivms_town_location_name = stateFormData.town_location_name;
-        state.form.ivms_district_name = stateFormData.district_name;
-        state.form.ivms_address_line = stateFormData.address_line;
-        state.form.ivms_postbox = stateFormData.postbox;
-        state.form.ivms_customer_identification = stateFormData.customer_identification;
-        state.form.ivms_national_identifier = stateFormData.national_identifier;
-        state.form.ivms_national_identifier_type = stateFormData.national_identifier_type;
-        state.form.ivms_country_of_registration = stateFormData.country_of_registration;
-
     },
 
     [TA_GET_TAS_FAIL] (state, { message='', errors=[] } = {}) {

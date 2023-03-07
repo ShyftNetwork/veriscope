@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3932e996-1489-4c02-8958-eaebffa597d6",
+		"_postman_id": "86eb4476-fde1-4bd9-b831-140fc0783197",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -85,7 +85,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/v1/server/generate-blockchain-analytics-report?provider_id=5&network=eth&address=0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE",
+							"raw": "{{baseUrl}}/api/v1/server/generate-blockchain-analytics-report?provider_id=&network=&address=",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -98,15 +98,15 @@
 							"query": [
 								{
 									"key": "provider_id",
-									"value": "5"
+									"value": ""
 								},
 								{
 									"key": "network",
-									"value": "eth"
+									"value": ""
 								},
 								{
 									"key": "address",
-									"value": "0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE"
+									"value": ""
 								}
 							]
 						}
@@ -316,7 +316,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892",
+					"raw": "{{baseUrl}}/api/v1/server/verify_trust_anchor/[INSERT_TA_ACCOUNT]",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -325,7 +325,7 @@
 						"v1",
 						"server",
 						"verify_trust_anchor",
-						"0x1bD8d3A9AF399Bfdcd17e45DA27c13C05ef64892"
+						"[INSERT_TA_ACCOUNT]"
 					]
 				}
 			},
@@ -377,7 +377,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/{{address}}",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_details/[INSERT_TA_ACCOUNT]",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -386,7 +386,7 @@
 						"v1",
 						"server",
 						"get_trust_anchor_details",
-						"{{address}}"
+						"[INSERT_TA_ACCOUNT]"
 					]
 				}
 			},
@@ -408,7 +408,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_address={{address}}",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_api_url?ta_account=",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -420,8 +420,8 @@
 					],
 					"query": [
 						{
-							"key": "ta_address",
-							"value": "{{address}}",
+							"key": "ta_account",
+							"value": "",
 							"description": "Use TA account address"
 						}
 					]
@@ -430,7 +430,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Trust Anchor Account",
+			"name": "Get Trust Anchor Accounts",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -445,7 +445,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_account",
+					"raw": "{{baseUrl}}/api/v1/server/get_trust_anchor_accounts",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -453,7 +453,7 @@
 						"api",
 						"v1",
 						"server",
-						"get_trust_anchor_account"
+						"get_trust_anchor_accounts"
 					]
 				}
 			},
@@ -497,8 +497,99 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "use TA Account, User Account, Attestation Hash or Crypto Address"
+							"description": "Use TA Account, User Account, Attestation Hash or Crypto Address"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get TA Key Value Pairs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/get_ta_key_value_pairs/[INSERT_TA_ACCOUNT]",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"get_ta_key_value_pairs",
+						"[INSERT_TA_ACCOUNT]"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create or Update TA Key Value Pair",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "ta_account",
+							"value": "",
+							"description": "Use TA account address",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "",
+							"description": "Name of the key",
+							"type": "text"
+						},
+						{
+							"key": "value",
+							"value": "",
+							"description": "Value of the key",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/set_ta_key_value_pair",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"set_ta_key_value_pair"
 					]
 				}
 			},
@@ -522,6 +613,12 @@
 				"body": {
 					"mode": "urlencoded",
 					"urlencoded": [
+						{
+							"key": "ta_account",
+							"value": "",
+							"description": "Use TA account address",
+							"type": "text"
+						},
 						{
 							"key": "attestation_hash",
 							"value": "",
@@ -714,7 +811,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/v1/server/retry_kyc_template",
+					"raw": "{{baseUrl}}/api/v1/server/retry_kyc_template?attestation_hash=&ta_account=",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -728,8 +825,12 @@
 						{
 							"key": "attestation_hash",
 							"value": "",
-							"description": "Attestation Hash from attestation",
-							"disabled": true
+							"description": "Attestation Hash from attestation"
+						},
+						{
+							"key": "ta_account",
+							"value": "",
+							"description": "Use TA Account"
 						}
 					]
 				}
@@ -875,7 +976,7 @@
 						{
 							"key": "searchTerm",
 							"value": "",
-							"description": "use TA Account, User Account, Attestation Hash"
+							"description": "Use TA Account, User Account, Attestation Hash"
 						}
 					]
 				}

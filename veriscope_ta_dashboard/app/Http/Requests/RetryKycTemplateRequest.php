@@ -7,10 +7,10 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Auth;
-use App\Rules\{CryptoAddress, CryptoPublicKey, CryptoSignature, CryptoSignatureHash};
+use App\Rules\{CryptoAddress};
 
 
-class CreateKycTemplateRequest extends FormRequest
+class RetryKycTemplateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,11 +31,7 @@ class CreateKycTemplateRequest extends FormRequest
     {
         return [
             'attestation_hash'      => 'required|exists:App\SmartContractAttestation,attestation_hash',
-            'ta_account'            => ['required','exists:App\TrustAnchor,account_address', new CryptoAddress('ETH')],
-            'user_account'          => ['required', new CryptoAddress('ETH')],
-            'user_public_key'       => ['required', new CryptoPublicKey($this->get('user_account'))],
-            'user_signature'        => 'required',
-            'user_signature_hash'   => ['required', new CryptoSignatureHash($this->get('user_account'), $this->get('user_public_key'), $this->get('user_signature'))]
+            'ta_account'            => ['required','exists:App\TrustAnchor,account_address', new CryptoAddress('ETH')]
         ];
     }
 

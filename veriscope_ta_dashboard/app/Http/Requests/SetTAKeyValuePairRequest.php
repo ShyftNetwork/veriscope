@@ -10,7 +10,7 @@ use Auth;
 use App\Rules\{CryptoAddress, CryptoPublicKey, CryptoSignature, CryptoSignatureHash};
 
 
-class CreateKycTemplateRequest extends FormRequest
+class SetTAKeyValuePairRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,12 +30,9 @@ class CreateKycTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attestation_hash'      => 'required|exists:App\SmartContractAttestation,attestation_hash',
-            'ta_account'            => ['required','exists:App\TrustAnchor,account_address', new CryptoAddress('ETH')],
-            'user_account'          => ['required', new CryptoAddress('ETH')],
-            'user_public_key'       => ['required', new CryptoPublicKey($this->get('user_account'))],
-            'user_signature'        => 'required',
-            'user_signature_hash'   => ['required', new CryptoSignatureHash($this->get('user_account'), $this->get('user_public_key'), $this->get('user_signature'))]
+            'ta_account'    => ['required','exists:App\TrustAnchor,account_address', new CryptoAddress('ETH')],
+            'name'          => ['required'],
+            'value'         => ['required']
         ];
     }
 

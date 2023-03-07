@@ -30,12 +30,12 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('get_jurisdictions','ContractsController@get_jurisdictions');
 
         Route::get('get_verified_trust_anchors','TrustAnchorController@get_verified_trust_anchors');
-        Route::get('verify_trust_anchor/{address}','TrustAnchorController@verify_trust_anchor');
-        Route::get('get_trust_anchor_details/{address}','TrustAnchorController@get_trust_anchor_details');
+        Route::get('verify_trust_anchor/{ta_account}','TrustAnchorController@verify_trust_anchor');
+        Route::get('get_trust_anchor_details/{ta_account}','TrustAnchorController@get_trust_anchor_details');
         Route::get('refresh_all_discovery_layer_key_value_pairs', 'TrustAnchorController@refresh_all_discovery_layer_key_value_pairs');
 
         # for KYC Template
-        Route::get('get_trust_anchor_account','TrustAnchorController@get_trust_anchor_account');
+        Route::get('get_trust_anchor_accounts','TrustAnchorController@get_trust_anchor_accounts');
         Route::get('get_attestations','TrustAnchorController@get_attestations');
         Route::post('create_kyc_template','TrustAnchorController@create_kyc_template');
         Route::put('retry_kyc_template','TrustAnchorController@retry_kyc_template');
@@ -44,6 +44,10 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('encrypt_ivms','TrustAnchorController@encrypt_ivms');
         Route::post('decrypt_ivms','TrustAnchorController@decrypt_ivms');
         Route::post('recover_signature','TrustAnchorController@recover_signature');
+
+        Route::post('set_ta_key_value_pair','TrustAnchorController@set_ta_key_value_pair');
+        Route::get('get_ta_key_value_pairs/{ta_account}','TrustAnchorController@get_ta_key_value_pairs');
+
 
         Route::delete('delete_sandbox_templates','TrustAnchorController@delete_sandbox_templates');
 

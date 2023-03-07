@@ -1,17 +1,6 @@
 <div class="main-navigation" id="main-navigation">
   <div class="main-navigation__top">
-    @auth
-      @if(Config::get('shyft.onboarding'))
-      <a href="{{ route('manage-organization')}}" class="main-navigation__logo">
-      @elseif(Config::get('backoffice.enabled'))
-      <a href="{{ route('backoffice.dashboard')}}" class="main-navigation__logo">
-      @else
-      <a href="/auth/welcome" class="main-navigation__logo">
-      @endif
-    @else
-    <a href="/" class="main-navigation__logo">
-    @endauth
-    <div class="shyft-logo"><img src="/images/veriscope-logo.svg" width="93" height="45" alt="Shyft Logo" /></div><div class="shyft-logo-white"><img src="/images/veriscope-logo-white.svg" width="93" height="45" alt="Shyft Logo" /></div></a>
+    <a href="/dashboard" class="main-navigation__logo"><div class="shyft-logo"><img src="/images/veriscope-logo.svg" width="93" height="45" alt="Shyft Logo" /></div><div class="shyft-logo-white"><img src="/images/veriscope-logo-white.svg" width="93" height="45" alt="Shyft Logo" /></div></a>
     @if (Route::has('login'))
         @auth
           @if(Auth::user()->inGroup('admin') || Auth::user()->inGroup('member'))
@@ -62,7 +51,6 @@
           <li><img src="/images/nav-icons/shyft-id.svg" width="20" height="20"> <a href="{{ route('backoffice.dashboard') }}">Backoffice</a></li>
         @endif
         @if(Config::get('shyft.onboarding'))
-          <li id="sub-trust-anchor-setup"><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="{{ route('manage-organization') }}">Trust Anchor Admin</a></li>
           <li id="sub-settings"><img src="/images/nav-icons/settings.svg" width="20" height="20"> <a href="{{ route('settings') }}">Settings</a></li>
         @endif
       @endif

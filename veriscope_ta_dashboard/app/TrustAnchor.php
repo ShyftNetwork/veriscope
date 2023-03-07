@@ -14,9 +14,9 @@ class TrustAnchor extends Model
      *
      * @var array
      */
-    protected $searchable = ['ta_prefname'];
+    protected $searchable = ['ta_prefname', 'account_address'];
 
-    protected $fillable = ['ta_prefname', 'ta_password', 'user_id'];
+    protected $fillable = ['ta_prefname', 'ta_password', 'user_id', 'account_address', 'private_key_encrypt', 'signature_hash', 'signature', 'public_key'];
 
     protected $hidden = ['private_key', 'private_key_encrypt'];
 

@@ -49,11 +49,13 @@ class ContractsController extends Controller
             $response = json_decode($res->getBody());
             Log::debug('ContractsController create_ta_account');
             Log::debug($response);
+            $status = 'Success';
         } else {
-            Log::error('ContractsController create_ta_account: ' . $res->getStatusCode());
+            Log::error('ContractsController create_ta_account failed : ' . $res->getStatusCode());
+            $status = 'Failed';
         }
 
-        return response()->json([]);
+        return response()->json(['status' => $status]);
     }
 
     public function ta_save_ivms(Request $request, $id)
@@ -65,7 +67,11 @@ class ContractsController extends Controller
         Log::debug(print_r($input, true));
 
         $user = User::find($id);
-        $ta = TrustAnchor::first();
+        try{
+            $ta = TrustAnchor::where('account_address', $input['account'])->first();
+        }catch(\Throwable $e){
+            dd($e);
+            }
 
         if ($input['legal_person_name']) {
             $ta->legal_person_name = $input['legal_person_name'];
@@ -287,13 +293,14 @@ class ContractsController extends Controller
 
     public function export_ivms_data(Request $request, $id)
     {
+        $inputTA = ($request->all())['account'];
         Log::debug('ContractsController export_ivms_data');
 
         $user = User::findOrFail($id);
         $role = 'beneficiaryVASP';
         $mockData = "'beneficiary':{'beneficiaryPersons':[{'naturalPerson':{'name':{'nameIdentifier':[{'primaryIdentifier':'Felix','secondaryIdentifier':'Bailey','nameIdentifierType':'LEGL'}]},'geographicAddress':[{'addressType':'HOME','streetName':'Potential Street','townLocationName':'Brooklyn','districtName':'Brooklyn','buildingNumber':'123','buildingName':'Cheese Hut','postcode':'91361','townName':'Thousand Oaks','countrySubDivision':'California','country':'US'}],'customerIdentification':'0xA3a8C1C840A8C2049472065b2664E01E0e8A8b67','dateAndPlaceOfBirth':{'dateOfBirth':'1984-01-14','placeOfBirth':'Estonia'},'countryOfResidence':'CA'}}],'accountNumber':['0xb532cCA105f966a76C3826451818b55fB2190933']},";
 
-        $trust_anchors = TrustAnchor::where('user_id', $id)->first()->toArray();
+        $trust_anchors = TrustAnchor::where('account_address', $inputTA)->first()->toArray();
 
         foreach($trust_anchors as $index => $value){
 
