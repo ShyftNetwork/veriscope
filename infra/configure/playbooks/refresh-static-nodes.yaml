@@ -1,0 +1,48 @@
+---
+- name: Refresh static nodes from ethstats
+  hosts: nethermind
+  gather_facts: false
+  tasks:
+
+      - name: Run script to refresh static nodes from ethstats
+        ansible.builtin.script:
+          cmd: scripts/refresh-static-nodes-from-ethstats.sh
+        args:
+          executable: /bin/bash
+        environment:
+          NM_ROOT: "{{ nm_root }}"
+          ETHSTATS_GET_ENODES: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
+        become: true
+
+      - name: Restart nethermind service - Refresh static nodes
+        import_tasks: ../tasks/restart-services.yaml
+        vars:
+          services: 
+            - nethermind
+
+- name: Wait for nethermind RPC - Refresh static nodes
+  hosts: nethermind
+  gather_facts: false
+  tasks:
+
+      - name: Wait for nethermind RPC to be up and running
+        ansible.builtin.script:
+          cmd: scripts/wait-for-nm-rpc.sh
+        args:
+          executable: /bin/bash
+        become: true
+      
+      - name: Update enodes in nethermind cfg
+        ansible.builtin.script:
+          cmd: scripts/update-nm-cfg-enodes.sh
+        args:
+          executable: /bin/bash
+        environment:
+          NETHERMIND_CFG: "{{ nm_config_dest_path }}"
+        become: true
+
+      - name: Restart nethermind service - Refresh static nodes
+        import_tasks: ../tasks/restart-services.yaml
+        vars:
+          services: 
+            - nethermind

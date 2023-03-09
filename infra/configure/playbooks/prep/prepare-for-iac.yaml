@@ -1,0 +1,15 @@
+---
+- name: Prepare ansible controller (localhost)
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_host: localhost
+  tasks:
+    - name: Install playbooks dependencies
+      community.general.ansible_galaxy_install:
+        type: both
+        requirements_file: requirements.yaml
+
+    - name: Ensure boto3 is installed
+      ansible.builtin.import_tasks: ../../tasks/ensure-boto3.yaml
+

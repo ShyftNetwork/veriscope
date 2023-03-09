@@ -1,0 +1,21 @@
+---
+- name: Restart veriscope web services
+  hosts: web
+  gather_facts: false
+  tasks:
+    - name: Restart web services
+      ansible.builtin.import_tasks: ../tasks/restart-services.yaml
+      vars:
+        services:
+          - "{{ veriscope_web_prereq_services }}"
+          - "{{ veriscope_web_services }}"
+
+- name: Restart veriscope nethermind services
+  hosts: nethermind
+  gather_facts: false
+  tasks:
+    - name: Restart nethermind services
+      ansible.builtin.import_tasks: ../tasks/restart-services.yaml
+      vars:
+        services:
+          - "{{ veriscope_nm_services }}"

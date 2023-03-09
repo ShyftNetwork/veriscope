@@ -1,0 +1,189 @@
+---
+- name: Backup nethermind db to S3
+  hosts: nethermind
+  gather_facts: true
+  vars:
+    ethstats_secret: "{{ network_facts[veriscope_target]['ethstats_secret'] }}"
+    ethstats_host: "{{ network_facts[veriscope_target]['ethstats_host'] }}"
+    ethstats_get_enodes: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
+    chain_rpc_endpoint: "{{ network_facts[veriscope_target]['rpc_endpoint'] }}"
+    local_rpc_endpoint: http://localhost:8545
+    blocknumber_postdata: '{"id": 0, "jsonrpc": "2.0", "method": "eth_blockNumber", "params": []}'
+    ethstats_enabled: false
+    nm_db_backup_bucket_s3_uri: "s3://{{ network_facts[veriscope_target]['nm_db_backup_bucket_name'] }}"
+    nm_db_backup_file_s3_uri: "{{ nm_db_backup_bucket_s3_uri }}/{{ deployed_nm_version }}/{{ archive_filename }}"
+    archive_filename: "{{ veriscope_target }}.tar.gz"
+    archive_dest: "/home/{{ service_user }}/{{ archive_filename }}"
+    blocknumber_cmd: "curl {{ rpc_endpoint }} -X POST --data {{ blocknumber_postdata | to_json }}"
+    failure_msg: The difference between chain tip ({{ chain_tip }}) and local tip ({{ local_tip }}) is greater than 10 blocks ({{ difference }}). Hence, the nethermind db was not archived and backed up to S3.
+    aws_access_key_id: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+    aws_secret_access_key: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"
+    # slack_token: "{{ lookup('ansible.builtin.env', 'SLACK_TOKEN') }}"
+  
+  pre_tasks:
+
+    - name: Check inputs
+      ansible.builtin.assert:
+        that:
+          - veriscope_service_hostname is defined
+          - veriscope_target is defined
+          # - slack_token is defined and slack_token | length > 0
+          - aws_access_key_id is defined and aws_access_key_id | length > 0
+          - aws_secret_access_key is defined and aws_secret_access_key | length > 0
+        success_msg: Required inputs provided. Proceeding to install nethermind.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Ensure python requirements are installed for AWS services
+      ansible.builtin.import_tasks: ../../tasks/ensure-boto3.yaml
+
+    - name: Get deployed Nethermind version
+      ansible.builtin.import_tasks: ../../tasks/get-deployed-nm-version.yaml
+      notify: 
+        - Start nethermind service
+        - Delete archive      
+  
+  tasks:
+
+    - name: Get chain tip block number
+      vars:
+        rpc_endpoint: "{{ chain_rpc_endpoint }}"
+      ansible.builtin.command: "{{ blocknumber_cmd }}"
+      register: chain_blocknumber_response
+      until: chain_blocknumber_response is not failed
+      retries: 5
+      delay: 5
+    
+    - name: Get local tip block number
+      vars:
+        rpc_endpoint: "{{ local_rpc_endpoint }}"
+      ansible.builtin.command: "{{ blocknumber_cmd }}"
+      register: local_blocknumber_response
+      until: local_blocknumber_response is not failed
+      retries: 5
+      delay: 2
+
+    - name: Calculate local and chain block numbers
+      ansible.builtin.set_fact:
+        chain_tip: "{{ chain_blocknumber_response.stdout | from_json | json_query('result') | int(base=16) }}"
+        local_tip: "{{ local_blocknumber_response.stdout | from_json | json_query('result') | int(base=16) }}"
+        
+    - name: Calculate difference
+      ansible.builtin.set_fact:
+        difference: "{{ chain_tip | int - local_tip | int }}"
+    
+    - name: Set difference failure message
+      ansible.builtin.set_fact:
+        diff_failure_msg: "{{ failure_msg }}"
+    
+    - name: Print local and chain block numbers
+      ansible.builtin.debug:
+        msg: "Chain tip is {{ chain_tip }} while local tip is {{ local_tip }}. The difference is {{ difference }}."
+
+    - name: Confirm nethermind db is synchronised with the chain
+      ansible.builtin.assert:
+        that:
+          - difference | int <= 10
+        success_msg: The difference between chain tip ({{ chain_tip }}) and local tip ({{ local_tip }}) is less than 10 blocks ({{ difference }} blocks). Proceeding to backup nethermind.
+        fail_msg: "{{ failure_msg }}"
+      notify: Start nethermind service
+
+    - name: Stop nethermind service
+      ansible.builtin.service:
+        name: nethermind
+        state: stopped
+      become: true
+      when: difference | int <= 10
+
+    - name: Archive nethermind_db folder
+      community.general.archive:
+        path: "{{ nm_root }}/nethermind_db"
+        dest: "{{ archive_dest }}"
+      when: difference | int <= 10
+      notify: Start nethermind service
+
+    - name: Upload backup archive to S3
+      amazon.aws.s3_object:
+        bucket: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_name'] }}"
+        object: "{{ deployed_nm_version }}/{{ archive_filename }}"
+        src: "{{ archive_dest }}"
+        mode: put
+        access_key: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+        secret_key: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"
+        region: ca-central-1
+      when: difference | int <= 10
+      register: upload_to_s3
+      notify: Delete archive
+
+    - name: Print upload_to_s3 value
+      ansible.builtin.debug:
+        var: upload_to_s3
+  
+    # - name: Confirm upload to s3 succeeded
+    #   ansible.builtin.set_fact:
+    #     upload_success: "{{ 'upload failed' not in upload_to_s3.stdout and 'upload: ./' + archive_filename + ' to ' + nm_db_backup_file_s3_uri in upload_to_s3.stdout }}"
+    #     # upload_success: false
+    #     # slack_token: "{{ slack_token }}"
+    #     upload_to_s3: "{{ upload_to_s3 }}"
+    #     # upload_to_s3: { stdout: 'abc', stderr: 'def'}
+
+    # - name: Print upload_success value
+    #   ansible.builtin.debug:
+    #     var: upload_success
+
+  handlers:
+    - name: Delete archive
+      ansible.builtin.file:
+        path: "{{ archive_dest }}"
+        state: absent
+
+    - name: Start nethermind service
+      ansible.builtin.service:
+        name: nethermind
+        state: started
+      become: true
+      register: nmstart
+      until: nmstart.state == 'started' and nmstart.status.ActiveState == 'active'
+      retries: 10
+      delay: 10
+
+# - name: Send notifications about success for nm backup play
+#   hosts: nm-backup-node.veriscope.org
+#   gather_facts: false
+
+#   tasks:
+    
+#     - name: Send slack message when node not sync'ed
+#       community.general.slack:
+#         token: '{{ slack_token }}'
+#         channel: "#nethermind-internal"
+#         color: danger
+#         username: Ansible on {{ inventory_hostname }}
+#         msg: |
+#           ### StatusUpdate ###
+#           --------------------------------------
+#           `Status`: Nethermind not sync'ed!
+#           `Message`: {{ diff_failure_msg }}
+#           --------------------------------------
+#       when: difference | int > 10
+#       delegate_to: localhost
+
+#     - name: Send slack message when upload to S3 fails
+#       community.general.slack:
+#         token: '{{ slack_token }}'
+#         channel: "#nethermind-internal"
+#         color: warning
+#         username: Ansible on {{ inventory_hostname }}
+#         msg: |
+#           ### StatusUpdate ###
+#           --------------------------------------
+#           `Status`: Upload to S3 failed!
+#           `Message`: Uploading the nethermind backup archive (tar) to S3 bucket failed. Please find the output from the upload task below.
+          
+#           `stdout`
+#           {{ upload_to_s3.stdout }}
+
+#           `stderr`
+#           {{ upload_to_s3.stderr }}
+#           --------------------------------------
+#       when: not upload_success
+#       delegate_to: localhost

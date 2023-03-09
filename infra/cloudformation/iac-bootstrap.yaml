@@ -1,0 +1,52 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the supporting resources for Terraform Infrastructure state
+
+Parameters:
+  # CreateIAMResources:
+  #   Description: Whether to create IAM resources like, IAM policies, IAM roles, IAM groups etc.
+  #   Type: String
+  #   AllowedValues:
+  #     - true
+  #     - false
+
+  ServiceName:
+    Description: Specifies the hosted service name. Used within component naming
+    Type: String
+
+  EnvironmentName:
+    Description: Specifies the env in which the hosted service is deployed. Used within component naming
+    Type: String
+    AllowedValues: ['dev', 'prod', 'test', 'staging']
+
+# Conditions:
+#   IAMResourcesCreation: !Equals [ !Ref CreateIAMResources, true ]
+
+Resources:
+  TerraformStateResources:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./iac-bootstrap-s3.yaml
+      Parameters:
+        ServiceName: !Ref ServiceName
+        EnvironmentName: !Ref EnvironmentName
+
+  IAMResources:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: TerraformStateResources
+    # Condition: IAMResourcesCreation
+    Properties:
+      TemplateURL: ./iac-bootstrap-iam.yaml
+      Parameters:
+        TerraformStateDynamoDBTableName: !GetAtt TerraformStateResources.Outputs.TerraformInfraDynamoDBTableName
+        TerraformStateBucketName: !GetAtt TerraformStateResources.Outputs.TerraformStateBucketName
+        EnvironmentName: !Ref EnvironmentName
+        ServiceName: !Ref ServiceName
+
+Outputs:
+  TerraformStateBucketName:
+    Description: Terraform State Bucket Name
+    Value: !GetAtt TerraformStateResources.Outputs.TerraformStateBucketName
+  TerraformInfraDynamoDBTableName:
+    Description: Terraform state locks management DynamoDB table name
+    Value: !GetAtt TerraformStateResources.Outputs.TerraformInfraDynamoDBTableName

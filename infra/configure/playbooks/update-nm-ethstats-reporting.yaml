@@ -1,0 +1,53 @@
+---
+- name: Update nethermind EthStats > Enabled setting
+  hosts: all
+  tasks:
+
+    - name: Get ethstats values and service user - Update nethermind EthStats
+      ansible.builtin.set_fact:
+        ethstats_secret: "{{ network_facts[veriscope_target]['ethstats_secret'] }}"
+        ethstats_host: "{{ network_facts[veriscope_target]['ethstats_host'] }}"
+        ethstats_get_enodes: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
+        veriscope_service_host: "{{ inventory_hostname }}"
+
+    - name: Check inputs - Update nethermind EthStats
+      ansible.builtin.assert:
+        that:
+          - ethstats_enabled is defined
+          - ethstats_enabled in ['false', 'true']
+        success_msg: Required inputs provided. Proceeding to update EthStats > Enabled setting.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Set EthStats > Enabled to {{ ethstats_enabled }}
+      ansible.builtin.template:
+        src: "templates/nm-config.cfg.j2"
+        dest: "{{ nm_config_dest_path }}"
+        owner: veris
+        group: veris
+
+    - name: Read {{ nm_config_dest_path }}
+      ansible.builtin.shell:
+        cmd: "cat {{ nm_config_dest_path }}"
+      register: nm_cfg
+    
+    - name: Print nm cfg - Update nethermind EthStats
+      ansible.builtin.debug:
+        msg: '{{ nm_cfg.stdout | from_json | community.general.json_query("EthStats")}}'
+    
+    - name: Restart nethermind service - Update nethermind EthStats
+      ansible.builtin.service:
+        name: nethermind
+        state: restarted
+      become: true
+
+    - name: Sleep for 10 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 10
+      delegate_to: localhost
+    
+    - name: Populate service facts - Update nethermind EthStats
+      ansible.builtin.service_facts: 
+
+    - name: Print service facts - Update nethermind EthStats
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts.services['nethermind.service'] }}"

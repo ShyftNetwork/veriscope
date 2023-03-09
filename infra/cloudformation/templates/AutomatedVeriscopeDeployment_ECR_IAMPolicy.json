@@ -1,0 +1,49 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "ecr:BatchGetImage",
+              "ecr:BatchCheckLayerAvailability",
+              "ecr:PutLifecyclePolicy",
+              "ecr:PutImageTagMutability",
+              "ecr:ListTagsForResource",
+              "ecr:UploadLayerPart",
+              "ecr:DescribeImages",
+              "ecr:ListImages",
+              "ecr:DeleteLifecyclePolicy",
+              "ecr:DeleteRepository",
+              "ecr:PutImage",
+              "ecr:UntagResource",
+              "ecr:CompleteLayerUpload",
+              "ecr:TagResource",
+              "ecr:DescribeRepositories",
+              "ecr:InitiateLayerUpload",
+              "ecr:DeleteRepositoryPolicy",
+              "ecr:GetLifecyclePolicy",
+              "ecr:GetDownloadUrlForLayer"
+          ],
+          "Resource": "arn:aws:ecr:${AWS_REGION}:${AWS_ACCOUNT_ID}:repository/*"
+      },
+      {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": "ecr:GetAuthorizationToken",
+          "Resource": "*"
+      },
+      {
+          "Sid": "VisualEditor2",
+          "Effect": "Allow",
+          "Action": [
+              "ecr:GetRegistryPolicy",
+              "ecr:CreateRepository",
+              "ecr:DescribeRegistry",
+              "ecr:GetAuthorizationToken",
+              "ecr:DeleteRegistryPolicy"
+          ],
+          "Resource": "arn:aws:ecr:${AWS_REGION}:${AWS_ACCOUNT_ID}:repository/*"
+      }
+  ]
+}

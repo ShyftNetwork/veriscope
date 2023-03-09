@@ -1,0 +1,40 @@
+- name: Start Nethermind service
+  ansible.builtin.import_tasks: start-nethermind-service.yaml
+
+- name: Get deployed nethermind version
+  ansible.builtin.command: "{{ nm_root }}/Nethermind.Runner --version"
+  register: nm_runner_version
+
+- name: Print nm version output
+  ansible.builtin.debug:
+    var: nm_runner_version.stdout_lines
+
+- name: Get local web3 client version
+  vars:
+    rpc_endpoint: "http://{{ nm_host | default(inventory_hostname, true) }}:8545"
+    client_version_postdata: '{"id": 0, "jsonrpc": "2.0", "method": "web3_clientVersion", "params": []}'
+    client_version_cmd: "curl {{ rpc_endpoint }} -X POST --data {{ client_version_postdata | to_json }}"
+  ansible.builtin.command: "{{ client_version_cmd }}"
+  register: client_version_cmd_response
+  until: client_version_cmd_response is not failed
+  retries: 5
+  delay: 2
+
+- name: Print web3 client version output
+  ansible.builtin.debug:
+    msg: "{{ item.key }}: {{ item.value }}"
+  with_dict: "{{ client_version_cmd_response.stdout_lines[-1] }}"
+
+- name: Split nethermind version
+  ansible.builtin.set_fact:
+    nm_version_split: "{{ item.value | split('/') }}"
+  with_dict: "{{ client_version_cmd_response.stdout_lines[-1] }}"
+  when: "{{ item.key == 'result' }}"
+
+- name: Set nethermind version
+  ansible.builtin.set_fact:
+    deployed_nm_version: "{{ nm_version_split[1][:7] }}"
+  
+- name: Print nm version var
+  ansible.builtin.debug:
+    msg: Found nethermind version {{ deployed_nm_version }} running on the host

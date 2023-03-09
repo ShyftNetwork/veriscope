@@ -1,0 +1,67 @@
+---
+- name: Prepare the controller
+  ansible.builtin.import_playbook: package-code.yaml
+
+- name: Prepare the target instances
+  ansible.builtin.import_playbook: prepare.yaml
+  vars:
+    operation: install
+
+- name: Install prerequisite software on target instances
+  ansible.builtin.import_playbook: install-prerequisites.yaml
+
+- name: Reboot
+  ansible.builtin.import_playbook: reboot.yaml
+
+- name: Install and configure nethermind
+  ansible.builtin.import_playbook: install-nethermind.yaml
+
+- name: Refresh static nodes
+  ansible.builtin.import_playbook: refresh-static-nodes.yaml
+
+- name: Setup SSL certificates
+  ansible.builtin.import_playbook: setup-ssl-cert.yaml
+
+- name: Setup NGinx
+  ansible.builtin.import_playbook: setup-nginx.yaml
+
+- name: Copy chain artifacts
+  ansible.builtin.import_playbook: copy-chain-artifacts.yaml
+
+- name: Install and configure Trust Anchor API
+  ansible.builtin.import_playbook: install-ta-api.yaml
+  vars:
+    operation: install
+
+- name: Install and configure Trust Anchor dashboard app
+  ansible.builtin.import_playbook: install-ta-dashboard-webapp.yaml
+  vars:
+    operation: install
+
+- name: Install and configure Address Proofs module
+  ansible.builtin.import_playbook: install-addressproofs-module.yaml
+
+- name: Create admin user for Trust Anchor dashboard app
+  ansible.builtin.import_playbook: create-admin-user.yaml
+
+- name: Install and configure redis
+  ansible.builtin.import_playbook: install-redis.yaml
+
+- name: Reboot
+  ansible.builtin.import_playbook: reboot.yaml
+
+- name: Restart all services on web servers
+  hosts: web
+  tasks:
+    - name: Restart services
+      ansible.builtin.import_tasks: ../tasks/restart-services.yaml
+      vars:
+        services:
+          - "{{ veriscope_web_prereq_services }}"
+          - "{{ veriscope_web_services }}"
+
+- name: Restart all services on nethermind servers
+  hosts: nethermind
+  tasks:
+    - name: Restart services
+      ansible.builtin.import_tasks: ../tasks/start-nethermind-service.yaml

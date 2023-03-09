@@ -1,0 +1,30 @@
+---
+- name: Set DB HOST in TA Dashboard app config file
+  ansible.builtin.replace:
+    path: "{{ dashboard_config_path }}"
+    regexp: '^(DB_HOST=)(.*)$'
+    replace: '\1{{ pgsql_cltr_host }}'
+
+- name: Set DB PORT in TA Dashboard app config file
+  ansible.builtin.replace:
+    path: "{{ dashboard_config_path }}"
+    regexp: '^(?P<dbport>DB_PORT=)(.*)$'
+    replace: '\g<dbport>{{ pgsql_cltr_port }}'
+
+- name: Set DB DATABASE in TA Dashboard app config file
+  ansible.builtin.replace:
+    path: "{{ dashboard_config_path }}"
+    regexp: '^(DB_DATABASE=)(.*)$'
+    replace: '\1{{ ta_db_name }}'
+
+- name: Set DB USERNAME in TA Dashboard app config file
+  ansible.builtin.replace:
+    path: "{{ dashboard_config_path }}"
+    regexp: '^(DB_USERNAME=)(.*)$'
+    replace: '\1{{ ta_db_user }}'
+
+- name: Set DB PASSWORD in TA Dashboard app config file
+  ansible.builtin.replace:
+    path: "{{ dashboard_config_path }}"
+    regexp: '^(DB_PASSWORD=)(.*)$'
+    replace: '\1{{ ta_db_userpwd }}'

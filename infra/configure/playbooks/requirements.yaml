@@ -1,0 +1,13 @@
+---
+roles:
+  - name: geerlingguy.composer
+    version: 1.9.2
+  - name: systemli.letsencrypt
+    version: 2.2.0
+  - name: deekayen.awscli2
+    version: 1.1.0
+collections:
+  - name: community.aws
+    version: 5.0.0
+  - name: amazon.aws
+    version: 5.1.0

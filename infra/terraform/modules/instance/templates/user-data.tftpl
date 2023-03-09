@@ -1,0 +1,9 @@
+#!/bin/bash
+sudo apt update
+
+echo "Copying the unique SSH Key for this node for veris user"
+echo -e "#veris\n${ssh_public_key}" >> /home/veris/.ssh/authorized_keys
+
+echo "Changing Hostname"
+hostname "${hostname}"
+echo "${hostname}" > /etc/hostname

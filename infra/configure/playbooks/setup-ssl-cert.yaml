@@ -1,0 +1,51 @@
+---
+# systemctl stop nginx
+# certbot certonly -n --agree-tos --register-unsafely-without-email --standalone --preferred-challenges http   -d $VERISCOPE_SERVICE_HOST || { echo "Certbot failed to get a certificate"; exit 1; }
+# if [ -f $CERTFILE ]; then
+# 	echo "Found $CERTFILE";
+# else
+# 	echo "Couldn't find certificate file $CERTFILE"
+# fi
+# systemctl restart nginx
+- name: Generate SSL certificate
+  hosts: web
+  become: true
+  vars:
+    certfile: "/etc/letsencrypt/live/{{ veriscope_service_hostname }}/fullchain.pem"
+    certkey: "/etc/letsencrypt/live/{{ veriscope_service_hostname }}/privkey.pem"
+    letsencrypt_opts_extra: "--register-unsafely-without-email"
+    letsencrypt_cert:
+      name: "{{ veriscope_service_hostname }}"
+      domains:
+        - "{{ veriscope_service_hostname }}"
+      challenge: http
+      http_auth: standalone
+  pre_tasks:
+
+    - name: Stop nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: stopped
+
+  roles:
+    - systemli.letsencrypt
+
+  tasks:
+
+    - name: Start nginx service - SSL certificate
+      ansible.builtin.service:
+        name: nginx
+        state: started
+
+    - name: Find cert files - SSL certificate
+      ansible.builtin.file:
+        path: "/etc/letsencrypt/live/{{ veriscope_service_hostname }}/{{ item }}"
+        state: file
+      with_items:
+        - fullchain.pem
+        - privkey.pem
+      # register: cert_files
+    # - name: Confirm the cert and priv key exist
+      # ansible.builtin.assert:
+        # that:
+          # - cert_files.files.*.path

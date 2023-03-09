@@ -1,0 +1,32 @@
+---
+- name: Setup and enable NGinx service
+  hosts: web
+  vars:
+    certfile: "/etc/letsencrypt/live/{{ veriscope_service_hostname }}/fullchain.pem"
+    certkey: "/etc/letsencrypt/live/{{ veriscope_service_hostname }}/privkey.pem"
+  tasks:
+    - name: Stop nginx service - enable NGinx
+      ansible.builtin.service:
+        name: nginx
+        state: stopped
+      become: true
+    - name: Update user in nginx conf - enable NGinx
+      ansible.builtin.shell:
+        sed -i "s/user .*;/user {{ service_user }} www-data;/g" /etc/nginx/nginx.conf
+      args:
+        executable: /bin/bash  
+      become: true
+    - name: Create ta-dashboard config - enable NGinx
+      ansible.builtin.template:
+        src: templates/ta-dashboard.conf.j2
+        dest: /etc/nginx/sites-enabled/ta-dashboard.conf
+        owner: veris
+        group: veris
+      become: true
+    - name: Enable and restart nginx service - enable NGinx
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: restarted
+      become: true
+    

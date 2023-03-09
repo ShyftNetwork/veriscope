@@ -1,0 +1,82 @@
+---
+- name: Install and configure Trust Anchor node.js API app
+  hosts: web
+  gather_facts: true
+  vars:
+    webhook_client_secret: "{{ lookup('password', 'credentials/webhook-client-secret/' + inventory_hostname + ' length=20 chars=ascii_letters,digits', seed=inventory_hostname) }}"
+  tasks:
+    - name: Check inputs - Install TA API
+      ansible.builtin.assert:
+        that:
+          - veriscope_common_name is defined and veriscope_common_name is truthy
+          - service_user is defined and service_user is truthy
+          - trust_anchor_pk is defined and trust_anchor_pk is truthy
+          - trust_anchor_account is defined and trust_anchor_account is truthy
+          - veriscope_target is defined and veriscope_target is truthy
+          - controller_working_dir is defined and controller_working_dir is truthy
+          - webhook_client_secret is defined and webhook_client_secret is truthy
+          - operation is defined
+          - operation in [ 'install', 'update' ]
+        success_msg: Required inputs provided. Proceeding to install Trust Anchor API.
+        fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
+    
+    # No harm copying this file over and over. In fact, it might be necessary
+    # to copy this file in case of changes in contracts. However, the trust anchor PK,
+    # account, prefname etc. should be preserved as it is supplied by the user.
+    # This should happen after nethermind install step during node app install step
+    # cp -n chains/$VERISCOPE_TARGET/ta-node-env veriscope_ta_node/.env
+    # ENVDEST=.env
+    # sed -i "s#TRUST_ANCHOR_ACCOUNT=.*#TRUST_ANCHOR_ACCOUNT=$SEALERACCT#g" $ENVDEST
+    # sed -i "s#TRUST_ANCHOR_PK=.*#TRUST_ANCHOR_PK=$SEALERPK#g" $ENVDEST
+    # sed -i "s#TRUST_ANCHOR_PREFNAME=.*#TRUST_ANCHOR_PREFNAME=\"$VERISCOPE_COMMON_NAME\"#g" $ENVDEST
+    # sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$webhook_client_secret#g" $ENVDEST
+    - name: Configure Trust Anchor accounts and keys in TA API config file
+      ansible.builtin.template:
+        src: "{{ controller_working_dir }}/chains/{{ veriscope_target }}/ta-node-env.j2"
+        dest: "{{ api_config_path }}"
+        owner: veris
+        group: veris
+      when: operation in ['install', 'update']
+    
+    - name: Set webhook client secret (shared secret) in TA API config file
+      ansible.builtin.replace:
+        path: "{{ api_config_path }}"
+        regexp: '^(WEBHOOK_CLIENT_SECRET=)(.*)$'
+        replace: '\1"{{ webhook_client_secret }}"'
+      when: operation in ['install', 'update']
+      # when: operation == 'install'
+
+    - name: npm install - Install TA API
+      community.general.npm:
+        path:  "{{ api_root }}"
+        state: latest
+      when: operation in ['install', 'update']
+
+    - name: Create ta-node services configs
+      ansible.builtin.template:
+        src: templates/ta-node-{{ item }}.service.j2
+        dest: /etc/systemd/system/ta-node-{{ item }}.service
+        owner: veris
+        group: veris
+      become: true
+      with_items:
+        - 1
+        - 2
+      when: operation == 'install'
+
+    - name: Force systemd to reload configs - Install TA API
+      ansible.builtin.systemd:
+        daemon_reload: yes
+      become: true
+      when: operation == 'install'
+
+    - name: Enable and restart ta-node services - Install TA API
+      ansible.builtin.service:
+        name: ta-node-{{ item }}
+        enabled: true
+        state: restarted
+      become: true
+      with_items:
+        - 1
+        - 2
+      when: operation == 'install'

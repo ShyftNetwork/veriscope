@@ -1,0 +1,9 @@
+aws_region: us-east-1
+aws_profile: default
+
+lambda_func_arn_ssm_param_name: /dev/common/modify_sg_on_demand_func/arn
+sg_id_ssm_param_name: /dev/common/ta-db-cluster/sg-id
+port:
+  /dev/common/nodes/sg-id: 22
+  /dev/common/ta-db-cluster/sg-id: 5432
+action: create

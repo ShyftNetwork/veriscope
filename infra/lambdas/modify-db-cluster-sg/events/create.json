@@ -1,0 +1,6 @@
+{
+  "action": "create",
+  "cidr": "181.215.176.52/32",
+  "port": "22",
+  "sg_id_ssm_param_name": "/dev/bastions/sg-id"
+}
