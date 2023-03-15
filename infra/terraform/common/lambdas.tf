@@ -70,10 +70,10 @@ EOF
   image_uri     = module.modify_sg_on_demand_docker_image.image_uri
   package_type  = "Image"
   architectures = ["x86_64"]
-  tags = {
+  tags = merge(local.tags, {
     Env     = var.env
     Purpose = "modify-sg-on-demand"
-  }
+  })
 }
 
 module "modify_sg_on_demand_docker_image" {
@@ -216,10 +216,10 @@ EOF
       source_arn = aws_cloudwatch_event_rule.delete_custom_rules_schedule.arn
     }
   }
-  tags = {
+  tags = merge(local.tags, {
     Env     = var.env
     Purpose = "delete-custom-sg-rules"
-  }
+  })
 }
 
 module "delete_all_custom_rules_docker_image" {
@@ -302,10 +302,10 @@ resource "aws_ssm_parameter" "modify_sg_on_demand_func_arn" {
   overwrite   = true
   type        = "SecureString"
   value       = module.modify_sg_on_demand_lambda_function.lambda_function_arn
-  tags = {
+  tags = merge(local.tags, {
     Env     = var.env,
     Purpose = "modify-sg-on-demand"
-  }
+  })
 }
 
 resource "aws_ssm_parameter" "delete_all_rules_on_schedule_func_arn" {
@@ -314,10 +314,10 @@ resource "aws_ssm_parameter" "delete_all_rules_on_schedule_func_arn" {
   overwrite   = true
   type        = "SecureString"
   value       = module.delete_all_custom_rules_lambda_function.lambda_function_arn
-  tags = {
+  tags = merge(local.tags, {
     Env     = var.env
     Purpose = "delete-custom-sg-rules"
-  }
+  })
 }
 
 locals {

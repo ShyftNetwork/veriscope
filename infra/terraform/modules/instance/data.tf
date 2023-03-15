@@ -19,7 +19,33 @@ data "aws_subnet" "public" {
   id = each.key
 }
 
+# Find the AZs in which the required instance type is supported
+data "aws_ec2_instance_type_offerings" "available" {
+  filter {
+    name = "instance-type"
+    values = [var.instance_type]
+  }
+
+  location_type = "availability-zone"
+}
+
+output "instance_type_azs" {
+  value = data.aws_ec2_instance_type_offerings.available.locations
+}
+
+output "max_available" {
+  value = local.max_available
+}
+
+output "public_subnets" {
+  value = data.aws_subnet.public
+}
+
 locals {
-  max_available = max(values(data.aws_subnet.public)[*].available_ip_address_count...)
-  subnet_with_most_space = [for k, s in data.aws_subnet.public : s.id if s.available_ip_address_count == local.max_available][0]
+  available_subnets = {
+    for k, s in data.aws_subnet.public : k => s if contains(data.aws_ec2_instance_type_offerings.available.locations, s.availability_zone)
+  }
+  max_available = max(values(local.available_subnets)[*].available_ip_address_count...)
+  # subnet with most available IP space and is in AZ in which the requested instance type is supported
+  subnet_with_most_space = [for k, s in local.available_subnets : s.id if s.available_ip_address_count == local.max_available][0]
 }

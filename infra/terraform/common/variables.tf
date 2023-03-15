@@ -21,8 +21,13 @@ variable "tags" {
 
 variable "vpc_cidr" {
   type        = string
-  description = "CIDR block to assign to the VPC"
-  nullable    = false
+  description = "IPv4 CIDR block to assign to the VPC"
+  default     = "10.0.0.0/16"
+  validation {
+    condition     = can(regex("^(\\d{1,3}\\.){3}\\d{1,3}\\/(8|9|10|11|12|13|14|15|16|17|18|19)$", var.vpc_cidr))
+    error_message = "VPC CIDR must be in valid IPv4 CIDR block and must be in between /8 and /19."
+  }
+  nullable = false
 }
 
 variable "region" {
@@ -56,7 +61,7 @@ variable "private_network_domain" {
 
 variable "db_cluster_max_capacity" {
   type        = number
-  default     = 4
+  default     = 2
   description = "Maximum capacity of Aurora PostgreSQL cluster for scaling configuration"
 
   validation {

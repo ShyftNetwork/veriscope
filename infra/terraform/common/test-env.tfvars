@@ -4,7 +4,7 @@ tags = {
   Component   = "Common"
   Name        = "Veriscope Test"
 }
-vpc_cidr               = "172.50.0.0/20"
+vpc_cidr               = "172.50.0.0/16"
 region                 = "us-east-1"
 env                    = "test"
 private_network_domain = "veriscope.net"

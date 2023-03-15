@@ -1,20 +1,21 @@
 module "ta_db_cluster" {
   source  = "terraform-aws-modules/rds-aurora/aws"
-  version = "7.3.0"
+  version = "7.7.0"
 
   name                                = "ta-db-cluster-${var.env}"
   vpc_id                              = module.vpc.vpc_id
-  subnets                             = module.vpc.public_subnets
+  subnets                             = module.vpc.database_subnets
   engine                              = "aurora-postgresql"
   engine_version                      = "14.3"
   engine_mode                         = "provisioned"
   enable_http_endpoint                = true
   iam_database_authentication_enabled = false
-  # allowed_cidr_blocks     = module.vpc.public_subnets_cidr_blocks
-  allowed_security_groups     = [module.security.node_sg_id]
-  create_security_group       = true
-  security_group_egress_rules = {} # Empty map. No egress security rules
-  create_db_subnet_group      = true
+  allowed_cidr_blocks                 = module.vpc.private_subnets_cidr_blocks
+  allowed_security_groups             = [module.security.node_sg_id]
+  create_security_group               = true
+  security_group_egress_rules         = {} # Empty map. No egress security rules
+  create_db_subnet_group              = false
+  db_subnet_group_name                = module.vpc.database_subnet_group_name
 
   db_parameter_group_name         = aws_db_parameter_group.ta_db_pm_group.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.ta_cluster_pm_group.id
@@ -23,10 +24,10 @@ module "ta_db_cluster" {
   create_random_password = true
   random_password_length = 24
 
-  backup_retention_period    = local.is_dev ? 1 : 7
-  skip_final_snapshot        = local.is_dev ? true : false
+  backup_retention_period    = 7
+  skip_final_snapshot        = false
   auto_minor_version_upgrade = true
-  publicly_accessible        = local.is_dev ? true : false
+  publicly_accessible        = false
   instance_class             = "db.serverless"
   instances = {
     one = {}
@@ -35,14 +36,13 @@ module "ta_db_cluster" {
   # preferred_maintenance_window = 
 
   serverlessv2_scaling_configuration = {
-    max_capacity = local.is_dev ? 1 : var.db_cluster_max_capacity
+    max_capacity = var.db_cluster_max_capacity
     min_capacity = 0.5
   }
 
   # lifecycle {
   #   ignore_changes = [availability_zones]
   # }
-
 }
 
 resource "aws_db_parameter_group" "ta_db_pm_group" {
@@ -78,7 +78,7 @@ resource "aws_ssm_parameter" "db_cluster_sg_id" {
   overwrite   = true
   type        = "SecureString"
   value       = module.ta_db_cluster.security_group_id
-  tags = {
+  tags = merge(local.tags, {
     environment = var.env
-  }
+  })
 }

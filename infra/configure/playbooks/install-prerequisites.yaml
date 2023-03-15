@@ -31,13 +31,12 @@
         update_cache: true
         pkg:
           - vim
-          - libsnappy-dev
-          - libc6-dev
-          - libc6
           - unzip
           - jq
           - ntpdate
           - moreutils
+          - net-tools
+          - postgresql-client
           - php8.0-fpm
           - php8.0-dom
           - php8.0-zip
@@ -67,6 +66,9 @@
           - libharfbuzz-dev
           - libfribidi-dev
           - libxcb1-dev
+          - libsnappy-dev
+          - libc6-dev
+          - libc6
           - python3-pip
           - python3-setuptools
 

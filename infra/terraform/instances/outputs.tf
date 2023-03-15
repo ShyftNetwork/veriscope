@@ -1,5 +1,8 @@
+# output "veriscope_nodes_full" {
+#   value     = module.web_instances
+# }
+
 output "veriscope_nodes" {
-  # value     = module.instances
   value = {
     web_instances = {
       for name, node in module.web_instances : name => {
@@ -10,8 +13,8 @@ output "veriscope_nodes" {
         "ssh_priv_key_secret_name" = node.ssh_secret_name,
         "instance_id"              = node.aws_instance.id,
         "tags"                     = node.aws_instance.tags_all,
-        "az"                       = node.aws_instance.availability_zone,
-        "subnet"                   = node.aws_instance.subnet_id
+        "availability_zone"        = node.aws_instance.availability_zone,
+        "subnet"                   = node.aws_instance.subnet_id,
       }
     },
     nm_instances = {
@@ -23,8 +26,8 @@ output "veriscope_nodes" {
         "ssh_priv_key_secret_name" = node.ssh_secret_name,
         "instance_id"              = node.aws_instance.id,
         "tags"                     = node.aws_instance.tags_all,
-        "az"                       = node.aws_instance.availability_zone,
-        "subnet"                   = node.aws_instance.subnet_id
+        "availability_zone"        = node.aws_instance.availability_zone,
+        "subnet"                   = node.aws_instance.subnet_id,
       }
     }
   }
