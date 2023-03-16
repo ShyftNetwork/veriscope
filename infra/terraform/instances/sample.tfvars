@@ -57,6 +57,3 @@ env = "dev" # or "test" or "prod" or "staging"
 domain = "mydomain.org"
 
 dns_provider = "aws_route53" # or "cloudflare"
-
-# These permissions are controlled in cloudflare dashboard. Ask your Cloudflare admin.
-cloudflare_creds = { "api_token" = "kslskdjflskjd9o898wy9d7fshgxc", "account_id" = "poiuytrewq12345bvcxz" }
