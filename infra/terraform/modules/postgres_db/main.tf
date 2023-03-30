@@ -11,6 +11,7 @@ terraform {
 resource "random_password" "db_user_pwd" {
   length  = 24
   special = false
+  numeric = false
 }
 
 resource "aws_secretsmanager_secret" "db_user_pwd" {

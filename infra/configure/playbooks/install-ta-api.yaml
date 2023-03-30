@@ -10,8 +10,9 @@
         that:
           - veriscope_common_name is defined and veriscope_common_name is truthy
           - service_user is defined and service_user is truthy
-          - trust_anchor_pk is defined and trust_anchor_pk is truthy
-          - trust_anchor_account is defined and trust_anchor_account is truthy
+          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
+          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
+          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
           - veriscope_target is defined and veriscope_target is truthy
           - controller_working_dir is defined and controller_working_dir is truthy
           - webhook_client_secret is defined and webhook_client_secret is truthy

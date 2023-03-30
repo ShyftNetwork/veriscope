@@ -18,8 +18,8 @@
       ansible.builtin.set_fact:
         ssh_key:
           host: "{{ hostvars[item]['inventory_hostname'] }}"
-          ssh_priv_key: "{{ lookup('amazon.aws.aws_secret', hostvars[item]['ssh_secret_name'], bypath=true, on_missing='error',
-                        on_denied='error', on_deleted='error', region=aws_region, aws_profile=aws_profile)[hostvars[item]['ssh_secret_name']] }}"
+          ssh_priv_key: "{{ lookup('amazon.aws.aws_secret', hostvars[item]['ssh_priv_key_secret_name'], bypath=true, on_missing='error',
+                        on_denied='error', on_deleted='error', region=aws_region, aws_profile=aws_profile)[hostvars[item]['ssh_priv_key_secret_name']] }}"
           ssh_priv_key_local_path: "{{ ansible_facts['user_dir'] }}/.ssh/{{ hostvars[item]['inventory_hostname'] | basename }}.pem"
       with_inventory_hostnames:
         - all

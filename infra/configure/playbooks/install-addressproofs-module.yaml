@@ -2,28 +2,13 @@
 - name: Install and configure the address proofs module
   hosts: web
   gather_facts: false
-  vars:
-    gh_pat_secret_name: "{{ addressproofs_module['gh_pat_secret_name'] }}"
   tasks:
-    - name: Get GitHub PAT for addressproofs download
-      ansible.builtin.set_fact:
-        gh_pat: "{{ lookup('amazon.aws.aws_secret', gh_pat_secret_name, bypath=true, on_missing='error',
-                      on_denied='error', on_deleted='error', region=aws_region)[gh_pat_secret_name] }}"
-      when: addressproofs_module['install'] == true
-
     - name: Check inputs - addressproofs module
       ansible.builtin.assert:
         that:
-          - gh_pat_secret_name is defined and gh_pat_secret_name is truthy
           - gh_pat is defined and gh_pat is truthy
         success_msg: Required inputs provided. Proceeding to install/update addressproofs module.
         fail_msg: Required inputs not provided. Please provide required values and try again.
-      when: addressproofs_module['install'] == true
-    
-    - name: Debug - Print GH PAT
-      ansible.builtin.debug:
-        var: gh_pat
-      when: addressproofs_module['install'] == true and debug == true
 
     - name: Install prerequisite packages - addressproofs
       ansible.builtin.apt:
@@ -45,13 +30,11 @@
           - libfribidi-dev
           - libxcb1-dev
       become: true
-      when: addressproofs_module['install'] == true
 
     - name: Delete {{ addressproofs_root }}
       ansible.builtin.file:
         path: "{{ addressproofs_root }}"
         state: absent
-      when: addressproofs_module['install'] == true
 
     - name: Invoke addressproofs module download
       ansible.builtin.command: php artisan download:addressproof {{ gh_pat }}
@@ -60,18 +43,15 @@
       register: output
       changed_when: output.rc == 0
       failed_when: output.rc != 0
-      when: addressproofs_module['install'] == true
 
     - name: Install addressproofs python requirements
       ansible.builtin.pip:
         requirements: "{{ addressproofs_root }}/requirements.txt"
         executable: pip3
       become: true
-      when: addressproofs_module['install'] == true
 
     - name: Install node.js deps for addressproofs (npm install)
       community.general.npm:
         path: "{{ addressproofs_root }}"
         state: present
       become: true
-      when: addressproofs_module['install'] == true

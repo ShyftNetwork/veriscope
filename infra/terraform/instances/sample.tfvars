@@ -52,8 +52,10 @@ instances = [
   }
 ]
 
-env = "dev" # or "test" or "prod" or "staging"
+# valid values are "dev" or "test" or "prod" or "staging"
+env = "dev"
 
 domain = "mydomain.org"
 
-dns_provider = "aws_route53" # or "cloudflare"
+# valid values are "aws_route53" or "cloudflare"
+dns_provider = "aws_route53"

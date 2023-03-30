@@ -8,6 +8,7 @@ module "ta_db_cluster" {
   engine                              = "aurora-postgresql"
   engine_version                      = "14.3"
   engine_mode                         = "provisioned"
+  deletion_protection                 = true
   enable_http_endpoint                = true
   iam_database_authentication_enabled = false
   allowed_cidr_blocks                 = module.vpc.private_subnets_cidr_blocks

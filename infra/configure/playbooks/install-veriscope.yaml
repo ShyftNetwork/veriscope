@@ -38,9 +38,6 @@
   vars:
     operation: install
 
-- name: Install and configure Address Proofs module
-  ansible.builtin.import_playbook: install-addressproofs-module.yaml
-
 - name: Create admin user for Trust Anchor dashboard app
   ansible.builtin.import_playbook: create-admin-user.yaml
 

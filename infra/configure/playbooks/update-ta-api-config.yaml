@@ -7,9 +7,9 @@
     - name: Check inputs - Update TA accounts and keys
       ansible.builtin.assert:
         that:
-          - veriscope_common_name is defined and veriscope_common_name is truthy
-          - trust_anchor_pk is defined and trust_anchor_pk is truthy
-          - trust_anchor_account is defined and trust_anchor_account is truthy
+          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
+          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
+          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
         success_msg: Required inputs provided. Proceeding to copy chain artifacts and setup nodejs app.
         fail_msg: Required inputs not provided. Please provide required values and try again.
       tags: ta-account-info
@@ -44,9 +44,9 @@
         path: "{{ api_env_path }}"
         backup: true
         block: |
-          TRUST_ANCHOR_PK={{ trust_anchor_pk }}
-          TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account }}
-          TRUST_ANCHOR_PREFNAME={{ veriscope_common_name }}
+          TRUST_ANCHOR_PK={{ trust_anchor_private_key }}
+          TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account_address }}
+          TRUST_ANCHOR_PREFNAME={{ trust_anchor_preferred_name }}
         marker: "# {mark} AUTOMATION MANAGED BLOCK TA ACCOUNT INFO"
         state: present
         owner: veris

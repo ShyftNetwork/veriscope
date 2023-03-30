@@ -5,24 +5,26 @@ all:
       hosts:
         foo-001.my-custom-domain.com:
           private_ip: 10.10.10.10
-          trust_anchor_pk: db3906947188edfe196fe01d3e161ef82722daec9e3259323997c4e877b20cb4
-          trust_anchor_account: "0xe33bC570112172E2D64e8233d02454BBA56B67A2"
-          ssh_secret_name: /owner/env/instances/foo-001.my-custom-domain.com
+          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82722daec9e3259323997c4e877b20cb4
+          trust_anchor_account_address: "0xe33bC570112172E2D64e8233d02454BBA56B67A2"
+          trust_anchor_preferred_name: ''
+          ssh_priv_key_secret_name: /owner/env/instances/foo-001.my-custom-domain.com
           nm_host: foo-001-nm.my-custom-domain.com
         bar-002.my-custom-domain.com:
           private_ip: 10.10.10.11
-          trust_anchor_pk: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827
-          trust_anchor_account: "0x67A212172E2D64e8233de33bC570102454BBA56B"
-          ssh_secret_name: /owner/env/instances/bar-002.my-custom-domain.com
+          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827
+          trust_anchor_account_address: "0x67A212172E2D64e8233de33bC570102454BBA56B"
+          trust_anchor_preferred_name: ''
+          ssh_priv_key_secret_name: /owner/env/instances/bar-002.my-custom-domain.com
           nm_host: bar-002-nm.my-custom-domain.com
     nethermind:
       hosts:
         foo-001-nm.my-custom-domain.com:
           private_ip: 10.10.10.12
-          ssh_secret_name: /owner/env/instances/foo-001-nm.my-custom-domain.com
+          ssh_priv_key_secret_name: /owner/env/instances/foo-001-nm.my-custom-domain.com
         bar-002-nm.my-custom-domain.com:
           private_ip: 10.10.10.13
-          ssh_secret_name: /owner/env/instances/bar-002-nm.my-custom-domain.com
+          ssh_priv_key_secret_name: /owner/env/instances/bar-002-nm.my-custom-domain.com
   vars:
     # Whether to print debug messages to the screen while running the playbooks. NOTE: It may print secret information too. So, please use with caution.
     debug: false
@@ -36,12 +38,6 @@ all:
     # Owner of the veriscope nodes. The value must be equal to the value of the Owner tag in the terraform variables file (.tfvars file).
     # If each node has a different owner, this can be moved to hosts: section and specified per node.
     owner: foobar
-    
-    addressproofs_module:
-      # Whether to install addressproofs module (true/false). If setting to true, need to provide valid value for "gh_pat_secret_name" below
-      install: false
-      # AWS Secrets Manager secret name which holds the GitHub Personal Access Token which allows access to the ShyftNetwork/addressproofs repo.
-      gh_pat_secret_name: /{{ owner }}/addressproofs-gh-pat
     
     # The details of the TA dashboard (PHP Laravel app) admin user. Required values are
     # firstname, lastname, email and password. password is optional. If not provided, it 

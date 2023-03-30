@@ -4,7 +4,7 @@
 
 output "veriscope_nodes" {
   value = {
-    web_instances = {
+    web = {
       for name, node in module.web_instances : name => {
         "public_fqdn"              = node.public_fqdn
         "private_fqdn"             = node.private_fqdn
@@ -17,7 +17,7 @@ output "veriscope_nodes" {
         "subnet"                   = node.aws_instance.subnet_id,
       }
     },
-    nm_instances = {
+    nethermind = {
       for name, node in module.nm_instances : name => {
         "public_fqdn"              = node.public_fqdn
         "private_fqdn"             = node.private_fqdn

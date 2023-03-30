@@ -29,7 +29,7 @@ pgsql_cltr_host: "{{ ta_dashboard_db_cluster['cluster_endpoint'] }}"
 pgsql_cltr_port: "{{ ta_dashboard_db_cluster['cluster_port'] }}"
 ta_db_name: "trustanchor-{{ inventory_hostname_short }}"
 ta_db_user: "trustanchor-{{ inventory_hostname_short }}"
-ssh_secret_name: /{{ owner | lower }}/{{ env | lower }}/instances/{{ inventory_hostname }}
+ssh_priv_key_secret_name: /{{ owner | lower }}/{{ env | lower }}/instances/{{ inventory_hostname }}
 ta_db_user_pwd_secret_name: /{{ owner | lower }}/{{ env | lower }}/instances/{{ ta_db_user }}
 
 ansible_host_key_checking: false
@@ -38,7 +38,7 @@ ansible_user: veris
 # Path to the SSH private key for the veris user
 ansible_ssh_private_key_file: ~/.ssh/{{ inventory_hostname }}.pem
 # ansible_ssh_private_key_file: ~/.ssh/veris_rsa
-ansible_host: "{{ private_ip }}"
+# ansible_host: "{{ private_ip }}"
 
 nm_root: /opt/nm
 nm_config_dest_path: "{{ nm_root }}/config.cfg"
