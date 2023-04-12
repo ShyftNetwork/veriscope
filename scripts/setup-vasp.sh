@@ -88,6 +88,10 @@ NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
 NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.15.0/nethermind-linux-amd64-1.15.0-2b70876-20221228.zip"
 NETHERMIND_RPC="http://localhost:8545"
 
+REDISBLOOM_DEST=/opt/RedisBloom
+REDISBLOOM_TARBALL="https://github.com/ShyftNetwork/RedisBloom/archive/refs/tags/v2.4.5.zip"
+
+
 NGINX_CFG=/etc/nginx/sites-enabled/ta-dashboard.conf
 
 echo "+ Service user will be $SERVICE_USER"
@@ -121,6 +125,44 @@ function install_redis {
 	cp /etc/redis/redis.conf.new /etc/redis/redis.conf
 
 	systemctl restart redis.service
+}
+
+function install_redis_bloom {
+
+	if [ -f "/etc/redis/redis.conf" ]; then
+	 cd /opt
+	 rm -rf RedisBloom /tmp/buildresult
+	 apt-get install -y cmake build-essential
+
+	 wget -q -O /tmp/redisbloom-dist.zip "$REDISBLOOM_TARBALL"
+	 unzip -qq -o -d $REDISBLOOM_DEST /tmp/redisbloom-dist.zip
+
+	 cd RedisBloom/RedisBloom-2.4.5 && make | tee /tmp/buildresult
+	 export MODULE=`tail -n1 /tmp/buildresult | awk '{print $2}' | sed 's/\.\.\.//'`
+	 grep -v redisbloom /etc/redis/redis.conf >/tmp/redis.conf
+	 echo "loadmodule $MODULE" | sudo tee --append /tmp/redis.conf
+	 mv /tmp/redis.conf /etc/redis/redis.conf
+	 systemctl restart redis-server
+
+	 sed -i 's/^.*post_max_size.*/post_max_size = 128M/' /etc/php/8.0/fpm/php.ini
+	 sed -i 's/^.*upload_max_filesize .*/upload_max_filesize = 128M/'  /etc/php/8.0/fpm/php.ini
+	 if grep -q client_max_body_size $NGINX_CFG; then
+    echo "NGINX config already has been already updated"
+	 else
+  	sed -i 's/listen 443 ssl;/listen 443 ssl;\n	client_max_body_size 128M;/' $NGINX_CFG
+	 fi
+
+	 pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
+ 	 chown -R $SERVICE_USER .
+	 su $SERVICE_USER -c "composer update"
+
+	 systemctl restart php8.0-fpm
+ 	 systemctl restart nginx
+
+	else
+		echo "Redis server is not installed"
+	fi
+
 }
 
 function create_postgres_trustanchor_db {
@@ -388,6 +430,7 @@ function install_or_update_nodejs {
 	su $SERVICE_USER -c "npm install"
 	popd >/dev/null
 
+	pushd >/dev/null $INSTALL_ROOT/
 	# ONLY ONCE. Not needed for an update
 	echo "Doing chain-specific configuration"
 	cp -r chains/$VERISCOPE_TARGET/artifacts $INSTALL_ROOT/veriscope_ta_node/
@@ -615,6 +658,7 @@ function menu() {
 14) Install Passport Client Environment Variables
 15) Install Horizon
 16) Install Address Proofs
+17) Install Redis Bloom Filter module
 i) Install Everything
 p) show daemon status
 w) restart all services
@@ -640,7 +684,8 @@ Choose what to do: "
 		14) install_passport_client_env; menu ;;
 		15) install_horizon; menu ;;
 		16) install_addressproof; menu ;;
-		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel ; install_horizon ; refresh_static_nodes; menu ;;
+		17) install_redis_bloom; menu ;;
+		"i") refresh_dependencies ; install_or_update_nethermind ; create_postgres_trustanchor_db  ; install_redis ; setup_or_renew_ssl ; setup_nginx ; install_or_update_nodejs ; install_or_update_laravel ; install_horizon ; install_redis_bloom ; refresh_static_nodes; menu ;;
 		"p") daemon_status ; menu ;;
 		"w") restart_all_services ; menu ;;
 		"q") exit 0; ;;

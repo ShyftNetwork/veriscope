@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 
-use App\{ KycTemplate, SmartContractAttestation};
-use App\Observers\{ KycTemplateObserver, SmartContractAttestationObserver};
+use App\{ KycTemplate, SmartContractAttestation, UploadAddressFile};
+use App\Observers\{ KycTemplateObserver, SmartContractAttestationObserver, UploadAddressFileObserver};
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -45,6 +45,7 @@ class EventServiceProvider extends ServiceProvider
         //
         SmartContractAttestation::observe(SmartContractAttestationObserver::class);
         KycTemplate::observe(KycTemplateObserver::class);
+        UploadAddressFile::observe(UploadAddressFileObserver::class);
 
     }
 }

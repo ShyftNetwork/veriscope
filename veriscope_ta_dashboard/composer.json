@@ -16,6 +16,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "asantibanez/laravel-eloquent-state-machines": "^5.1",
+        "bayareawebpro/laravel-simple-csv": "^2.0",
         "bacon/bacon-qr-code": "^2.0",
         "beyondcode/laravel-websockets": "^1.13",
         "digitaldonkey/ecverify": "^1.0",
@@ -35,6 +36,7 @@
         "league/csv": "^9.7",
         "league/glide-laravel": "^1.0",
         "opis/json-schema": "^2.2",
+        "php-redis/bloom-filter": "^1.1",
         "pragmarx/google2fa-laravel": "^1.4",
         "psychob/ethereum-address-validator": "dev-master",
         "pusher/pusher-php-server": "7.0.2",

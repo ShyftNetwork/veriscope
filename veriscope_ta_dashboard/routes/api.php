@@ -70,6 +70,15 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::post('validate_crypto_proof','TrustAnchorController@validate_crypto_proof');
 
 
+       /* Bloom filter */
+
+       Route::post('upload_addresses','TrustAnchorController@set_upload_addresses');
+       Route::get('upload_addresses','TrustAnchorController@get_upload_addresses');
+       Route::delete('upload_addresses','TrustAnchorController@del_upload_addresses');
+       /* Rescan Attestations */
+       Route::post('rescan_attestations','TrustAnchorController@rescan_attestations');
+
+
 
     });
 
