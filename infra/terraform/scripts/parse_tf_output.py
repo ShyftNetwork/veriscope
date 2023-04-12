@@ -7,7 +7,7 @@ from ruamel.yaml.comments import CommentedMap
 INDENTATION_SPACES = 2
 
 
-def add_vars_and_comments(inventory):
+def add_vars_and_comments(inventory, tf_output):
 
     inventory["all"]["vars"] = CommentedMap()
 
@@ -21,7 +21,7 @@ def add_vars_and_comments(inventory):
     )
 
     object_depth = 2
-    inventory["all"]["vars"]["env"] = "sample"
+    inventory["all"]["vars"]["env"] = tf_output["env"]["value"].lower()
     inventory["all"]["vars"].yaml_set_comment_before_after_key(
         "env",
         before="\nEnvironment into which the nodes are deployed. This is also set in terraform module when deploying instances.",
@@ -33,15 +33,6 @@ def add_vars_and_comments(inventory):
     multiline_comment = "\nIdentify a chain to deploy to.\nValid values are 'veriscope_testnet', 'fed_testnet', 'fed_mainnet'"
     inventory["all"]["vars"].yaml_set_comment_before_after_key(
         "veriscope_target",
-        before=multiline_comment,
-        indent=object_depth*INDENTATION_SPACES
-    )
-
-    object_depth = 2
-    inventory["all"]["vars"]["owner"] = "foobar"
-    multiline_comment = "\nOwner of the nodes. This value must be equal to value of 'Owner' tag for the node instance.\nIf different for each node, move this var into the host specific level."
-    inventory["all"]["vars"].yaml_set_comment_before_after_key(
-        "owner",
         before=multiline_comment,
         indent=object_depth*INDENTATION_SPACES
     )
@@ -80,6 +71,7 @@ def parse_tf_output(tf_output):
     for instance_name, instance_data in nethermind.items():
         host_data = CommentedMap()
         host_data["ssh_priv_key_secret_name"] = instance_data["ssh_priv_key_secret_name"]
+        host_data["owner"] = instance_data["tags"]["Owner"].lower()
         ansible_inventory["all"]["children"]["nethermind"]["hosts"][instance_data["private_fqdn"]] = host_data
         # ansible_inventory["all"]["children"]["nethermind"]["hosts"].yaml_set_comment_before_after_key(instance_data["private_fqdn"], before="Node Manager host")
 
@@ -89,6 +81,7 @@ def parse_tf_output(tf_output):
         host_data["trust_anchor_private_key"] = "db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827"
         host_data["trust_anchor_account_address"] = "0x67A212172E2D64e8233de33bC570102454BBA56B"
         host_data["trust_anchor_preferred_name"] = "trust_anchor_preferred_name"
+        host_data["owner"] = instance_data["tags"]["Owner"].lower()
         ansible_inventory["all"]["children"]["web"]["hosts"][instance_data["public_fqdn"]] = host_data
         # ansible_inventory["all"]["children"]["web"]["hosts"].yaml_set_comment_before_after_key(instance_data["private_fqdn"], before="Web host")
 
@@ -111,7 +104,7 @@ def main():
         tf_output = json.load(tf_output_file)
 
     ansible_inventory = parse_tf_output(tf_output)
-    ansible_inventory = add_vars_and_comments(ansible_inventory)
+    ansible_inventory = add_vars_and_comments(ansible_inventory, tf_output)
 
     with open(args.ansible_inventory_path, "w") as ansible_inventory_file:
         yaml = YAML()

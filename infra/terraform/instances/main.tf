@@ -52,7 +52,7 @@ module "web_instances" {
   for_each = { for inst in var.instances : inst.name => inst }
 
   env                  = local.env
-  ami_id               = var.ami_ids[var.region]
+  ami_id               = data.aws_ami.ubuntu.id
   iam_instance_profile = local.security_output["iam_instance_profile_name"]
   node_sg_ids          = [local.security_output["node_sg_id"]]
   available_subnet_ids     = local.public_subnets
@@ -76,7 +76,7 @@ module "nm_instances" {
   ]
 
   env                  = local.env
-  ami_id               = var.ami_ids[var.region]
+  ami_id               = data.aws_ami.ubuntu.id
   iam_instance_profile = local.security_output["iam_instance_profile_name"]
   node_sg_ids = [
     local.security_output["node_sg_id"],

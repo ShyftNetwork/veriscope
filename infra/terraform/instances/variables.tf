@@ -31,15 +31,6 @@ variable "instances" {
   nullable    = false
 }
 
-variable "ami_ids" {
-  type        = map(string)
-  description = "AWS AMI IDs for creating the EC2 instance off of by region"
-  default = {
-    us-east-1 = "ami-0ffc7ed5e8a00bd3e"
-  }
-  nullable = false
-}
-
 variable "domain" {
   type        = string
   description = "Domain name used to create private DNS hosted zone for internal traffic routing"

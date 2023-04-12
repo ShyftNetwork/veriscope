@@ -37,3 +37,7 @@ output "ta_db" {
   sensitive = true
   value     = module.ta_db
 }
+
+output "env" {
+  value = var.env
+}

@@ -138,6 +138,7 @@ Resources:
             Action:
               - 'ecr:BatchGetImage'
               - 'ecr:BatchCheckLayerAvailability'
+              - 'ecr:BatchDeleteImage'
               - 'ecr:PutLifecyclePolicy'
               - 'ecr:PutImageTagMutability'
               - 'ecr:ListTagsForResource'
