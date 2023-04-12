@@ -496,15 +496,11 @@ function refresh_static_nodes() {
 	echo
 	echo "Cycling nethermind to obtain enode..."
 
-	systemctl restart nethermind
-	CONNRESULT=1     # nc returns 1 if connection fails
-	while [ $CONNRESULT -eq 1 ];  do
-		echo "?" | nc >/dev/null localhost 8545
-		CONNRESULT=$?
-	done
 	ENODE=`curl -s -X POST -d '{"jsonrpc":"2.0","id":1, "method":"admin_nodeInfo", "params":[]}' http://localhost:8545/ | jq '.result.enode'`
 	echo "This enode: $ENODE . Updating ethstats setting..."
 	jq ".EthStats.Contact = $ENODE" $NETHERMIND_CFG | sponge $NETHERMIND_CFG
+	rm /opt/nm/db/discoveryNodes/SimpleFileDb.db
+	rm /opt/nm/db/peers/SimpleFileDb.db
 	systemctl restart nethermind
 }
 
