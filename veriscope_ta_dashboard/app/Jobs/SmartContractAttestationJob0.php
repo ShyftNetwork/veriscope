@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Jobs;
+
+
+use Spatie\WebhookServer\WebhookCall;
+use App\{ SmartContractAttestation, SandboxTrustAnchorUserCryptoAddress };
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use App\Constant;
+use PHPRedis\Filters\BloomFilter;
+
+
+class SmartContractAttestationJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * The smartContractAttestation instance.
+     *
+     * @var \App\SmartContractAttestation
+     */
+    protected $smartContractAttestation;
+
+
+    protected $bloom_filter;
+
+
+    protected $bloom_key;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+     public function __construct(SmartContractAttestation $smartContractAttestation)
+    {
+      $this->smartContractAttestation = $smartContractAttestation;
+      $this->bloom_filter = new BloomFilter();
+      $this->bloom_filter->setConfig(
+        config('bloomfilter.host'),
+        config('bloomfilter.port'),
+        config('bloomfilter.password')
+      );
+      $this->bloom_key   = config('bloomfilter.key');
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+     public function handle()
+    {
+
+      $webhook_url = Constant::where('name', 'webhook_url')->first();
+      $webhook_secret = Constant::where('name', 'webhook_secret')->first();
+
+      if ( !empty($webhook_url->value) && !empty($webhook_secret->value) )
+      {
+
+        $payload = [
+          'eventType' => 'NEW_ATTESTATION',
+          'ta_account' => $this->smartContractAttestation->ta_account,
+          'jurisdiction' => $this->smartContractAttestation->jurisdiction,
+          'effective_time' => $this->smartContractAttestation->effective_time,
+          'expiry_time' => $this->smartContractAttestation->expiry_time,
+          'is_managed' => $this->smartContractAttestation->is_managed,
+          'attestation_hash' => $this->smartContractAttestation->attestation_hash,
+          'transaction_hash' => $this->smartContractAttestation->transaction_hash,
+          'user_account' => $this->smartContractAttestation->user_account,
+          'public_data' => $this->smartContractAttestation->public_data,
+          'public_data_decoded' => $this->smartContractAttestation->public_data_decoded,
+          'documents_matrix_encrypted' => $this->smartContractAttestation->documents_matrix_encrypted,
+          'documents_matrix_encrypted_decoded' => $this->smartContractAttestation->documents_matrix_encrypted_decoded,
+          'availability_address_encrypted' => $this->smartContractAttestation->availability_address_encrypted,
+          'availability_address_encrypted_decoded' => $this->smartContractAttestation->availability_address_encrypted_decoded,
+          'version_code' => $this->smartContractAttestation->version_code,
+          'coin_blockchain' => $this->smartContractAttestation->coin_blockchain,
+          'coin_token' => $this->smartContractAttestation->coin_token,
+          'coin_address' => $this->smartContractAttestation->coin_address,
+          'coin_memo' => $this->smartContractAttestation->coin_memo
+        ];
+
+        $test = SandboxTrustAnchorUserCryptoAddress::where('crypto_type',$this->smartContractAttestation->coin_token)->where('crypto_address','ILIKE', $this->smartContractAttestation->coin_address);
+        // If transaction is a test transaction then automate auto-reply
+        if ($test->exists()) {
+          app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($payload['eventType'],$payload['attestation_hash'], $test->first(), $payload['ta_account']);
+        }
+
+
+        $exists = $this->bloom_filter->exists($this->bloom_key,'CREATED');
+        //If list of addresses is not uploaded and list is empty allow all
+        if(!$exists) {
+            WebhookCall::create()
+            ->url($webhook_url->value)
+            ->meta(['hasState' => false])
+            ->payload($payload)
+            ->useSecret($webhook_secret->value)
+            ->dispatch();
+          } else{
+            $uniqueKey = "{$this->smartContractAttestation->coin_blockchain}_{$this->smartContractAttestation->coin_token}_{$this->smartContractAttestation->coin_address}";
+            $bool = (bool) $this->bloom_filter->exists($this->bloom_key, $uniqueKey);
+            //If addresses is found in the uploaded address list
+            if ($bool) {
+              WebhookCall::create()
+              ->url($webhook_url->value)
+              ->meta(['hasState' => false])
+              ->payload($payload)
+              ->useSecret($webhook_secret->value)
+              ->dispatch();
+            }
+        }
+
+
+
+      } else {
+         new \Exception("Missing webhook_url or webhook_secret");
+      }
+    }
+
+}
