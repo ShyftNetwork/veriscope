@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Constant;
+use PHPRedis\Filters\BloomFilter;
 
 
 class SmartContractAttestationJob implements ShouldQueue
@@ -25,6 +26,11 @@ class SmartContractAttestationJob implements ShouldQueue
     protected $smartContractAttestation;
 
 
+    protected $bloom_filter;
+
+
+    protected $bloom_key;
+
     /**
      * Create a new job instance.
      *
@@ -33,6 +39,13 @@ class SmartContractAttestationJob implements ShouldQueue
      public function __construct(SmartContractAttestation $smartContractAttestation)
     {
       $this->smartContractAttestation = $smartContractAttestation;
+      $this->bloom_filter = new BloomFilter();
+      $this->bloom_filter->setConfig(
+        config('bloomfilter.host'),
+        config('bloomfilter.port'),
+        config('bloomfilter.password')
+      );
+      $this->bloom_key   = config('bloomfilter.key');
     }
 
     /**
@@ -78,12 +91,31 @@ class SmartContractAttestationJob implements ShouldQueue
           app('App\Http\Controllers\KycTemplateV1Controller')->kyc_template_v1_reply($payload['eventType'],$payload['attestation_hash'], $test->first(), $payload['ta_account']);
         }
 
-        WebhookCall::create()
-        ->url($webhook_url->value)
-        ->meta(['hasState' => false])
-        ->payload($payload)
-        ->useSecret($webhook_secret->value)
-        ->dispatch();
+
+        $exists = $this->bloom_filter->exists($this->bloom_key,'CREATED');
+        //If list of addresses is not uploaded and list is empty allow all
+        if(!$exists) {
+            WebhookCall::create()
+            ->url($webhook_url->value)
+            ->meta(['hasState' => false])
+            ->payload($payload)
+            ->useSecret($webhook_secret->value)
+            ->dispatch();
+          } else{
+            $uniqueKey = "{$this->smartContractAttestation->coin_blockchain}_{$this->smartContractAttestation->coin_token}_{$this->smartContractAttestation->coin_address}";
+            $bool = (bool) $this->bloom_filter->exists($this->bloom_key, $uniqueKey);
+            //If addresses is found in the uploaded address list
+            if ($bool) {
+              WebhookCall::create()
+              ->url($webhook_url->value)
+              ->meta(['hasState' => false])
+              ->payload($payload)
+              ->useSecret($webhook_secret->value)
+              ->dispatch();
+            }
+        }
+
+
 
       } else {
          new \Exception("Missing webhook_url or webhook_secret");
