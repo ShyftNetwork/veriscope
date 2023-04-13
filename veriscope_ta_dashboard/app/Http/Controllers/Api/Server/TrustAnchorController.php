@@ -4,20 +4,21 @@ namespace App\Http\Controllers\Api\Server;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{TrustAnchor, SandboxTrustAnchorUserCryptoAddress, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState};
-use App\Http\Requests\{CreateKycTemplateRequest, RetryKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest, CryptoProofRequest, SetTAKeyValuePairRequest};
+use App\{TrustAnchor, SandboxTrustAnchorUserCryptoAddress, VerifiedTrustAnchor, TrustAnchorExtraDataUnique, SmartContractAttestation, KycTemplate, KycTemplateState, UploadAddressFile};
+use App\Http\Requests\{CreateKycTemplateRequest, RetryKycTemplateRequest, GetTrustAnchorApiUrlRequest, EncryptIvmsRequest, DecryptIvmsRequest, CryptoProofRequest, SetTAKeyValuePairRequest, SetUploadAddressesRequest, GetUploadAddressesRequest};
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Throwable\ClientException;
 use App\Support\EthereumToolsUtils;
-use Elliptic\EC;
-use kornrunner\Keccak;
-use Spatie\WebhookServer\WebhookCall;
 use Illuminate\Validation\ValidationException;
-use App\Transformers\KycTemplateTransformer;
-use App\Jobs\{DataExternalJob, DataInternalJob, DataInternalIVMSJob, DataExternalStatelessJob};
+use App\Jobs\{RescanSmartContractAttestationJob, DataExternalJob, DataInternalJob, DataInternalIVMSJob, DataExternalStatelessJob};
 use Illuminate\Support\Facades\DB;
 use App\Rules\CryptoProofVerification;
+use PHPRedis\Filters\BloomFilter;
+use BayAreaWebPro\SimpleCsv\SimpleCsv;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Config;
+
 
 class TrustAnchorController extends Controller
 {
@@ -30,6 +31,15 @@ class TrustAnchorController extends Controller
       public function __construct()
       {
           $this->http_api_url = env('HTTP_API_URL');
+          $this->bloom_filter = new BloomFilter();
+          $this->bloom_filter->setConfig(
+            config('bloomfilter.host'),
+            config('bloomfilter.port'),
+            config('bloomfilter.password')
+          );
+          $this->bloom_key   = config('bloomfilter.key');
+
+
       }
 
       /**
@@ -676,5 +686,119 @@ class TrustAnchorController extends Controller
 
 
 
+      }
+
+
+
+      /**
+      * Set Upload Address
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function set_upload_addresses(SetUploadAddressesRequest $request)
+      {
+
+         try {
+           $exists = $this->bloom_filter->exists($this->bloom_key,'CREATED');
+           if(!$exists) {
+             $this->bloom_filter->reserve($this->bloom_key, 0.001, 100000000);
+             $this->bloom_filter->add($this->bloom_key, 'CREATED');
+           }
+
+           if ($file = $request->file('file')) {
+               $path = $file->store('files');
+               $name = $file->getClientOriginalName();
+
+               //store your file into directory and db
+               $uploadedFile = new UploadAddressFile();
+               $uploadedFile->name = $file;
+               $uploadedFile->path = $path;
+               $uploadedFile->save();
+
+               return response()->json([
+                   "success" => true,
+                   "message" => "File successfully uploaded",
+                   "file" => $file
+               ]);
+
+           }
+
+         } catch (\Exception $e) {
+           return response()->json($e->getMessage());
+         }
+
+      }
+
+
+
+
+
+
+      /**
+      * Get BloomFilter
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function get_upload_addresses(GetUploadAddressesRequest $request)
+      {
+          try {
+            $exists = $this->bloom_filter->exists($this->bloom_key,'CREATED');
+            if(!$exists) {
+              return response()->json(['message' => 'Address list is empty'],400);
+            }
+            $input = $request->all();
+            $coin_address = strtolower($input['coin_address']);
+            $uniqueKey = "{$input['coin_blockchain']}_{$input['coin_token']}_{$coin_address}";
+            $bool = (bool)  $this->bloom_filter->exists($this->bloom_key, $uniqueKey);
+            return response()->json(['address_exists' => $bool]);
+          } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+          }
+      }
+
+
+
+
+      /**
+      * Delete BloomFilter
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function del_upload_addresses(Request $request)
+      {
+          try {
+            $exists = $this->bloom_filter->exists($this->bloom_key,'CREATED');
+            if(!$exists) {
+              return response()->json(['message' => 'Address list is already empty'],400);
+            }
+            // Remove the Redis key prefix in runtime
+            Config::set('database.redis.options.prefix', '');
+            $bool = (bool) Redis::del($this->bloom_key);
+            UploadAddressFile::truncate();
+            return response()->json(["success" => $bool]);
+          } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+          }
+      }
+
+
+      /**
+      * Rescan Attestations
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+      public function rescan_attestations(Request $request)
+      {
+
+        try{
+          RescanSmartContractAttestationJob::dispatch();
+          return response()->json(["success" => true]);
+        } catch (\Exception $e) {
+          return response()->json($e->getMessage());
+        }
       }
 }

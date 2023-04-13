@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "86eb4476-fde1-4bd9-b831-140fc0783197",
+		"_postman_id": "3b312448-d392-4921-a57a-1852d83a58db",
 		"name": "Veriscope API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1140,6 +1140,40 @@
 			"response": []
 		},
 		{
+			"name": "Rescan Attestations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/rescan_attestations",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"rescan_attestations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Veriscope Version",
 			"request": {
 				"method": "GET",
@@ -1151,6 +1185,131 @@
 					],
 					"path": [
 						"veriscope-version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address Filter Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/upload_addresses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"upload_addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address Filter Check",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/upload_addresses?coin_blockchain&coin_token&coin_address",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"upload_addresses"
+					],
+					"query": [
+						{
+							"key": "coin_blockchain",
+							"value": null
+						},
+						{
+							"key": "coin_token",
+							"value": null
+						},
+						{
+							"key": "coin_address",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address Filter Upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/server/upload_addresses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"server",
+						"upload_addresses"
 					]
 				}
 			},
