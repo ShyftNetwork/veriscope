@@ -1,0 +1,36 @@
+---
+- name: Create Trust Anchor dashboard admin user
+  hosts: web
+  vars:
+    admin_firstname: "{{ ta_dashboard_admin_user['firstname'] }}"
+    admin_lastname: "{{ ta_dashboard_admin_user['lastname'] }}"
+    admin_email: "{{ ta_dashboard_admin_user['email'] }}"
+  tasks:
+    - name: Check inputs for create admin user
+      ansible.builtin.assert:
+        that:
+          - admin_firstname is defined and admin_firstname is truthy
+          - admin_lastname is defined and admin_lastname is truthy
+          - admin_email is defined and admin_email is truthy
+          - dashboard_root is defined and dashboard_root is truthy
+        success_msg: Required inputs provided. Proceeding to create admin user for Trust Anchor Dashboard app.
+        fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
+    
+    - name: Generate admin pwd if not given
+      ansible.builtin.set_fact:
+        admin_pwd: "{{ lookup('password', 'credentials/ta_dashboard_admin_pwd/' + inventory_hostname + ' length=20 chars=ascii_letters,digits', seed=inventory_hostname) }}"
+      when: ta_dashboard_admin_user['password'] is not defined
+
+    - name: Read admin pwd if given
+      ansible.builtin.set_fact:
+        admin_pwd: "{{ ta_dashboard_admin_user['password'] }}"
+      when: ta_dashboard_admin_user['password'] is defined
+
+    # # ONLY ONCE. after lavarel install step
+    # pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
+    # su $SERVICE_USER -c "php artisan createuser:admin"
+    # popd >/dev/null
+    - name: Create TA dashboard admin user
+      ansible.builtin.command: php artisan createuser:admin {{ admin_firstname }} {{ admin_lastname }} {{ admin_email }} {{ admin_pwd }}
+      args:
+        chdir: "{{ dashboard_root }}"

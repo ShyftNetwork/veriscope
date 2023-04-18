@@ -1,0 +1,117 @@
+---
+- name: Update Trust Anchor accounts and keys
+  hosts: all
+
+  tasks:
+
+    - name: Check inputs - Update TA accounts and keys
+      ansible.builtin.assert:
+        that:
+          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
+          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
+          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
+        success_msg: Required inputs provided. Proceeding to copy chain artifacts and setup nodejs app.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+      tags: ta-account-info
+    
+    - name: Check inputs - Update TA API config
+      ansible.builtin.assert:
+        that:
+          - ta_api_config_changes is defined and ta_api_config_changes is mapping
+        success_msg: Required inputs provided. Proceeding to copy chain artifacts and setup nodejs app.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+      tags: others
+    
+    - name: Stop required services - Update TA API config
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: stopped
+      ignore_errors: false
+      become: true
+      with_items:
+        - nethermind
+        - ta-node-1
+        - ta-node-2
+      tags:
+        - ta-account-info
+        - others
+
+    # sed -i "s#TRUST_ANCHOR_ACCOUNT=.*#TRUST_ANCHOR_ACCOUNT=$SEALERACCT#g" $ENVDEST
+    # sed -i "s#TRUST_ANCHOR_PK=.*#TRUST_ANCHOR_PK=$SEALERPK#g" $ENVDEST
+    # sed -i "s#TRUST_ANCHOR_PREFNAME=.*#TRUST_ANCHOR_PREFNAME=\"$VERISCOPE_COMMON_NAME\"#g" $ENVDEST
+    - name: Update Trust Anchor pk, account, prefname
+      ansible.builtin.blockinfile:
+        path: "{{ api_env_path }}"
+        backup: true
+        block: |
+          TRUST_ANCHOR_PK={{ trust_anchor_private_key }}
+          TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account_address }}
+          TRUST_ANCHOR_PREFNAME={{ trust_anchor_preferred_name }}
+        marker: "# {mark} AUTOMATION MANAGED BLOCK TA ACCOUNT INFO"
+        state: present
+        owner: veris
+        group: veris
+      tags: ta-account-info
+
+    - name: Update TA API config
+      ansible.builtin.lineinfile:
+        path: "{{ api_config_path }}"
+        state: present
+        search_string: "{{ item.key }}="
+        line: "{{ item.key }}=\"{{ item.value }}\""
+      with_items:
+        - "{{ ta_api_config_changes | dict2items }}"
+      tags: others
+
+    - name: Start TA API services - Update TA API config
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+      ignore_errors: false
+      become: true
+      with_items:
+        - ta-node-1
+        - ta-node-2
+      tags:
+        - ta-account-info
+        - others
+    
+    - name: Read TA API config file on remote host
+      ansible.builtin.slurp:
+        src: "{{ api_config_path }}"
+      register: ta_api_config
+      tags:
+        - ta-account-info
+        - others
+
+    - name: Find HTTP value
+      ansible.builtin.set_fact:
+        http_value: "{{ ta_api_config['content'] | b64decode | regex_findall('HTTP=\"(.*)\"') | first }}"
+      tags:
+        - ta-account-info
+        - others
+    
+    - name: Find WS value
+      ansible.builtin.set_fact:
+        ws_value: "{{ ta_api_config['content'] | b64decode | regex_findall('WS=\"(.*)\"') | first }}"
+      tags:
+        - ta-account-info
+        - others
+
+    - name: Print HTTP and WS values
+      ansible.builtin.debug:
+        msg: "http value = {{ http_value  }} \\n ws_value = {{ ws_value }}"
+      tags:
+        - ta-account-info
+        - others
+      
+    - name: Conditionally start nethermind service
+      ansible.builtin.service:
+        name: nethermind
+        state: started
+      ignore_errors: false
+      become: true
+      when: "'localhost' in http_value and 'localhost' in ws_value"
+      tags:
+        - ta-account-info
+        - others

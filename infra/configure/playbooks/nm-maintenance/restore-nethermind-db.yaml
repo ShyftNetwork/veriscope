@@ -1,0 +1,40 @@
+---
+- name: Restore nethermind db from backup in S3
+  hosts: nethermind
+  gather_facts: true
+  become: true
+  vars:
+    ethstats_secret: "{{ network_facts[veriscope_target]['ethstats_secret'] }}"
+    ethstats_host: "{{ network_facts[veriscope_target]['ethstats_host'] }}"
+    ethstats_get_enodes: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
+    ethstats_enabled: false
+    archive_filename: "{{ veriscope_target }}.tar.gz"
+  tasks:
+
+    - name: Check inputs
+      ansible.builtin.assert:
+        that:
+          - veriscope_target is defined
+        success_msg: Required inputs provided. Proceeding to restore nethermind db from S3
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Ensure python requirements are installed for AWS services
+      ansible.builtin.import_tasks: ../../tasks/ensure-boto3.yaml
+
+    - name: Get deployed Nethermind version
+      ansible.builtin.import_tasks: ../../tasks/get-deployed-nm-version.yaml
+
+    - name: Stop nethermind service
+      ansible.builtin.service:
+        name: nethermind
+        state: stopped
+    
+    - name: Delete existing nethermind_db directory
+      ansible.builtin.file:
+        path: "{{ nm_root }}/nethermind_db"
+        state: absent
+
+    - name: Download and extract Nethermind db from archive
+      vars:
+        target_nm_version: "{{ deployed_nm_version }}"
+      ansible.builtin.import_tasks: ../../tasks/unarchive-nm-db-from-s3.yaml

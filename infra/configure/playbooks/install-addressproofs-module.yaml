@@ -1,0 +1,57 @@
+---
+- name: Install and configure the address proofs module
+  hosts: web
+  gather_facts: false
+  tasks:
+    - name: Check inputs - addressproofs module
+      ansible.builtin.assert:
+        that:
+          - gh_pat is defined and gh_pat is truthy
+        success_msg: Required inputs provided. Proceeding to install/update addressproofs module.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Install prerequisite packages - addressproofs
+      ansible.builtin.apt:
+        state: present
+        update_cache: true
+        pkg:
+          - protobuf-compiler
+          - libtiff5-dev
+          - libjpeg8-dev
+          - libopenjp2-7-dev
+          - zlib1g-dev
+          - libfreetype6-dev
+          - liblcms2-dev
+          - libwebp-dev
+          - tcl8.6-dev
+          - tk8.6-dev
+          - python3-tk
+          - libharfbuzz-dev
+          - libfribidi-dev
+          - libxcb1-dev
+      become: true
+
+    - name: Delete {{ addressproofs_root }}
+      ansible.builtin.file:
+        path: "{{ addressproofs_root }}"
+        state: absent
+
+    - name: Invoke addressproofs module download
+      ansible.builtin.command: php artisan download:addressproof {{ gh_pat }}
+      args:
+        chdir: "{{ dashboard_root }}"
+      register: output
+      changed_when: output.rc == 0
+      failed_when: output.rc != 0
+
+    - name: Install addressproofs python requirements
+      ansible.builtin.pip:
+        requirements: "{{ addressproofs_root }}/requirements.txt"
+        executable: pip3
+      become: true
+
+    - name: Install node.js deps for addressproofs (npm install)
+      community.general.npm:
+        path: "{{ addressproofs_root }}"
+        state: present
+      become: true

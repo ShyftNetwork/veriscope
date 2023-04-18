@@ -1,0 +1,28 @@
+---
+- name: Install and configure redis server
+  hosts: web
+  become: true
+  tasks:
+
+    # DEBIAN_FRONTEND=noninteractive apt-get -qq -y -o Acquire::https::AllowRedirect=false install redis-server
+    - name: Install required packages - redis server
+      ansible.builtin.apt:
+        name: redis-server
+        state: present
+        update_cache: true
+
+    # cp /etc/redis/redis.conf /etc/redis/redis.conf.bak
+    # sed 's/^supervised.*/supervised systemd/' /etc/redis/redis.conf >> /etc/redis/redis.conf.new
+    # cp /etc/redis/redis.conf.new /etc/redis/redis.conf
+    - name: Set systemd supervisor in redis config file -  Install redis server
+      ansible.builtin.replace:
+        path: /etc/redis/redis.conf
+        regexp: '^(supervised )(.*)$'
+        replace: '\1systemd'
+        backup: true
+
+    # systemctl restart redis.service
+    - name: Restart redis service - Install redis server
+      ansible.builtin.service:
+        name: redis
+        state: restarted

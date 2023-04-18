@@ -1,0 +1,15 @@
+[Unit]
+Description=Nethermind Ethereum Daemon
+After=network.target
+
+[Service]
+User={{ service_user }}
+Group=www-data
+UMask=0002
+WorkingDirectory=/opt/nm/
+ExecStart=/opt/nm/Nethermind.Runner -c /opt/nm/config.cfg
+Restart=on-failure
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=default.target

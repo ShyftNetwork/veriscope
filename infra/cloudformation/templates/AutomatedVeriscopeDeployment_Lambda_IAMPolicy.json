@@ -1,0 +1,57 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "events:PutEvents",
+              "events:TagResource",
+              "events:DeleteRule",
+              "events:PutTargets",
+              "events:DescribeRule",
+              "events:EnableRule",
+              "events:PutRule",
+              "events:ListTagsForResource",
+              "events:RemoveTargets",
+              "events:ListTargetsByRule",
+              "events:UntagResource",
+              "events:DisableRule"
+          ],
+          "Resource": [
+              "arn:aws:events:${AWS_REGION}:${AWS_ACCOUNT_ID}:event-bus/*",
+              "arn:aws:events:${AWS_REGION}:${AWS_ACCOUNT_ID}:rule/*"
+          ]
+      },
+      {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": [
+              "lambda:CreateFunction",
+              "events:TagResource",
+              "events:PutTargets",
+              "ecr:SetRepositoryPolicy",
+              "events:ListTagsForResource",
+              "events:RemoveTargets",
+              "events:ListTargetsByRule",
+              "ecr:GetRepositoryPolicy",
+              "events:UntagResource"
+          ],
+          "Resource": [
+              "arn:aws:ecr:${AWS_REGION}:${AWS_ACCOUNT_ID}:repository/*",
+              "arn:aws:events:${AWS_REGION}:${AWS_ACCOUNT_ID}:rule/*",
+              "arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:*"
+          ]
+      },
+      {
+          "Sid": "VisualEditor2",
+          "Effect": "Allow",
+          "Action": [
+              "events:ListRuleNamesByTarget",
+              "lambda:*",
+              "events:ListRules"
+          ],
+          "Resource": "*"
+      }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVpc",
+                "ec2:DeleteVpc"
+            ],
+            "Resource": "arn:aws:ec2:${AWS_REGION}:${AWS_ACCOUNT_ID}:vpc/*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateInternetGateway",
+                "ec2:AttachInternetGateway",
+                "ec2:ModifyVpcAttribute"
+            ],
+            "Resource": [
+                "arn:aws:ec2:${AWS_REGION}:${AWS_ACCOUNT_ID}:vpc/*",
+                "arn:aws:ec2:${AWS_REGION}:${AWS_ACCOUNT_ID}:internet-gateway/*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CreateKeyPair",
+                "route53:GetHostedZone",
+                "ec2:DescribeVpcAttribute",
+                "route53:ListHostedZonesByName",
+                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+                "ec2:DescribeInternetGateways",
+                "ec2:CreateSecurityGroup",
+                "ec2:CreateInternetGateway",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:ModifyVpcAttribute",
+                "ec2:DeleteInternetGateway",
+                "ec2:DescribeKeyPairs",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+                "ec2:DescribeVpcClassicLinkDnsSupport",
+                "ec2:CreateTags",
+                "route53:ListHostedZones",
+                "ec2:ModifySecurityGroupRules",
+                "route53:ListTagsForResource",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeVpcClassicLink",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:DescribeVpcs",
+                "ec2:DeleteSecurityGroup",
+                "ec2:*",
+                "ec2:DeleteKeyPair"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:GetPolicyVersion",
+                "iam:UntagRole",
+                "route53:GetChange",
+                "iam:TagRole",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:DeletePolicy",
+                "iam:CreateRole",
+                "iam:AttachRolePolicy",
+                "iam:ListInstanceProfileTags",
+                "iam:PutRolePolicy",
+                "iam:AddRoleToInstanceProfile",
+                "iam:ListInstanceProfilesForRole",
+                "iam:PassRole",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "route53:ListResourceRecordSets",
+                "iam:ListRolePolicies",
+                "iam:CreatePolicyVersion",
+                "iam:DeleteInstanceProfile",
+                "iam:GetRole",
+                "iam:GetInstanceProfile",
+                "iam:GetPolicy",
+                "route53:ChangeResourceRecordSets",
+                "iam:DeleteRole",
+                "iam:ListInstanceProfiles",
+                "iam:CreatePolicy",
+                "iam:ListPolicyVersions",
+                "iam:UntagInstanceProfile",
+                "iam:GetRolePolicy",
+                "iam:DeletePolicyVersion",
+                "iam:TagInstanceProfile"
+            ],
+            "Resource": [
+                "arn:aws:iam::${AWS_ACCOUNT_ID}:instance-profile/*",
+                "arn:aws:iam::${AWS_ACCOUNT_ID}:policy/*",
+                "arn:aws:iam::${AWS_ACCOUNT_ID}:role/*",
+                "arn:aws:route53:::change/*",
+                "arn:aws:route53:::hostedzone/Z04527291L7H7GO3HHVBI"
+            ]
+        }
+    ]
+}

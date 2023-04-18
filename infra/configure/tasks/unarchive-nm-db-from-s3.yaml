@@ -1,0 +1,58 @@
+- name: Create nm archive download dir - unarchive nm db
+  ansible.builtin.file:
+    path: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}"
+    state: directory
+    owner: veris
+    group: veris
+
+- name: Download nm db backup archive file from S3 bucket - unarchive nm db
+  amazon.aws.s3_object:
+    ignore_nonexistent_bucket: true
+    bucket: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_name'] }}"
+    object: "{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    mode: get
+    dest: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    overwrite: different
+  register: get_s3_obj_result
+  ignore_errors: true
+
+- name: Print S3 get object result - unarchive nm db
+  ansible.builtin.debug: 
+    var: get_s3_obj_result
+  # when: get_s3_obj_result.changed
+
+- name: Print S3 get object result - unarchive nm db
+  ansible.builtin.debug: 
+    msg: "Nethermind DB backup for {{ target_nm_version }} does not exist. Nethermind will synchnorise from the beginning."
+  when: get_s3_obj_result.msg == "Key {{ target_nm_version }}/{{ veriscope_target }}.tar.gz does not exist."
+
+- name: Extract Nethermind db from backup - unarchive nm db
+  ansible.builtin.unarchive:
+    src: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    dest: "{{ nm_root }}"
+    remote_src: yes
+    owner: veris
+    group: www-data
+  become: true
+  when: get_s3_obj_result.msg == "GET operation complete" or get_s3_obj_result.msg == "Local object is latest, ignoreing. Use overwrite=always parameter to force."
+
+- name: Set Nethermind_db directory owner and group - unarchive nm db
+  ansible.builtin.file:
+    path: "{{ nm_root }}/nethermind_db"
+    state: directory
+    owner: veris
+    group: www-data
+  become: true
+
+- name: Restart Nethermind service - unarchive nm db
+  ansible.builtin.service:
+    name: nethermind
+    state: restarted
+  become: true
+
+- name: Delete nm archive file - unarchive nm db
+  ansible.builtin.file:
+    path: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    state: absent
+    owner: veris
+    group: veris

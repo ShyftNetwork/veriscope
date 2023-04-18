@@ -1,0 +1,122 @@
+---
+- name: Install prerequisites
+  hosts: web
+  gather_facts: false
+  become: true
+  pre_tasks:
+    - name: Add PHP apt repository
+      ansible.builtin.apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+        update_cache: false
+    
+    - name: Add NGinx apt repository
+      ansible.builtin.apt_repository:
+        repo: ppa:ondrej/nginx
+        state: present
+        update_cache: false
+    
+    - name: Run nodejs 14.x source script
+      shell: curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+      args:
+        executable: /bin/bash
+    
+    - name: Install required prerequisite packages
+      register: apt_outcome
+      until: apt_outcome is not failed
+      retries: 10
+      delay: 10
+      ansible.builtin.apt:
+        state: present
+        update_cache: true
+        pkg:
+          - vim
+          - unzip
+          - jq
+          - ntpdate
+          - moreutils
+          - net-tools
+          - postgresql-client
+          - php8.0-fpm
+          - php8.0-dom
+          - php8.0-zip
+          - php8.0-mbstring
+          - php8.0-curl
+          - php8.0-dom
+          - php8.0-gd
+          - php8.0-imagick
+          - php8.0-pgsql
+          - php8.0-gmp
+          - php8.0-redis
+          - php8.0-mbstring
+          - nodejs
+          - build-essential
+          - nginx
+          - protobuf-compiler
+          - libtiff5-dev
+          - libjpeg8-dev
+          - libopenjp2-7-dev
+          - zlib1g-dev
+          - libfreetype6-dev
+          - liblcms2-dev
+          - libwebp-dev
+          - tcl8.6-dev
+          - tk8.6-dev
+          - python3-tk
+          - libharfbuzz-dev
+          - libfribidi-dev
+          - libxcb1-dev
+          - libsnappy-dev
+          - libc6-dev
+          - libc6
+          - python3-pip
+          - python3-setuptools
+
+    - name: Configure git to use https
+      shell: |
+        git config --global url."https://github.com/".insteadOf git@github.com:
+        git config --global url."https://".insteadOf git://
+      args:
+        executable: /bin/bash
+
+    - name: Install node.js packages globally
+      community.general.npm:
+        name: "{{ item }}"
+        global: true
+      with_items:
+        - wscat
+
+    - name: Update pip3
+      ansible.builtin.pip:
+        name: pip
+        executable: pip3
+        state: latest
+    
+    - name: Install boto3
+      ansible.builtin.pip:
+        name: boto3>1.24.0,<1.25.0
+        executable: pip3
+
+  roles:
+    - role: geerlingguy.composer
+      vars:
+        composer_add_to_path: true
+        composer_keep_updated: true
+        composer_version_branch: '--2'
+        composer_path: /usr/local/bin/composer
+        composer_home_path: '~/.composer'
+        composer_home_owner: root
+        composer_home_group: root
+        php_executable: php
+
+  tasks:
+    - name: Copy ntpdate and journald to cron.daily
+      ansible.builtin.copy:
+        src: "{{ controller_working_dir }}/{{ item }}"
+        dest: /etc/cron.daily/
+        mode: a+x # give execute permission to all
+      with_items:
+        - scripts/ntpdate
+        - scripts/journald
+    - name: Run ntpdate
+      ansible.builtin.command: /etc/cron.daily/ntpdate

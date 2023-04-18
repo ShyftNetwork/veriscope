@@ -1,0 +1,9 @@
+- name: Start nethermind service
+  ansible.builtin.service:
+    name: nethermind
+    state: started
+  become: true
+  register: nmstart
+  until: nmstart.state == 'started' and nmstart.status.ActiveState == 'active'
+  retries: 10
+  delay: 10

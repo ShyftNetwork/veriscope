@@ -1,0 +1,44 @@
+---
+- name: Copy chain artifacts
+  hosts: web
+  tasks:
+
+    - name: Check inputs - copy chain artifacts
+      ansible.builtin.assert:
+        that:
+          - veriscope_target is defined and veriscope_target is truthy
+          - controller_working_dir is defined and controller_working_dir is truthy
+          - nm_host is defined and nm_host is truthy
+        success_msg: Required inputs provided. Proceeding to copy chain artifacts.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+    
+    - name: Stop ta-node services
+      ansible.builtin.service:
+        name: ta-node-{{ item }}
+        state: stopped
+      become: true
+      ignore_errors: true
+      with_items:
+        - 1
+        - 2
+
+    # ONLY ONCE. Not needed for an update
+    # cp -r chains/$VERISCOPE_TARGET/artifacts $INSTALL_ROOT/veriscope_ta_node/
+    - name: Copy chain artifacts
+      ansible.builtin.copy:
+        src: "{{ controller_working_dir }}/chains/{{ veriscope_target }}/artifacts"
+        dest: /opt/veriscope/veriscope_ta_node/
+        force: true
+        owner: veris
+        group: veris
+        mode: 0764
+
+    - name: Start ta-node services
+      ansible.builtin.service:
+        name: ta-node-{{ item }}
+        state: started
+      become: true
+      ignore_errors: true
+      with_items:
+        - 1
+        - 2

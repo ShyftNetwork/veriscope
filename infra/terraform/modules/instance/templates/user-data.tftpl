@@ -1,0 +1,16 @@
+#!/bin/bash
+sudo apt update
+
+adduser --disabled-password --gecos "" veris
+usermod -aG sudo veris
+usermod -aG www-data veris
+echo "veris ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/veris
+chmod 0440 /etc/sudoers.d/veris
+
+mkdir -p /home/veris/.ssh
+echo "Copying the unique SSH Key for this node for veris user"
+echo -e "#veris\n${ssh_public_key}" >> /home/veris/.ssh/authorized_keys
+
+echo "Changing Hostname"
+hostname "${hostname}"
+echo "${hostname}" > /etc/hostname

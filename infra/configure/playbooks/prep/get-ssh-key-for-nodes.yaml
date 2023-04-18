@@ -1,0 +1,44 @@
+- name: Configure SSH private keys for the nodes
+  hosts: localhost
+  gather_facts: true
+  vars:
+    ansible_host: localhost
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: Check inputs to configure SSH key
+      ansible.builtin.assert:
+        that:
+          - aws_region is defined and aws_region is truthy
+          - aws_profile is defined and aws_profile is truthy
+        success_msg: Required inputs provided. Proceeding to configure SSH key for the bastion.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Set private key values
+      ansible.builtin.set_fact:
+        ssh_key:
+          host: "{{ hostvars[item]['inventory_hostname'] }}"
+          ssh_priv_key: "{{ lookup('amazon.aws.aws_secret', hostvars[item]['ssh_priv_key_secret_name'], bypath=true, on_missing='error',
+                        on_denied='error', on_deleted='error', region=aws_region, aws_profile=aws_profile)[hostvars[item]['ssh_priv_key_secret_name']] }}"
+          ssh_priv_key_local_path: "{{ ansible_facts['user_dir'] }}/.ssh/{{ hostvars[item]['inventory_hostname'] | basename }}.pem"
+      with_inventory_hostnames:
+        - all
+      register: ssh_keys
+
+    - name: Create SSH private key file
+      ansible.builtin.file:
+        path: "{{ item['ansible_facts']['ssh_key']['ssh_priv_key_local_path'] }}"
+        state: touch
+        mode: 0600
+        owner: "{{ ansible_facts['user_id'] }}"
+      with_items: "{{ ssh_keys.results }}"
+
+    - name: Set private key value
+      ansible.builtin.copy:
+        dest: "{{ item['ansible_facts']['ssh_key']['ssh_priv_key_local_path'] }}"
+        content: "{{ item['ansible_facts']['ssh_key']['ssh_priv_key'] }}"
+        backup: false
+        force: true
+        mode: 0600
+        owner: "{{ ansible_facts['user_id'] }}"
+      with_items: "{{ ssh_keys.results }}"

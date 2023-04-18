@@ -1,0 +1,18 @@
+---
+- name: Install pip3
+  ansible.builtin.package:
+    name: python3-pip
+  become: true
+
+- name: Ensure pip3 and setuptools are present
+  ansible.builtin.pip:
+    name:
+      - pip
+      - setuptools
+    executable: pip3
+    state: present
+
+- name: Install boto3
+  ansible.builtin.pip:
+    name: boto3>1.24.0,<1.25.0
+    executable: pip3

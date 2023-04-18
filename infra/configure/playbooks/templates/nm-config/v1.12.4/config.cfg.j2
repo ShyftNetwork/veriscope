@@ -1,0 +1,33 @@
+{
+	"Init": {
+		"WebSocketsEnabled": true,
+		"StoreReceipts" : true,
+		"EnableUnsecuredDevWallet": false,
+		"IsMining": true,
+		"ChainSpecPath": "shyftchainspec.json",
+		"BaseDbPath": "nethermind_db/vasp",
+		"LogFileName": "/var/log/nethermind.log",
+		"StaticNodesPath": "static-nodes.json"
+	},
+	"Network": {
+		"DiscoveryPort": 30303,
+		"P2PPort": 30303
+	},
+	"JsonRpc": {
+		"Enabled": true,
+		"Host": "0.0.0.0",
+		"Port": 8545,
+		"EnabledModules": [ "Admin", "Net", "Eth", "Trace", "Parity", "Web3", "Debug", "Subscribe" ]
+	},
+	"Aura": {
+		"ForceSealing": true,
+		"AllowAuRaPrivateChains": true
+	},
+	"EthStats": {
+		"Enabled": {{ ethstats_enabled | mandatory | lower }},
+		"Contact": "not-yet",
+		"Secret": "{{ ethstats_secret | mandatory}}",
+		"Name": "{{ veriscope_service_hostname | mandatory}}",
+		"Server": "{{ ethstats_host | mandatory}}"
+	}
+}

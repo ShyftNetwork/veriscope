@@ -1,0 +1,92 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the supporting resources for Terraform Infrastructure state
+
+Parameters:
+  ServiceName:
+    Description: Specifies the hosted service name. Used within component naming
+    Type: String
+
+  EnvironmentName:
+    Description: Specifies the env in which the hosted service is deployed. Used within component naming
+    Type: String
+    AllowedValues: ['dev', 'prod', 'test', 'staging']
+
+Resources:
+  TerraformStateBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref 'EnvironmentName', 'INF', !Ref 'ServiceName', 'S3', 'Terraform']]
+      BucketName: !Sub '${EnvironmentName}-${ServiceName}-${AWS::Region}-terraform'
+      AccessControl: LogDeliveryWrite
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  TerraformStateBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'TerraformStateBucket'
+      PolicyDocument:
+        Id: Content
+        Version: '2012-10-17'
+        Statement:
+          - Action: '*'
+            Condition:
+              Bool:
+                aws:SecureTransport: 'false'
+            Effect: Deny
+            Principal: '*'
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref 'TerraformStateBucket', '/*']]
+            Sid: S3ForceSSL
+          - Action: 's3:PutObject'
+            Condition:
+              'Null':
+                s3:x-amz-server-side-encryption: 'true'
+            Effect: Deny
+            Principal: '*'
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref 'TerraformStateBucket', '/*']]
+            Sid: DenyUnEncryptedObjectUploads
+ 
+  TerraformInfraDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Join ['', [!Ref 'TerraformStateBucket', '-locks']]
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      KeySchema:
+        - AttributeName: "LockID"
+          KeyType: "HASH"
+      AttributeDefinitions:
+        - AttributeName: "LockID"
+          AttributeType: "S"
+      SSESpecification:
+        SSEEnabled: true
+      Tags:
+        # Cloudformation doesn't support automatically tag DynamoDB resources
+        - Key: aws-cloudformation-logical-id
+          Value: "TerraformInfraDynamoDBTable"
+        - Key: aws-cloudformation-stack-id
+          Value: !Ref "AWS::StackId"
+        - Key: aws-cloudformation-stack-name
+          Value: !Ref "AWS::StackName"
+
+Outputs:
+  TerraformStateBucketName:
+    Description: Terraform State Bucket Name
+    Value: !Ref 'TerraformStateBucket'
+  TerraformInfraDynamoDBTableName:
+    Description: Terraform state locks management DynamoDB table name
+    Value: !Ref 'TerraformInfraDynamoDBTable'

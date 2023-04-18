@@ -4,3 +4,14 @@
 */storage/
 .php-cs-fixer.cache
 .php-cs-fixer.dist.php
+**/.terraform/
+**/.terraform.lock.hcl
+**/veriscope.tar.gz
+**/veriscope-nodes.yaml
+infra/configure/playbooks/credentials/*
+**/*.tfplan
+infra/terraform/instances/.ssh/*
+infra/lambdas/**/output.json
+infra/terraform/common/common_infra.json
+infra/terraform/instances/instances.json
+infra/cloudformation/packaged-iac-bootstrap.yaml

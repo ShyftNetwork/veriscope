@@ -1,0 +1,63 @@
+all:
+  hosts:
+  children:
+    web:
+      hosts:
+        foo-001.my-custom-domain.com:
+          private_ip: 10.10.10.10
+          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82722daec9e3259323997c4e877b20cb4
+          trust_anchor_account_address: "0xe33bC570112172E2D64e8233d02454BBA56B67A2"
+          trust_anchor_preferred_name: ''
+          ssh_priv_key_secret_name: /owner/env/instances/foo-001.my-custom-domain.com
+          nm_host: foo-001-nm.my-custom-domain.com
+        bar-002.my-custom-domain.com:
+          private_ip: 10.10.10.11
+          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827
+          trust_anchor_account_address: "0x67A212172E2D64e8233de33bC570102454BBA56B"
+          trust_anchor_preferred_name: ''
+          ssh_priv_key_secret_name: /owner/env/instances/bar-002.my-custom-domain.com
+          nm_host: bar-002-nm.my-custom-domain.com
+    nethermind:
+      hosts:
+        foo-001-nm.my-custom-domain.com:
+          private_ip: 10.10.10.12
+          ssh_priv_key_secret_name: /owner/env/instances/foo-001-nm.my-custom-domain.com
+        bar-002-nm.my-custom-domain.com:
+          private_ip: 10.10.10.13
+          ssh_priv_key_secret_name: /owner/env/instances/bar-002-nm.my-custom-domain.com
+  vars:
+    # Whether to print debug messages to the screen while running the playbooks. NOTE: It may print secret information too. So, please use with caution.
+    debug: false
+
+    env: dev
+
+    # Identify a chain to deploy to - choose from the list of directory names in chains/
+    # One of 'veriscope_testnet', 'fed_testnet', 'fed_mainnet'
+    veriscope_target: veriscope_testnet
+
+    # Owner of the veriscope nodes. The value must be equal to the value of the Owner tag in the terraform variables file (.tfvars file).
+    # If each node has a different owner, this can be moved to hosts: section and specified per node.
+    owner: foobar
+    
+    # The details of the TA dashboard (PHP Laravel app) admin user. Required values are
+    # firstname, lastname, email and password. password is optional. If not provided, it 
+    # will be auto-generated and stored in infra/configure/playbooks/credentials/ta_dashboard_admin_pwd/<host-name>
+    ta_dashboard_admin_user:
+      firstname: Krishna
+      lastname: Vasudeva
+      email: krishna@shyft.network
+      # optional password
+      password: mysupersecretpassword*!1
+
+    # Use this list to specify which apps to perform update (re-install) on beyond the copying 
+    # the new version of the code during a node update.
+    apps_to_update:
+      - api
+      - dashboard
+
+    # Use this dict to specify the keys and values for changes to TA API config changes
+    ta_api_config_changes:
+      HTTP: http://{{ nm_host }}:8545
+      WS: ws://{{ nm_host }}:8545
+      # HTTP: http://tx.veriscope.network:9400/
+      # WS: ws://tx.veriscope.network:9400/

@@ -1,0 +1,69 @@
+- name: Create {{ nm_root }}
+  ansible.builtin.file:
+    path: "{{ nm_root }}"
+    state: directory
+    owner: veris
+    group: veris
+  become: true
+
+- name: Download and extract Nethermind files
+  ansible.builtin.unarchive:
+    src: "{{ nethermind_tarball }}"
+    dest: "{{ nm_root }}"
+    remote_src: yes
+    exclude:
+      - chainspec/
+      - configs/
+    owner: veris
+    group: veris
+  become: true
+
+- name: Copy static nodes config
+  ansible.builtin.copy:
+    src: "{{ controller_working_dir }}/chains/{{ veriscope_target }}/static-nodes.json"
+    dest: "{{ nm_root }}"
+    force: true
+    owner: veris
+    group: veris
+
+- name: Copy shyftchainspec.json genesis file
+  ansible.builtin.copy:
+    src: "{{ controller_working_dir }}/chains/{{ veriscope_target }}/shyftchainspec.json"
+    dest: "{{ nm_root }}"
+  become: true
+
+- name: Get stats of /etc/systemd/system/nethermind.service
+  ansible.builtin.stat:
+    path: /etc/systemd/system/nethermind.service
+  register: st
+
+- name: Check Nethermind service config exists
+  ansible.builtin.debug:
+    msg: "{{ st.stat }}"
+
+- name: Copy Nethermind service config
+  ansible.builtin.template:
+    src: templates/nethermind.service.j2
+    dest: /etc/systemd/system/nethermind.service
+  when: not st.stat.exists or not st.stat.isreg
+  become: true
+
+- name: Force systemd to reload configs
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: true
+
+- name: Copy Nethermind config
+  ansible.builtin.template:
+    src: "{{ nm_config_template_path }}"
+    dest: "{{ nm_config_dest_path }}"
+    owner: veris
+    group: veris
+
+- name: "Change {{ nm_root }} ownership to veris"
+  ansible.builtin.file:
+    path: "{{ nm_root }}"
+    owner: veris
+    group: veris
+    recurse: yes
+  become: true

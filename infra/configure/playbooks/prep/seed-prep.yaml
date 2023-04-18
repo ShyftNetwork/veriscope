@@ -1,0 +1,9 @@
+---
+- name: Prepare ansible controller (localhost)
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_host: localhost
+  tasks:
+    - name: Install community.general ansible-galaxy collection
+      ansible.builtin.command: ansible-galaxy collection install community.general:==6.0.1

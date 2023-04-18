@@ -1,0 +1,57 @@
+---
+- name: Update Trust Anchor accounts and keys
+  hosts: web
+
+  tasks:
+
+    - name: Check inputs - Update TA accounts and keys
+      ansible.builtin.assert:
+        that:
+          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
+          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
+          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
+        success_msg: Required inputs provided. Proceeding to copy chain artifacts and setup nodejs app.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+    
+    - name: Stop required services - Update TA API config
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: stopped
+      ignore_errors: false
+      become: true
+      with_items:
+        - ta-node-1
+        - ta-node-2
+
+    - name: Update Trust Anchor pk, account, prefname
+      ansible.builtin.blockinfile:
+        path: "{{ api_config_path }}"
+        backup: true
+        block: |
+          TRUST_ANCHOR_PK={{ trust_anchor_private_key }}
+          TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account_address }}
+          TRUST_ANCHOR_PREFNAME={{ trust_anchor_preferred_name }}
+        marker: "# {mark} AUTOMATION MANAGED BLOCK TA ACCOUNT INFO"
+        state: present
+        owner: veris
+        group: veris
+
+    - name: Start TA API services - Update TA API config
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+      ignore_errors: false
+      become: true
+      with_items:
+        - ta-node-1
+        - ta-node-2
+
+- name: Restart nethermind service
+  hosts: nethermind
+
+  tasks:
+    - name: Restart nethermind service
+      ansible.builtin.import_tasks: ../tasks/restart-services.yaml
+      vars:
+        services:
+          - "{{ veriscope_nm_services }}"

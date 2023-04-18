@@ -1,14 +1,14 @@
 # DO NOT INCLUDE "0x" prefix in TRUST_ANCHOR_PK
 # BEGIN AUTOMATION MANAGED BLOCK TA ACCOUNT INFO
-TRUST_ANCHOR_PK={{ trust_anchor_pk | mandatory }}
-TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account | mandatory }}
-TRUST_ANCHOR_PREFNAME={{ veriscope_common_name }}
+TRUST_ANCHOR_PK={{ trust_anchor_private_key | mandatory }}
+TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account_address | mandatory }}
+TRUST_ANCHOR_PREFNAME={{ trust_anchor_preferred_name | mandatory }}
 # END AUTOMATION MANAGED BLOCK TA ACCOUNT INFO
 
 WEBHOOK_CLIENT_SECRET=
 
-HTTP="http://localhost:8545"
-WS="ws://localhost:8545"
+HTTP="http://{{ nm_host }}:8545"
+WS="ws://{{ nm_host }}:8545"
 WEBHOOK="http://localhost:8000/webhook"
 HTTP_API_PORT=8080
 TEMPLATE_HELPER_PORT=8090

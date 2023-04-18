@@ -1,0 +1,26 @@
+- name: Restart all given services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  become: true
+  with_items: "{{ services }}"
+
+- name: Sleep for 5 seconds and continue with play
+  ansible.builtin.wait_for:
+    timeout: 5
+  delegate_to: localhost
+
+- name: Populate service facts
+  ansible.builtin.service_facts:
+
+- name: Print service facts
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts.services[item + '.service'] }}"
+  with_items: "{{ services }}"
+
+- name: Assert restarted services state == running
+  ansible.builtin.assert:
+    that:
+      "{{ ansible_facts.services[item + '.service']['state'] == 'running' }}"
+  with_items: "{{ services }}"
+  when: item != 'postgresql'

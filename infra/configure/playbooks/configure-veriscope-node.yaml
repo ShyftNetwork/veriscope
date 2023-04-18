@@ -1,0 +1,85 @@
+---
+- name: Run setup-vasp.sh script
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: List dir contents
+      shell: |
+        pwd 
+        ls -altr
+        ls -altr ./scripts
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash    
+    - name: Refresh dependencies
+      shell: |
+        sudo ./scripts/setup-vasp.sh refresh_dependencies
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install or update nethermind
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_or_update_nethermind
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Create postgres trust anchor DB
+      shell: |
+        sudo ./scripts/setup-vasp.sh create_postgres_trustanchor_db
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Setup or renew SSL
+      shell: |
+        sudo ./scripts/setup-vasp.sh setup_or_renew_ssl
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Setup Nginx
+      shell: |
+        sudo ./scripts/setup-vasp.sh setup_nginx
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install or update Nodejs
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_or_update_nodejs
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install or update PHP Laravel
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_or_update_laravel
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Refresh static nodes
+      shell: |
+        sudo ./scripts/setup-vasp.sh refresh_static_nodes
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install horizon
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_horizon  
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install redis
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_redis
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Install passport client env
+      shell: |
+        sudo ./scripts/setup-vasp.sh install_passport_client_env
+      args:
+        chdir: /opt/veriscope
+        executable: /bin/bash
+    - name: Create admin user
+      shell: |
+        php artisan createuser:admin Nicolas Morin nicolas@shyft.network p4ssw0rd!
+      args:
+        chdir: /opt/veriscope/veriscope_ta_dashboard
+        executable: /bin/bash

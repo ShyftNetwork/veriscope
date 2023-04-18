@@ -1,0 +1,15 @@
+[Unit]
+Description=Trust Anchor Node API
+After=network.target
+
+[Service]
+User={{ service_user }}
+Group=www-data
+UMask=0002
+WorkingDirectory=/opt/veriscope/veriscope_ta_node/
+ExecStart=/usr/bin/node http-api.js
+Restart=on-failure
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=default.target

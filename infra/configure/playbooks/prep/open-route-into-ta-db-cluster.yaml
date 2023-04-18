@@ -1,0 +1,52 @@
+- name: Open route into the ta-db-cluster from my bastion
+  hosts: localhost
+  gather_facts: true
+  vars_files:
+    - vars.yaml
+  vars:
+    ansible_host: localhost
+    lambda_func_arn: "{{ lookup('amazon.aws.aws_ssm', lambda_func_arn_ssm_param_name, bypath=false, decrypt=true,
+                      on_missing='error', on_denied='error', region=aws_region, aws_profile=aws_profile) }}"
+  tasks:
+    - name: Check inputs to invoke the lambda function
+      ansible.builtin.assert:
+        that:
+          - lambda_func_arn_ssm_param_name is defined and lambda_func_arn_ssm_param_name is truthy
+          - lambda_func_arn is defined and lambda_func_arn is truthy
+          - sg_id_ssm_param_name is defined and sg_id_ssm_param_name is truthy
+          - action is defined and action in ['create', 'delete']
+        success_msg: Required inputs provided. Proceeding to invoke the lambda function to open access to the bastion.
+        fail_msg: Required inputs not provided. Please provide required values and try again.
+
+    - name: Get my public ipv4 address
+      ansible.builtin.uri:
+        url: https://ifconfig.co/json
+        body_format: json
+        method: GET
+      register: my_public_ip
+      failed_when: my_public_ip.json.ip is not truthy
+
+    - name: Print my public ip
+      ansible.builtin.debug:
+        var: my_public_ip
+
+    - name: Invoke modify security group lambda function
+      community.aws.execute_lambda:
+        name: "{{ lambda_func_arn }}"
+        region: "{{ aws_region }}"
+        payload:
+          action: "{{ action }}"
+          cidr: "{{ my_public_ip.json.ip }}/32"
+          port: "{{ port[sg_id_ssm_param_name] }}"
+          sg_id_ssm_param_name: "{{ sg_id_ssm_param_name }}"
+        wait: true
+        tail_log: true
+        aws_profile: "{{ aws_profile | default('default') }}"
+      register: lambda_response
+      failed_when: lambda_response.result.output.result == "failure"
+      changed_when: lambda_response.result.output.result == "success"
+      # the response will have a `logs` key that will contain a log (up to 4KB) of the function execution in Lambda
+
+    - name: Print lambda response
+      ansible.builtin.debug:
+        var: lambda_response.result
