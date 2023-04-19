@@ -697,16 +697,21 @@ module.exports =   {
         let result = 'none';
 
         //get ta private key
-        let taPk  = _.first(_.filter(process.env.TRUST_ANCHOR_PK.split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === account.toUpperCase()) { return  v; } }));
+        let taPk  = _.first(_.filter((process.env.TRUST_ANCHOR_PK).split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === account.toUpperCase()) { return  v; } }));
         //put your address private key
         let signer = new ethers.Wallet(taPk, provider);
+        let addr   = await signer.getAddress();
+        let nonceCount = await keyv.get(`nonceCount_${addr}`);
         //reconfig your contract connect with a new signer
         let TrustAnchorExtraData_UniqueWithAccount = TrustAnchorExtraData_Unique.connect(signer);
         try{
-            result = await TrustAnchorExtraData_UniqueWithAccount.setTrustAnchorKeyValuePair(key_name, key_value);
+            result = await TrustAnchorExtraData_UniqueWithAccount.setTrustAnchorKeyValuePair(key_name, key_value, { nonce: nonceCount } );
         }catch(e){
             logger.error('setTrustAnchorKeyValuePair error , account : ' + taPk);
         }
+        nonceCount++;
+        //set nonceCount
+        await keyv.set(`nonceCount_${addr}`, nonceCount);
 
         if (result == 'none') {
             var obj = { user_id: user_id, message: "ta-set-key-value-pair", data: 'fail' };
@@ -749,7 +754,7 @@ module.exports =   {
     },
     taSetAttestation: async function (attestation_type, user_id, user_address, jurisdiction, effective_time, expiry_time, public_data, documents_matrix_encrypted, availability_address_encrypted, is_managed, ta_address) {
           //get ta private key
-          let taPk  = _.first(_.filter(process.env.TRUST_ANCHOR_PK.split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === ta_address.toUpperCase()) { return  v; } }));
+          let taPk  = _.first(_.filter((process.env.TRUST_ANCHOR_PK).split(","), function(v)  { if( web3.eth.accounts.privateKeyToAccount(v).address.toUpperCase() === ta_address.toUpperCase()) { return  v; } }));
           //put your address private key
           let signer = new ethers.Wallet(taPk, provider);
           let addr   = await signer.getAddress();
@@ -772,8 +777,9 @@ module.exports =   {
           result['value'] = result['value'].toNumber();
           logger.debug(result);
           var obj = { user_id: user_id, message: "ta-set-attestation", data: result};
+          nonceCount++;
           //set nonceCount
-          await keyv.set(`nonceCount_${addr}`, nonceCount+1);
+          await keyv.set(`nonceCount_${addr}`, nonceCount);
 
           return obj;
     },
