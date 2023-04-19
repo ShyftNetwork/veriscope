@@ -766,7 +766,7 @@ keyv.on('error', (err) => {
 
 app.listen(httpPort, async () => {
   await keyv.clear();
-  _.each(process.env.TRUST_ANCHOR_PKS.split(","), async  function(pk)  {
+  _.each((process.env.TRUST_ANCHOR_PK).split(","), async  function(pk)  {
     let signer = new ethers.Wallet(pk, provider);
     let addr   = await signer.getAddress();
     nonceCount = await signer.getTransactionCount();
