@@ -39,6 +39,7 @@
         remote_src: false
         owner: veris
         group: veris
+        force: true
       when: operation in ['install', 'update']
 
     - name: Change ownership of {{ install_root }}

@@ -38,11 +38,11 @@
   vars:
     operation: install
 
-- name: Create admin user for Trust Anchor dashboard app
-  ansible.builtin.import_playbook: create-admin-user.yaml
-
 - name: Install and configure redis
   ansible.builtin.import_playbook: install-redis.yaml
+
+- name: Install and configure bloom filter
+  ansible.builtin.import_playbook: install-bloom-filter.yaml
 
 - name: Reboot
   ansible.builtin.import_playbook: reboot.yaml
@@ -62,3 +62,6 @@
   tasks:
     - name: Restart services
       ansible.builtin.import_tasks: ../tasks/start-nethermind-service.yaml
+
+- name: Create admin user for Trust Anchor dashboard app
+  ansible.builtin.import_playbook: create-admin-user.yaml
