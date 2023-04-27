@@ -46,7 +46,7 @@ nm_config_dest_path: "{{ nm_root }}/config.cfg"
 # nethermind_tarball: "https://github.com/NethermindEth/nethermind/releases/download/{{ target_nm_version }}/nethermind-{{ target_nm_version }}.tar.gz"
 nethermind_tarball: https://github.com/NethermindEth/nethermind/releases/download/1.15.0/nethermind-linux-amd64-1.15.0-2b70876-20221228.zip
 # nethermind_tarball: https://github.com/NethermindEth/nethermind/releases/download/1.12.4/nethermind-linux-amd64-1.12.4-1c8b669-20220113.zip
-nethermind_rpc: http://{{ nm_host }}:8545
+nethermind_rpc: http://localhost:8545
 network_facts:
   veriscope_testnet:
     ethstats_get_enodes: "wss://fedstats.veriscope.network/primus/?_primuscb=1627594389337-0"

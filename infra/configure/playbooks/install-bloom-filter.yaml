@@ -1,0 +1,120 @@
+---
+- name: Install Redis Bloom Filter
+  hosts: web
+  become: true
+  gather_facts: true
+  vars:
+    redisbloom_version: '2.4.5'
+    redisbloom_tarball: 'https://github.com/ShyftNetwork/RedisBloom/archive/refs/tags/v2.4.5.zip'
+    redisbloom_dest: '/opt/RedisBloom'
+    nginx_cfg: '/etc/nginx/sites-available/default'
+    php_version: '8.0'
+
+  tasks:
+    - name: Check if Redis server is installed - Install Redis Bloom Filter
+      stat:
+        path: /etc/redis/redis.conf
+      register: redis_conf
+
+    - block:
+
+        - name: Ensure RedisBloom is removed - Install Redis Bloom Filter
+          ansible.builtin.file:
+            path: "{{ item }}"
+            state: absent
+          loop:
+            - /opt/RedisBloom
+            - /tmp/buildresult
+        
+        - name: Ensure RedisBloom dir created - Install Redis Bloom Filter
+          ansible.builtin.file:
+            path: "{{ item }}"
+            state: directory
+          loop:
+            - /opt/RedisBloom
+
+        - name: Install required packages - Install Redis Bloom Filter
+          ansible.builtin.apt:
+            name:
+              - cmake
+              - build-essential
+            state: present
+            update_cache: yes
+          become: true
+
+        - name: Download RedisBloom tarball - Install Redis Bloom Filter
+          ansible.builtin.get_url:
+            url: "{{ redisbloom_tarball }}"
+            dest: /tmp/redisbloom-dist.zip
+
+        - name: Extract RedisBloom tarball - Install Redis Bloom Filter
+          ansible.builtin.unarchive:
+            src: /tmp/redisbloom-dist.zip
+            dest: "{{ redisbloom_dest }}"
+            remote_src: yes
+
+        - name: Build RedisBloom - Install Redis Bloom Filter
+          ansible.builtin.command:
+            cmd: make
+            chdir: /opt/RedisBloom/RedisBloom-{{ redisbloom_version }}
+          register: buildresult
+
+        - name: Get module path - Install Redis Bloom Filter
+          set_fact:
+            module: "{{ buildresult.stdout_lines[-1].split()[-1][:-3] }}"
+
+        - name: Update redis - Install Redis Bloom Filter
+          ansible.builtin.blockinfile:
+            path: /etc/redis/redis.conf
+            insertafter: '^(?!.*loadmodule {{ module }}).*'
+            block: "loadmodule {{ module }}"
+
+        - name: Restart Redis server - Install Redis Bloom Filter
+          ansible.builtin.systemd:
+            name: redis-server
+            state: restarted
+          become: true
+
+        - name: Update PHP settings - Install Redis Bloom Filter
+          ansible.builtin.lineinfile:
+            path: /etc/php/{{ php_version }}/fpm/php.ini
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+          loop:
+            - { regexp: '^.*post_max_size.*', line: 'post_max_size = 128M' }
+            - { regexp: '^.*upload_max_filesize .*', line: 'upload_max_filesize = 128M' }
+
+        - name: Check if NGINX config has been already updated - Install Redis Bloom Filter
+          ansible.builtin.shell:
+            cmd: "grep -q 'client_max_body_size' {{ nginx_cfg }}"
+          ignore_errors: true
+          register: nginx_config_updated
+
+        - name: Update NGINX config - Install Redis Bloom Filter
+          ansible.builtin.lineinfile:
+            path: "{{ nginx_cfg }}"
+            regexp: '^listen 443 ssl;'
+            insertafter: '^listen 443 ssl;'
+            line: '    client_max_body_size 128M;'
+          when: nginx_config_updated.rc != 0
+
+        - name: Set TA dashboard dir perms - Install Redis Bloom Filter
+          ansible.builtin.import_tasks: ../tasks/set-ta-dashboard-dir-perms.yaml
+          vars:
+            operation: install
+
+        - name: Update composer - Install Redis Bloom Filter
+          ansible.builtin.command:
+            cmd: composer update
+            chdir: "{{ dashboard_root }}"
+          become_user: "{{ service_user }}"
+
+        - name: Restart PHP and NGINX services - Install Redis Bloom Filter
+          ansible.builtin.systemd:
+            name: "{{ item }}"
+            state: restarted
+          loop:
+            - php{{ php_version }}-fpm
+            - nginx
+
+      when: redis_conf.stat.exists

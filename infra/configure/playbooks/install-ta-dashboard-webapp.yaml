@@ -150,34 +150,8 @@
         executable: /bin/bash
       when: operation == 'install'
 
-    # chgrp -R www-data ./
-    - name: Recursively change veriscope_ta_dashboard dir group to www-data
-      ansible.builtin.file:
-        path: "{{ dashboard_root }}"
-        state: directory
-        recurse: true
-        group: www-data
-      when: operation in ['install', 'update']
-
-    # chmod -R g+s ./
-    - name: Recursively change veriscope_ta_dashboard dir mode to g+s
-      ansible.builtin.file:
-        path: "{{ dashboard_root }}"
-        state: directory
-        recurse: true
-        mode: g+s
-      when: operation in ['install', 'update']
-      become: true
-
-    # chmod -R 0770 ./storage
-    - name: Recursively change veriscope_ta_dashboard/storage dir mode to 0770
-      ansible.builtin.file:
-        path: "{{ dashboard_root }}/storage"
-        state: directory
-        recurse: true
-        mode: 0770
-      become: true
-      when: operation == 'install'
+    - name: Set TA dashboard dir perms - Install Redis Bloom Filter
+      ansible.builtin.import_tasks: ../tasks/set-ta-dashboard-dir-perms.yaml
 
     # if ! test -s "/etc/systemd/system/ta.service"; then
     #   echo "Deploying systemd service definitions: ta ta-wss ta-schedule"
