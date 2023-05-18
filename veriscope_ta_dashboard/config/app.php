@@ -174,10 +174,13 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         Sebdesign\SM\ServiceProvider::class,
 
         App\Providers\FormServiceProvider::class,
         Sichikawa\LaravelSendgridDriver\SendgridTransportServiceProvider::class,
+
+
     ],
 
     /*

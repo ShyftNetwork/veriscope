@@ -649,32 +649,45 @@ module.exports =   {
     },
     getIsTrustAnchorVerified: async function (user_id, account) {
 
-        var obj = { user_id: user_id, message: "ta-is-verified", data: '' };
+        var obj = { user_id: user_id, message: "ta-is-verified", data: '', taAccount: account};
 
         if(account == 'noSelect'){
+
             obj.data = 'noSelect';
+
         }else{
-            result = await TrustAnchorManager.isTrustAnchorVerified(account);
 
-            logger.debug('isTrustAnchorVerified result');
-            logger.debug(result);
+            try {
+                result = await TrustAnchorManager.isTrustAnchorVerified(account);
+                logger.debug('isTrustAnchorVerified result');
+                logger.debug(result);
 
-            obj.data = result;
+                obj.data = result;
+            } catch(e) {
+                logger.error('isTrustAnchorVerified error , account : ' + account);
+                obj.data = 'Failed';
+            }
+
         }
         this.sendWebhookMessage(obj);
     },
     taGetBalance: async function (user_id, account) {
 
-        var obj = { user_id: user_id, message: "ta-get-balance", data: '' };
+        var obj = { user_id: user_id, message: "ta-get-balance", data: '', taAccount: account};
 
         if(account == 'noSelect'){
             obj.data = 'noSelect';
         } else {
-            result = await web3.eth.getBalance(account);
-            logger.debug('getBalance result');
-            logger.debug(result);
+            try {
+                result = await web3.eth.getBalance(account);
+                logger.debug('getBalance result');
+                logger.debug(result);
 
-            obj.data = result;
+                obj.data = result;
+            } catch(e) {
+                logger.error('taGetBalance error , account : ' + account);
+                obj.data = 'Failed';
+            }
         }
 
         this.sendWebhookMessage(obj);

@@ -43,7 +43,7 @@ class ForgotPasswordRequest extends Mailable
         // return $this->view('grant-access-request')->to($toEmail)->with([
         //                 'url' => $url
         //             ]);;
-        
+
         $sendgrid = Constant::where('name', 'sendgrid')->first();
         if($sendgrid->value == 0){
             // fail the job

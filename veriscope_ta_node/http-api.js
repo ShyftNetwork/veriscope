@@ -191,8 +191,8 @@ async function startSync() {
 
 ethereumEvents.on('block.confirmed', async (blockNumber, events, done) => {
   //set startBlock
-  console.log("block.confirmed");
-  console.log("startBlock:", blockNumber);
+  logger.info(`block.confirmed`);
+  logger.info(`startBlock: ${blockNumber}`);
   await keyv.set('startBlock', blockNumber);
   pipe(events, done)
 });
@@ -337,8 +337,8 @@ app.get('/refresh_event_sync', async (req, res) => {
   let assignBlock = req.query.startBlock || 0;
   await keyv.set('startBlock', assignBlock);
   startBlock = await keyv.get('startBlock');
-  console.log("refresh_event_sync");
-  console.log("startBlock:", startBlock);
+  logger.info(`refresh_event_sync`);
+  logger.info(`startBlock: ${startBlock}`);
   ethereumEvents.start(startBlock);
   res.sendStatus(200);
 });
@@ -355,12 +355,20 @@ app.get('/create-new-user-account', (req, res) => {
   var preDataLength = TRUST_ANCHOR_PREFNAME.length;
   var pkDataLength = TRUST_ANCHOR_PK.length;
   var dataResult = {};
+  var utilityStatus = true;
 
   if (accountDataLength == preDataLength && accountDataLength == pkDataLength) {
 
     for(var theNumber = 0 ; theNumber < accountDataLength ; theNumber++){
-      var ta_sign_template = utility.TASign(process.env.SIGN_MESSAGE + "_TA", TRUST_ANCHOR_PK[theNumber]);
-      var ta_public_key = utility.GetEthPublicKey(TRUST_ANCHOR_PK[theNumber]);
+
+      try {
+        var ta_sign_template = utility.TASign(process.env.SIGN_MESSAGE + "_TA", TRUST_ANCHOR_PK[theNumber]);
+        var ta_public_key = utility.GetEthPublicKey(TRUST_ANCHOR_PK[theNumber]);
+      } catch(error) {
+        utilityStatus = false;
+        logger.error('create-new-user-account error is :' + error )
+        console.log(error);
+      }
 
       var account_logger = {
         prefname: TRUST_ANCHOR_PREFNAME[theNumber],
@@ -395,17 +403,26 @@ app.get('/create-new-user-account', (req, res) => {
       dataResult[theNumber] = data;
     }
 
-    var obj = {
-      user_id: user_id,
-      message: "create-new-user-account",
-      // data: data
-      data : dataResult
-    };
+    if (utilityStatus) {
+      var obj = {
+        user_id: user_id,
+        message: "create-new-user-account",
+        // data: data
+        data : dataResult
+      };
+      
+      logger.info(obj_logger);
+      utility.sendWebhookMessage(obj);
+      res.sendStatus(200);
 
-    logger.debug(obj_logger);
-    utility.sendWebhookMessage(obj);
-
-    res.sendStatus(200);
+    } else {
+      var obj = {
+          user_id: user_id,
+          message: "create-new-user-account",
+          data : 'wrongData'
+      };
+      res.sendStatus(203);
+    }
 
   } else {
     var obj = {
@@ -413,9 +430,7 @@ app.get('/create-new-user-account', (req, res) => {
       message: "create-new-user-account",
       data : 'missingData'
     };
-
-    utility.sendWebhookMessage(obj);
-    res.sendStatus(202);
+    res.sendStatus(204);
   }
 
 });
@@ -426,7 +441,7 @@ app.get('/ta-is-verified', (req, res) => {
   var user_id = req.param('user_id');
   var account = req.param('account');
   utility.getIsTrustAnchorVerified(user_id, account);
-  res.sendStatus(201);
+  res.sendStatus(200);
 });
 
 
@@ -438,7 +453,7 @@ app.get('/ta-get-balance', (req, res) => {
   var user_id = req.param('user_id');
   var account = req.param('account');
   utility.taGetBalance(user_id, account);
-  res.sendStatus(201);
+  res.sendStatus(200);
 });
 
 // eg: ta-set-key-value-pair?user_id=1&account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5&ta_key_name=ENTITY&ta_key_value=Abc%20Inc.
@@ -449,7 +464,7 @@ app.get('/ta-set-key-value-pair', (req, res) => {
   var key_name = req.param('ta_key_name');
   var key_value = req.param('ta_key_value');
   utility.taSetKeyValuePair(user_id, account, key_name, key_value);
-  res.sendStatus(201);
+  res.sendStatus(200);
 });
 
 /*
@@ -584,8 +599,8 @@ app.get('/ta-create-user', async (req, res) => {
     message: "ta-create-user",
     data: data_logger
   };
-  logger.debug('ta-create-user');
-  logger.debug(obj_logger);
+  logger.info('ta-create-user');
+  logger.info(obj_logger);
 
   var data = {
     prefname: prefname,
@@ -632,36 +647,36 @@ app.get('/ta-set-v3-attestation', (req, res) => {
   availability_address_encrypted = utility.convertToByte32(availability_address_encrypted);
 
   var coin_address = req.param('coin_address');
-  logger.debug('coin_address');
-  logger.debug(coin_address);
+  logger.info('coin_address');
+  logger.info(coin_address);
 
   var coin_token = req.param('coin_token');
-  logger.debug('coin_token');
-  logger.debug(coin_token);
+  logger.info('coin_token');
+  logger.info(coin_token);
 
   var coin_blockchain = req.param('coin_blockchain');
-  logger.debug('coin_blockchain');
-  logger.debug(coin_blockchain);
+  logger.info('coin_blockchain');
+  logger.info(coin_blockchain);
 
   var coin_type = coin_blockchain + "_" + coin_token;
-  logger.debug('coin_type');
-  logger.debug(coin_type);
+  logger.info('coin_type');
+  logger.info(coin_type);
 
   var travelRuleV3Template = utility.createTravelRuleV3Template(coin_address, coin_type);
-  logger.debug('travelRuleV3Template');
-  logger.debug(travelRuleV3Template);
+  logger.info('travelRuleV3Template');
+  logger.info(travelRuleV3Template);
 
   var encodedDocumentMatrix = utility.encodeDocumentMatrixInPlace(travelRuleV3Template);
-  logger.debug('encodedDocumentMatrix');
-  logger.debug(encodedDocumentMatrix);
+  logger.info('encodedDocumentMatrix');
+  logger.info(encodedDocumentMatrix);
 
   var encodedDocument = utility.encodeDocument(encodedDocumentMatrix.bitsMatrix, encodedDocumentMatrix.versionCode, encodedDocumentMatrix.encryptedData);
-  logger.debug('encodedDocument');
-  logger.debug(encodedDocument);
+  logger.info('encodedDocument');
+  logger.info(encodedDocument);
 
   var documents_matrix_encrypted = utility.convertToByte32(encodedDocument);
-  logger.debug('documents_matrix_encrypted');
-  logger.debug(documents_matrix_encrypted);
+  logger.info('documents_matrix_encrypted');
+  logger.info(documents_matrix_encrypted);
 
   var ta_account = req.param('ta_account');
   var is_managed = true;
@@ -706,6 +721,9 @@ app.get('/ta-get-attestation-array-for-ta-account/:account', (req, res) => {
   res.sendStatus(201);
 });
 
+app.get('/', (req, res) => {
+  res.sendStatus(200);
+});
 
 
 /*
@@ -734,7 +752,7 @@ app.get('/ta-get-attestation-array-for-user-account/:account', (req, res) => {
 
 app.get('/ta-nonce-count', async (req, res) => {
 
-  logger.debug('/ta-nonce-count');
+  logger.info('/ta-nonce-count');
 
   let baseNonce = await provider.getTransactionCount(trustAnchorAccount);
 
@@ -772,7 +790,7 @@ app.listen(httpPort, async () => {
     nonceCount = await signer.getTransactionCount();
     await keyv.set(`nonceCount_${addr}`, nonceCount);
    });
-  logger.debug('listening on ' + httpPort);
+  logger.info('listening on ' + httpPort);
 });
 
 /**
@@ -781,8 +799,8 @@ app.listen(httpPort, async () => {
 
 queue.taSetAttestation.on('completed', function(job, response) {
   // A job taSetAttestation
-  logger.debug('taSetAttestation:', job);
-  logger.debug('response', response);
+  logger.info(`taSetAttestation: ${job}`);
+  logger.info(`response ${response}`);
 
   queue.taSetAttestationStatusCheck.add(response, services.bull.opts);
 
@@ -805,8 +823,8 @@ queue.taSetAttestation.on('error', function(error) {
 
 queue.taSetAttestationStatusCheck.on('completed', function(job, response) {
   // A job taSetAttestationStatusCheck
-  logger.debug('taSetAttestationStatusCheck:', job);
-  logger.debug('response', response);
+  logger.info(`taSetAttestationStatusCheck: ${job}`);
+  logger.info(`response ${response}`);
 });
 
 queue.taSetAttestationStatusCheck.on('failed', function(job, err) {
@@ -827,8 +845,8 @@ queue.taSetAttestationStatusCheck.on('error', function(error) {
  */
 queue.taEmptyTransaction.on('completed', function(job, response) {
   // A job taEmptyTransaction
-  logger.debug('taEmptyTransaction:', job);
-  logger.debug('response', response);
+  logger.info(`taEmptyTransaction: ${job}`);
+  logger.info(`response ${response}`);
 });
 
 queue.taEmptyTransaction.on('failed', function(job, err) {
@@ -846,8 +864,8 @@ queue.taEmptyTransaction.on('error', function(error) {
  */
 queue.taEmptyTransactionStatusCheck.on('completed', function(job, response) {
   // A job taEmptyTransaction
-  logger.debug('taEmptyTransactionStatusCheck:', job);
-  logger.debug('response', response);
+  logger.info(`taEmptyTransactionStatusCheck: ${job}`);
+  logger.info(`response ${response}`);
 });
 
 queue.taEmptyTransactionStatusCheck.on('failed', function(job, err) {
@@ -866,8 +884,8 @@ queue.taEmptyTransactionStatusCheck.on('error', function(error) {
  */
 queue.taTraceAndParseTransaction.on('completed', function(job, response) {
   // A job completed
-  logger.debug('taTraceAndParseTransaction:', job);
-  logger.debug('response', response);
+  logger.info(`taTraceAndParseTransaction: ${job}`);
+  logger.info(`response ${response}`);
   queue.taWebhookSend.add(response, services.bull.opts);
 
 });
@@ -889,7 +907,7 @@ queue.taTraceAndParseTransaction.on('error', function(error) {
  */
 queue.taWebhookSend.on('completed', function(job, response) {
   // A job completed
-  logger.debug('taWebhookSend:', job);
+  logger.info(`taWebhookSend: ${job}`);
   //logger.debug('response', response);
 });
 

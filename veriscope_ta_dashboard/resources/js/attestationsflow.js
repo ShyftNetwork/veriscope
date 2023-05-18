@@ -14,7 +14,9 @@ import {
     CREATE_TA_ACCOUNT_SUCCESS, //KEEP
     CREATE_TA_ACCOUNT_FAIL,
     TA_IS_VERIFIED_SUCCESS, //KEEP
+    TA_IS_VERIFIED_FAIL,
     TA_GET_BALANCE_SUCCESS, //KEEP
+    TA_GET_BALANCE_FAIL,
     TA_SET_KEY_VALUE_PAIR_SUCCESS,//KEEP
     TA_SET_KEY_VALUE_PAIR_FAIL,
     TA_EVENT_SUCCESS,
@@ -50,22 +52,21 @@ if (document.getElementById('attestations')) {
                     console.log(event);
                     if (event.data.message == 'create-new-user-account') {
                         console.log('message is create-new-user-account');
-                        if (event.data.data == 'missingData') {
-                            store.commit(CREATE_TA_ACCOUNT_FAIL, 'Please check your veriscope_ta_node/.env , there\'re ta data missing.');
-                        } else {
-                            store.commit(CREATE_TA_ACCOUNT_SUCCESS, event.data.data);
-                        }
+                        store.commit(CREATE_TA_ACCOUNT_SUCCESS, event.data.data);
                     }
                     else if (event.data.message == 'ta-is-verified') {
                         console.log('message is ta-is-verified');
                         if (event.data.data == 'noSelect') {
-                            store.commit(TA_IS_VERIFIED_SUCCESS, 'No TA Account selected');
+                            store.commit(TA_IS_VERIFIED_FAIL, 'No TA Account selected.');
+                        }
+                        else if(event.data.data == 'Failed') {
+                            store.commit(TA_IS_VERIFIED_FAIL, 'Can\'t get TA account verified status, please check your Veriscope node .env file.');
                         }
                         else if(event.data.data) {
-                            store.commit(TA_IS_VERIFIED_SUCCESS, 'TA has been verified');
+                            store.commit(TA_IS_VERIFIED_SUCCESS, 'TA : ' + event.data.taAccount + ' has been verified');
                         }
                         else {
-                            store.commit(TA_IS_VERIFIED_SUCCESS, 'TA has NOT been verified');
+                            store.commit(TA_IS_VERIFIED_SUCCESS, 'TA : ' + event.data.taAccount +  ' has NOT been verified');
                         }
                     }
                     else if (event.data.message == 'ta-setup-events') {
@@ -81,19 +82,23 @@ if (document.getElementById('attestations')) {
                         var balance = event.data.data, showInfo;
 
                         if (balance == 'noSelect') {
-                            showInfo = 'No TA Account selected';
+                            showInfo = 'No TA Account selected.';
+                            store.commit(TA_GET_BALANCE_FAIL, showInfo);
+                        } else if (balance == 'Failed') {
+                            showInfo = 'Can\'t get TA account balance, please check your Veriscope node .env file.';
+                            store.commit(TA_GET_BALANCE_FAIL, showInfo);
                         } else {
                             if (parseInt(balance) > 0 ) {
                                 balance = balance / 1000000000000000000;
                             }
-                            showInfo = balance + ' SHFT';
+                            showInfo = 'TA : ' + event.data.taAccount + ' Balance : ' + balance + ' SHFT';
+                            store.commit(TA_GET_BALANCE_SUCCESS, showInfo);
                         }
-                        store.commit(TA_GET_BALANCE_SUCCESS, showInfo);
                     }
                     else if (event.data.message == 'ta-set-key-value-pair') {
                         console.log('message is ta-set-key-value-pair');
                         if (event.data.data == 'fail') {
-                            store.commit(TA_SET_KEY_VALUE_PAIR_FAIL);
+                            store.commit(TA_SET_KEY_VALUE_PAIR_FAIL, 'Selected TA Account not verified yet.');
                         }else{
                             store.commit(TA_SET_KEY_VALUE_PAIR_SUCCESS, event.data.data);
                         }

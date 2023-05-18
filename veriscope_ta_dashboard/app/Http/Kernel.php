@@ -15,7 +15,6 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
-        \App\Http\Middleware\CheckForMaintenanceMode::class,
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -67,7 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \HttpOz\Roles\Middleware\VerifyRole::class,
         'group' => \HttpOz\Roles\Middleware\VerifyGroup::class,
-        'maintenance' => \App\Http\Middleware\CheckForMaintenanceMode::class,
         'shyft.revoked' => \App\Http\Middleware\RedirectIfAccessRevoked::class,
         'force.dashboard' => \App\Http\Middleware\RedirectAuthToDashboard::class,
         'check.signature' => \App\Http\Middleware\CheckSignature::class,

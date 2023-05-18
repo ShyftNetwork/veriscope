@@ -63,10 +63,7 @@ class ConstantsController extends Controller
                         activity()
                          ->log('Updating '.$constant->name .' to: '.$constant->value);
 
-                        if($constant->name == 'maintenance') {
-                            // updated
-                            MaintenanceMode::dispatch($constant);
-                        } elseif($constant->name == 'sendgrid'){
+                        if($constant->name == 'sendgrid'){
                             SendgridEnable::dispatch();
                         }
                     }
@@ -79,10 +76,7 @@ class ConstantsController extends Controller
                          ->log('Updating '.$constant->name .' to: '.$constant->value);
 
                         Log::info('Updating '.$constant->name .' to: '.$constant->value);
-                        if($constant->name == 'maintenance') {
-                            // updated
-                            MaintenanceMode::dispatch($constant);
-                        }
+
                     }
                 }
             } elseif($constant->type == 'text') {
