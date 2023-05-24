@@ -181,11 +181,12 @@ const options = {
 
 
 ethereumEvents = new EthereumEvents(web3, contracts, options);
-startBlock = 0;
 
 async function startSync() {
   startBlock = await keyv.get('startBlock');
-  ethereumEvents.start(startBlock);
+  if (startBlock === undefined) {
+    startBlock = 1;
+  }
 }
 
 
@@ -334,7 +335,7 @@ function pipe(events, done) {
 
 app.get('/refresh_event_sync', async (req, res) => {
   ethereumEvents.stop();
-  let assignBlock = req.query.startBlock || 0;
+  let assignBlock = req.query.startBlock || 1;
   await keyv.set('startBlock', assignBlock);
   startBlock = await keyv.get('startBlock');
   console.log("refresh_event_sync");
