@@ -28,7 +28,7 @@ class InternalWebhookSecretCheck implements Check
         preg_match('/WEBHOOK_CLIENT_SECRET=(.+)/', $envContents, $matches);
 
         // Get the internal webhook client secret from .env file in veriscope_ta_node folder
-        $taNodeSecret = $matches[1] ?? null;
+        $taNodeSecret = str_replace('"', '',$matches[1]) ?? null;
 
         // Get the internal webhook client secret from .env file in veriscope_ta_dashboard folder
         $taDashboardSecret = env('WEBHOOK_CLIENT_SECRET');

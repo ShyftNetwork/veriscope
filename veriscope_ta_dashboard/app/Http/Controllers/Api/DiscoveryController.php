@@ -24,7 +24,7 @@ class DiscoveryController extends Controller
     {
 
         Log::debug('DiscoveryController index');
-        
+
         // get all params
         $input = $request->all();
 
@@ -74,7 +74,7 @@ class DiscoveryController extends Controller
     {
 
         Log::debug('DiscoveryController unique');
-        
+
         // get all params
         $input = $request->all();
 

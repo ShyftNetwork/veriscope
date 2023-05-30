@@ -74,6 +74,6 @@ class CryptoProofVerification implements Rule
      */
     public function message()
     {
-        return 'The crypto proof supplied does not appear to be valid.';
+        return 'The crypto proof supplied does not appear to be a valid.';
     }
 }

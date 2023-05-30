@@ -181,10 +181,13 @@ const options = {
 
 
 ethereumEvents = new EthereumEvents(web3, contracts, options);
-startBlock = 0;
+
 
 async function startSync() {
   startBlock = await keyv.get('startBlock');
+  if (startBlock === undefined) {
+    startBlock = 1;
+  }
   ethereumEvents.start(startBlock);
 }
 
@@ -334,7 +337,7 @@ function pipe(events, done) {
 
 app.get('/refresh_event_sync', async (req, res) => {
   ethereumEvents.stop();
-  let assignBlock = req.query.startBlock || 0;
+  let assignBlock = req.query.startBlock || 1;
   await keyv.set('startBlock', assignBlock);
   startBlock = await keyv.get('startBlock');
   logger.info(`refresh_event_sync`);
@@ -410,7 +413,7 @@ app.get('/create-new-user-account', (req, res) => {
         // data: data
         data : dataResult
       };
-      
+
       logger.info(obj_logger);
       utility.sendWebhookMessage(obj);
       res.sendStatus(200);
