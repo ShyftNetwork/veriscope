@@ -43,7 +43,7 @@
       ansible.builtin.replace:
         path: "{{ api_config_path }}"
         regexp: '^(WEBHOOK_CLIENT_SECRET=)(.*)$'
-        replace: '\1"{{ webhook_client_secret }}"'
+        replace: '\1{{ webhook_client_secret }}'
       when: operation in ['install', 'update']
       # when: operation == 'install'
 

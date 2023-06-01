@@ -98,7 +98,7 @@
       ansible.builtin.replace:
         path: "{{ dashboard_config_path }}"
         regexp: '^(WEBHOOK_CLIENT_SECRET=)(.*)$'
-        replace: '\1"{{ webhook_client_secret }}"'
+        replace: '\1{{ webhook_client_secret }}'
         owner: "{{ service_user }}"
         group: "{{ service_user }}"
       when: operation == 'install'
