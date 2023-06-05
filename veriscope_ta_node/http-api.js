@@ -182,13 +182,14 @@ const options = {
 
 ethereumEvents = new EthereumEvents(web3, contracts, options);
 
-
 async function startSync() {
   startBlock = await keyv.get('startBlock');
   if (startBlock === undefined) {
     startBlock = 1;
   }
+
   ethereumEvents.start(startBlock);
+
 }
 
 
