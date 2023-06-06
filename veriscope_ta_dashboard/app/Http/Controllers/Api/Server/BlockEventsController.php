@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\{LatestBlockEvents};
-use App\Http\Requests\{EditLatestBlockEventNumberRequest};
+use App\Http\Requests\{EditLatestBlockEventNumberRequest, RefreshEventSyncRequest};
 use GuzzleHttp\Client;
 
 
@@ -37,10 +37,10 @@ class BlockEventsController extends Controller
           return response()->json($data);
       }
 
-      public function getRefreshEventSync(Request $request)
+      public function getRefreshEventSync(RefreshEventSyncRequest $request)
       {
 
-        $startBlock = $request->input('startBlock', 0);
+        $startBlock = $request->input('startBlock', 1);
         $url = $this->http_api_url.'/refresh_event_sync?startBlock='.$startBlock;
         $client = new Client();
         $res = $client->request('GET', $url);

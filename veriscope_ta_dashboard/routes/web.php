@@ -48,6 +48,7 @@ Route::post('/2faVerify', function () {
 })->name('2faVerify')->middleware('2fa');
 
 
+
 // set password routes after initial access has been granted
 Route::get('auth/password/set/{token}', 'Auth\OnboardController@passwordSet');
 Route::post('auth/password/assign', 'Auth\OnboardController@passwordAssign')->name('password.assign');
@@ -64,7 +65,6 @@ if(config('shyft.onboarding')) {
 
   Route::get('auth/email/manage', function () { return view('auth.email.manage'); })->name('email.manage');
 
-  Route::group(['middleware' => 'maintenance'], function() {
 
     Route::group(['middleware' => ['shyft.revoked', 'auth','2fa']], function() {
 
@@ -103,7 +103,6 @@ if(config('shyft.onboarding')) {
             Route::put('constants/update', '\App\Http\Controllers\Backoffice\ConstantsController@update')->name('constants.update')->middleware('can:edit,App\Constant');
         });
 
-    });
   });
 }
 
@@ -127,6 +126,9 @@ if(Config::get('backoffice.enabled')) {
         Route::get('/', '\App\Http\Controllers\Backoffice\DashboardController@index')->name('backoffice.dashboard');
 
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
+
+        Route::resource('systemchecks', 'SystemChecksController', ['only' => ['index']]);
+
 
         Route::get('arena_auth', '\App\Http\Controllers\Backoffice\DashboardController@arena_auth')->name('arena.auth');
 

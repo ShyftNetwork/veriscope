@@ -93,7 +93,11 @@ export const actions = {
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/create-ta-account`, p)
             .then(response => {
-                return response;
+                if (response.data.status == 'Failed') {
+                    commit(CREATE_TA_ACCOUNT_FAIL, 'Can\'t load trust anchor, please check your Veriscope node .env file and systemcheck page.');
+                } else {
+                    return response;
+                }
             })
             .catch(error => {
                 commit(CREATE_TA_ACCOUNT_FAIL);
@@ -189,10 +193,14 @@ export const actions = {
         console.log(p);
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-is-verified`, p)
             .then(response => {
-                return response;
+                if (response.data.status == 'Failed') {
+                    commit(TA_IS_VERIFIED_FAIL, 'Can\'t get TA account verified status, please check your Veriscope node .env file.');
+                } else {
+                    return response;
+                }
             })
             .catch(error => {
-                commit(TA_IS_VERIFIED_FAIL);
+                commit(TA_IS_VERIFIED_FAIL, 'Can\'t get TA account verified status, please check your Veriscope node .env file.');
             });
     },
 
@@ -240,7 +248,11 @@ export const actions = {
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-get-balance`, p)
             .then(response => {
-                return response;
+                if (response.data.status == 'Failed') {
+                    commit(TA_GET_BALANCE_FAIL, 'Can\'t get TA account balance, please check your Veriscope node .env file.');
+                } else {
+                    return response;
+                }
             })
             .catch(error => {
                 commit(TA_GET_BALANCE_FAIL);
@@ -404,14 +416,16 @@ export const actions = {
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-key-value-pair/`, p)
-            .then(({
-                data
-            }) => {
-                console.log('TA_SET_KEY_VALUE_PAIR response');
-                return data;
+            .then(({data}) => {
+                if (data.data.status == 'Failed') {
+                    commit(TA_SET_KEY_VALUE_PAIR_FAIL, 'Can\'t set TA account key value pair, please check your Veriscope node .env file and systemcheck page.');
+                } else {
+                    console.log('TA_SET_KEY_VALUE_PAIR response');
+                    return data;
+                }
             })
             .catch((error) => {
-                commit(TA_SET_KEY_VALUE_PAIR_FAIL);
+                commit(TA_SET_KEY_VALUE_PAIR_FAIL, 'Can\'t set TA account key value pair, please check your Veriscope node .env file and systemcheck page.');
             });
     },
 

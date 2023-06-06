@@ -5,7 +5,7 @@
         ></page-intro>
         <!-- 01. Create a new trust anchor account -->
         <div class="flex flex-wrap items-center">
-                <h2 id="toTA">01. Load trust anchor (TA) account</h2>
+                <h2 id="toTA">01. Load Trust Anchor (TA) Accounts</h2>
         </div>
         <div class="flex flex-wrap items-center">
             <div class="w-full lg:w-1/3 my-8">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="flex flex-wrap items-center" :style="{ display:show_ta_create_account }">
-            <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">TA Info: {{ta_create_account_result}}</strong></p>
+            <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2" :style="{ display:show_ta_create_account_green_mark }"><img src="/images/icon-error.svg" alt="Error" class="mr-2" :style="{ display:show_ta_create_account_error_mark }"> <strong class="mr-2">TA Info: {{ta_create_account_result}}</strong></p>
         </div>
         <div class="my-4 lg">
             <!-- 00. TA List -->
@@ -25,7 +25,7 @@
                 <div class="flex flex-wrap items-center">
                     <strong class="mb-3 text-charcoal">Your TA for your Organization</strong>
                 </div>
-                <p>Note: Your TA account is loaded from the .env in the veriscope_ta_node directory.</p>
+                <p>Note: TA accounts are loaded from your Veriscope node .env file. Contact your engineering team for more details.</p>
                 <good-table
                 :columns="ta_account_columns"
                 :rows="ta_account_rows"
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_ta_is_verified_data_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_is_verified_data_result}}</strong></p>
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2" :style="{ display:show_ta_is_verified_data_result_green_mark }"><img src="/images/icon-error.svg" alt="Error" class="mr-2" :style="{ display:show_ta_is_verified_data_result_error_mark }"> <strong class="mr-2">{{ta_is_verified_data_result}}</strong></p>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_ta_get_balance_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_get_balance_result}}</strong></p>
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2" :style="{ display:show_ta_get_balance_result_green_mark }"><img src="/images/icon-error.svg" alt="Error" class="mr-2" :style="{ display:show_ta_get_balance_result_error_mark }"> <strong class="mr-2">{{ta_get_balance_result}}</strong></p>
             </div>
         </div>
         <br/>
@@ -150,7 +150,7 @@
                     </simple-button>
                 </div>
                 <div class="flex flex-wrap items-center" :style="{ display:show_export_IVMS_data_result }">
-                    <p class="md:flex md:items-center"><strong class="mr-2" style="color:red;">{{export_IVMS_failed_data}}</strong></p>
+                    <p class="md:flex md:items-center"><img src="/images/icon-error.svg" alt="Error" class="mr-2"><strong class="mr-2">{{export_IVMS_failed_data}}</strong></p>
                 </div>
             </div>
         </div>
@@ -573,7 +573,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_updated_ivms_data_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{updated_ivms_data_result}}</strong></p>
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2" :style="{ display:show_updated_ivms_data_result_green_mark }"><img src="/images/icon-error.svg" alt="Error" class="mr-2" :style="{ display:show_updated_ivms_data_result_error_mark }"> <strong class="mr-2">{{updated_ivms_data_result}}</strong></p>
             </div>
         </div>
         <br/>
@@ -646,7 +646,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap items-center" :style="{ display:show_key_value_pair_result }">
-                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2"> <strong class="mr-2">{{ta_set_key_value_pair_result}}</strong></p>
+                <p class="md:flex md:items-center"><img src="/images/icon-checkmark.svg" alt="Checkmark" class="mr-2" :style="{ display:show_key_value_pair_result_green_mark }"><img src="/images/icon-error.svg" alt="Error" class="mr-2" :style="{ display:show_key_value_pair_result_error_mark }"> <strong class="mr-2">{{ta_set_key_value_pair_result}}</strong></p>
             </div>
         </div>
     </div>
@@ -830,16 +830,36 @@
                         attestations.taGetDiscoveryLayerKeysData,
                 show_ta_create_account: ({ attestations }) =>
                     attestations.showTaCreateAccount,
+                show_ta_create_account_green_mark: ({ attestations }) =>
+                    attestations.showTaCreateAccountGreenMark,
+                show_ta_create_account_error_mark: ({ attestations }) =>
+                    attestations.showTaCreateAccountErrorMark,
                 show_ta_is_verified_data_result: ({ attestations }) =>
                     attestations.showTaIsVerifiedData,
+                show_ta_is_verified_data_result_green_mark: ({ attestations }) =>
+                    attestations.showTaIsVerifiedDataGreenMark,
+                show_ta_is_verified_data_result_error_mark: ({ attestations }) =>
+                    attestations.showTaIsVerifiedDataErrorMark,
                 show_updated_ivms_data_result: ({ attestations }) =>
                     attestations.showUpdatedIvmsData,
+                show_updated_ivms_data_result_green_mark: ({ attestations }) =>
+                    attestations.showUpdatedIvmsDataGreenMark,
+                show_updated_ivms_data_result_error_mark: ({ attestations }) =>
+                    attestations.showUpdatedIvmsDataErrorMark,
                 show_ta_get_balance_result: ({ attestations }) =>
                     attestations.showTaGetBalanceResult,
+                show_ta_get_balance_result_green_mark: ({ attestations }) =>
+                    attestations.showTaGetBalanceResultGreenMark,
+                show_ta_get_balance_result_error_mark: ({ attestations }) =>
+                    attestations.showTaGetBalanceResultErrorMark,
                 ta_set_key_value_pair_result: ({ attestations }) =>
                     attestations.taSetKeyValuePairData,
                 show_key_value_pair_result: ({ attestations }) =>
                     attestations.showKeyValuePairResult,
+                show_key_value_pair_result_green_mark: ({ attestations }) =>
+                    attestations.showKeyValuePairResultGreenMark,
+                show_key_value_pair_result_error_mark: ({ attestations }) =>
+                    attestations.showKeyValuePairResultErrorMark,
                 show_export_IVMS_data_result: ({ attestations }) =>
                     attestations.showExportIVMSFailedData,
                 export_IVMS_failed_data: ({ attestations }) =>

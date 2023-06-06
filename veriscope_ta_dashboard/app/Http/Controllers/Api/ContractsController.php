@@ -43,16 +43,22 @@ class ContractsController extends Controller
         Log::debug(print_r($input, true));
 
         $url = $this->helper_url.'/create-new-user-account?user_id='.$id;
-        $client = new Client();
-        $res = $client->request('GET', $url);
-        if ($res->getStatusCode() == 200) {
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController create_ta_account');
-            Log::debug($response);
-            $status = 'Success';
-        } else {
-            Log::error('ContractsController create_ta_account failed : ' . $res->getStatusCode());
-            $status = 'Failed';
+        $status = 'Failed';
+
+        try{
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if ($res->getStatusCode() == 200) {
+              $response = json_decode($res->getBody());
+              Log::debug('ContractsController create_ta_account');
+              Log::debug($response);
+              $status = 'Success';
+          } else {
+              Log::error('ContractsController create_ta_account failed : ' . $res->getStatusCode());
+          }
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+          $response = $e->getMessage();
+          Log::error('ContractsController create_ta_account failed : ' . $response);
         }
 
         return response()->json(['status' => $status]);
@@ -175,19 +181,29 @@ class ContractsController extends Controller
         }
 
         $account = $input['account'];
+        $status = 'Failed';
         Log::debug(print_r($input, true));
         $url = $this->helper_url.'/ta-is-verified?user_id='.$id.'&account='.$account;
-        $client = new Client();
-        $res = $client->request('GET', $url);
-        if ($res->getStatusCode() == 200) {
+
+        try{
+          $client = new Client();
+          $res = $client->request('GET', $url);
+
+          if ($res->getStatusCode() == 200) {
+            $status = 'Success';
             $response = json_decode($res->getBody());
             Log::debug('ContractsController ta_is_verified');
             Log::debug($response);
-        } else {
-            Log::error('ContractsController ta_is_verified: ' . $res->getStatusCode());
+          } else {
+              Log::error('ContractsController ta_is_verified: ' . $res->getStatusCode());
+          }
+          
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+          $response = $e->getMessage();
+          Log::error('ContractsController ta_is_verified failed : ' . $response);
         }
 
-        return response()->json([]);
+        return response()->json(['status' => $status]);
     }
 
     public function ta_create_user(Request $request, $id)
@@ -228,6 +244,7 @@ class ContractsController extends Controller
 
         $input = $request->all();
         $user = User::find($id);
+        $status = 'Failed';
 
         if (count($input) == 0) {
             $input['account'] = 'noSelect';
@@ -237,17 +254,25 @@ class ContractsController extends Controller
 
         Log::debug(print_r($input, true));
         $url = $this->helper_url.'/ta-get-balance?user_id='.$id.'&account='.$account;
-        $client = new Client();
-        $res = $client->request('GET', $url);
-        if ($res->getStatusCode() == 200) {
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_get_balance');
-            Log::debug($response);
-        } else {
-            Log::error('ContractsController ta_get_balance: ' . $res->getStatusCode());
+
+        try{
+          $client = new Client();
+          $res = $client->request('GET', $url);
+          if ($res->getStatusCode() == 200) {
+              $status = 'Success';
+              $response = json_decode($res->getBody());
+              Log::debug('ContractsController ta_get_balance');
+              Log::debug($response);
+          } else {
+              Log::error('ContractsController ta_get_balance: ' . $res->getStatusCode());
+          }
+
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+          $response = $e->getMessage();
+          Log::error('ContractsController ta_get_balance failed : ' . $response);
         }
 
-        return response()->json([]);
+        return response()->json(['status' => $status]);
     }
 
     public function ta_get_discovery_layer_keys(Request $request, $id)
@@ -459,23 +484,33 @@ class ContractsController extends Controller
 
       $input = $request->all();
       $user = User::find($id);
+      $status = 'Failed';
 
-      $account = $input['account'];
-      $ta_key_name = $input['ta_key_name'];
-      $ta_key_value = $input['ta_key_value'];
+      try{
+        $account = $input['account'];
+        $ta_key_name = $input['ta_key_name'];
+        $ta_key_value = $input['ta_key_value'];
 
-      $url = $this->helper_url.'/ta-set-key-value-pair?user_id='.$id.'&account='.$account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
-      $client = new Client();
-      $res = $client->request('GET', $url);
-      if ($res->getStatusCode() == 200) {
-          $response = json_decode($res->getBody());
-          Log::debug('ContractsController ta_set_key_value_pair');
-          Log::debug($response);
-      } else {
-          Log::error('ContractsController ta_set_key_value_pair: ' . $res->getStatusCode());
+        $url = $this->helper_url.'/ta-set-key-value-pair?user_id='.$id.'&account='.$account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
+        $client = new Client();
+        $res = $client->request('GET', $url);
+        if ($res->getStatusCode() == 200) {
+            $status = 'Success';
+            $response = json_decode($res->getBody());
+            Log::debug('ContractsController ta_set_key_value_pair');
+            Log::debug($response);
+        } else {
+            Log::error('ContractsController ta_set_key_value_pair: ' . $res->getStatusCode());
+        }
+      } catch (\GuzzleHttp\Exception\ConnectException $e) {
+        $response = $e->getMessage();
+        Log::error('ContractsController ta_set_key_value_pair failed : ' . $response);
+      } catch (\Exception $e) {
+        $response = $e->getMessage();
+        Log::error('ContractsController ta_set_key_value_pair failed : ' . $response);
       }
 
-      return response()->json([]);
+      return response()->json(['status' => $status]);
     }
 
     public function ta_get_trust_anchor_users(Request $request, $id)

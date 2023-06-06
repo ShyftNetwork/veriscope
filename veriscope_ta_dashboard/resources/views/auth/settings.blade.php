@@ -20,7 +20,7 @@ settings
 
         <div class="w-full bg-gray my-8 h-hairline"></div>
         <div class="flex-grow">
-          <strong>Webhook Url</strong><br>
+          <strong>Slack & Webhook Url</strong><br>
           <a href="{{ route('constants.index') }}"><span class="hidden md:inline">Manage Webhook</span><span class="inline md:hidden">Edit</span></a>
         </div>
 

@@ -97,6 +97,8 @@ export const mutations = {
         // state.ta_accounts.push(payload);
         state.ta_temp_account = payload['account_address'];
         state.showTaCreateAccount = 'block';
+        state.showTaCreateAccountGreenMark = 'block';
+        state.showTaCreateAccountErrorMark = 'none';
         window.location.reload();
 
     },
@@ -109,6 +111,8 @@ export const mutations = {
         console.log(state);
         state.ta_temp_account = payload;
         state.showTaCreateAccount = 'block';
+        state.showTaCreateAccountGreenMark = 'none';
+        state.showTaCreateAccountErrorMark = 'block';
     },
 
     [FRESH_IVMS_SUCCESS] (state, payload=[]) {
@@ -145,15 +149,26 @@ export const mutations = {
         console.log(payload);
 
         state.showUpdatedIvmsData = 'block';
+        state.showUpdatedIvmsDataGreenMark = 'block';
+        state.showUpdatedIvmsDataErrorMark = 'none';
         window.location.reload();
 
+    },
+
+    [TA_SAVE_IVMS_FAIL] (state, { message='', errors=[] } = {}) {
+        console.log('mutations TA_SAVE_IVMS_FAIL');
+        console.log(state);
+        state.updatedIvmsData = 'Please check systemcheck page or TA account not selected.';
+        state.showUpdatedIvmsData = 'block';
+        state.showUpdatedIvmsDataGreenMark = 'none';
+        state.showUpdatedIvmsDataErrorMark = 'block';
     },
 
     [EXPORT_OVASP_IVMS_FAIL] (state, payload=[]) {
         console.log('mutations EXPORT_OVASP_IVMS_FAIL');
         console.log('state');
         console.log(state);
-
+        state.exportIVMSFailedData = 'Please check systemcheck page or TA account not selected.';
         state.showExportIVMSFailedData = 'block';
 
     },
@@ -162,29 +177,27 @@ export const mutations = {
         console.log('mutations EXPORT_BVASP_IVMS_FAIL');
         console.log('state');
         console.log(state);
-
+        state.exportIVMSFailedData = 'Please check systemcheck page or TA account not selected.';
         state.showExportIVMSFailedData = 'block';
 
-    },
-
-    [TA_SAVE_IVMS_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_SAVE_IVMS_FAIL');
-        console.log(state);
-        state.updatedIvmsData = 'Server busy or TA account not selected.';
-        state.showUpdatedIvmsData = 'block';
     },
 
     [TA_IS_VERIFIED_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_IS_VERIFIED_SUCCESS');
         state.taIsVerifiedData = payload;
         console.log(state);
-
         state.showTaIsVerifiedData = 'block';
+        state.showTaIsVerifiedDataGreenMark = 'block';
+        state.showTaIsVerifiedDataErrorMark = 'none';
 
 
     },
-    [TA_IS_VERIFIED_FAIL] (state, { message='', errors=[] } = {}) {
+    [TA_IS_VERIFIED_FAIL] (state, payload=[], { message='', errors=[] } = {}) {
         console.log('mutations TA_IS_VERIFIED_FAIL');
+        state.taIsVerifiedData = payload;
+        state.showTaIsVerifiedData = 'block';
+        state.showTaIsVerifiedDataGreenMark = 'none';
+        state.showTaIsVerifiedDataErrorMark = 'block';
         console.log(state);
     },
 
@@ -213,9 +226,15 @@ export const mutations = {
         console.log(state);
         state.taGetBalanceData = payload;
         state.showTaGetBalanceResult = 'block';
+        state.showTaGetBalanceResultGreenMark = 'block';
+        state.showTaGetBalanceResultErrorMark = 'none';
     },
 
-    [TA_GET_BALANCE_FAIL] (state, { message='', errors=[] } = {}) {
+    [TA_GET_BALANCE_FAIL] (state, payload=[], { message='', errors=[] } = {}) {
+        state.taGetBalanceData = payload;
+        state.showTaGetBalanceResult = 'block';
+        state.showTaGetBalanceResultGreenMark = 'none';
+        state.showTaGetBalanceResultErrorMark = 'block';
         console.log('mutations TA_GET_BALANCE_FAIL');
         console.log(state);
     },
@@ -229,14 +248,19 @@ export const mutations = {
         // if(!Array.isArray(payload)) return;
         state.taSetKeyValuePairData = 'Success';
         state.showKeyValuePairResult = 'block';
+        state.showKeyValuePairResultGreenMark = 'block';
+        state.showKeyValuePairResultErrorMark = 'none';
         console.log('state.taSetKeyValuePairData');
         console.log(state.taSetKeyValuePairData);
     },
 
-    [TA_SET_KEY_VALUE_PAIR_FAIL] (state, { message='', errors=[] } = {}) {
+    [TA_SET_KEY_VALUE_PAIR_FAIL] (state, payload=[], { message='', errors=[] } = {}) {
         console.log('TA_SET_KEY_VALUE_PAIR_FAIL mutations');
-        state.taSetKeyValuePairData = 'Selected TA Account not verified yet.';
+
+        state.taSetKeyValuePairData = payload;
         state.showKeyValuePairResult = 'block';
+        state.showKeyValuePairResultGreenMark = 'none';
+        state.showKeyValuePairResultErrorMark = 'block';
     },
 
     [TA_GET_TAS_SUCCESS] (state, payload=[]) {

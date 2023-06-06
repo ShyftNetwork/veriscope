@@ -17,7 +17,7 @@
         externalQuery: searchTerm
       }"
       :pagination-options="{
-        enabled: true
+        enabled: haspagination
       }"
       :rowStyleClass='rowStyleClassFn'
       :rows="rows"
@@ -97,6 +97,10 @@ export default {
       searchOptions: {
           type: Object,
           required: false
+      },
+      haspagination: {
+        type: Boolean,
+        default: true
       },
       whenUpdatedRefetch: {
         required: false

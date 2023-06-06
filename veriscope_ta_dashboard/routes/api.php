@@ -77,7 +77,8 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
        Route::delete('upload_addresses','TrustAnchorController@del_upload_addresses');
        /* Rescan Attestations */
        Route::post('rescan_attestations','TrustAnchorController@rescan_attestations');
-
+       /* Syetem Checks */
+       Route::get('systemchecks', 'SystemChecksController@index')->withoutMiddleware(['auth:api']);
 
 
     });
@@ -140,6 +141,10 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
         Route::get('contracts/trust-anchor/{id}/ta-get-user-wallet-addresses', 'ContractsController@ta_get_user_wallet_addresses');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-users', 'ContractsController@ta_get_all_users');
         Route::get('contracts/trust-anchor/{id}/ta-get-all-attestations', 'ContractsController@ta_get_all_attestations');
+
+
+        Route::get('systemchecks', 'SystemChecksController@index');
+
 
     });
 });

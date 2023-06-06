@@ -120,6 +120,31 @@ class EthereumToolsUtils
         );
     }
 
+
+    /**
+     * Converts an Ethereum address to its checksum format.
+     *
+     * @param string $address The Ethereum address to convert.
+     * @return string The checksum format of the Ethereum address.
+     */
+    public static function toChecksumAddress(string $address)
+    {
+        $address = strtolower($address);
+        $hash = Keccak::hash(strtolower($address), 256);
+        $result = '0x';
+
+        for ($i = 0; $i < 40; $i++) {
+            if (hexdec($hash[$i]) > 7) {
+                $result .= strtoupper($address[$i]);
+            } else {
+                $result .= $address[$i];
+            }
+        }
+
+        return $result;
+    }
+
+
     /**
      * Generate the Public key for provided Private key
      *

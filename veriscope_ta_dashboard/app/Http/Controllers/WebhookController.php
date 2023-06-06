@@ -77,6 +77,11 @@ class WebhookController extends Controller
 
         Log::debug($data);
 
+        if ($data['message'] === 'ta-ping') {
+            //broadcast(new ContractsInstantiate($data));
+            return response()->json(['message' => 'success'], 200);
+        }
+
         if ($data['message'] === 'ta-set-key-value-pair') {
             broadcast(new ContractsInstantiate($data));
         }
