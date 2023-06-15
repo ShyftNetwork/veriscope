@@ -33,10 +33,6 @@ export const TA_IS_VERIFIED_FAIL = 'taIsVerifiedFail';
 
 export const TA_EVENT_SUCCESS = 'taEventSuccess';
 
-export const TA_CREATE_USER = 'taCreateUser';
-export const TA_CREATE_USER_SUCCESS = 'taCreateUserSuccess';
-export const TA_CREATE_USER_FAIL = 'taCreateUserFail';
-
 export const TA_GET_BALANCE = 'taGetBalance';
 export const TA_GET_BALANCE_SUCCESS = 'taGetBalanceSuccess';
 export const TA_GET_BALANCE_FAIL = 'taGetBalanceFail';
@@ -139,5 +135,3 @@ export const LOAD_BA_PROVIDERS_FAIL = 'loadBAProvidersFail';
  export const CREATE_BA_REPORT = 'createBAReport'
  export const CREATE_BA_REPORT_SUCCESS = 'createBAReportSuccess'
  export const CREATE_BA_REPORT_FAIL = 'createBAReportFail'
-
-

@@ -26,8 +26,6 @@ import {
     TA_SET_KEY_VALUE_PAIR_FAIL,
 
     TA_EVENT_SUCCESS,
-    TA_CREATE_USER_SUCCESS,
-    TA_CREATE_USER_FAIL,
 
 
     TA_GET_TAS_SUCCESS,
@@ -207,19 +205,6 @@ export const mutations = {
         console.log(state.taEventData);
     },
 
-    [TA_CREATE_USER_SUCCESS] (state, payload=[]) {
-        console.log('mutations TA_CREATE_USER_SUCCESS');
-        console.log(state);
-        state.ta_user_accounts.push(payload);
-        state.ta_temp_user = payload['account'];
-        state.form.attestation_user_account = payload['account'];
-        state.showTaCreateUserResult = 'block';
-    },
-
-    [TA_CREATE_USER_FAIL] (state, { message='', errors=[] } = {}) {
-        console.log('mutations TA_CREATE_USER_FAIL');
-        console.log(state);
-    },
 
     [TA_GET_BALANCE_SUCCESS] (state, payload=[]) {
         console.log('mutations TA_GET_BALANCE_SUCCESS');
