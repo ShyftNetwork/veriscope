@@ -122,7 +122,7 @@ if(Config::get('backoffice.enabled')) {
       });
     };
 
-    Route::group(['prefix' => 'backoffice', 'middleware' => ['shyft.revoked', 'group:admin','2fa'], 'namespace' => 'Backoffice'], function() {
+    Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'shyft.revoked', 'group:admin','2fa'], 'namespace' => 'Backoffice'], function() {
         Route::get('/', '\App\Http\Controllers\Backoffice\DashboardController@index')->name('backoffice.dashboard');
 
         Route::resource('kyctemplates', 'KycTemplatesController', ['only' => ['index']]);
