@@ -5,6 +5,7 @@
     state: directory
     recurse: true
     group: www-data
+  become: true
   when: operation in ['install', 'update']
 
 # chmod -R g+s ./
@@ -18,11 +19,11 @@
   when: operation in ['install', 'update']
 
 # chmod -R 0770 ./storage
-- name: Recursively change veriscope_ta_dashboard/storage dir mode to 0770
+- name: Recursively change veriscope_ta_dashboard/storage dir mode to 0774
   ansible.builtin.file:
     path: "{{ dashboard_root }}/storage"
     state: directory
     recurse: true
-    mode: 0770
+    mode: 0774
   become: true
-  when: operation == 'install'
+  when: operation in ['install', 'update']

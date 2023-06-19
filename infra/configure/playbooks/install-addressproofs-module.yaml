@@ -35,23 +35,41 @@
       ansible.builtin.file:
         path: "{{ addressproofs_root }}"
         state: absent
+      become: true
 
     - name: Invoke addressproofs module download
       ansible.builtin.command: php artisan download:addressproof {{ gh_pat }}
       args:
         chdir: "{{ dashboard_root }}"
-      register: output
-      changed_when: output.rc == 0
-      failed_when: output.rc != 0
+      register: download_addressproofs_output
+      changed_when: "'Shyft AddressProofs Library was successfully downloaded' in download_addressproofs_output.stdout"
+      failed_when: >
+        (download_addressproofs_output.stdout is search('Shyft AddressProofs Error:.*: Directory not empty')) or
+        (download_addressproofs_output.stdout is search('Shyft AddressProofs Error: Client error:.*401 Unauthorized.*')) or
+        (download_addressproofs_output.rc != 0) or
+        ('Shyft AddressProofs Library was successfully downloaded' not in download_addressproofs_output.stdout)
 
-    - name: Install addressproofs python requirements
-      ansible.builtin.pip:
-        requirements: "{{ addressproofs_root }}/requirements.txt"
-        executable: pip3
-      become: true
+    - name: Print addressproofs module download result
+      ansible.builtin.debug:
+        var: download_addressproofs_output
 
     - name: Install node.js deps for addressproofs (npm install)
       community.general.npm:
         path: "{{ addressproofs_root }}"
         state: present
-      become: true
+
+    - name: Install addressproofs python requirements
+      ansible.builtin.pip:
+        requirements: "{{ addressproofs_root }}/requirements.txt"
+        executable: pip3
+
+    - name: Run addressproofs unit tests
+      ansible.builtin.command: python3 -m unittest provers.py
+      args:
+        chdir: "{{ addressproofs_root }}"
+      register: unittest_result
+      failed_when: unittest_result.rc != 0
+    
+    - name: Print unit test output
+      ansible.builtin.debug:
+        var: unittest_result.stdout

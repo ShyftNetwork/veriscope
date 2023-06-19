@@ -1,0 +1,5 @@
+apps_to_update:
+  - api
+  - dashboard
+
+veriscope_version: main

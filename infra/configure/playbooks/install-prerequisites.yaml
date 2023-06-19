@@ -92,9 +92,11 @@
         executable: pip3
         state: latest
     
-    - name: Install boto3
+    - name: Install required python packages
       ansible.builtin.pip:
-        name: boto3>1.24.0,<1.25.0
+        name: 
+         - boto3>1.24.0,<1.25.0
+         - requests
         executable: pip3
 
   roles:

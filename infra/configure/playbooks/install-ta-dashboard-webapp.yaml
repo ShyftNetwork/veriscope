@@ -8,13 +8,15 @@
     webhook_client_secret: "{{ lookup('password', 'credentials/webhook-client-secret/' + inventory_hostname + ' length=20 chars=ascii_letters,digits', seed=inventory_hostname) }}"
     ta_db_userpwd: "{{ lookup('amazon.aws.aws_secret', ta_db_user_pwd_secret_name, bypath=true)[ta_db_user_pwd_secret_name] }}"
   tasks:
-    - name: Debug - TA Dashboard
+    - name: Print TA DB Cluster var - TA Dashboard
       ansible.builtin.debug:
         var: ta_dashboard_db_cluster
+      when: debug is true
 
-    - name: Debug - TA Dashboard
+    - name: Print TA DB cluster info - TA Dashboard
       ansible.builtin.debug:
         msg: "{{ pgsql_cltr_host }}:{{ pgsql_cltr_port }} ; {{ ta_db_name }} ; {{ ta_db_user }} : {{ ta_db_userpwd }}"
+      when: debug is true
 
     - name: Check inputs for install and update - TA Dashboard app
       ansible.builtin.assert:
@@ -50,28 +52,15 @@
         path: "{{ dashboard_root }}"
         owner: "{{ service_user }}"
         group: "{{ service_user }}"
-      when: operation in ['install', 'update']
+      when: operation in ['install']
 
-    # - name: Set DB connection info in TA Dashboard app config file
-    #   ansible.builtin.blockinfile:
-    #     path: /opt/veriscope/veriscope_ta_dashboard/.env
-    #     backup: true
-    #     block: |
-    #       DB_CONNECTION=pgsql
-    #       DB_HOST={{ pgsql_cltr_host }}
-    #       DB_PORT={{ pgsql_cltr_port }}
-    #       DB_DATABASE={{ ta_db_name }}
-    #       DB_USERNAME={{ ta_db_user }}
-    #       DB_PASSWORD={{ ta_db_userpwd }}
-    #     marker: "# {mark} AUTOMATION MANAGED BLOCK DB CONN"
-    #     state: present
-    #     owner: veris
-    #     group: veris
-    #   when: operation == 'install'
+    - name: Set TA dashboard dir perms - Install TA Dashboard app
+      ansible.builtin.import_tasks: ../tasks/set-ta-dashboard-dir-perms.yaml
+      when: operation in ['install', 'update']
 
     - name: Set DB connection info in TA Dashboard app config file
       ansible.builtin.import_tasks: ../tasks/update-ta-dashboard-env-db-conn.yaml
-      when: operation in ['install', 'update']
+      when: operation in ['install']
 
     # sed -i "s#APP_URL=.*#APP_URL=https://$VERISCOPE_SERVICE_HOST#g" $ENVDEST
     - name: Set app URL in TA Dashboard app config file
@@ -93,15 +82,22 @@
         group: "{{ service_user }}"
       when: operation == 'install'
 
-    # sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
-    - name: Set webhook client secret (shared secret) in TA Dashboard app config file
+    - name: Ensure webhook client secret key is in the file with no value in TA Dashboard app config file
       ansible.builtin.replace:
         path: "{{ dashboard_config_path }}"
         regexp: '^(WEBHOOK_CLIENT_SECRET=)(.*)$'
-        replace: '\1{{ webhook_client_secret }}'
+        replace: '\1'
+      when: operation in ['install', 'update']
+
+    # sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
+    - name: Set webhook client secret (shared secret) in TA Dashboard app config file
+      ansible.builtin.lineinfile:
+        path: "{{ dashboard_config_path }}"
+        regexp: '^(WEBHOOK_CLIENT_SECRET=)'
+        line: 'WEBHOOK_CLIENT_SECRET={{ webhook_client_secret }}'
         owner: "{{ service_user }}"
         group: "{{ service_user }}"
-      when: operation == 'install'
+      when: operation in ['install', 'update']
 
     # su $SERVICE_USER -c "npm install"
     - name: Install node.js deps of TA Dashboard app (npm install)
@@ -109,6 +105,7 @@
         path: "{{ dashboard_root }}"
         state: latest
       become: true
+      become_user: "{{ service_user }}"
       when: operation in ['install', 'update']
 
     # su $SERVICE_USER -c "npm run development"
@@ -117,12 +114,14 @@
       args:
         chdir: "{{ dashboard_root }}"
         executable: /bin/bash
+      become: true
+      become_user: "{{ service_user }}"
       when: operation in ['install', 'update']
 
     # echo "Setting up PHP and deploying..."
     # su $SERVICE_USER -c "composer install"
     # su $SERVICE_USER -c "php artisan migrate"
-    - name: composer install and migrate
+    - name: Install PHP deps of TA Dashboard app (composer install and php artisan migrate)
       shell: | 
         composer install
         php artisan migrate
@@ -150,9 +149,6 @@
         executable: /bin/bash
       when: operation == 'install'
 
-    - name: Set TA dashboard dir perms - Install Redis Bloom Filter
-      ansible.builtin.import_tasks: ../tasks/set-ta-dashboard-dir-perms.yaml
-
     # if ! test -s "/etc/systemd/system/ta.service"; then
     #   echo "Deploying systemd service definitions: ta ta-wss ta-schedule"
     #   cp scripts/ta-schedule.service /etc/systemd/system/
@@ -165,13 +161,13 @@
     # fi
     - name: Create ta, ta-wss, ta-schedule services configs
       ansible.builtin.template:
-        src: templates/ta{{ item }}.service.j2
-        dest: /etc/systemd/system/ta{{ item }}.service
+        src: templates/{{ item }}.service.j2
+        dest: /etc/systemd/system/{{ item }}.service
       become: true
       with_items:
-        - -schedule
-        - -wss
-        - ''
+        - ta-schedule
+        - ta-wss
+        - ta
       when: operation == 'install'
 
     # systemctl daemon-reload
@@ -190,14 +186,14 @@
     # systemctl restart ta
     - name: Enable and restart ta, ta-wss and ta-schedule services
       ansible.builtin.service:
-        name: ta{{ item }}
+        name: "{{ item }}"
         enabled: true
         state: restarted
       become: true
       with_items:
-        - -schedule
-        - -wss
-        - ''
+        - ta-schedule
+        - ta-wss
+        - ta
       when: operation == 'install'
 
     # pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard

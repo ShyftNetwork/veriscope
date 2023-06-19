@@ -1,0 +1,134 @@
+---
+- name: Prepare veriscope node(s) web servers
+  hosts: web
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Check inputs - Prepare
+      ansible.builtin.assert:
+        that:
+          - veriscope_version is defined and veriscope_version is truthy
+          - operation is defined
+          - operation in ['install', 'update']
+        success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
+        fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
+
+    - name: Set repo org value
+      ansible.builtin.set_fact:
+        repo_org: "{{ 'Paycase' if env | lower in ['test', 'dev'] else 'ShyftNetwork' if env | lower in ['staging', 'prod'] }}"
+        src_root: /src
+        src_dir_name: veriscope.git
+
+    - name: Check inputs - Github token
+      ansible.builtin.assert:
+        that:
+          - github_username is defined and github_username is truthy
+          - github_token is defined and github_token is truthy
+        success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
+        fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
+      when: repo_org == 'Paycase'
+
+    - name: Ensure python requirements are installed - prepare git
+      ansible.builtin.import_tasks: ../tasks/ensure-boto3.yaml
+      vars: 
+        pip_packages: 
+          - requests
+
+    - name: Delete any pre-existing dirs
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      when: operation == 'install'
+      with_items:
+        - "{{ install_root }}"
+        - "{{ src_root}}/{{ src_dir_name }}"
+
+    - name: Create and change ownership of dirs to veris
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: veris
+        group: veris
+      when: operation == 'install'
+      with_items:
+        - "{{ install_root }}"
+        - "{{ src_root }}"
+
+- name: Move veriscope code to target
+  hosts: web
+  gather_facts: false
+  become: true
+  tasks:
+    # - name: Authenticate with GitHub
+    #   ansible.builtin.uri:
+    #     url: "https://api.github.com/user"
+    #     method: GET
+    #     headers:
+    #       Accept: "application/vnd.github+json"
+    #       Authorization: "Bearer {{ github_token }}"
+    #       X-GitHub-Api-Version: "2022-11-28"
+    #     # user: "{{ github_username }}"
+    #     # password: "{{ github_password }}"
+    #     status_code: 200
+    #     validate_certs: yes
+    #   register: github_auth_result
+
+    # - name: Print gihub auth result
+    #   ansible.builtin.debug:
+    #     var: github_auth_result
+
+    - name: Clone veriscope repo
+      ansible.builtin.git:
+        repo: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/veriscope.git
+        dest: "{{ install_root }}"
+        version: "{{ veriscope_version }}"
+        separate_git_dir: /src/veriscope.git
+        accept_newhostkey: true
+        force: true
+      environment:
+        GIT_TERMINAL_PROMPT: 0
+      when: operation in ['install', 'update']
+      register: github_clone_result
+    
+    - name: Print gihub clone result
+      ansible.builtin.debug:
+        var: github_clone_result
+
+    - name: Change ownership of install root
+      ansible.builtin.file:
+        path: "{{ install_root }}"
+        state: directory
+        recurse: true
+        owner: veris
+        group: veris
+      when: operation == 'install'
+
+    # Obtain the stats of {{ install_root }} dir, and check that it still belongs
+    # to 'veris' user. Fail otherwise.
+    - name: Get stats of {{ install_root }}
+      ansible.builtin.stat:
+        path: "{{ install_root }}"
+      register: st
+      when: operation == 'install'
+
+    - name: Check {{ install_root }} exists and is a dir
+      ansible.builtin.debug:
+        msg: "Path exists and is a directory"
+      when: operation == 'install' and st.stat.isdir is defined and st.stat.isdir
+
+    - name: Fail if the dir does not belong to 'veris'
+      ansible.builtin.fail:
+        msg: "Whoops! Directory ownership has changed"
+      when: operation == 'install' and st.stat.pw_name != 'veris'
+
+    # - name: Recursively find files in {{ install_root }}
+    #   find:
+    #     paths: "{{ install_root }}"
+    #     recurse: true
+    #   register: dir_contents
+    #   when: operation in ['install', 'update']
+
+    # - name: Print contents of {{ install_root }}
+    #   ansible.builtin.debug:
+    #     msg: "{{ dir_contents.files | map(attribute='path') | list }}"
+    #   when: operation in ['install', 'update']

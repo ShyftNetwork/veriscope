@@ -1,6 +1,6 @@
 ---
 - name: Stop all services and backup configs
-  hosts: all
+  hosts: web
   gather_facts: true
   vars:
     # controller_dt: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
@@ -31,14 +31,15 @@
             dest: "{{ dashboard_config_path }}-{{ file_timestamp }}.backup" }
         - { src: "{{ api_config_path }}",
             dest: "{{ api_config_path }}-{{ file_timestamp }}.backup" }
+      become: true
 
 - name: Copy code onto the target host - Update veriscope
-  ansible.builtin.import_playbook: prepare.yaml
+  ansible.builtin.import_playbook: prepare-git.yaml
   vars:
     operation: update
 
 - name: Restore backed up configs - Update veriscope
-  hosts: all
+  hosts: web
   gather_facts: false
   tasks:
     - name: Restore backed up configs
@@ -54,6 +55,7 @@
             src: "{{ dashboard_config_path }}-{{ file_timestamp }}.backup" }
         - { dest: "{{ api_config_path }}",
             src: "{{ api_config_path }}-{{ file_timestamp }}.backup" }
+      become: true
 
 - name: Update operation on TA API
   ansible.builtin.import_playbook: install-ta-api.yaml
@@ -69,7 +71,3 @@
 
 - name: Restart all services - Update veriscope
   ansible.builtin.import_playbook: restart-services.yaml
-  vars:
-    services:
-      - "{{ veriscope_prereq_services }}"
-      - "{{ veriscope_web_services }}"
