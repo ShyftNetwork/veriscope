@@ -47,12 +47,13 @@
 
     # pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
     # chown -R $SERVICE_USER .
-    - name: Change veriscope_ta_dashboard dir owner and group
+    - name: Change veriscope_ta_dashboard dir owner
       ansible.builtin.file:
         path: "{{ dashboard_root }}"
         owner: "{{ service_user }}"
-        group: "{{ service_user }}"
-      when: operation in ['install']
+        recurse: true
+      when: operation in ['install', 'update']
+      become: true
 
     - name: Set TA dashboard dir perms - Install TA Dashboard app
       ansible.builtin.import_tasks: ../tasks/set-ta-dashboard-dir-perms.yaml
