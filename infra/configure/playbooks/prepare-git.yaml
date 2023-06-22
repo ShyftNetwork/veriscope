@@ -27,6 +27,16 @@
         success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
       when: repo_org == 'Paycase'
+    
+    - name: Set repo url
+      ansible.builtin.set_fact:
+        repo_url: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/veriscope.git
+      when: repo_org == 'Paycase'
+    
+    - name: Set repo url
+      ansible.builtin.set_fact:
+        repo_url: https://github.com/{{ repo_org }}/veriscope.git
+      when: repo_org == 'ShyftNetwork'
 
     - name: Ensure python requirements are installed - prepare git
       ansible.builtin.import_tasks: ../tasks/ensure-boto3.yaml
@@ -79,7 +89,7 @@
 
     - name: Clone veriscope repo
       ansible.builtin.git:
-        repo: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/veriscope.git
+        repo: "{{ repo_url }}"
         dest: "{{ install_root }}"
         version: "{{ veriscope_version }}"
         separate_git_dir: /src/veriscope.git
