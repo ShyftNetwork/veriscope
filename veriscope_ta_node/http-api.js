@@ -182,14 +182,13 @@ const options = {
 
 ethereumEvents = new EthereumEvents(web3, contracts, options);
 
+
 async function startSync() {
   startBlock = await keyv.get('startBlock');
   if (startBlock === undefined) {
     startBlock = 1;
   }
-
   ethereumEvents.start(startBlock);
-
 }
 
 
@@ -544,90 +543,6 @@ app.get('/ta-get-key-pair-value/:account/:key', (req, res) => {
 });
 
 
-// eg: ta-create-user?user_id=1&ta_user_id=1&prefname=Nic&password=Password1*
-
-app.get('/ta-create-user', async (req, res) => {
-
-  var prefname = req.param('prefname');
-  var user_id = req.param('user_id');
-  var ta_user_id = req.param('ta_user_id');
-
-  var result = web3.eth.accounts.create();
-
-  var address = result['address'];
-  var privateKey = result['privateKey'];
-  var account = {
-    address: address,
-    private_key: privateKey
-  };
-  var accountLogger = {
-    address: address,
-    private_key: "xxxxxxxxxx"
-  };
-
-  var user_sign_template = utility.TASign(process.env.SIGN_MESSAGE + "_USER", privateKey.substr(2));
-  var user_public_key = utility.GetEthPublicKey(privateKey.substr(2));
-
-  var bitcoinAccount = utility.createBitcoinAccount();
-  var bitcoinAccountLogger = Object.assign({}, bitcoinAccount);
-  bitcoinAccountLogger['private_key'] = "xxxxxxxxxx";
-
-  var ethereumAccount = utility.createEthereumAccount();
-  var ethereumAccountLogger = Object.assign({}, ethereumAccount);
-  ethereumAccountLogger['private_key'] = "xxxxxxxxxx";
-
-  var zcashAccount = utility.createZcashAccount();
-  var zcashAccountLogger = Object.assign({}, zcashAccount);
-  zcashAccountLogger['private_key'] = "xxxxxxxxxx";
-
-  var moneroAccount = await utility.createMoneroAccount();
-  var moneroAccountLogger = Object.assign({}, moneroAccount);
-  moneroAccountLogger['private_key'] = "xxxxxxxxxx";
-
-
-
-  var data_logger = {
-    prefname: prefname,
-    account: accountLogger,
-    user_id: user_id,
-    bitcoinAccount: bitcoinAccountLogger,
-    ethereumAccount: ethereumAccountLogger,
-    zcashAccount: zcashAccountLogger,
-    moneroAccount: moneroAccountLogger,
-    public_key: user_public_key,
-    signature_hash: user_sign_template
-  };
-  var obj_logger = {
-    user_id: user_id,
-    ta_user_id: ta_user_id,
-    message: "ta-create-user",
-    data: data_logger
-  };
-  logger.info('ta-create-user');
-  logger.info(obj_logger);
-
-  var data = {
-    prefname: prefname,
-    account: account,
-    user_id: user_id,
-    bitcoinAccount: bitcoinAccount,
-    ethereumAccount: ethereumAccount,
-    zcashAccount: zcashAccount,
-    moneroAccount: moneroAccount,
-    public_key: user_public_key,
-    signature_hash: user_sign_template
-  };
-  var obj = {
-    user_id: user_id,
-    ta_user_id: ta_user_id,
-    message: "ta-create-user",
-    data: data
-  };
-
-  utility.sendWebhookMessage(obj);
-
-  res.sendStatus(201);
-});
 
 // eg: ta-set-v3-attestation?attestation_type=WALLET&user_id=1&user_account=0x447832bc6303C87A7C7C0E3894a5C6848Aa24877&jurisdiction=196&effective_time=&expiry_time=&coin_address=0x6878e02e4782cd71af5d48e55e28f951eff5ec7c&coin_blockchain=ETH&coin_token=USDT&coin_memo=memo&ta_account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5
 

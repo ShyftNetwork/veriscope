@@ -20,7 +20,6 @@ import {
     TA_SET_KEY_VALUE_PAIR_SUCCESS,//KEEP
     TA_SET_KEY_VALUE_PAIR_FAIL,
     TA_EVENT_SUCCESS,
-    TA_CREATE_USER_SUCCESS,
 } from './store/mutation-types';
 
 Vue.use(VeeValidate);
@@ -72,10 +71,6 @@ if (document.getElementById('attestations')) {
                     else if (event.data.message == 'ta-setup-events') {
                         console.log('message is ta-setup-events');
                         store.commit(TA_SETUP_EVENTS_SUCCESS, event.data.data);
-                    }
-                    else if (event.data.message == 'ta-create-user') {
-                        console.log('message is ta-create-user');
-                        store.commit(TA_CREATE_USER_SUCCESS, event.data.data);
                     }
                     else if (event.data.message == 'ta-get-balance') {
                         console.log('message is ta-get-balance');

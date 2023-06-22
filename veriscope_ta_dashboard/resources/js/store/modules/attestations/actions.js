@@ -32,11 +32,6 @@ import {
     TA_SET_KEY_VALUE_PAIR_SUCCESS,
     TA_SET_KEY_VALUE_PAIR_FAIL,
 
-    TA_CREATE_USER,
-    TA_CREATE_USER_SUCCESS,
-    TA_CREATE_USER_FAIL,
-
-
     TA_LOAD_COUNTRIES,
     TA_LOAD_COUNTRIES_SUCCESS,
     TA_LOAD_COUNTRIES_FAIL,
@@ -201,34 +196,6 @@ export const actions = {
             })
             .catch(error => {
                 commit(TA_IS_VERIFIED_FAIL, 'Can\'t get TA account verified status, please check your Veriscope node .env file.');
-            });
-    },
-
-    [TA_CREATE_USER]({
-        commit,
-        getters,
-        state
-    }, payload) {
-        console.log('actions TA_CREATE_USER');
-        console.log('state');
-        console.log(state);
-        console.log('payload');
-        var p = {
-            "prefname": state.form.user_prefname,
-            "password": 'Password1*',
-            "dob": state.form.dob,
-            "gender": state.form.gender.label,
-            "jurisdiction": state.form.attestation_jurisdiction.id,
-            "trust_anchor_account": state.form.attestation_ta_account
-        };
-        console.log(p);
-
-        return axios.post(`contracts/trust-anchor/${getters.UID}/ta-create-user`, p)
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-                commit(TA_CREATE_USER_FAIL);
             });
     },
 
@@ -416,15 +383,15 @@ export const actions = {
         console.log(p);
 
         return axios.post(`contracts/trust-anchor/${getters.UID}/ta-set-key-value-pair/`, p)
-            .then(({data}) => {
-                if (data.data.status == 'Failed') {
+            .then(response => {
+                if (response.data.status == 'Failed') {
                     commit(TA_SET_KEY_VALUE_PAIR_FAIL, 'Can\'t set TA account key value pair, please check your Veriscope node .env file and systemcheck page.');
                 } else {
                     console.log('TA_SET_KEY_VALUE_PAIR response');
-                    return data;
+                    return response;
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 commit(TA_SET_KEY_VALUE_PAIR_FAIL, 'Can\'t set TA account key value pair, please check your Veriscope node .env file and systemcheck page.');
             });
     },
