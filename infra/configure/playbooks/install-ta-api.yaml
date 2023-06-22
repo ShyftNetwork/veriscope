@@ -39,13 +39,19 @@
         group: veris
       when: operation in ['install', 'update']
     
-    - name: Set webhook client secret (shared secret) in TA API config file
+    - name: Ensure webhook client secret key is in the file with no value in TA API config file
       ansible.builtin.replace:
         path: "{{ api_config_path }}"
         regexp: '^(WEBHOOK_CLIENT_SECRET=)(.*)$'
-        replace: '\1{{ webhook_client_secret }}'
+        replace: '\1'
       when: operation in ['install', 'update']
-      # when: operation == 'install'
+
+    - name: Set webhook client secret (shared secret) in TA API config file
+      ansible.builtin.lineinfile:
+        path: "{{ api_config_path }}"
+        regexp: '^(WEBHOOK_CLIENT_SECRET=)'
+        line: 'WEBHOOK_CLIENT_SECRET={{ webhook_client_secret }}'
+      when: operation in ['install', 'update']
 
     - name: npm install - Install TA API
       community.general.npm:
@@ -55,14 +61,14 @@
 
     - name: Create ta-node services configs
       ansible.builtin.template:
-        src: templates/ta-node-{{ item }}.service.j2
-        dest: /etc/systemd/system/ta-node-{{ item }}.service
+        src: templates/{{ item }}.service.j2
+        dest: /etc/systemd/system/{{ item }}.service
         owner: veris
         group: veris
       become: true
       with_items:
-        - 1
-        - 2
+        - ta-node-1
+        - ta-node-2
       when: operation == 'install'
 
     - name: Force systemd to reload configs - Install TA API
@@ -73,11 +79,11 @@
 
     - name: Enable and restart ta-node services - Install TA API
       ansible.builtin.service:
-        name: ta-node-{{ item }}
+        name: "{{ item }}"
         enabled: true
         state: restarted
       become: true
       with_items:
-        - 1
-        - 2
+        - ta-node-1
+        - ta-node-2
       when: operation == 'install'

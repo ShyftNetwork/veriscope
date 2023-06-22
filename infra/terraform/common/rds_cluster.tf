@@ -6,7 +6,7 @@ module "ta_db_cluster" {
   vpc_id                              = module.vpc.vpc_id
   subnets                             = module.vpc.database_subnets
   engine                              = "aurora-postgresql"
-  engine_version                      = "14.3"
+  engine_version                      = "14.5"
   engine_mode                         = "provisioned"
   deletion_protection                 = true
   enable_http_endpoint                = true

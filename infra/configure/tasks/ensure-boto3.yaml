@@ -16,3 +16,10 @@
   ansible.builtin.pip:
     name: boto3>1.24.0,<1.25.0
     executable: pip3
+
+- name: Install other python packages
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    executable: pip3
+  with_items: "{{ pip_packages }}"
+  when: pip_packages is defined and pip_packages is truthy

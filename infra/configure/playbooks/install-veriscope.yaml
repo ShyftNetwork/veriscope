@@ -1,9 +1,6 @@
 ---
-- name: Prepare the controller
-  ansible.builtin.import_playbook: package-code.yaml
-
 - name: Prepare the target instances
-  ansible.builtin.import_playbook: prepare.yaml
+  ansible.builtin.import_playbook: prepare-git.yaml
   vars:
     operation: install
 

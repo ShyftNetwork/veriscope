@@ -76,11 +76,14 @@ resource "aws_instance" "node" {
   disable_api_termination     = false
   root_block_device {
     volume_size = var.root_block_size
+    volume_type = "gp3"
+    iops        = 3000
+    tags        = local.instance_tags
   }
   tags = local.instance_tags
   // To ensure that you don't accidentally destroy/create the instance on a future run. 
   // This should only occur if a new subnet were added to the VPC.
   lifecycle {
-    ignore_changes = [subnet_id]
+    ignore_changes = [subnet_id, ami]
   }
 }

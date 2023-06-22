@@ -1,0 +1,5 @@
+apps_to_update:
+  - veriscope_ta_node
+  - veriscope_ta_dashboard
+
+veriscope_version: main
