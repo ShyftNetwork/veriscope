@@ -6,7 +6,7 @@
     # controller_dt: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
     file_timestamp: "{{ ansible_date_time.iso8601_basic_short }}"
   tasks:
-    - name: Stop veriscope services - Update veriscope
+    - name: Stop veriscope services - Upgrade veriscope
       ansible.builtin.service:
         name: "{{ item }}"
         state: stopped
@@ -14,7 +14,7 @@
       become: true
       with_items: "{{ veriscope_web_services }}"
 
-    - name: Set file_timestamp fact - Update veriscope
+    - name: Set file_timestamp fact - Upgrade veriscope
       ansible.builtin.set_fact:
         file_timestamp: "{{ file_timestamp }}"
 
@@ -33,12 +33,12 @@
             dest: "{{ api_config_path }}-{{ file_timestamp }}.backup" }
       become: true
 
-- name: Copy code onto the target host - Update veriscope
+- name: Copy code onto the target host - Upgrade veriscope
   ansible.builtin.import_playbook: prepare-git.yaml
   vars:
     operation: update
 
-- name: Restore backed up configs - Update veriscope
+- name: Restore backed up configs - Upgrade veriscope
   hosts: web
   gather_facts: false
   tasks:
@@ -57,17 +57,17 @@
             src: "{{ api_config_path }}-{{ file_timestamp }}.backup" }
       become: true
 
-- name: Update operation on TA API
+- name: Upgrade operation on TA API
   ansible.builtin.import_playbook: install-ta-api.yaml
-  when: "'api' in apps_to_update"
+  when: "'veriscope_ta_node' in apps_to_update"
   vars:
     operation: update
 
-- name: Update operation on TA dashboard webapp
+- name: Upgrade operation on TA dashboard webapp
   ansible.builtin.import_playbook: install-ta-dashboard-webapp.yaml
-  when: "'dashboard' in apps_to_update"
+  when: "'veriscope_ta_dashboard' in apps_to_update"
   vars:
     operation: update
 
-- name: Restart all services - Update veriscope
+- name: Restart all services - Upgrade veriscope
   ansible.builtin.import_playbook: restart-services.yaml
