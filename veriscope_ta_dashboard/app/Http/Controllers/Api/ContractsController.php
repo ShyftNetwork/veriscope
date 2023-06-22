@@ -119,11 +119,11 @@ class ContractsController extends Controller
         if ($input['country']) {
             $ta->country = $input['country'];
         }
-          
+
         if ($input['department']) {
             $ta->department = $input['department'];
         }
-        
+
         if ($input['sub_department']) {
             $ta->sub_department = $input['sub_department'];
         }
@@ -197,7 +197,7 @@ class ContractsController extends Controller
           } else {
               Log::error('ContractsController ta_is_verified: ' . $res->getStatusCode());
           }
-          
+
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
           $response = $e->getMessage();
           Log::error('ContractsController ta_is_verified failed : ' . $response);
@@ -206,37 +206,7 @@ class ContractsController extends Controller
         return response()->json(['status' => $status]);
     }
 
-    public function ta_create_user(Request $request, $id)
-    {
-        Log::debug('ContractsController ta_create_user');
 
-        $input = $request->all();
-
-        $user = User::findOrFail($id);
-
-        $ta = TrustAnchor::where('id', $input['trust_anchor_account']['id'])->first();
-        $input['trust_anchor_id'] = $ta->id;
-        $tau = new TrustAnchorUser($input);
-        $tau->save();
-        $ta_user_id = $tau->id;
-        $ta->trustAnchorUser()->save($tau);
-
-        $prefname = $input['prefname'];
-        $password = $input['password'];
-        Log::debug(print_r($input, true));
-        $url = $this->helper_url.'/ta-create-user?user_id='.$id.'&ta_user_id='.$ta_user_id.'&prefname='.$prefname.'&password='.$password;
-        $client = new Client();
-        $res = $client->request('GET', $url);
-        if ($res->getStatusCode() == 200) {
-            $response = json_decode($res->getBody());
-            Log::debug('ContractsController ta_create_user');
-            Log::debug($response);
-        } else {
-            Log::error('ContractsController ta_create_user: ' . $res->getStatusCode());
-        }
-
-        return response()->json([]);
-    }
 
     public function ta_get_balance(Request $request, $id)
     {
@@ -278,9 +248,9 @@ class ContractsController extends Controller
     public function ta_get_discovery_layer_keys(Request $request, $id)
     {
         Log::debug('ContractsController ta_get_discovery_layer_keys');
-        
+
         $user = User::findOrFail($id);
-  
+
         $keys = DiscoveryLayerKey::orderBy('key', 'ASC')->get(['id', 'key']);
 
         return response()->json($keys);
@@ -477,7 +447,7 @@ class ContractsController extends Controller
 
         return response()->json($data);
     }
-      
+
     public function ta_set_key_value_pair(Request $request, $id)
     {
       Log::debug('ContractsController ta_set_key_value_pair');

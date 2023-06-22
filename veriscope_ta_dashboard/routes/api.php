@@ -128,7 +128,6 @@ Route::group(['middleware' => ['auth:api', $throttleLimits]], function() {
 
         Route::post('contracts/trust-anchor/{id}/export-ivms-data/{type?}', 'ContractsController@export_ivms_data');
 
-        Route::post('contracts/trust-anchor/{id}/ta-create-user', 'ContractsController@ta_create_user');
         Route::post('contracts/trust-anchor/{id}/ta-get-balance', 'ContractsController@ta_get_balance');
 
         Route::get('contracts/trust-anchor/{id}/ta-get-discovery-layer-keys', 'ContractsController@ta_get_discovery_layer_keys');

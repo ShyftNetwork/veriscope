@@ -6,9 +6,6 @@ const web3_eth_abi = require("web3-eth-abi");
 const axios = require('axios');
 const EthCrypto = require('eth-crypto');
 const EthUtil = require('ethereumjs-util');
-const bitcoinjs_lib = require('bitcoinjs-lib');
-const bitgo_utxo_lib = require('bitgo-utxo-lib');
-const monerojs = require("monero-javascript");
 const winston = require('winston');
 const dotenv = require('dotenv');
 const _ = require('underscore');
@@ -368,49 +365,7 @@ module.exports =   {
       });
 
     },
-    createMoneroAccount: async function () {
 
-     let wallet = await monerojs.createWalletKeys({
-        networkType: "mainnet"
-     });
-
-     var address = await wallet.getAddress(0, 0);
-     var publicKey = await wallet.getPublicViewKey();
-     var privateKey = await wallet.getPrivateViewKey();
-
-     return {"address":address, "public_key": publicKey, "private_key": privateKey};
-
-    },
-    createZcashAccount: function() {
-
-        let ecPair1 = bitgo_utxo_lib.ECPair.makeRandom({ network: bitgo_utxo_lib.networks.zcash });
-        var publicKey = ecPair1.getPublicKeyBuffer().toString('hex');
-        var privateKey = ecPair1.toWIF();
-        var address = ecPair1.getAddress();
-
-        return {"address":address, "public_key": publicKey, "private_key": privateKey};
-    },
-    createEthereumAccount: function () {
-        var result = web3.eth.accounts.create();
-
-        var address = result['address'];
-        var privateKey = result['privateKey'];
-        var publicKey = EthCrypto.publicKeyByPrivateKey(
-            privateKey
-        );
-
-        return {"address":address, "public_key": publicKey, "private_key": privateKey};
-    },
-    createBitcoinAccount: function () {
-
-      var keyPair = bitcoinjs_lib.ECPair.makeRandom();
-      var { address } = bitcoinjs_lib.payments.p2pkh({ pubkey: keyPair.publicKey });
-      var publicKey = keyPair.publicKey.toString("hex");
-      var privateKey = keyPair.toWIF();
-
-      return {"address":address, "public_key": publicKey, "private_key": privateKey};
-
-    },
     TASign: function(message, privateKey) {
 
       logger.debug("TASign");

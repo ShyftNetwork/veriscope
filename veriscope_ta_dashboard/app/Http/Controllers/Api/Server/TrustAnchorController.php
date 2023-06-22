@@ -151,14 +151,21 @@ class TrustAnchorController extends Controller
           $ta_account = $input['ta_account'];
           $ta_key_name = $input['name'];
           $ta_key_value = $input['value'];
+          $verifiedKey = DB::table('discovery_layer_keys')->get()->pluck('key')->toArray();
 
-          $url = $this->http_api_url.'/ta-set-key-value-pair?user_id=1&account='.$ta_account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
-          $client = new Client();
-          $res = $client->request('GET', $url);
-          if ($res->getStatusCode() == 200) {
-              return response()->json([]);
+          if (array_search($ta_key_name, $verifiedKey) != false) {
+            $url = $this->http_api_url.'/ta-set-key-value-pair?user_id=1&account='.$ta_account.'&ta_key_name='.$ta_key_name.'&ta_key_value='.$ta_key_value;
+            $client = new Client();
+            $res = $client->request('GET', $url);
+
+            if ($res->getStatusCode() == 200) {
+                return response()->json([]);
+            } else {
+                return response()->json([], 400);
+            }
+
           } else {
-              return response()->json([],400);
+            return response()->json(['message' => 'Please enter a valid key name', 'KeysList' => $verifiedKey], 400);
           }
 
       }

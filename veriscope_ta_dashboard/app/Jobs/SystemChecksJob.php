@@ -44,7 +44,7 @@ class SystemChecksJob implements ShouldQueue
 
     protected function sendSlackNotification($key, $message)
     {
-
+        $domainURL = env('APP_URL');
         $slack_webhook_url = Constant::where('name', 'slack_webhook_url')->first();
 
         // If slack_webhook_url constant value is not empty
@@ -66,7 +66,7 @@ class SystemChecksJob implements ShouldQueue
               }
           };
           $data = [
-              'message' => "System Check Failed: {$key}\nError: {$message}",
+              'message' => "Veriscope URL : {$domainURL}\nSystem Check Failed: {$key}\nError: {$message}",
           ];
 
           $notification = new SlackSystemCheckNotification($data);
