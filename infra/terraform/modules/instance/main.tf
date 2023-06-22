@@ -84,6 +84,6 @@ resource "aws_instance" "node" {
   // To ensure that you don't accidentally destroy/create the instance on a future run. 
   // This should only occur if a new subnet were added to the VPC.
   lifecycle {
-    ignore_changes = [subnet_id]
+    ignore_changes = [subnet_id, ami]
   }
 }
