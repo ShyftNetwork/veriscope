@@ -58,10 +58,12 @@
         path: "{{ addressproofs_root }}"
         state: present
 
+    # Need to install python requirements as root because they need to be accessible to the php-fpm user (www-data)
     - name: Install addressproofs python requirements
       ansible.builtin.pip:
         requirements: "{{ addressproofs_root }}/requirements.txt"
         executable: pip3
+      become: true
 
     - name: Run addressproofs unit tests
       ansible.builtin.command: python3 -m unittest provers.py
