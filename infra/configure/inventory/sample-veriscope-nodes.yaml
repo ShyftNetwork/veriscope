@@ -1,20 +1,24 @@
 all:
-  hosts:
   children:
     web:
       hosts:
         foo-001.my-custom-domain.com:
           private_ip: 10.10.10.10
-          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82722daec9e3259323997c4e877b20cb4
-          trust_anchor_account_address: "0xe33bC570112172E2D64e8233d02454BBA56B67A2"
-          trust_anchor_preferred_name: ''
+          trust_anchors:
+            - private_key: db3906947188edfe196fe01d3e161ef82722daec9e3259323997c4e877b20cb4
+              address: "0xe33bC570112172E2D64e8233d02454BBA56B67A2"
+              preferred_name: abc
           ssh_priv_key_secret_name: /owner/env/instances/foo-001.my-custom-domain.com
           nm_host: foo-001-nm.my-custom-domain.com
         bar-002.my-custom-domain.com:
           private_ip: 10.10.10.11
-          trust_anchor_private_key: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827
-          trust_anchor_account_address: "0x67A212172E2D64e8233de33bC570102454BBA56B"
-          trust_anchor_preferred_name: ''
+          trust_anchors:
+            - private_key: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef827
+              address: "0x67A212172E2D64e8233de33bC570102454BBA56B"
+              preferred_name: andy
+            - private_key: db3906947188edfe196fe01d3e161ef82706947188edfe196fe01d3e161ef828
+              address: "0x67A212172E2D64e8233de33bC570102454BBA57A"
+              preferred_name: bar-002
           ssh_priv_key_secret_name: /owner/env/instances/bar-002.my-custom-domain.com
           nm_host: bar-002-nm.my-custom-domain.com
     nethermind:

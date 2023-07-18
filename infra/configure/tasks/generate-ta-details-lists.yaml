@@ -1,0 +1,27 @@
+---
+- name: Initialize lists
+  set_fact:
+    private_keys: []
+    addresses: []
+    preferred_names: []
+
+- name: Populate lists
+  set_fact:
+    private_keys: "{{ private_keys + [item['private_key']] }}"
+    addresses: "{{ addresses + [item['address']] }}"
+    preferred_names: "{{ preferred_names + [item['preferred_name']] }}"
+  loop: "{{ hostvars[inventory_hostname]['trust_anchors'] }}"
+
+- name: Prepare comma-separated strings
+  set_fact:
+    private_keys_csv: "{{ private_keys | join(',') }}"
+    addresses_csv: "{{ addresses | join(',') }}"
+    preferred_names_csv: "{{ preferred_names | join(',') }}"
+
+- name: Print TA private keys, addresses, and preferred names CSV lists
+  debug:
+    msg: 
+      - "Private Keys: {{ private_keys_csv }}"
+      - "Addresses: {{ addresses_csv }}"
+      - "Preferred Names: {{ preferred_names_csv }}"
+  when: debug is defined and debug | bool is true

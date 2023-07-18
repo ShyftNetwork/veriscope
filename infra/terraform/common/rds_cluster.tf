@@ -79,7 +79,5 @@ resource "aws_ssm_parameter" "db_cluster_sg_id" {
   overwrite   = true
   type        = "SecureString"
   value       = module.ta_db_cluster.security_group_id
-  tags = merge(local.tags, {
-    environment = var.env
-  })
+  tags        = local.tags
 }

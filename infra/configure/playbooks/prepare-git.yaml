@@ -13,11 +13,20 @@
         success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
 
-    - name: Set repo org value
+    - name: Set repo org, name, visibility
       ansible.builtin.set_fact:
-        repo_org: "{{ 'Paycase' if env | lower in ['test', 'dev'] else 'ShyftNetwork' if env | lower in ['staging', 'prod'] }}"
+        repo_org: ShyftNetwork
+        repo_visibility: "{{ 'private' if env | lower in ['test', 'dev'] else 'public' if env | lower in ['staging', 'prod'] }}"
+        repo_name: "{{ 'veriscope-internal' if env | lower in ['test', 'dev'] else 'veriscope' if env | lower in ['staging', 'prod'] }}"
         src_root: /src
-        src_dir_name: veriscope.git
+
+    - name: Set src dir name
+      ansible.builtin.set_fact:
+        src_dir_name: "{{ repo_name }}.git"
+
+    - name: Set src dir path
+      ansible.builtin.set_fact:
+        src_dir_path: "{{ src_root }}/{{ src_dir_name }}"
 
     - name: Check inputs - Github token
       ansible.builtin.assert:
@@ -26,17 +35,17 @@
           - github_token is defined and github_token is truthy
         success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
-      when: repo_org == 'Paycase'
-    
+      when: repo_visibility == 'private'
+
     - name: Set repo url
       ansible.builtin.set_fact:
-        repo_url: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/veriscope.git
-      when: repo_org == 'Paycase'
-    
+        repo_url: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/{{ repo_name }}.git
+      when: repo_visibility == 'private'
+
     - name: Set repo url
       ansible.builtin.set_fact:
-        repo_url: https://github.com/{{ repo_org }}/veriscope.git
-      when: repo_org == 'ShyftNetwork'
+        repo_url: https://github.com/{{ repo_org }}/{{ repo_name }}.git
+      when: repo_visibility == 'public'
 
     - name: Ensure python requirements are installed - prepare git
       ansible.builtin.import_tasks: ../tasks/ensure-boto3.yaml
@@ -51,7 +60,7 @@
       when: operation == 'install'
       with_items:
         - "{{ install_root }}"
-        - "{{ src_root}}/{{ src_dir_name }}"
+        - "{{ src_dir_path }}"
 
     - name: Create and change ownership of dirs to veris
       ansible.builtin.file:
@@ -69,34 +78,17 @@
   gather_facts: false
   become: true
   tasks:
-    # - name: Authenticate with GitHub
-    #   ansible.builtin.uri:
-    #     url: "https://api.github.com/user"
-    #     method: GET
-    #     headers:
-    #       Accept: "application/vnd.github+json"
-    #       Authorization: "Bearer {{ github_token }}"
-    #       X-GitHub-Api-Version: "2022-11-28"
-    #     # user: "{{ github_username }}"
-    #     # password: "{{ github_password }}"
-    #     status_code: 200
-    #     validate_certs: yes
-    #   register: github_auth_result
-
-    # - name: Print gihub auth result
-    #   ansible.builtin.debug:
-    #     var: github_auth_result
 
     - name: Clone veriscope repo
       ansible.builtin.git:
         repo: "{{ repo_url }}"
         dest: "{{ install_root }}"
         version: "{{ veriscope_version }}"
-        separate_git_dir: /src/veriscope.git
+        separate_git_dir: "{{ src_dir_path }}"
         accept_newhostkey: true
         force: true
       environment:
-        GIT_TERMINAL_PROMPT: 0
+        GIT_TERMINAL_PROMPT: "0"
       when: operation in ['install', 'update']
       register: github_clone_result
     
@@ -123,12 +115,12 @@
 
     - name: Check {{ install_root }} exists and is a dir
       ansible.builtin.debug:
-        msg: "Path exists and is a directory"
+        msg: Path exists and is a directory
       when: operation == 'install' and st.stat.isdir is defined and st.stat.isdir
 
     - name: Fail if the dir does not belong to 'veris'
       ansible.builtin.fail:
-        msg: "Whoops! Directory ownership has changed"
+        msg: Whoops! Directory ownership has changed
       when: operation == 'install' and st.stat.pw_name != 'veris'
 
     # - name: Recursively find files in {{ install_root }}

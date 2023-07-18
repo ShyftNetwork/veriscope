@@ -8,6 +8,7 @@ locals {
   vpc_id             = local.vpc_output["vpc_id"]
   public_subnets     = local.vpc_output["public_subnets"]
   tags = merge(var.tags, {
+    ENVIRONMENT  = lower(local.env),
     TF_WORKSPACE = terraform.workspace,
     GIT_BRANCH   = data.external.git.result.branch,
     GIT_TAG      = data.external.git.result.tag

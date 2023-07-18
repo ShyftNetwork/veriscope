@@ -10,9 +10,10 @@
         that:
           - veriscope_common_name is defined and veriscope_common_name is truthy
           - service_user is defined and service_user is truthy
-          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
-          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
-          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
+          - trust_anchors is defined and trust_anchors is iterable and trust_anchors | length > 0
+          - trust_anchors | map(attribute='private_key') | list | length == trust_anchors | length
+          - trust_anchors | map(attribute='address') | list | length == trust_anchors | length
+          - trust_anchors | map(attribute='preferred_name') | list | length == trust_anchors | length
           - veriscope_target is defined and veriscope_target is truthy
           - controller_working_dir is defined and controller_working_dir is truthy
           - webhook_client_secret is defined and webhook_client_secret is truthy
@@ -20,7 +21,13 @@
           - operation in [ 'install', 'update' ]
         success_msg: Required inputs provided. Proceeding to install Trust Anchor API.
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
+
+    - name: Generate list of TA account details - Install TA API
+      ansible.builtin.import_tasks: ../tasks/generate-ta-details-lists.yaml
     
+    - name: Validate TA account details - Install TA API
+      ansible.builtin.import_tasks: ../tasks/validate-input-ta-account-details.yaml
+
     # No harm copying this file over and over. In fact, it might be necessary
     # to copy this file in case of changes in contracts. However, the trust anchor PK,
     # account, prefname etc. should be preserved as it is supplied by the user.
