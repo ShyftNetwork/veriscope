@@ -87,3 +87,9 @@ resource "aws_instance" "node" {
     ignore_changes = [subnet_id, ami]
   }
 }
+
+resource "aws_eip" "node_eip" {
+  count = var.create_public_dns_record ? 1 : 0
+  instance = aws_instance.node.id
+  tags     = local.instance_tags
+}

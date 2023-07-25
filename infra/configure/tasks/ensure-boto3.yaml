@@ -1,7 +1,9 @@
 ---
-- name: Install pip3
+- name: Install pip3 and venv
   ansible.builtin.package:
-    name: python3-pip
+    name:
+      - python3-pip
+      - python3-venv
   become: true
 
 - name: Ensure pip3 and setuptools are present

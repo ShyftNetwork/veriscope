@@ -1,0 +1,71 @@
+---
+- name: Create a Python virtual environment
+  ansible.builtin.command: 
+    chdir: "{{ controller_working_dir }}/infra/configure/scripts"
+    cmd: python3 -m venv ./venv
+  register: venv_result
+  ignore_errors: True
+  delegate_to: localhost
+
+- name: Install requirements
+  ansible.builtin.pip:
+    requirements: requirements.txt
+    virtualenv: ./venv
+    virtualenv_command: python3 -m venv
+  args:
+    chdir: "{{ controller_working_dir }}/infra/configure/scripts"
+  delegate_to: localhost
+
+- name: Check installed packages in the venv
+  ansible.builtin.command:
+    cmd: ./venv/bin/pip freeze
+    chdir: "{{ controller_working_dir }}/infra/configure/scripts"
+  delegate_to: localhost
+  register: pip_freeze
+  ignore_errors: True
+
+- name: Display installed packages
+  ansible.builtin.debug:
+    msg: "{{ pip_freeze.stdout_lines }}"
+
+- name: Check private key and address with Python script
+  ansible.builtin.command: 
+    cmd: ./venv/bin/python3 validate_eth_key.py {{ item.0 }} {{ item.1 }}
+    chdir: "{{ controller_working_dir }}/infra/configure/scripts"
+  loop: "{{ private_keys | zip(addresses, preferred_names) | list }}"
+  register: validate_output
+  ignore_errors: True
+  delegate_to: localhost
+  failed_when: >
+    validate_output is failed and
+    validate_output.msg is not search('All items completed')
+  loop_control:
+    label: "preferred_name: {{ item[2] }} - {{ item[0] }} - {{ item[1] }}"
+
+- name: Print validation output
+  debug:
+    var: validate_output
+  when: debug is defined and debug | bool is true
+
+- name: Print error message if validation failed
+  ansible.builtin.fail:
+    msg: "{{
+      {
+        1: 'Private key must be a 64-character hexadecimal string',
+        2: 'Private key is not within the valid range',
+        3: 'The provided Ethereum address does not match the address generated from the private key'
+      }[item.rc] }}"
+  when: item.failed
+  loop: "{{ validate_output.results }}"
+  loop_control:
+    label: "preferred name: {{ item.item[2] }} - private_key: {{ item.item[0] }} - address: {{ item.item[1] }}"
+
+# - name: Print success message if validation passed
+#   ansible.builtin.debug:
+#     msg: All private keys and addresses are valid
+#   when: validate_output | selectattr('rc', 'equalto', 0) | list | length == private_keys | length
+
+- name: Remove the Python virtual environment
+  ansible.builtin.file:
+    path: "{{ controller_working_dir }}/infra/configure/scripts/venv"
+    state: absent

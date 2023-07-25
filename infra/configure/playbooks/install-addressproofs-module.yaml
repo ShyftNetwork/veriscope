@@ -76,7 +76,7 @@
     - name: Print unit test output
       ansible.builtin.debug:
         var: unittest_result.stdout
-    
+
     - name: Fail the installation if unit tests fail
       ansible.builtin.fail:
         msg: "Addressproofs unit tests failed. Hence, the installation "

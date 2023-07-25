@@ -9,6 +9,7 @@ locals {
   # is_prod               = anytrue([var.env == "prod", var.env == "staging"])
   # pipeline_executor_ip_addr = jsondecode(data.http.my_public_ip.response_body).ip
   tags = merge(var.tags, {
+    ENVIRONMENT  = lower(var.env),
     TF_WORKSPACE = terraform.workspace,
     GIT_BRANCH   = data.external.git.result.branch,
     GIT_TAG      = data.external.git.result.tag
@@ -24,7 +25,7 @@ terraform {
     }
     docker = {
       source  = "kreuzwerker/docker"
-      version = "2.22.0"
+      version = "~> 2.25"
     }
   }
   backend "s3" {
@@ -34,6 +35,10 @@ terraform {
 
 
 # resources
+resource "aws_eip" "nat" {
+  vpc   = true
+}
+
 ################################################################################
 # VPC Module
 ################################################################################
@@ -62,6 +67,9 @@ module "vpc" {
   enable_nat_gateway     = true
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
+  // Use the EIPs created above for the NAT gateways
+  reuse_nat_ips       = true
+  external_nat_ip_ids = aws_eip.nat[*].id
 
   enable_dns_hostnames = true
   enable_dns_support   = true

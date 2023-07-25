@@ -12,7 +12,7 @@ resource "aws_route53_record" "node_public_dns_record" {
   name     = var.server_type == "web" ? var.name : "${var.name}-${var.server_type}"
   type     = "A"
   ttl      = "300"
-  records  = [aws_instance.node.public_ip]
+  records  = [aws_eip.node_eip[0].public_ip]
 }
 
 # Add a record to the domain
@@ -22,6 +22,6 @@ resource "cloudflare_record" "node_public_dns_record" {
   name     = var.server_type == "web" ? var.name : "${var.name}-${var.server_type}"
   type     = "A"
   ttl      = 300
-  value    = aws_instance.node.public_ip
+  value    = aws_eip.node_eip[0].public_ip
   # tags     = toset(each.value.tags["Name"])
 }
