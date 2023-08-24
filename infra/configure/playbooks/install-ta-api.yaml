@@ -75,7 +75,6 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
       when: operation == 'install'
 
     - name: Force systemd to reload configs - Install TA API
@@ -92,5 +91,4 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
       when: operation == 'install'

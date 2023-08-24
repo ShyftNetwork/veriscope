@@ -19,7 +19,6 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
 
     - name: Update TA API config
       ansible.builtin.lineinfile:
@@ -38,7 +37,6 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
     
     - name: Read TA API config file on remote host
       ansible.builtin.slurp:

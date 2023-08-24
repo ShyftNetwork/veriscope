@@ -16,3 +16,4 @@ infra/terraform/common/common_infra.json
 infra/terraform/instances/instances.json
 infra/cloudformation/packaged-iac-bootstrap.yaml
 infra/configure/scripts/*venv*
+infra/terraform/scripts/__pycache__/*

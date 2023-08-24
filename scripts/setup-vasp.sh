@@ -437,20 +437,16 @@ function install_or_update_nodejs {
 
 	# no need to re-copy the service files during update operation
 	if ! test -s "/etc/systemd/system/ta-node-1.service"; then
-		echo "Activating and restarting node.js services: ta-node-1 ta-node-2"
+		echo "Activating and restarting node.js services: ta-node-1"
 		cp scripts/ta-node-1.service /etc/systemd/system/
-		cp scripts/ta-node-2.service /etc/systemd/system/
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-node-1.service
-		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-node-2.service
 		systemctl daemon-reload
 		systemctl enable ta-node-1
-		systemctl enable ta-node-2
 	fi
 
 	systemctl restart ta-node-1
-	systemctl restart ta-node-2
 
-	# this also does a restart of ta-node-1 ta-node-2
+	# this also does a restart of ta-node-1
 	regenerate_webhook_secret;
 }
 
@@ -521,7 +517,6 @@ function restart_all_services() {
 	systemctl restart postgresql
 	systemctl restart redis.service
 	systemctl restart ta-node-1
-	systemctl restart ta-node-2
 	systemctl restart horizon
 	echo "All services restarted"
 }
@@ -548,7 +543,7 @@ function refresh_static_nodes() {
 }
 
 function daemon_status() {
-	systemctl status nethermind ta ta-wss ta-schedule ta-queue ta-node-1 ta-node-2 nginx postgresql redis.service horizon | less
+	systemctl status nethermind ta ta-wss ta-schedule ta-queue ta-node-1 nginx postgresql redis.service horizon | less
 }
 
 # ONLY ONCE. after lavarel install step
@@ -612,7 +607,6 @@ function regenerate_webhook_secret() {
 	sed -i "s#WEBHOOK_CLIENT_SECRET=.*#WEBHOOK_CLIENT_SECRET=$SHARED_SECRET#g" $ENVDEST
 
 	systemctl restart ta-node-1 || true
-	systemctl restart ta-node-2 || true
 	systemctl restart ta || true
 
 	echo "Shared secret saved"
