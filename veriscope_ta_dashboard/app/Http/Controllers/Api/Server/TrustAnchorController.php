@@ -98,7 +98,7 @@ class TrustAnchorController extends Controller
       */
       public function verify_trust_anchor(Request $request, $ta_account)
       {
-          $trustAnchor = VerifiedTrustAnchor::where('account_address', $ta_account)->first();
+          $trustAnchor = VerifiedTrustAnchor::where('account_address', 'ILIKE', $ta_account)->first();
 
           return response()->json(['address' => $ta_account, 'verified' => isset($trustAnchor), 'block_number' => isset($trustAnchor) ? $trustAnchor['block_number'] : null   ]);
 
@@ -247,10 +247,11 @@ class TrustAnchorController extends Controller
           $user_signature_hash = $request->get('user_signature_hash','');
           $user_signature = $request->get('user_signature','');
           $coin_address_crypto_proof = $request->get('coin_address_crypto_proof','');
-          $coin_transaction_hash = $request->get('coin_transaction_hash','');
           $coin_transaction_value = $request->get('coin_transaction_value','');
+          $coin_transaction_hash = $request->get('coin_transaction_hash','');
           $ivms_encrypt = $request->get('ivms_encrypt','');
           $ta_account   = $request->get('ta_account','');
+
 
 
 
@@ -271,7 +272,6 @@ class TrustAnchorController extends Controller
           $kt->coin_token = $sca->coin_token;
           $kt->coin_address = $sca->coin_address;
           $kt->coin_memo = $sca->coin_memo;
-          $kt->coin_transaction_hash = $coin_transaction_hash;
           $kt->coin_transaction_value = $coin_transaction_value;
           $kt->sender_ta_address = $sca->ta_account;
           $kt->sender_user_address = $sca->user_account;
@@ -435,6 +435,7 @@ class TrustAnchorController extends Controller
                 }
                 // 0202 Accepted
                 if($ivms_state_code == "0202"){
+                  $kt->coin_transaction_hash = $coin_transaction_hash;
                   $kt->status()->transitionTo($to = 'BE_KYC_ACCEPTED', ['be_ivms_state_code' => $ivms_state_code]);
                 }
               }

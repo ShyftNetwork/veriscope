@@ -12,6 +12,8 @@ use RichardStyles\EloquentEncryption\EloquentEncryption;
 use App\Transformers\{KycTemplateTransformer};
 use Spatie\WebhookServer\WebhookCall;
 use App\Support\EthereumToolsUtils;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class KycTemplateV1Controller extends Controller
 {
@@ -241,7 +243,6 @@ class KycTemplateV1Controller extends Controller
          $kt->coin_token = $sca->coin_token;
          $kt->coin_address = $sca->coin_address;
          $kt->coin_memo = $sca->coin_memo;
-         $kt->coin_transaction_hash = $kycTemplateDecode['CoinTransactionHash'];
          $kt->coin_transaction_value = $kycTemplateDecode['CoinTransactionValue'];
          $kt->sender_ta_address = $sca->ta_account;
          $kt->sender_user_address = $sca->user_account;
@@ -393,6 +394,12 @@ class KycTemplateV1Controller extends Controller
           if (!empty($kycStateMachineDecode) && $kt->status()->canBe('BE_KYC_ACCEPTED') || $kt->status()->canBe('BE_KYC_REJECTED') ) {
             if (!empty($kycStateMachineDecode['code'])) {
               $newState = ($kycStateMachineDecode['code'] == "0202") ? 'BE_KYC_ACCEPTED' : 'BE_KYC_REJECTED';
+
+              // Coin Transaction Hash can be only updated is BE_KYC_ACCEPTED
+              if ($newState === 'BE_KYC_ACCEPTED') {
+               $kt->coin_transaction_hash = $kycTemplateDecode['CoinTransactionHash'];
+              }
+
               $kt->status()->transitionTo($to = $newState, ['be_ivms_state_code' => $kycStateMachineDecode['code'] ] );
             }
           }
@@ -409,7 +416,13 @@ class KycTemplateV1Controller extends Controller
 
          if($throwable instanceof ValidationException){
            return response()->json($throwable->errors(),400);
-         } else {
+         }
+         elseif($throwable instanceof  ModelNotFoundException){
+           return response()->json([
+             "message" => "Cannot create kyc template system is not fully synced."
+           ],400);
+         }
+         else {
            return response()->json([
              "trace" => $throwable->getTrace(),
              "message" => $throwable->getMessage(),
