@@ -2,6 +2,7 @@ import argparse
 import json
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.scalarstring import SingleQuotedScalarString as SQ
 
 INDENTATION_SPACES = 2
 
@@ -111,7 +112,7 @@ def parse_tf_output(tf_output):
         host_data["owner"] = instance_data["tags"]["Owner"].lower()
         host_data["trust_anchors"] = [{
             "private_key": "asdasdasdasdasd",
-            "address": "0x87348374hjhjhj",
+            "address": SQ('0x87348374hjhjhj'),
             "preferred_name": "pref_name"
         }]
         multiline_comment = "Trust Anchor(s) details. If you're setting up multiple Trust Anchors, add them to the list here.\n" \
