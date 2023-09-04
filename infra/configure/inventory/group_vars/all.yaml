@@ -6,7 +6,7 @@ service_user: "{{ ansible_facts['env']['LOGNAME'] }}"
 
 veriscope_nm_services: [ nethermind ]
 veriscope_web_prereq_services: [ nginx, redis-server ]
-veriscope_web_services: [ ta, ta-queue, ta-wss, ta-schedule, horizon, ta-node-1, ta-node-2 ]
+veriscope_web_services: [ ta, ta-queue, ta-wss, ta-schedule, horizon, ta-node-1 ]
 
 # Location to install veriscope to. Default is /opt/veriscope which is the ONLY possible
 # place to install for now as it is hardcoded everywhere in php and nodejs code. 
