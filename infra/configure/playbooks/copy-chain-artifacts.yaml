@@ -14,13 +14,12 @@
     
     - name: Stop ta-node services
       ansible.builtin.service:
-        name: ta-node-{{ item }}
+        name: "{{ item }}"
         state: stopped
       become: true
       ignore_errors: true
       with_items:
-        - 1
-        - 2
+        - ta-node-1
 
     # ONLY ONCE. Not needed for an update
     # cp -r chains/$VERISCOPE_TARGET/artifacts $INSTALL_ROOT/veriscope_ta_node/
@@ -31,14 +30,13 @@
         force: true
         owner: veris
         group: veris
-        mode: 0764
+        mode: "0764"
 
     - name: Start ta-node services
       ansible.builtin.service:
-        name: ta-node-{{ item }}
+        name: "{{ item }}"
         state: started
       become: true
       ignore_errors: true
       with_items:
-        - 1
-        - 2
+        - ta-node-1

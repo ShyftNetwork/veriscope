@@ -7,9 +7,10 @@
     - name: Check inputs - Update TA accounts and keys
       ansible.builtin.assert:
         that:
-          - trust_anchor_preferred_name is defined and trust_anchor_preferred_name is truthy
-          - trust_anchor_private_key is defined and trust_anchor_private_key is truthy
-          - trust_anchor_account_address is defined and trust_anchor_account_address is truthy
+          - trust_anchors is defined and trust_anchors is iterable and trust_anchors | length > 0
+          - trust_anchors | map(attribute='private_key') | list | length == trust_anchors | length
+          - trust_anchors | map(attribute='address') | list | length == trust_anchors | length
+          - trust_anchors | map(attribute='preferred_name') | list | length == trust_anchors | length
         success_msg: Required inputs provided. Proceeding to copy chain artifacts and setup nodejs app.
         fail_msg: Required inputs not provided. Please provide required values and try again.
     
@@ -21,16 +22,21 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
+
+    - name: Generate list of TA account details - Install TA API
+      ansible.builtin.import_tasks: ../tasks/generate-ta-details-lists.yaml
+
+    - name: Validate TA account details - Install TA API
+      ansible.builtin.import_tasks: ../tasks/validate-input-ta-account-details.yaml
 
     - name: Update Trust Anchor pk, account, prefname
       ansible.builtin.blockinfile:
         path: "{{ api_config_path }}"
         backup: true
         block: |
-          TRUST_ANCHOR_PK={{ trust_anchor_private_key }}
-          TRUST_ANCHOR_ACCOUNT={{ trust_anchor_account_address }}
-          TRUST_ANCHOR_PREFNAME={{ trust_anchor_preferred_name }}
+          TRUST_ANCHOR_PK={{ private_keys_csv }}
+          TRUST_ANCHOR_ACCOUNT={{ addresses_csv }}
+          TRUST_ANCHOR_PREFNAME={{ preferred_names_csv }}
         marker: "# {mark} AUTOMATION MANAGED BLOCK TA ACCOUNT INFO"
         state: present
         owner: veris
@@ -44,7 +50,6 @@
       become: true
       with_items:
         - ta-node-1
-        - ta-node-2
 
 - name: Restart nethermind service
   hosts: nethermind
