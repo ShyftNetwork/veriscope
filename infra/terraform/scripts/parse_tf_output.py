@@ -7,7 +7,7 @@ from ruamel.yaml.scalarstring import SingleQuotedScalarString as SQ
 INDENTATION_SPACES = 2
 
 
-def add_vars_and_comments(inventory, tf_output):
+def add_vars_and_comments(inventory: str, tf_output: str, private_repo: bool):
 
     inventory["all"]["vars"] = CommentedMap()
 
@@ -30,8 +30,18 @@ def add_vars_and_comments(inventory, tf_output):
         indent=object_depth*INDENTATION_SPACES
     )
 
-    # Add github_token variable under vars with a comment when env is dev or test
-    if env in ['dev', 'test']:
+    # Add github_token variable under vars with a comment when private_repo is True
+    if private_repo is True:
+
+        object_depth = 2
+        inventory["all"]["vars"]["use_internal_repo"] = True
+        multiline_comment = "\nMandatory. Whether to clone private veriscope-internal repo instead of public veriscope repo."
+        inventory["all"]["vars"].yaml_set_comment_before_after_key(
+            "use_internal_repo",
+            before=multiline_comment,
+            indent=object_depth*INDENTATION_SPACES
+        )
+
         object_depth = 2
         inventory["all"]["vars"]["github_username"] = ""
         multiline_comment = "\nMandatory. GitHub username with permissions to clone the private veriscope-internal repo."
@@ -142,8 +152,9 @@ def parse_tf_output(tf_output):
 
 def main():
     parser = argparse.ArgumentParser(description="Parse Terraform output and create Ansible inventory file.")
-    parser.add_argument("tf_output_path", help="Path to the Terraform output JSON file")
-    parser.add_argument("ansible_inventory_path", help="Path to the generated Ansible inventory YAML file")
+    parser.add_argument("--tf-output-path", default="infra/terraform/instances/terraform_output.json", help="Path to the Terraform output JSON file")
+    parser.add_argument("--ansible-inventory-path", default="infra/configure/inventory/veriscope-nodes.yaml", help="Path to the generated Ansible inventory YAML file")
+    parser.add_argument("--private-repo", action="store_true", help="Whether to add variables related to using veriscope private repo to the generated Ansible inventory YAML file")
 
     args = parser.parse_args()
 
@@ -151,7 +162,7 @@ def main():
         tf_output = json.load(tf_output_file)
 
     ansible_inventory = parse_tf_output(tf_output)
-    ansible_inventory = add_vars_and_comments(ansible_inventory, tf_output)
+    ansible_inventory = add_vars_and_comments(ansible_inventory, tf_output, args.private_repo)
 
     with open(args.ansible_inventory_path, "w") as ansible_inventory_file:
         yaml = YAML()
