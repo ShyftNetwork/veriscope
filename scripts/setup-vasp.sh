@@ -243,18 +243,14 @@ function install_or_update_nethermind() {
 	echo "Installing Nethermind to $NETHERMIND_DEST - target $VERISCOPE_TARGET chain - configuration will be in $NETHERMIND_CFG"
 
 	wget -q -O /tmp/nethermind-dist.zip "$NETHERMIND_TARBALL"
+	rm -rf $NETHERMIND_DEST/plugins
 	unzip -qq -o -d $NETHERMIND_DEST /tmp/nethermind-dist.zip
 	rm -rf $NETHERMIND_DEST/chainspec
 	rm -rf $NETHERMIND_DEST/configs
 
-	if ! test -s "/opt/nm/static-nodes.json"; then
-		echo "Installing default /opt/nm/static-nodes.json"
-		cp chains/$VERISCOPE_TARGET/static-nodes.json $NETHERMIND_DEST
-	fi
-
-	echo "Installing /opt/nm/shyftchainspec.json genesis file. Chcksum:"
+	echo "Installing /opt/nm/shyftchainspec.json genesis file and static node list."
+	cp chains/$VERISCOPE_TARGET/static-nodes.json $NETHERMIND_DEST
 	cp chains/$VERISCOPE_TARGET/shyftchainspec.json $NETHERMIND_DEST
-	md5sum $NETHERMIND_DEST/shyftchainspec.json # what is the purpose of this?
 
 	if ! test -s "/etc/systemd/system/nethermind.service"; then
 		echo "Installing systemd unit for nethermind"

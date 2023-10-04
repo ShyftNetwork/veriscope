@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -e
+
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit 2
+fi
+
+CHAINSPEC_FILE="${SHYFT_CHAINSPEC_FILE:-/opt/nm/chainspec.json}"
+if [ ! -f "$CHAINSPEC_FILE" ]; then
+    echo "$CHAINSPEC_FILE does not exist. Exiting."
+    exit 1
+fi
+
+CHAINSPEC_URL="${SHYFT_CHAINSPEC_URL:-https://spec.shyft.network/ShyftMainnet-current.json}"
+if [ -z "$CHAINSPEC_URL" ]; then
+    echo "CHAINSPEC_URL not provided. Exiting."
+    exit 1
+fi
+
+if ! command -v jq >/dev/null ; then
+    echo "jq not found. please install it"
+    exit 1
+fi
+
+
+TEMP_FILE=$(mktemp)
+curl -s -o $TEMP_FILE $CHAINSPEC_URL
+
+echo "Comparing $CHAINSPEC_URL to $CHAINSPEC_FILE"
+
+# Check if the file size is at least 5kb
+if [ $(wc -c < "$TEMP_FILE") -ge 5120 ]; then
+    # Check if the file is a valid JSON
+    if cat $TEMP_FILE | jq . > /dev/null 2>&1; then
+        # Compare the temporary file to the existing file
+        if ! cmp -s $TEMP_FILE $CHAINSPEC_FILE; then
+            echo "Files are different. New chainspec installed. Restarting service."
+            cp $TEMP_FILE $CHAINSPEC_FILE
+            chmod 0644 $CHAINSPEC_FILE
+            systemctl restart nethermind
+        else
+            echo "Files are identical. Doing nothing."
+        fi
+    else
+        echo "File is not a valid JSON. Rejecting the file."
+    fi
+else
+    echo "File size is less than 5kb. Rejecting the file."
+fi
+
+rm $TEMP_FILE
+
+
