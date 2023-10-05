@@ -13,11 +13,10 @@
         success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
 
-    - name: Set repo org, name, visibility
+    - name: Set repo org, name, root
       ansible.builtin.set_fact:
         repo_org: ShyftNetwork
-        repo_visibility: "{{ 'private' if env | lower in ['test', 'dev'] else 'public' if env | lower in ['staging', 'prod'] }}"
-        repo_name: "{{ 'veriscope-internal' if env | lower in ['test', 'dev'] else 'veriscope' if env | lower in ['staging', 'prod'] }}"
+        repo_name: "{{ 'veriscope-internal' if use_internal_repo is defined and use_internal_repo is true else 'veriscope' }}"
         src_root: /src
 
     - name: Set src dir name
@@ -35,17 +34,21 @@
           - github_token is defined and github_token is truthy
         success_msg: Required inputs provided. Proceeding to prepare veriscope node(s).
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
-      when: repo_visibility == 'private'
+      when: use_internal_repo is defined and use_internal_repo is true
 
     - name: Set repo url
       ansible.builtin.set_fact:
         repo_url: https://{{ github_username }}:{{ github_token }}@github.com/{{ repo_org }}/{{ repo_name }}.git
-      when: repo_visibility == 'private'
+      when: use_internal_repo is defined and use_internal_repo is true
 
     - name: Set repo url
       ansible.builtin.set_fact:
         repo_url: https://github.com/{{ repo_org }}/{{ repo_name }}.git
-      when: repo_visibility == 'public'
+      when: use_internal_repo is not defined or use_internal_repo is false
+
+    - name: Print repo details
+      ansible.builtin.debug:
+        msg: "{{ repo_url }}"
 
     - name: Ensure python requirements are installed - prepare git
       ansible.builtin.import_tasks: ../tasks/ensure-boto3.yaml
