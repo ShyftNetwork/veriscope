@@ -1,5 +1,5 @@
 {
-    "name": "Shyft Network",
+    "name": "Shyft Network 2023.10b",
     "engine": {
         "authorityRound": {
             "params": {
@@ -21,8 +21,6 @@
                         }
                     }
                 },
-                "blockRewardContractAddress": "0x000000000000000000000000000000073410f33D",
-                "blockRewardContractTransition": "0x0",
                 "blockRewardContractTransitions": {
                     "0": "0x000000000000000000000000000000073410f33D",
                     "4431021": "0x57C205DdD1B33A9520c840a1272B4Ac187Ab7620"
@@ -42,31 +40,39 @@
         "maximumExtraDataSize": "0x20",
         "minGasLimit": "0x663BE0",
         "networkID": "0x1CAD",
-        "eip140Transition": "0x0",
-        "eip145Transition": "0x0",
-        "eip150Transition": "0x0",
-        "eip155Transition": "0x0",
-        "eip160Transition": "0x0",
-        "eip161abcTransition": "0x0",
-        "eip161dTransition": "0x0",
-        "eip211Transition": "0x0",
-        "eip214Transition": "0x0",
-        "eip658Transition": "0x0",
-        "eip1014Transition": "0x0",
-        "eip1052Transition": "0x0",
-        "eip1283Transition": "0x0",
-        "eip1283DisableTransition": "0x0",
+        "eip140Transition": "0",
+        "eip145Transition": "0",
+        "eip150Transition": "0",
+        "eip155Transition": "0",
+        "eip160Transition": "0",
+        "eip211Transition": "0",
+        "eip214Transition": "0",
+        "eip658Transition": "0",
+        "eip1014Transition": "0",
+        "eip1052Transition": "0",
+        "eip1283Transition": "0",
+        "eip1283DisableTransition": "0",
         "eip152Transition": "4431021",
         "eip1108Transition": "4431021",
         "eip1344Transition": "4431021",
         "eip1884Transition": "4431021",
         "eip2028Transition": "4431021",
-        "eip2200Transition": "4431021"
+        "eip2200Transition": "4431021",
+        "eip1559Transition": "12908000",
+        "eip2565Transition": "12908000",
+        "eip2929Transition": "12908000",
+        "eip2930Transition": "12908000",
+        "eip3198Transition": "12908000",
+        "eip3529Transition": "12908000",
+        "eip3541Transition": "12908000",
+        "eip3651Transition": "12908000",
+        "eip3855Transition": "12908000",
+        "eip3860Transition": "12908000"
     },
     "genesis": {
         "seal": {
             "authorityRound": {
-                "step": "0x0",
+                "step": "0",
                 "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
             }
         },
@@ -127,7 +133,7 @@
             "balance": "0x1",
             "builtin": {
                 "name": "modexp",
-                "activate_at": "0x0",
+                "activate_at": "0",
                 "pricing": {
                     "modexp": {
                         "divisor": 20
@@ -139,7 +145,7 @@
             "balance": "0x1",
             "builtin": {
                 "name": "alt_bn128_add",
-                "activate_at": "0x0",
+                "activate_at": "0",
                 "pricing": {
                     "linear": {
                         "base": 500,
@@ -152,7 +158,7 @@
             "balance": "0x1",
             "builtin": {
                 "name": "alt_bn128_mul",
-                "activate_at": "0x0",
+                "activate_at": "0",
                 "pricing": {
                     "linear": {
                         "base": 40000,
@@ -165,7 +171,7 @@
             "balance": "0x1",
             "builtin": {
                 "name": "alt_bn128_pairing",
-                "activate_at": "0x0",
+                "activate_at": "0",
                 "pricing": {
                     "alt_bn128_pairing": {
                         "base": 100000,
