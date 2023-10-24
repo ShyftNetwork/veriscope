@@ -1,0 +1,20 @@
+---
+- name: Fetch secrets from Azure Key Vault
+  azure_rm_keyvaultsecret_info:
+    vault_uri: "{{ vault_uri }}"
+    secret_name: "{{ item }}"
+  register: fetched_secrets
+  loop:
+    - "{{ ta_dashboard_db_cluster_secret_name }}"
+    # Add other secret names here.
+
+- name: Check secret format
+  include_tasks: check_secret_format.yml
+  vars:
+    secret_data: "{{ fetched_secrets['secrets'][0]['value'] }}"
+
+- name: Set facts from Azure secrets
+  set_fact:
+    pgsql_cltr_host: "{{ fetched_secrets['secrets'][0]['value']['cluster_endpoint'] }}"
+    pgsql_cltr_port: "{{ fetched_secrets['secrets'][0]['value']['cluster_port'] }}"
+    # Map other secrets similarly

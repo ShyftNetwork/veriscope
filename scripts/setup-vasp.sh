@@ -85,7 +85,7 @@ SHARED_SECRET=
 
 NETHERMIND_DEST=/opt/nm
 NETHERMIND_CFG=$NETHERMIND_DEST/config.cfg
-NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.15.0/nethermind-linux-amd64-1.15.0-2b70876-20221228.zip"
+NETHERMIND_TARBALL="https://github.com/NethermindEth/nethermind/releases/download/1.20.4/nethermind-1.20.4-d06ec791-linux-x64.zip"
 NETHERMIND_RPC="http://localhost:8545"
 
 REDISBLOOM_DEST=/opt/RedisBloom

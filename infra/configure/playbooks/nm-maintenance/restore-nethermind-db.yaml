@@ -36,5 +36,5 @@
 
     - name: Download and extract Nethermind db from archive
       vars:
-        target_nm_version: "{{ deployed_nm_version }}"
+        target_nethermind_version: "{{ deployed_nm_version }}"
       ansible.builtin.import_tasks: ../../tasks/unarchive-nm-db-from-s3.yaml

@@ -1,0 +1,16 @@
+---
+- name: Fetch secrets from HashiCorp Vault
+  ansible.builtin.debug:
+    msg: "{{ lookup('hashi_vault', 'secret={{ ta_dashboard_db_cluster_secret_name }} url={{ vault_url }} token={{ vault_token }}') }}"
+  register: fetched_secrets
+
+- name: Check secret format
+  include_tasks: check_secret_format.yml
+  vars:
+    secret_data: "{{ fetched_secrets['msg'] }}"
+
+- name: Set facts from HashiCorp Vault secrets
+  set_fact:
+    pgsql_cltr_host: "{{ fetched_secrets['msg']['cluster_endpoint'] }}"
+    pgsql_cltr_port: "{{ fetched_secrets['msg']['cluster_port'] }}"
+    # Map other secrets similarly

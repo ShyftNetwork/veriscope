@@ -1,6 +1,6 @@
 - name: Create nm archive download dir - unarchive nm db
   ansible.builtin.file:
-    path: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}"
+    path: "/home/{{ service_user }}/nm-archive-download/v{{ target_nethermind_version }}"
     state: directory
     owner: veris
     group: veris
@@ -9,9 +9,9 @@
   amazon.aws.s3_object:
     ignore_nonexistent_bucket: true
     bucket: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_name'] }}"
-    object: "{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    object: "{{ nm_db_backup_archive_s3_key }}"
     mode: get
-    dest: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    dest: "/home/{{ service_user }}/nm-archive-download/{{ nm_db_backup_archive_s3_key }}"
     overwrite: different
   register: get_s3_obj_result
   ignore_errors: true
@@ -23,12 +23,12 @@
 
 - name: Print S3 get object result - unarchive nm db
   ansible.builtin.debug: 
-    msg: "Nethermind DB backup for {{ target_nm_version }} does not exist. Nethermind will synchnorise from the beginning."
-  when: get_s3_obj_result.msg == "Key {{ target_nm_version }}/{{ veriscope_target }}.tar.gz does not exist."
+    msg: "Nethermind DB backup for v{{ target_nethermind_version }} does not exist. Nethermind will synchnorise from the beginning."
+  when: get_s3_obj_result.msg == "Key {{ nm_db_backup_archive_s3_key }} does not exist."
 
 - name: Extract Nethermind db from backup - unarchive nm db
   ansible.builtin.unarchive:
-    src: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    src: "/home/{{ service_user }}/nm-archive-download/{{ nm_db_backup_archive_s3_key }}"
     dest: "{{ nm_root }}"
     remote_src: yes
     owner: veris
@@ -52,7 +52,7 @@
 
 - name: Delete nm archive file - unarchive nm db
   ansible.builtin.file:
-    path: "/home/{{ service_user }}/nm-archive-download/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    path: "/home/{{ service_user }}/nm-archive-download/{{ nm_db_backup_archive_s3_key }}"
     state: absent
     owner: veris
     group: veris

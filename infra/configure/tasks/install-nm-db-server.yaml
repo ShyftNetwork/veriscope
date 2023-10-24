@@ -8,7 +8,7 @@
 
 - name: Download and extract Nethermind files
   ansible.builtin.unarchive:
-    src: "{{ nethermind_tarball }}"
+    src: "{{ nethermind_download_url }}"
     dest: "{{ nm_root }}"
     remote_src: yes
     exclude:

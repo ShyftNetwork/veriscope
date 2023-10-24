@@ -30,6 +30,10 @@ all:
           private_ip: 10.10.10.13
           ssh_priv_key_secret_name: /owner/env/instances/bar-002-nm.my-custom-domain.com
   vars:
+    # Mandatory. The source where TA DB secrets like TA DB user password and cluster info are stored.
+    # Valid values are aws_secretsmanager, env_vars, azure_keyvault, gcp_secretsmanager, hashicorp_vault and ansible_vault.
+    ta_db_secrets_source: aws_secretsmanager
+
     # Whether to print debug messages to the screen while running the playbooks. NOTE: It may print secret information too. So, please use with caution.
     debug: false
 
@@ -52,16 +56,3 @@ all:
       email: krishna@shyft.network
       # optional password
       password: mysupersecretpassword*!1
-
-    # Use this list to specify which apps to perform update (re-install) on beyond the copying 
-    # the new version of the code during a node update.
-    apps_to_update:
-      - api
-      - dashboard
-
-    # Use this dict to specify the keys and values for changes to TA API config changes
-    ta_api_config_changes:
-      HTTP: http://{{ nm_host }}:8545
-      WS: ws://{{ nm_host }}:8545
-      # HTTP: http://tx.veriscope.network:9400/
-      # WS: ws://tx.veriscope.network:9400/
