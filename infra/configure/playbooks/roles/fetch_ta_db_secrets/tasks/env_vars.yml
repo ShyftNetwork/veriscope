@@ -1,0 +1,21 @@
+---
+- name: Fetch secrets from Environment Variables
+  set_fact:
+    ta_db_userpwd: "{{ lookup('ansible.builtin.env', 'TA_DB_USERPWD') | default('TA_DB_USERPWD', true) }}"
+    ta_dashboard_db_cluster: "{{ lookup('ansible.builtin.env', 'TA_DB_CLUSTER_INFO') | default('TA_DB_CLUSTER_INFO', true) }}"
+
+- name: Confirm environment variable is set
+  fail:
+    msg: "The environment variable TA_DB_USERPWD is not set!"
+  when: ta_db_userpwd == 'TA_DB_USERPWD'
+      
+- name: Confirm environment variable is set
+  fail:
+    msg: "The environment variable TA_DB_CLUSTER_INFO is not set!"
+  when: ta_dashboard_db_cluster == 'TA_DB_CLUSTER_INFO'
+
+# Extract values from the fetched secret for later use.
+- name: Set facts from ENV VARS secrets
+  set_fact:
+    pgsql_cltr_host: "{{ ta_dashboard_db_cluster['cluster_endpoint'] }}"
+    pgsql_cltr_port: "{{ ta_dashboard_db_cluster['cluster_port'] }}"
