@@ -210,7 +210,9 @@ startSync();
 
 function transform_EVT_setAttestation(events, done) {
   events.forEach((evt) => {
-    queue.taTraceAndParseTransaction.add({evt: evt}, services.bull.opts);
+    if (evt.name == 'EVT_setAttestation') {
+      queue.taTraceAndParseTransaction.add({evt: evt}, services.bull.opts);
+    }
   });
 }
 
@@ -349,7 +351,7 @@ app.get('/refresh_event_sync', async (req, res) => {
 
 app.get('/create-new-user-account', (req, res) => {
 
-  var user_id = req.param('user_id');
+  var user_id = req.query.user_id;
   var TRUST_ANCHOR_PK = (process.env.TRUST_ANCHOR_PK).split(',');
   var TRUST_ANCHOR_ACCOUNT = (process.env.TRUST_ANCHOR_ACCOUNT).split(',');
   var TRUST_ANCHOR_PREFNAME = ((process.env.TRUST_ANCHOR_PREFNAME).replace(/"/g, '')).split(',');
@@ -441,8 +443,8 @@ app.get('/create-new-user-account', (req, res) => {
 // eg: ta-is-verified?user_id=1&account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5
 
 app.get('/ta-is-verified', (req, res) => {
-  var user_id = req.param('user_id');
-  var account = req.param('account');
+  var user_id = req.query.user_id;
+  var account = req.query.account;
   utility.getIsTrustAnchorVerified(user_id, account);
   res.sendStatus(200);
 });
@@ -453,8 +455,8 @@ app.get('/ta-is-verified', (req, res) => {
 // eg: /ta-get-balance?user_id=1&account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5
 
 app.get('/ta-get-balance', (req, res) => {
-  var user_id = req.param('user_id');
-  var account = req.param('account');
+  var user_id = req.query.user_id;
+  var account = req.query.account;
   utility.taGetBalance(user_id, account);
   res.sendStatus(200);
 });
@@ -462,10 +464,10 @@ app.get('/ta-get-balance', (req, res) => {
 // eg: ta-set-key-value-pair?user_id=1&account=0x41dEaD8e323EEc29aDFD88272A8f5C7f1F8E53A5&ta_key_name=ENTITY&ta_key_value=Abc%20Inc.
 
 app.get('/ta-set-key-value-pair', (req, res) => {
-  var user_id = req.param('user_id');
-  var account = req.param('account');
-  var key_name = req.param('ta_key_name');
-  var key_value = req.param('ta_key_value');
+  var user_id = req.query.user_id;
+  var account = req.query.account;
+  var key_name = req.query.ta_key_name;
+  var key_value = req.query.ta_key_value;
   utility.taSetKeyValuePair(user_id, account, key_name, key_value);
   res.sendStatus(200);
 });
@@ -548,32 +550,32 @@ app.get('/ta-get-key-pair-value/:account/:key', (req, res) => {
 
 app.get('/ta-set-v3-attestation', (req, res) => {
   var attestation_type = "WALLET";
-  var user_id = req.param('user_id');
-  var user_account = req.param('user_account');
-  var jurisdiction = req.param('jurisdiction');
-  var effective_time = req.param('effective_time');
+  var user_id = req.query.user_id;
+  var user_account = req.query.user_account;
+  var jurisdiction = req.query.jurisdiction;
+  var effective_time = req.query.effective_time;
   if (!effective_time) {
     effective_time = Math.floor(Date.now() / 1000) - (60 * 60 * 24 * (365 + 1)); // (in the past a year and a day)
   }
-  var expiry_time = req.param('expiry_time');
+  var expiry_time = req.query.expiry_time;
   if (!expiry_time) {
     expiry_time = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * (365 + 1)); // (in the future a year and a day)
   }
 
-  var public_data = utility.convertToByte32(req.param('coin_memo'));
+  var public_data = utility.convertToByte32(req.query.coin_memo);
 
   var availability_address_encrypted = " ".padStart(32, ' ');
   availability_address_encrypted = utility.convertToByte32(availability_address_encrypted);
 
-  var coin_address = req.param('coin_address');
+  var coin_address = req.query.coin_address;
   logger.info('coin_address');
   logger.info(coin_address);
 
-  var coin_token = req.param('coin_token');
+  var coin_token = req.query.coin_token;
   logger.info('coin_token');
   logger.info(coin_token);
 
-  var coin_blockchain = req.param('coin_blockchain');
+  var coin_blockchain = req.query.coin_blockchain;
   logger.info('coin_blockchain');
   logger.info(coin_blockchain);
 
@@ -597,7 +599,7 @@ app.get('/ta-set-v3-attestation', (req, res) => {
   logger.info('documents_matrix_encrypted');
   logger.info(documents_matrix_encrypted);
 
-  var ta_account = req.param('ta_account');
+  var ta_account = req.query.ta_account;
   var is_managed = true;
 
   queue.taSetAttestation.add({

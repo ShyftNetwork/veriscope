@@ -52,21 +52,18 @@ class NethermindPeersCheck implements Check
                 return $result;
             }
 
-            $result = $response->json();
-            if (isset($result['error'])) {
+            $data = $response->json();
+            if (isset($data['error'])) {
                 $result['message'] = 'RPC request error: ' . $result['error']['message'];
                 return $result;
             }
 
-            $peerCount = isset($result['result']) ? hexdec($result['result']) : 0;
+            $peerCount = isset($data['result']) ? hexdec($data['result']) : 0;
 
             if ($peerCount < 1) {
                 $result['message'] = 'Nethermind is not connected to any peers';
                 return $result;
-            }
-
-            // Peer count should be always more than 3
-            if ($peerCount > 3) {
+            } else {
                 $result['success'] = true;
                 $result['message'] = 'Nethermind is connected to ' . $peerCount . ' peers';
                 return $result;

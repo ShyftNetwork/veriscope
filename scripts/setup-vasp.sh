@@ -533,13 +533,14 @@ function refresh_static_nodes() {
 	ENODE=`curl -s -X POST -d '{"jsonrpc":"2.0","id":1, "method":"admin_nodeInfo", "params":[]}' http://localhost:8545/ | jq '.result.enode'`
 	echo "This enode: $ENODE . Updating ethstats setting..."
 	jq ".EthStats.Contact = $ENODE" $NETHERMIND_CFG | sponge $NETHERMIND_CFG
-	rm /opt/nm/db/discoveryNodes/SimpleFileDb.db
-	rm /opt/nm/db/peers/SimpleFileDb.db
+
+	rm /opt/nm/nethermind_db/vasp/discoveryNodes/SimpleFileDb.db
+	rm /opt/nm/nethermind_db/vasp/peers/SimpleFileDb.db
 	systemctl restart nethermind
 }
 
 function daemon_status() {
-	systemctl status nethermind ta ta-wss ta-schedule ta-queue ta-node-1 nginx postgresql redis.service horizon | less
+	systemctl status nethermind ta ta-wss ta-schedule ta-node-1 nginx postgresql redis.service horizon | less
 }
 
 # ONLY ONCE. after lavarel install step
@@ -565,7 +566,7 @@ function install_horizon() {
 	pushd >/dev/null $INSTALL_ROOT/veriscope_ta_dashboard
 	su $SERVICE_USER -c "composer update"
 	# ONLY ONCE.
-	su $SERVICE_USER -c "php artisan horizon:publish"
+	su $SERVICE_USER -c "php artisan horizon:install"
 	# ONLY ONCE.
 	su $SERVICE_USER -c "php artisan migrate"
 	popd >/dev/null
@@ -576,18 +577,13 @@ function install_horizon() {
 		cp scripts/horizon.service /etc/systemd/system/
 		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/horizon.service
 	fi
-	if ! test -s "/etc/systemd/system/ta-queue.service"; then
-		cp scripts/ta-queue.service /etc/systemd/system/
-		sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-queue.service
-	fi
+
 	popd >/dev/null
 
-	echo "Restarting horizon and ta-queue services..."
+	echo "Restarting horizon service..."
 	systemctl daemon-reload
 	systemctl enable horizon
-	systemctl enable ta-queue
 	systemctl restart horizon
-	systemctl restart ta-queue
 }
 
 # on-demand only to reset if compromised. Safe to run multiple times
