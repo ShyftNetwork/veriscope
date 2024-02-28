@@ -12,6 +12,11 @@ module.exports = function(job) {
 
   return new Promise(function(resolve, reject) {
 
+    if (job.data.evt.name !== 'EVT_setAttestation') {
+        // Throw a new Error if the event name does not match 'EVT_setAttestation'
+        reject(new Error("Event name does not match 'EVT_setAttestation'"));
+    }
+
     web3.currentProvider.send({
       method: "trace_transaction",
       params: [job.data.evt.transactionHash],

@@ -85,7 +85,7 @@ class TrustAnchorVerifiedCheck implements Check
             $unverifiedAddressesBlockchain = [];
             foreach ($accountAddresses as $address) {
               // Call get function with parameter
-              $result = $contract->call('isTrustAnchorVerified', $address , function ($err, $data)  use ($address, &$unverifiedAddressesBlockchain) {
+              $contract->call('isTrustAnchorVerified', $address , function ($err, $data)  use ($address, &$unverifiedAddressesBlockchain) {
 
                 if ($err !== null) {
                   throw new \Exception("isTrustAnchorVerified error ".$err->getMessage());
