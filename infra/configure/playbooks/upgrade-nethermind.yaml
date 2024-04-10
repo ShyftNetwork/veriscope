@@ -1,16 +1,14 @@
 ---
 - name: Upgrade nethermind
-  hosts: all
+  hosts: nethermind
   gather_facts: true
   vars:
     ethstats_secret: "{{ network_facts[veriscope_target]['ethstats_secret'] }}"
     ethstats_host: "{{ network_facts[veriscope_target]['ethstats_host'] }}"
     ethstats_get_enodes: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
     ethstats_enabled: true
-    nm_tarball_split: "{{ nethermind_tarball | split('/') }}"
-    target_nm_version: "v{{ nm_tarball_split[7] }}"
-    nm_config_template_path: "templates/nm-config/{{ target_nm_version }}/config.cfg.j2"
-    nm_db_backup_archive_s3_key: "{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    nm_config_template_path: "templates/nm-config/v{{ target_nethermind_version }}/config.cfg.j2"
+    nm_db_backup_archive_s3_key: "v{{ target_nethermind_version }}/{{ veriscope_target }}.tar.gz"
     nm_db_backup_archive_url: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_url'] }}/{{ nm_db_backup_archive_s3_key }}"
   tasks:
 
@@ -28,19 +26,19 @@
 
     - name: Assert versions are different - Upgrade Nethermind
       ansible.builtin.assert:
-        that: deployed_nm_version != target_nm_version
-        success_msg: "Upgrading Nethermind form {{ deployed_nm_version }} to {{ target_nm_version }} from {{ nethermind_tarball }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
-        fail_msg: "Nethermind on the host is {{ deployed_nm_version }} which is already the requested target version ({{ target_nm_version }})"
+        that: deployed_nm_version != target_nethermind_version
+        success_msg: "Upgrading Nethermind from {{ deployed_nm_version }} to {{ target_nethermind_version }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
+        fail_msg: "Nethermind on the host is {{ deployed_nm_version }} which is already the requested target version ({{ target_nethermind_version }})"
       ignore_errors: true
     
     - name: Exit when versions match - Upgrade Nethermind
       ansible.builtin.meta: end_host
       when:
-        - deployed_nm_version == target_nm_version
+        - deployed_nm_version == target_nethermind_version
   
     - name: Print Nethermind upgrade details - Upgrade Nethermind
       ansible.builtin.debug:
-        msg: "Upgrading Nethermind form {{ deployed_nm_version }} to {{ target_nm_version }} from {{ nethermind_tarball }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
+        msg: "Upgrading Nethermind form {{ deployed_nm_version }} to v{{ target_nethermind_version }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
 
     - name: Stop Nethermind service - Upgrade Nethermind
       ansible.builtin.service:
@@ -55,6 +53,13 @@
         state: absent
       become: true
 
+    - name: Get nethermind binaries archive url - Upgrade Nethermind
+      ansible.builtin.import_tasks: ../tasks/get-nethermind-binaries-archive-url.yaml
+
+    - name: Print Nethermind installation details - Upgrade Nethermind
+      ansible.builtin.debug:
+        msg: "Installing Nethermind v{{ target_nethermind_version }} from {{ nethermind_download_url }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
+
     - name: Install Nethermind DB server - Upgrade Nethermind
       ansible.builtin.import_tasks: ../tasks/install-nm-db-server.yaml
 
@@ -63,3 +68,6 @@
 
     - name: Unarchive nm db backup form S3 - Upgrade Nethermind
       ansible.builtin.import_tasks: ../tasks/unarchive-nm-db-from-s3.yaml
+
+- name: Restart all veriscope services
+  ansible.builtin.import_playbook: restart-services.yaml

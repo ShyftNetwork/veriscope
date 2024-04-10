@@ -11,6 +11,14 @@ def add_vars_and_comments(inventory: str, tf_output: str, private_repo: bool):
 
     inventory["all"]["vars"] = CommentedMap()
 
+    object_depth = 2
+    inventory["all"]["vars"]["ta_db_secrets_source"] = "aws_secretsmanager"
+    inventory["all"]["vars"].yaml_set_comment_before_after_key(
+        "ta_db_secrets_source",
+        before="\n# Mandatory. The source where TA DB secrets like TA DB user password and cluster info are stored.\n# Valid values are aws_secretsmanager, env_vars, azure_keyvault, gcp_secretsmanager, hashicorp_vault and ansible_vault.",
+        indent=object_depth*INDENTATION_SPACES
+    )
+
     env = tf_output["env"]["value"].lower()
 
     object_depth = 2
