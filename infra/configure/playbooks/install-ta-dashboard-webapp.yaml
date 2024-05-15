@@ -6,17 +6,24 @@
     app_url: "https://{{ inventory_hostname }}"
     shyft_onboarding_url: "https://{{ inventory_hostname }}"
     webhook_client_secret: "{{ lookup('password', 'credentials/webhook-client-secret/' + inventory_hostname + ' length=20 chars=ascii_letters,digits', seed=inventory_hostname) }}"
-    ta_db_userpwd: "{{ lookup('amazon.aws.aws_secret', ta_db_user_pwd_secret_name, bypath=true)[ta_db_user_pwd_secret_name] }}"
+
   tasks:
+    - name: Fetch TA DB Cluster secrets
+      ansible.builtin.include_role:
+        name: fetch_ta_db_secrets
+      vars:
+        secret_manager_type: "{{ ta_db_secrets_source }}"
+      when: operation == "install"
+
     - name: Print TA DB Cluster var - TA Dashboard
       ansible.builtin.debug:
         var: ta_dashboard_db_cluster
-      when: debug is true
+      when: debug is true and operation == "install"
 
     - name: Print TA DB cluster info - TA Dashboard
       ansible.builtin.debug:
         msg: "{{ pgsql_cltr_host }}:{{ pgsql_cltr_port }} ; {{ ta_db_name }} ; {{ ta_db_user }} : {{ ta_db_userpwd }}"
-      when: debug is true
+      when: debug is true and operation == "install"
 
     - name: Check inputs for install and update - TA Dashboard app
       ansible.builtin.assert:

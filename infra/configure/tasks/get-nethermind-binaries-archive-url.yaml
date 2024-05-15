@@ -1,0 +1,63 @@
+---
+- name: Gather host facts
+  setup:
+    filter: ansible_os_family, ansible_userspace_architecture
+
+- name: Print host facts
+  debug:
+    var: ansible_facts
+
+- name: Determine target OS type for asset name
+  set_fact:
+    target_os: >-
+      {%- if ansible_os_family == 'Windows' -%}
+        windows
+      {%- elif ansible_os_family == 'Darwin' -%}
+        macos
+      {%- else -%}
+        linux
+      {%- endif -%}
+
+- name: Determine target architecture for asset name
+  set_fact:
+    target_arch: >-
+      {%- if ansible_userspace_architecture == 'x86_64' and target_os == 'linux' -%}
+        x64
+      {%- else -%}
+        {{ ansible_userspace_architecture | regex_search('^(x64|amd64)') | default('arm64') }}
+      {%- endif -%}
+
+- name: Print target OS and architecture
+  debug:
+    msg: "Target OS: {{ target_os }}, Target Architecture: {{ target_arch }}"
+
+- name: Fetch release information from GitHub
+  uri:
+    url: "https://api.github.com/repos/NethermindEth/nethermind/releases/tags/{{ target_nethermind_version }}"
+    return_content: yes
+    headers:
+      User-Agent: "Ansible"
+  register: github_response
+
+- name: Determine download URL based on host OS and architecture
+  set_fact:
+    nethermind_download_url: ""
+        
+- name: Loop through assets to find the correct URL
+  loop: "{{ github_response.json.assets }}"
+  loop_control:
+    loop_var: asset
+  set_fact:
+    nethermind_download_url: >-
+      {{ nethermind_download_url + asset.browser_download_url if target_os in asset.name and target_arch in asset.name else nethermind_download_url }}
+
+# Sometimes, the nethermind download URL is not found for the target OS and architecture due to NethermindEth/Nethermind GitHub release naming convention
+# In such cases, we search for the URL for the same OS family (e.g. linux) and architecture (e.g. amd64) and use that instead
+- name: If 'x64' URL is not found, search for 'amd64' URL for the same OS family
+  when: nethermind_download_url == "" and target_arch == "x64"
+  loop: "{{ github_response.json.assets }}"
+  loop_control:
+    loop_var: asset
+  set_fact:
+    nethermind_download_url: >-
+      {{ asset.browser_download_url if 'amd64' in asset.name and target_os in asset.name else nethermind_download_url }}

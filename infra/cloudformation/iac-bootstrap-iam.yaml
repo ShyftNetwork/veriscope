@@ -466,6 +466,27 @@ Resources:
             Action: 'ssm:DescribeParameters'
             Resource: '*'
 
+  CertsPermsForAutomatedDeploymentCommon:
+    Type: AWS::IAM::ManagedPolicy
+    Properties: 
+      ManagedPolicyName: !Sub 'AutomatedDeploymentCerts-common-${ServiceName}-${EnvironmentName}'
+      Path: /iac/
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: VisualEditor0
+          Effect: Allow
+          Action:
+          - acm:DeleteCertificate
+          - acm:DescribeCertificate
+          - acm:RequestCertificate
+          - acm:RemoveTagsFromCertificate
+          - acm:AddTagsToCertificate
+          - acm:ListCertificates
+          - acm:RenewCertificate
+          - acm:ListTagsForCertificate
+          Resource: "*"
+
   InfraBotRole:
     Type: AWS::IAM::Role
     Properties: 
@@ -488,6 +509,7 @@ Resources:
         - !Ref PermsForDeployingLambdas
         - !Ref PermsForAutomatedDeployment
         - !Ref SSMPermsForAutomatedDeployment
+        - !Ref CertsPermsForAutomatedDeploymentCommon
       # Tags: 
       #   - Purpose: Bot role with perms to create, modify, delete infra
 
