@@ -12,10 +12,24 @@ def add_vars_and_comments(inventory: str, tf_output: str, private_repo: bool):
     inventory["all"]["vars"] = CommentedMap()
 
     object_depth = 2
-    inventory["all"]["vars"]["ta_db_secrets_source"] = "aws_secretsmanager"
+    inventory["all"]["vars"]["ta_db_secrets"] = {
+        "source": "aws_secretsmanager",
+        "aws_region": "us-west-2",
+        "aws_profile": "default"
+    }
     inventory["all"]["vars"].yaml_set_comment_before_after_key(
         "ta_db_secrets_source",
-        before="\n# Mandatory. The source where TA DB secrets like TA DB user password and cluster info are stored.\n# Valid values are aws_secretsmanager, env_vars, azure_keyvault, gcp_secretsmanager, hashicorp_vault and ansible_vault.",
+        before="""
+            \n# Mandatory. The source where TA DB secrets like TA DB user password and cluster info are stored.
+            \n# Valid values are aws_secretsmanager, env_vars, azure_keyvault, gcp_secretsmanager, hashicorp_vault and ansible_vault.
+            \n# Please note that you'll need to provide appropriate extra information based on the source.
+            \n# For example, if source = aws_secretsmanager, provide aws_region and aws_profile to access the secrets.
+            \n# If source = env_vars, provide the environment variable names to access the secrets.
+            \n# If source = azure_keyvault, provide the azure_keyvault_name and azure_keyvault_tenant_id to access the secrets.
+            \n# If source = gcp_secretsmanager, provide the gcp_project_id to access the secrets.
+            \n# If source = hashicorp_vault, provide the vault_addr, vault_token and vault_secret_path to access the secrets.
+            \n# If source = ansible_vault, provide the vault_password_file to access the secrets.
+        """,
         indent=object_depth*INDENTATION_SPACES
     )
 
