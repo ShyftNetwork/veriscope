@@ -32,7 +32,10 @@ all:
   vars:
     # Mandatory. The source where TA DB secrets like TA DB user password and cluster info are stored.
     # Valid values are aws_secretsmanager, env_vars, azure_keyvault, gcp_secretsmanager, hashicorp_vault and ansible_vault.
-    ta_db_secrets_source: aws_secretsmanager
+    ta_db_secrets:
+      source: aws_secretsmanager
+      aws_region: us-east-1
+      aws_profile: default
 
     # Whether to print debug messages to the screen while running the playbooks. NOTE: It may print secret information too. So, please use with caution.
     debug: false

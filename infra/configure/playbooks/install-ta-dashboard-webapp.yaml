@@ -12,7 +12,7 @@
       ansible.builtin.include_role:
         name: fetch_ta_db_secrets
       vars:
-        secret_manager_type: "{{ ta_db_secrets_source }}"
+        secret_manager_type: "{{ ta_db_secrets }}"
       when: operation == "install"
 
     - name: Print TA DB Cluster var - TA Dashboard
