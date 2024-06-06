@@ -1,0 +1,5 @@
+---
+# defaults file for fetch_ta_db_secrets
+ta_dashboard_db_cluster_secret_name: "/{{ env | lower }}/common/ta-db-cluster"
+ta_db_user: "trustanchor-{{ inventory_hostname_short }}"
+ta_db_user_pwd_secret_name: /{{ owner | lower }}/{{ env | lower }}/instances/{{ ta_db_user }}

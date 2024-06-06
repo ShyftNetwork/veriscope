@@ -6,17 +6,24 @@
     app_url: "https://{{ inventory_hostname }}"
     shyft_onboarding_url: "https://{{ inventory_hostname }}"
     webhook_client_secret: "{{ lookup('password', 'credentials/webhook-client-secret/' + inventory_hostname + ' length=20 chars=ascii_letters,digits', seed=inventory_hostname) }}"
-    ta_db_userpwd: "{{ lookup('amazon.aws.aws_secret', ta_db_user_pwd_secret_name, bypath=true)[ta_db_user_pwd_secret_name] }}"
+
   tasks:
+    - name: Fetch TA DB Cluster secrets
+      ansible.builtin.include_role:
+        name: fetch_ta_db_secrets
+      vars:
+        secret_manager_type: "{{ ta_db_secrets }}"
+      when: operation == "install"
+
     - name: Print TA DB Cluster var - TA Dashboard
       ansible.builtin.debug:
         var: ta_dashboard_db_cluster
-      when: debug is true
+      when: debug is true and operation == "install"
 
     - name: Print TA DB cluster info - TA Dashboard
       ansible.builtin.debug:
         msg: "{{ pgsql_cltr_host }}:{{ pgsql_cltr_port }} ; {{ ta_db_name }} ; {{ ta_db_user }} : {{ ta_db_userpwd }}"
-      when: debug is true
+      when: debug is true and operation == "install"
 
     - name: Check inputs for install and update - TA Dashboard app
       ansible.builtin.assert:
@@ -123,7 +130,7 @@
     # su $SERVICE_USER -c "composer install"
     # su $SERVICE_USER -c "php artisan migrate"
     - name: Install PHP deps of TA Dashboard app (composer install and php artisan migrate)
-      shell: | 
+      shell: |
         composer install
         php artisan migrate
       args:
@@ -139,7 +146,7 @@
     # su $SERVICE_USER -c "php artisan passportenv:link"
     # # ONLY ONCE. SHOULD not run on update
     - name: Deploy Trust Anchor dashboard app
-      shell: | 
+      shell: |
         php artisan db:seed
         php artisan key:generate
         php artisan passport:install
@@ -181,7 +188,7 @@
     # echo "Restarting PHP-based services..."
     # systemctl enable ta-schedule
     # systemctl enable ta-wss
-    # systemctl enable ta 
+    # systemctl enable ta
     # systemctl restart ta-schedule
     # systemctl restart ta-wss
     # systemctl restart ta
@@ -205,7 +212,7 @@
     # su $SERVICE_USER -c "php artisan migrate"
     # popd >/dev/null
     - name: Publish horizon - Install TA Dashboard app
-      shell: | 
+      shell: |
         composer update
         php artisan horizon:publish
         php artisan migrate
@@ -219,18 +226,13 @@
       #   cp scripts/horizon.service /etc/systemd/system/
       #   sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/horizon.service
       # fi
-      # if ! test -s "/etc/systemd/system/ta-queue.service"; then
-      #   cp scripts/ta-queue.service /etc/systemd/system/
-      #   sed -i "s/User=.*/User=$SERVICE_USER/g" /etc/systemd/system/ta-queue.service
-      # fi
-    - name: Create ta-queue and horizon services configs
+    - name: Create horizon services configs
       ansible.builtin.template:
         src: templates/{{ item }}.service.j2
         dest: /etc/systemd/system/{{ item }}.service
       become: true
       with_items:
         - horizon
-        - ta-queue
       when: operation == 'install'
 
       # systemctl daemon-reload
@@ -241,10 +243,8 @@
       when: operation == 'install'
 
     # systemctl enable horizon
-    # systemctl enable ta-queue
     # systemctl restart horizon
-    # systemctl restart ta-queue
-    - name: Enable and restart ta-queue and horizon services
+    - name: Enable and restart horizon services
       ansible.builtin.service:
         name: "{{ item }}"
         enabled: true
@@ -252,5 +252,4 @@
       become: true
       with_items:
         - horizon
-        - ta-queue
       when: operation == 'install'

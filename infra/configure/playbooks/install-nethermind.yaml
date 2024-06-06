@@ -7,11 +7,9 @@
     ethstats_host: "{{ network_facts[veriscope_target]['ethstats_host'] }}"
     ethstats_get_enodes: "{{ network_facts[veriscope_target]['ethstats_get_enodes'] }}"
     ethstats_enabled: true
-
-    nm_tarball_split: "{{ nethermind_tarball | split('/') }}"
-    target_nm_version: "v{{ nm_tarball_split[7] }}"
-    nm_config_template_path: "templates/nm-config/{{ target_nm_version }}/config.cfg.j2"
-    nm_db_backup_archive_url: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_url'] }}/{{ target_nm_version }}/{{ veriscope_target }}.tar.gz"
+    nm_config_template_path: "templates/nm-config/v{{ target_nethermind_version }}/config.cfg.j2"
+    nm_db_backup_archive_s3_key: "v{{ target_nethermind_version }}/{{ veriscope_target }}.tar.gz"
+    nm_db_backup_archive_url: "{{ network_facts[veriscope_target]['nm_db_backup_bucket_url'] }}/v{{ target_nethermind_version }}/{{ veriscope_target }}.tar.gz"
   tasks:
 
     - name: Check inputs - Install nethermind
@@ -20,7 +18,7 @@
           - veriscope_service_hostname is defined and veriscope_service_hostname is truthy
           - veriscope_target is defined and veriscope_target is truthy
           - service_user is defined and service_user is truthy
-          - target_nm_version is defined and target_nm_version is truthy
+          - target_nethermind_version is defined and target_nethermind_version is truthy
         success_msg: Required inputs provided. Proceeding to install nethermind.
         fail_msg: Required inputs not provided. Please provide required values and try again. Please note that values cannot be empty strings.
 
@@ -35,6 +33,7 @@
           - libsnappy-dev
           - libc6-dev
           - libc6
+          - node-ws
           - vim
           - unzip
           - jq
@@ -45,38 +44,41 @@
         state: present
         update_cache: true
 
-    - name: Ensure python requirements are installed for AWS services
+    - name: Ensure python requirements are installed for AWS services - Install Nethermind
       ansible.builtin.import_tasks: ../tasks/ensure-boto3.yaml
 
-    - name: Get deployed Nethermind version
+    - name: Get deployed Nethermind version - Install Nethermind
       ansible.builtin.import_tasks: ../tasks/get-deployed-nm-version.yaml
       ignore_errors: true
 
-    - name: Check if already installed
+    - name: Check if already installed - Install Nethermind
       ansible.builtin.assert:
         that: deployed_nm_version is not defined and deployed_nm_version is not truthy
         success_msg: "Nethermind is not installed on this host. Continuing to install and configure Nethermind..."
         fail_msg: "Nethermind {{ deployed_nm_version }} is already installed on this host. Exiting..."
       ignore_errors: true
 
-    - name: Check if installed version is different
+    - name: Check if installed version is different - Install Nethermind
       ansible.builtin.assert:
-        that: deployed_nm_version != target_nm_version
-        success_msg: "Nethermind {{ deployed_nm_version }} is installed on this host. But requested version was {{ target_nm_version }}. Please run 'upgrade-nethermind.yaml' playbook to upgrade Nethermind."
-        fail_msg: "Nethermind {{ deployed_nm_version }} is already installed on this host which is the same as requested version ({{ target_nm_version }}). Exiting..."
+        that: deployed_nm_version != target_nethermind_version
+        success_msg: "Nethermind {{ deployed_nm_version }} is installed on this host. But requested version was v{{ target_nethermind_version }}. Please run 'upgrade-nethermind.yaml' playbook to upgrade Nethermind."
+        fail_msg: "Nethermind {{ deployed_nm_version }} is already installed on this host which is the same as requested version ({{ target_nethermind_version }}). Exiting..."
       ignore_errors: true
       when: deployed_nm_version is defined and deployed_nm_version is truthy
 
-    - name: Exit if Nethermind is already installed
+    - name: Exit if Nethermind is already installed - Install Nethermind
       ansible.builtin.meta: end_host
       when: deployed_nm_version is defined and deployed_nm_version is truthy
 
-    - name: Print Nethermind installation details
-      ansible.builtin.debug:
-        msg: "Installing Nethermind {{ target_nm_version }} from {{ nethermind_tarball }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
+    - name: Get nethermind binaries archive url - Install Nethermind
+      ansible.builtin.import_tasks: ../tasks/get-nethermind-binaries-archive-url.yaml
 
-    - name: Install Nethermind DB server
+    - name: Print Nethermind installation details - Install Nethermind
+      ansible.builtin.debug:
+        msg: "Installing Nethermind v{{ target_nethermind_version }} from {{ nethermind_download_url }} at {{ nm_root }} with config from {{ nm_config_template_path }}"
+
+    - name: Install Nethermind DB server - Install Nethermind
       ansible.builtin.import_tasks: ../tasks/install-nm-db-server.yaml
 
-    - name: Download and extract Nethermind db from archive
+    - name: Download and extract Nethermind db from archive - Install Nethermind
       ansible.builtin.import_tasks: ../tasks/unarchive-nm-db-from-s3.yaml

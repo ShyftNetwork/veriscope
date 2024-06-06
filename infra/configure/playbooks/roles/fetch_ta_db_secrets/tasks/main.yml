@@ -1,0 +1,28 @@
+---
+# Set common facts
+- name: Set common facts
+  set_fact:
+    ta_db_name: "trustanchor-{{ inventory_hostname_short }}"
+    ta_db_user: "trustanchor-{{ inventory_hostname_short }}"
+
+- name: Validate configuration based on source
+  block:
+    - name: Check AWS Secrets Manager configuration
+      fail:
+        msg: aws_region and aws_profile must be specified for aws_secretsmanager
+      when: ta_db_secrets.source == 'aws_secretsmanager' and (ta_db_secrets.aws_region is undefined or ta_db_secrets.aws_profile is undefined)
+
+    - name: Check Azure Key Vault configuration
+      fail:
+        msg: azure specific configuration checks
+      when: ta_db_secrets.source == 'azure_keyvault'
+      # Additional checks for other sources as needed
+  tags: always
+
+- name: Extract secrets based on secret manager type
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ secret_manager_type['source'] }}.yml"
+      paths:
+        - tasks/
