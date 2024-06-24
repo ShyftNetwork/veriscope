@@ -17,9 +17,9 @@ dashboard
 
           <div class="card__body text-center">
             <div>
-              <h1 class="mb-2">{{ $verified_trust_anchors->count() }}</h1>
+              <h1 class="mb-2">{{ $verified_trust_anchors }}</h1>
               <p>
-                <strong>{{ Str::plural('Verified Trust Anchor', $verified_trust_anchors->count()) }}</strong><br>
+                <strong>{{ Str::plural('Verified Trust Anchor', $verified_trust_anchors) }}</strong><br>
               </p>
             </div>
           </div>
@@ -40,9 +40,9 @@ dashboard
 
           <div class="card__body text-center">
             <div>
-              <h1 class="mb-2">{{ $trust_anchors->count() }}</h1>
+              <h1 class="mb-2">{{ $trust_anchors }}</h1>
               <p>
-                <strong>{{ Str::plural('Discovery Layer', $trust_anchors->count()) }}</strong><br>
+                <strong>{{ Str::plural('Discovery Layer', $trust_anchors) }}</strong><br>
               </p>
             </div>
           </div>
@@ -64,9 +64,9 @@ dashboard
 
           <div class="card__body text-center">
             <div>
-              <h1 class="mb-2">{{ $attestations->count() }}</h1>
+              <h1 class="mb-2">{{ $attestations }}</h1>
               <p>
-                <strong>{{ Str::plural('Attestation', $attestations->count()) }}</strong><br>
+                <strong>{{ Str::plural('Attestation', $attestations) }}</strong><br>
               </p>
             </div>
           </div>
@@ -88,9 +88,9 @@ dashboard
 
           <div class="card__body text-center">
             <div>
-              <h1 class="mb-2">{{ $kyc_templates->count() }}</h1>
+              <h1 class="mb-2">{{ $kyc_templates }}</h1>
               <p>
-                <strong>{{ Str::plural('KYC Template', $kyc_templates->count()) }}</strong><br>
+                <strong>{{ Str::plural('KYC Template', $kyc_templates) }}</strong><br>
               </p>
             </div>
           </div>
@@ -112,9 +112,9 @@ dashboard
 
           <div class="card__body text-center">
             <div>
-              <h1 class="mb-2">{{ $ba_addresses->count() }}</h1>
+              <h1 class="mb-2">{{ $ba_addresses }}</h1>
               <p>
-                <strong>{{ Str::plural('Blockchain Analytics Reports', $ba_addresses->count()) }}</strong><br>
+                <strong>{{ Str::plural('Blockchain Analytics Reports', $ba_addresses) }}</strong><br>
               </p>
             </div>
           </div>

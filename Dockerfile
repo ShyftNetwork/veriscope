@@ -1,4 +1,4 @@
-FROM jrei/systemd-ubuntu:latest
+FROM jrei/systemd-ubuntu:20.04
 
 RUN mkdir -p /opt/veriscope
 

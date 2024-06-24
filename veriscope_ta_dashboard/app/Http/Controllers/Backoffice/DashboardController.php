@@ -31,11 +31,11 @@ class DashboardController extends Controller
     public function index()
     {
 
-        $verified_trust_anchors = VerifiedTrustAnchor::all();
-        $trust_anchors = TrustAnchorExtraDataUnique::all();
-        $attestations = SmartContractAttestation::all();
-        $kyc_templates = KycTemplate::all();
-        $ba_addresses = BlockchainAnalyticsAddress::all();
+        $verified_trust_anchors = VerifiedTrustAnchor::count();
+        $trust_anchors = TrustAnchorExtraDataUnique::count();
+        $attestations = SmartContractAttestation::count();
+        $kyc_templates = KycTemplate::count();
+        $ba_addresses = BlockchainAnalyticsAddress::count();
 
 
         return view('backoffice.dashboard', compact('verified_trust_anchors', 'trust_anchors', 'attestations', 'kyc_templates', 'ba_addresses'));
