@@ -425,15 +425,15 @@ class EthereumToolsUtils
      * @return string
      */
     public static function hexToStr($value)
-    {
-        $string='';
-        for ($i=0; $i < strlen($value)-1; $i+=2)
-        {
-            if ( $value[$i] == ' ') continue;
-            $string .= chr(hexdec($value[$i].$value[$i+1]));
-        }
-        return $string;
-    }
+  	{
+  	    $string='';
+  	    for ($i=0; $i < strlen($value)-1; $i+=2)
+  	    {
+  	    	if ( $value[$i] == ' ') continue;
+  	        $string .= chr(hexdec($value[$i].$value[$i+1]));
+  	    }
+  	    return $string;
+  	}
 
     /**
      * Encrypt Data
