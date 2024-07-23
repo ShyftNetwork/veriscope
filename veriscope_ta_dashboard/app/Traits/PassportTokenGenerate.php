@@ -33,7 +33,7 @@ trait PassportTokenGenerate
       );
 
       $now = new DateTimeImmutable();
-      $expiresAt = new DateTimeImmutable($expires_at->toDateTimeString());
+      $expiresAt = new DateTimeImmutable($expires_at);
 
       $token = $configuration->builder()
           ->permittedFor($client_id)

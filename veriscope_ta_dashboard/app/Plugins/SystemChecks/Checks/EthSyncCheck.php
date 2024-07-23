@@ -5,7 +5,6 @@ namespace App\Plugins\SystemChecks\Checks;
 use App\Plugins\SystemChecks\Check;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Config;
 
 class EthSyncCheck implements Check
@@ -17,8 +16,9 @@ class EthSyncCheck implements Check
 
     public function run()
     {
-
-        Config::set('database.redis.options.prefix', '');
+        $redis = new \Redis();
+        $redis->connect(env('REDIS_HOST'), env('REDIS_PORT'));
+        $redis->setOption(\Redis::OPT_PREFIX, '');
 
         $result = ['success' => false, 'message' => ''];
         $path = base_path('../veriscope_ta_node/.env');
@@ -74,7 +74,7 @@ class EthSyncCheck implements Check
             if ($currentBlockNumber >= ($highestBlockNumber - 2)) {
 
                 // Check Redis key for startBlock value
-                $redisValue = Redis::get('keyv:startBlock');
+                $redisValue = $redis->get('keyv:startBlock');
                 $decodedValue = json_decode($redisValue, true);
 
                 if ($decodedValue && isset($decodedValue['value'])) {
@@ -95,6 +95,7 @@ class EthSyncCheck implements Check
 
                 return $result;
             }
+
         } catch (\Exception $e) {
             $result['message'] = 'Nethermind is not running due to an error: ' . $e->getMessage();
             return $result;

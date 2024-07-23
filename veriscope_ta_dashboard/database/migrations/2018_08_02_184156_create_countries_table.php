@@ -25,7 +25,9 @@ class CreateCountriesTable extends Migration
         // next up, create the countries
         $path = 'app/SqlDumps/countries.sql';
         DB::unprepared(file_get_contents($path));
-        DB::unprepared(DB::raw('UPDATE countries SET created_at=\''.Carbon::NOW().'\', updated_at=\''.Carbon::NOW().'\';'));
+        // DB::unprepared(DB::raw('UPDATE countries SET created_at=\''.Carbon::NOW().'\', updated_at=\''.Carbon::NOW().'\';')); // this is used by laravel 8 & 9
+        $now = Carbon::now()->toDateTimeString();
+        DB::unprepared("UPDATE countries SET created_at='{$now}', updated_at='{$now}';");
         //$this->command->info('Country table seeded!');
     }
 

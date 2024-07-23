@@ -6,62 +6,87 @@
     "repositories":[
       {
         "type": "git",
-        "url": "https://github.com/hackable/roles.git"
+        "url": "https://github.com/ShyftNetwork/roles.git"
       },
       {
         "type": "git",
-        "url": "https://github.com/hackable/ethereum-address-validator.git"
+        "url": "https://github.com/ShyftNetwork/ethereum-address-validator.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/EloquentEncryption.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/laravel-eloquent-state-machines.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/laravel-websockets.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/html.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/Ratchet.git"
+      },
+      {
+        "type": "git",
+        "url": "https://github.com/ShyftNetwork/glide-laravel.git"
       }
     ],
     "require": {
-        "php": "^7.3|^8.0",
-        "asantibanez/laravel-eloquent-state-machines": "^5.1",
-        "bayareawebpro/laravel-simple-csv": "^2.0",
+        "php": "^8.0",
+        "cboden/ratchet": "v0.6.1",
+        "asantibanez/laravel-eloquent-state-machines": "dev-master",
+        "bayareawebpro/laravel-simple-csv": "v2.2.0",
         "bacon/bacon-qr-code": "^2.0",
-        "beyondcode/laravel-websockets": "^1.13",
+        "beyondcode/laravel-websockets": "1.18.0",
         "digitaldonkey/ecverify": "^1.0",
-        "doctrine/dbal": "^3.1",
-        "firebase/php-jwt": "^5.5",
-        "fruitcake/laravel-cors": "^2.0",
+        "doctrine/dbal": "^3.0",
+        "firebase/php-jwt": "^6.10",
         "guzzlehttp/guzzle": "^7.0.1",
-        "httpoz/roles": "master",
         "kornrunner/ethereum-address": "^0.3.0",
-        "laravel/framework": "^8.54",
+        "laravel/framework": "^11.0",
         "laravel/horizon": "^5.8",
         "laravel/legacy-factories": "^1.1",
-        "laravel/passport": "^10.1",
+        "laravel/passport": "v12.2.0",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.3",
-        "laravelcollective/html": "^6.2",
+        "laravel/ui": "^4.5",
+        "laravelcollective/html": "v6.7.0",
         "league/csv": "^9.7",
-        "league/glide-laravel": "^1.0",
+        "league/glide-laravel": "^2.1",
         "opis/json-schema": "^2.2",
         "php-redis/bloom-filter": "^1.1",
-        "pragmarx/google2fa-laravel": "^1.4",
-        "psychob/ethereum-address-validator": "dev-master",
-        "pusher/pusher-php-server": "7.0.2",
-        "richardstyles/eloquentencryption": "v3.1.0",
-        "s-ichikawa/laravel-sendgrid-driver": "^3.0",
+        "pragmarx/google2fa-laravel": "^2.0",
+        "pusher/pusher-php-server": "7.2.4",
+        "richardstyles/eloquentencryption": "v3.4",
+        "s-ichikawa/laravel-sendgrid-driver": "^4.0",
         "sebdesign/laravel-state-machine": "^3.2",
-        "sentry/sentry-laravel": "^2.8",
+        "sentry/sentry-laravel": "^4.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "simplito/elliptic-php": "^1.0",
         "spatie/laravel-activitylog": "^4.1",
         "spatie/laravel-webhook-server": "^3.1",
         "msztorc/laravel-env": "^1.2",
         "spatie/laravel-fractal": "^6.0",
-        "abagayev/laravel-migration-shortcuts": "*",
         "nelexa/zip": "^4.0",
         "web3p/web3.php": "0.2.1",
-        "laravel/slack-notification-channel": "^2.5"
+        "laravel/slack-notification-channel": "^3.0",
+        "abagayev/laravel-migration-shortcuts": "*",
+        "psychob/ethereum-address-validator": "dev-master",
+        "httpoz/roles": "dev-master",
+        "nesbot/carbon": "^2.72.2"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+        "spatie/laravel-ignition": "^2.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "nunomaduro/collision": "^v8.0.0",
+        "phpunit/phpunit": "^10.5.1"
     },
     "autoload": {
       "psr-4": {

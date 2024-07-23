@@ -25,7 +25,9 @@ class CreateStatesTable extends Migration
         $path = 'app/SqlDumps/states.sql';
         DB::unprepared(file_get_contents($path));
         //DB::unprepared(DB::raw('UPDATE states SET created_at=NOW(), updated_at=NOW();'));
-        DB::unprepared(DB::raw('UPDATE states SET created_at=\''.Carbon::NOW().'\', updated_at=\''.Carbon::NOW().'\';'));
+        // DB::unprepared(DB::raw('UPDATE states SET created_at=\''.Carbon::NOW().'\', updated_at=\''.Carbon::NOW().'\';'));
+        $now = Carbon::now()->toDateTimeString();
+        DB::unprepared("UPDATE states SET created_at='{$now}', updated_at='{$now}';");
         //$this->command->info('State table seeded!');
     }
 

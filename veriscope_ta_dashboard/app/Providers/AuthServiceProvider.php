@@ -27,8 +27,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Passport::routes();
-
         Gate::define('grant-users', function ($user) {
             return $user->inGroup('admin');
         });
@@ -38,24 +36,23 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         if (! $this->app->routesAreCached()) {
-            Passport::routes();
 
             Passport::tokensCan([
-             'set_attestation' => 'Set Attestation',
-             'create_shyft_user' => 'Create Shyft User',
-             'get_jurisdictions' => 'Get Jurisdiction',
-             'get_verified_trust_anchors' => 'Get Verified Trust Anchors',
-             'get_trust_anchor_details' => 'Get Trust Anchor Details',
-             'verify_trust_anchor' => 'Verify Trust Anchor'
+                'set_attestation' => 'Set Attestation',
+                'create_shyft_user' => 'Create Shyft User',
+                'get_jurisdictions' => 'Get Jurisdiction',
+                'get_verified_trust_anchors' => 'Get Verified Trust Anchors',
+                'get_trust_anchor_details' => 'Get Trust Anchor Details',
+                'verify_trust_anchor' => 'Verify Trust Anchor'
             ]);
 
             Passport::setDefaultScope([
-             'set_attestation',
-             'create_shyft_user',
-             'get_jurisdictions',
-             'get_verified_trust_anchors',
-             'get_trust_anchor_details',
-             'verify_trust_anchor'
+                'set_attestation',
+                'create_shyft_user',
+                'get_jurisdictions',
+                'get_verified_trust_anchors',
+                'get_trust_anchor_details',
+                'verify_trust_anchor'
             ]);
         }
     }

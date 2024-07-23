@@ -26,7 +26,7 @@ class Token extends \Laravel\Passport\Token
         );
 
         $now = new DateTimeImmutable();
-        $expiresAt = new DateTimeImmutable($this->expires_at->toDateTimeString());
+        $expiresAt = new DateTimeImmutable($this->expires_at);
 
         $token = $configuration->builder()
             ->permittedFor($this->client_id)
